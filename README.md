@@ -1,2 +1,2 @@
-# B204 시영 READ ME
+# B204 공통 READ ME
 
