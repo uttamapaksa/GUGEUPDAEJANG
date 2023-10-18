@@ -13,3 +13,10 @@
 ![image](/uploads/512dc45b17a62907770d6900731a131a/image.png)<br><br>
 ![image](/uploads/a1877326e0b517ce8455f8cdb7ae6bce/image.png)<br><br>
 ![image](/uploads/1cf4dbedca677387b5c9765cf9c25426/image.png)
+
+## 2023.10.18 요구사항 정의, ERD 작성
+
+- 기능에 맞는 요구사항 정의
+- ERD 설계<br><br>
+![image](/uploads/5b2d2aabe40af9b392e1f0a0bbdd2266/image.png)<br><br>
+![image](/uploads/28e978dca79e6355f0fa39e9046b651f/image.png)
