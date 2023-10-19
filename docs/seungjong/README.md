@@ -20,3 +20,9 @@
 - ERD 설계<br><br>
 ![image](/uploads/5b2d2aabe40af9b392e1f0a0bbdd2266/image.png)<br><br>
 ![image](/uploads/28e978dca79e6355f0fa39e9046b651f/image.png)
+
+## 2023.10.19 아키텍처 설계, ERD 수정
+
+- MSA설계를 위한 이벤트 스토밍
+- ERD 수정<br><br>
+![image](/uploads/8740b784af83209545a162e3cf93e44e/image.png)
