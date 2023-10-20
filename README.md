@@ -1,2 +1,1 @@
-# B204 공통 READ ME
-
+# B204 공동 READ ME
