@@ -1,20 +1,21 @@
 {
   "name": "MyProgressiveWebApp",
   "short_name": "MyPWA",
-  "start_url": "",
+  "start_url": ".",
   "display": "standalone",
   "background_color": "#F8F7DA",
   "theme_color": "#8C383A",
   "description": "PWA with Vite.js, React.js and TypeScript",
+
   "icons": [
     {
-      "src": "/icons/manifest-icon-192.maskable.png",
-      "sizes": "192x192",
+      "src": "/icons/android-launchericon-144-144.png",
+      "sizes": "144x144",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/icons/manifest-icon-192.maskable.png",
+      "src": "/icons/android-launchericon-512-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
