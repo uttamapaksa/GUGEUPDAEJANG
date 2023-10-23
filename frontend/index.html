@@ -1,25 +1,25 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <link rel="manifest" href="/manifest.json">
+    <link rel="manifest" href="/manifest.json" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="width=device-width, initial-scale=1.0" />
     <title>Vite + React + TS</title>
   </head>
-  
+
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
     <script>
-      if ("serviceWorker" in navigator) {
+      if ('serviceWorker' in navigator) {
         navigator.serviceWorker
-          .register("/sw.js")
+          .register('/sw.js')
           .then((registration) => {
-            registration.addEventListener("updatefound", () => {
+            registration.addEventListener('updatefound', () => {
               const installingWorker = registration.installing;
-              console.log("A new service worker is being installed:",installingWorker,);
+              console.log('A new service worker is being installed:', installingWorker);
             });
           })
           .catch((error) => {
@@ -27,7 +27,7 @@
           });
       } 
       else {
-        console.error("Service workers are not supported.");
+        console.error('Service workers are not supported.');
       }
     </script>
   </body>
