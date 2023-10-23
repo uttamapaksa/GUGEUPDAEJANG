@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: ${MEMBER_MARIA_URL}
+    username: ${MEMBER_MARIA_USER}
+    password: ${MEMBER_MARIA_PASSWORD}
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      properties:
+        hibernate:
+          default_batch_fetch_size: 500
