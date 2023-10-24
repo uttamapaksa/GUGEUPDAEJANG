@@ -1,12 +1,14 @@
 const stompClient = new StompJs.Client({
-    brokerURL: 'wss://localhost:64419/gs-guide-websocket'
+    brokerURL: 'wss://localhost:64419/calling-websocket'
 });
 
 stompClient.onConnect = (frame) => {
     setConnected(true);
     console.log('Connected: ' + frame);
-    stompClient.subscribe('/topic/greetings', (greeting) => {
-        showGreeting(JSON.parse(greeting.body).content);
+    stompClient.subscribe('/topic/1', (greeting) => {
+        console.log(greeting);
+        console.log(JSON.parse(greeting.body))
+        showGreeting(JSON.parse(greeting.body));
     });
 };
 
@@ -43,8 +45,8 @@ function disconnect() {
 
 function sendName() {
     stompClient.publish({
-        destination: "/app/hello",
-        body: JSON.stringify({'name': $("#name").val()})
+        destination: "/app/1",
+        body: JSON.stringify({'name': $("#name").val(),'longitude':35.123,'latitude':127.123})
     });
 }
 

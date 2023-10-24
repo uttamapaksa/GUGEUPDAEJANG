@@ -6,8 +6,17 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CallingMessageDto {
-    private Long id;
-    private String roomId;
-    private String writer;
-    private String message;
+    private String name;
+    private Double longitude;
+    private Double latitude;
+
+    public CallingMessageDto() {
+    }
+
+    public CallingMessageDto(String name, Double longitude, Double latitude) {
+        this.name = name;
+        this.longitude = longitude;
+        this.latitude = latitude;
+    }
+
 }
