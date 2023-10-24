@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @NoArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,16 +20,18 @@ public class Member {
     private String email;
     private String password;
     private String name;
+    private String imageUrl;
     @Enumerated(EnumType.STRING)
     private Role role;
     @CreatedDate
     private LocalDateTime createdAt;
 
     @Builder
-    public Member(Long id, String email, String password, String nickname, String imageUrl, Role role) {
-        this.id = id;
+    public Member(String email, String password, String name, String imageUrl, Role role) {
         this.email = email;
         this.password = password;
+        this.name = name;
+        this.imageUrl = imageUrl;
         this.role = role;
     }
 }
