@@ -1,4 +1,4 @@
-package com.codesmith.goojangcall.call.persistence.domain;
+package com.codesmith.goojangcalling.calling.persistence.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;

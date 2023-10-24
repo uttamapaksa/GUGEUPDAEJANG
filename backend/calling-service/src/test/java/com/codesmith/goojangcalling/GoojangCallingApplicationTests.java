@@ -1,10 +1,10 @@
-package com.codesmith.goojangcall;
+package com.codesmith.goojangcalling;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class GoojangCallApplicationTests {
+class GoojangCallingApplicationTests {
 
 	@Test
 	void contextLoads() {

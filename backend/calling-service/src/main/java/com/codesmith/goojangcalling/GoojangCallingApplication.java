@@ -1,13 +1,13 @@
-package com.codesmith.goojangcall;
+package com.codesmith.goojangcalling;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class GoojangCallApplication {
+public class GoojangCallingApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(GoojangCallApplication.class, args);
+		SpringApplication.run(GoojangCallingApplication.class, args);
 	}
 
 }
