@@ -23,8 +23,8 @@ class MemberRepositoryTest {
         Member member = memberRepository.findById(1L).orElseThrow(RuntimeException::new);
 
         assertThat(member.getId()).isEqualTo(1L);
-        assertThat(member.getEmail()).isEqualTo("sheltonwon@gmail.com");
-        assertThat(member.getName()).isEqualTo("wonyoung");
+        assertThat(member.getEmail()).isEqualTo("test@test.com");
+        assertThat(member.getName()).isEqualTo("test");
     }
 
     @Test
