@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Request {
+public class Calling {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,7 +25,7 @@ public class Request {
     @CreatedDate
     private LocalDateTime createdAt;
 
-    public Request(Occurrence occurrence, Long memberId, Status status, LocalDateTime responseTime, String reason) {
+    public Calling(Occurrence occurrence, Long memberId, Status status, LocalDateTime responseTime, String reason) {
         this.occurrence = occurrence;
         this.memberId = memberId;
         this.status = status;
