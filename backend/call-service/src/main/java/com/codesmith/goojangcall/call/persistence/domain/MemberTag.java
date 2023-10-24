@@ -8,17 +8,16 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class OccurrenceTag {
+public class MemberTag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private Long memberId;
     @ManyToOne(fetch = FetchType.LAZY)
-    private Occurrence occurrence;
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Tag tagId;
+    private Tag tag;
 
-    public OccurrenceTag(Occurrence occurrence, Tag tagId) {
-        this.occurrence = occurrence;
-        this.tagId = tagId;
+    public MemberTag(Long memberId, Tag tag) {
+        this.memberId = memberId;
+        this.tag = tag;
     }
 }
