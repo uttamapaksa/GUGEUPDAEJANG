@@ -22,6 +22,9 @@ repositories {
 }
 
 dependencies {
+	implementation group: 'org.fluentd', name: 'fluent-logger', version: '0.3.4'
+	implementation group: 'com.sndyuk', name: 'logback-more-appenders', version: '1.5.6'
+
 	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
