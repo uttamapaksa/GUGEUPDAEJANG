@@ -2,7 +2,7 @@ package com.codesmith.goojangcalling.infra.aws;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.codesmith.goojangcalling.calling.dto.response.UploadResponse;
+import com.codesmith.goojangcalling.calling.dto.response.FileUploadResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -21,8 +21,8 @@ public class S3Client {
 
     private final AmazonS3 amazonS3;
 
-    public List<UploadResponse> uploadFIle(List<MultipartFile> multipartFile) throws Exception{
-        List<UploadResponse> uploadUrl = new ArrayList<>();
+    public List<FileUploadResponse> uploadFIle(List<MultipartFile> multipartFile) throws Exception{
+        List<FileUploadResponse> uploadUrl = new ArrayList<>();
         for (MultipartFile file : multipartFile) {
             String originalFilename = file.getOriginalFilename();
             String uploadFilename = UUID.randomUUID().toString() + originalFilename;
@@ -32,7 +32,7 @@ public class S3Client {
             metadata.setContentType(file.getContentType());
 
             amazonS3.putObject(bucket, uploadFilename, file.getInputStream(), metadata);
-            uploadUrl.add(new UploadResponse(amazonS3.getUrl(bucket, uploadFilename).toString()));
+            uploadUrl.add(new FileUploadResponse(amazonS3.getUrl(bucket, uploadFilename).toString()));
         }
         return uploadUrl;
     }

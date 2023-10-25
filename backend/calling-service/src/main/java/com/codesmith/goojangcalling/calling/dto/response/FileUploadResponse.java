@@ -5,10 +5,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UploadResponse {
+public class FileUploadResponse {
     private String uploadUrl;
 
-    public UploadResponse(String uploadUrl) {
+    public FileUploadResponse(String uploadUrl) {
         this.uploadUrl = uploadUrl;
     }
 }
