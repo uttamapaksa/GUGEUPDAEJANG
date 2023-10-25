@@ -2,34 +2,12 @@ import { useEffect, useState } from "react";
 import Map, { MapProps, Position } from "../../../components/libraries/Map/Map";
 import styled from "styled-components";
 
-
-// type: string,
-// pos: Position
-// hosList?: [
-//     {
-//         id: number,
-//         name: string,
-//         pos: Position,
-//         response?: boolean,
-//     },
-// ],
-// parList?: [
-//     {
-//         id: number,
-//         name: string,
-//         pos: Position,
-//         ktas: number,
-//         requestAt: Date,
-//     },
-// ],
-// selectMarker: (markerId: number) => number;
-
-// export interface Position { lat: number, lon: number };  
 function Main() {
     const [mapProps, setMapProps] = useState<MapProps>();
     const selectMarker = (markerId: number) => {
         return markerId;
     };
+    
     const setProps = () => {
         const guestMarker: MapProps = {
             type: "hospital",
@@ -75,6 +53,7 @@ function Main() {
         }
         setMapProps(guestMarker);
     }
+
     useEffect(() => {
         setProps();
     }, [])

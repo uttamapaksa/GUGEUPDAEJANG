@@ -17,20 +17,18 @@ export const createMap = (lat: number, lon: number) => {
     console.log(lat, lon)
     return new Tmapv3.Map("map_div", {
         center: new Tmapv3.LatLng(37.56520450, 126.98702028),
-        // 지도의 폭
         width: "100%",
-        // 지도의 높이
         height: "100%",
         // 지도의 범위
-        zoom: 16,
-        zIndexMarker: 5,
-        zIndexInfoWindow: 10,
+        zoom: 15,
+        // zIndexMarker: 5,
+        // zIndexInfoWindow: 10,
     })
 }
 
 //지도 제거
 export const destroyMap = () => {
-    const curMap = document.querySelector("#TMap > div:nth-child(2)");
+    const curMap = document.querySelector("#map_div > div:nth-child(2)");
     if (curMap !== null) {
         curMap.remove();
     }
@@ -51,7 +49,7 @@ export interface ParamedicItem {
     name: string,
     pos: Position,
     ktas: number,
-    requestAt: Date,
+    requestAt?: Date,
 };
 
 export interface MapProps {
@@ -64,14 +62,18 @@ export interface MapProps {
 
 //props.type 의 구분에 따라 지도 반응형 크기 및 하위 컴포넌트 적용
 function Map(props: MapProps) {
-    const [map, setMap] = useRecoilState(mapData);
+    const [map, setMap] = useState();
 
     useEffect(() => {
+        console.log(map);
+        console.log(props);
         if (props !== undefined) {
-            console.log(props)
-            setMap(createMap(props.pos.lat, props.pos.lon));
+            console.log(props);
+            const tmp = createMap(props.pos.lat, props.pos.lon);
+            console.log(tmp);
+            setMap(tmp);
         }
-    }, [props]);
+    }, []);
 
     return (
         <MapContainer id="map_div">
@@ -84,7 +86,7 @@ function Map(props: MapProps) {
                         <><HospitalMarker {...props} /></> :
                         <></>}
                     {props.type === "hospital" ?
-                        <><ParamedicInfo {...props} /><ParamedicMarker {...props} /></> :
+                        <><ParamedicMarker {...props} map={map} /><ParamedicInfo {...props} map={map} /></> :
                         <></>
                     }
                 </> :

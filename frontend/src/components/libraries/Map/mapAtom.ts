@@ -3,7 +3,5 @@ import { atom } from "recoil";
 
 export const mapData = atom({
   key: "mapData",
-  default: {
-    map: undefined
-  },
+  default: undefined,
 });
