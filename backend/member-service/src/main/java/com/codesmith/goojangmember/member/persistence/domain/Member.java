@@ -21,6 +21,7 @@ public class Member {
     private String password;
     private String name;
     private String imageUrl;
+    private boolean isApproved;
     @Enumerated(EnumType.STRING)
     private Role role;
     @CreatedDate
