@@ -17,16 +17,14 @@ public class OccurrenceFile {
     private Long id;
     @ManyToOne(fetch = FetchType.LAZY)
     private Occurrence occurrence;
-    private String originalFileName;
     private String savedFileName;
     private String contentType;
     private Long size;
     @CreatedDate
     private LocalDateTime createdAt;
 
-    public OccurrenceFile(Occurrence occurrence, String originalFileName, String savedFileName, String contentType, Long size) {
+    public OccurrenceFile(Occurrence occurrence, String savedFileName, String contentType, Long size) {
         this.occurrence = occurrence;
-        this.originalFileName = originalFileName;
         this.savedFileName = savedFileName;
         this.contentType = contentType;
         this.size = size;
