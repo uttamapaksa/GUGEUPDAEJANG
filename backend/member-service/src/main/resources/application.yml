@@ -1,3 +1,10 @@
+server:
+  port: 64417
+  ssl:
+    enabled: true
+    key-store-type: pkcs12
+    key-store: keystore.p12
+    key-store-password: 9979
 spring:
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
