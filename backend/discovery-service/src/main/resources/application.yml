@@ -14,3 +14,4 @@ eureka:
     fetch-registry: false
     service-url:
       defaultZone: https://k9b204.p.ssafy.io:8761/eureka
+  renewalPercentThreshold: 0.85
