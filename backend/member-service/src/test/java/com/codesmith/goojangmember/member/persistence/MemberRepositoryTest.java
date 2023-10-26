@@ -1,9 +1,7 @@
 package com.codesmith.goojangmember.member.persistence;
 
 import com.codesmith.goojangmember.member.exception.MemberNotFoundException;
-import com.codesmith.goojangmember.member.persistence.domain.HospitalDetail;
-import com.codesmith.goojangmember.member.persistence.domain.Member;
-import com.codesmith.goojangmember.member.persistence.domain.Role;
+import com.codesmith.goojangmember.member.persistence.domain.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,17 +20,16 @@ class MemberRepositoryTest {
     @Autowired
     private HospitalDetailRepository hospitalDetailRepository;
 
+    @Autowired
+    private SafetyCenterRepository safetyCenterRepository;
+
+    @Autowired
+    private ParamedicDetailRepository paramedicDetailRepository;
+
     @DisplayName("회원이 성공적으로 추가된다")
     @Test
     void 회원이_성공적으로_추가된다() {
-        Member newMember = Member.builder()
-                .email("example@email.com")
-                .password("password")
-                .name("John Doe")
-                .imageUrl("example.jpg")
-                .role(Role.HOSPITAL)
-                .build();
-
+        Member newMember = new Member("example@example.com", "password123", "hsptmember", "profile.jpg", Role.HOSPITAL);
         Member savedMember = memberRepository.save(newMember);
 
         assertNotNull(savedMember.getId());
@@ -43,54 +40,43 @@ class MemberRepositoryTest {
     @DisplayName("병원 회원이 성공적으로 추가된다")
     @Test
     void 병원_회원이_성공적으로_추가된다() {
-        Member newMember = Member.builder()
-                .email("example@email.com")
-                .password("password")
-                .name("John Doe")
-                .imageUrl("example.jpg")
-                .role(Role.HOSPITAL)
-                .build();
-
+        Member newMember = new Member("example@example.com", "password123", "hsptmember", "profile.jpg", Role.HOSPITAL);
         Member savedMember = memberRepository.save(newMember);
 
         assertNotNull(savedMember.getId());
         assertThat(savedMember.getEmail()).isEqualTo(newMember.getEmail());
         assertThat(savedMember.getName()).isEqualTo(newMember.getName());
 
-        // 병원 정보 추가
-        HospitalDetail hospitalDetail = HospitalDetail.builder()
-                .member(savedMember)  // 해당 병원 회원과 연결
-                .telephone1("123-456-7890")
-                .telephone2("987-654-3210")
-                .address("123 Main St, City")
-                .latitude(123.456)
-                .longitude(789.012)
-                .build();
-
+        HospitalDetail hospitalDetail = new HospitalDetail("unique_id", newMember, "123-456-789", "987-654-321", "123 Main St, City, Country", 40.7128, -74.0060);
         HospitalDetail savedHospitalDetail = hospitalDetailRepository.save(hospitalDetail);
 
         assertNotNull(savedHospitalDetail.getId());
         assertThat(savedHospitalDetail.getTelephone1()).isEqualTo(hospitalDetail.getTelephone1());
         assertThat(savedHospitalDetail.getTelephone2()).isEqualTo(hospitalDetail.getTelephone2());
         assertThat(savedHospitalDetail.getAddress()).isEqualTo(hospitalDetail.getAddress());
-        assertEquals(savedMember, savedHospitalDetail.getMember());  // 회원과 병원 정보 연결 확인
+        assertEquals(savedMember, savedHospitalDetail.getMember());
     }
 
     @DisplayName("구급대원 회원이 성공적으로 추가된다")
     @Test
     void 구급대원_회원이_성공적으로_추가된다() {
-        Member newMember = Member.builder()
-                .email("example@email.com")
-                .password("password")
-                .name("John Doe")
-                .imageUrl("example.jpg")
-                .role(Role.PARAMEDIC)
-                .build();
-
+        Member newMember = new Member("paramedic@example.com", "password123", "Paramedic User", "profile.jpg", Role.PARAMEDIC);
         Member savedMember = memberRepository.save(newMember);
 
         assertNotNull(savedMember.getId());
         assertThat(savedMember.getEmail()).isEqualTo(newMember.getEmail());
         assertThat(savedMember.getName()).isEqualTo(newMember.getName());
+
+        SafetyCenter safetyCenter = safetyCenterRepository.findById(1L).get();
+
+        assertNotNull(safetyCenter.getId());
+        assertThat(safetyCenter.getName()).isEqualTo(safetyCenter.getName());
+        
+        ParamedicDetail paramedicDetail = new ParamedicDetail(savedMember, safetyCenter);
+        ParamedicDetail savedParamedicDetail = paramedicDetailRepository.save(paramedicDetail);
+
+        assertNotNull(savedParamedicDetail.getId());
+        assertEquals(savedMember, savedParamedicDetail.getMember());
+        assertEquals(safetyCenter, savedParamedicDetail.getSafetyCenter());
     }
 }
