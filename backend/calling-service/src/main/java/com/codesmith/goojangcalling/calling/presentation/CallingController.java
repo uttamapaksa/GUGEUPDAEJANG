@@ -19,6 +19,7 @@ public class CallingController {
     private final S3Client s3Client;
     private final MemberTagService memberTagService;
 
+    //TODO : 임시 멤버 삭제하기
     private final Long memberId = 521L; // 멤버 받기 전 임시
 
     @PostMapping("/upload")
