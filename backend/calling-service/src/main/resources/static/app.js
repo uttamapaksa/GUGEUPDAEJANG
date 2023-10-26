@@ -1,5 +1,6 @@
 const stompClient = new StompJs.Client({
-    brokerURL: 'wss://localhost:64419/calling-websocket'
+    brokerURL: 'wss://k9b204a.p.ssafy.io:64419/calling-websocket'
+    // https://k9b204a.p.ssafy.io:64419/calling-websocket
 });
 
 stompClient.onConnect = (frame) => {
