@@ -63,6 +63,7 @@ export interface MapProps {
 //props.type 의 구분에 따라 지도 반응형 크기 및 하위 컴포넌트 적용
 function Map(props: MapProps) {
     const [map, setMap] = useState();
+    const [hosList, setHosList] = useState<HospitalItem[]>([]);
 
     useEffect(() => {
         console.log(map);
