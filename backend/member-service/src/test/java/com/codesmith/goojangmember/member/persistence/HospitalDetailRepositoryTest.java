@@ -18,7 +18,7 @@ public class HospitalDetailRepositoryTest {
 
     @DisplayName("특정_거리_이내의_병원들을_조회한다")
     @Test
-    public void 특정_거리_이내의_병원들을_조회한다() {
+    void 특정_거리_이내의_병원들을_조회한다() {
         Double latitude = 37.5665;
         Double longitude = 126.9780;
         Double distance = 5.0;
