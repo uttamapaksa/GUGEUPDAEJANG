@@ -23,6 +23,6 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public List<String> getHospitalListFromHere(Double latitude, Double longitude, Double distance) {
         List<String> hospitalList = hospitalDetailRepository.findHospitalWithinDistance(latitude, longitude, distance);
-        return null;
+        return hospitalList;
     }
 }
