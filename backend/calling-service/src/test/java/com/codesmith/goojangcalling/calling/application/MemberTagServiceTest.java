@@ -30,11 +30,11 @@ class MemberTagServiceTest {
     @Test
     public void 태그조회_사용자아이디() throws Exception {
         // given
-        List<MemberTagResponse> memberTagResponseList = new ArrayList<>();
-        memberTagResponseList.add(new MemberTagResponse(new Tag("추락")));
-        memberTagResponseList.add(new MemberTagResponse(new Tag("과다출혈")));
+        List<Tag> mamebeTagList = new ArrayList<>();
+        mamebeTagList.add(new Tag("추락"));
+        mamebeTagList.add(new Tag("과다출혈"));
         given(memberTagRepository.findByMemberId(memberId))
-                .willReturn(memberTagResponseList);
+                .willReturn(mamebeTagList);
 
         // when
         List<MemberTagResponse> memberTagList = memberTagService.getMemberTagList(memberId);

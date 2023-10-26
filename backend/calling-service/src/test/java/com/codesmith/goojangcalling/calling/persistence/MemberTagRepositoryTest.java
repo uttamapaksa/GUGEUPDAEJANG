@@ -1,6 +1,6 @@
 package com.codesmith.goojangcalling.calling.persistence;
 
-import com.codesmith.goojangcalling.calling.dto.response.MemberTagResponse;
+import com.codesmith.goojangcalling.calling.persistence.domain.Tag;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +23,10 @@ class MemberTagRepositoryTest {
         Long memberId = 521L;
 
         //when
-        List<MemberTagResponse> memberTagList = memberTagRepository.findByMemberId(memberId);
+        List<Tag> tagList = memberTagRepository.findByMemberId(memberId);
 
         //then
-        Assertions.assertThat(memberTagList.size()).isGreaterThan(0);
+        Assertions.assertThat(tagList.size()).isGreaterThan(0);
 
     }
 }
