@@ -13,8 +13,8 @@ public class CallingMessageConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/calling-websocket")
-                .setAllowedOriginPatterns("*");
-//                .withSockJS();
+                .setAllowedOriginPatterns("*")
+                .withSockJS();
     }
 
     @Override
