@@ -19,13 +19,10 @@ class MemberTagRepositoryTest {
 
     @Test
     void 태그조회_멤버별() throws Exception {
-        //given
         Long memberId = 521L;
 
-        //when
         List<Tag> tagList = memberTagRepository.findByMemberId(memberId);
 
-        //then
         Assertions.assertThat(tagList.size()).isGreaterThan(0);
 
     }

@@ -35,7 +35,6 @@ class CallingControllerTest {
 
     @Test
     public void 태그조회_멤버별() throws Exception {
-        // given
         List<MemberTagResponse> memberTagResponseList = new ArrayList<>();
         memberTagResponseList.add(new MemberTagResponse(new Tag("추락")));
         memberTagResponseList.add(new MemberTagResponse(new Tag("과다출혈")));
@@ -44,10 +43,9 @@ class CallingControllerTest {
 
         ObjectMapper objectMapper = new ObjectMapper();
         String expectedJson = objectMapper.writeValueAsString(memberTagResponseList);
-        // when
+
         ResultActions perform = mockMvc.perform(get("/calling/tag"));
 
-        // then
         perform
                 .andExpect(status().isOk())
                 .andExpect(content().json(expectedJson));

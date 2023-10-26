@@ -19,10 +19,8 @@ class TagRepositoryTest {
 
     @Test
     void 태그조회_전체() throws Exception {
-        //when
         List<Tag> tagList = tagRepository.findAll();
 
-        //then
         assertThat(tagList.size()).isGreaterThan(0);
     }
 }
