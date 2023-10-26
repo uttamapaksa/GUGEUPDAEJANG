@@ -5,6 +5,7 @@ import com.codesmith.goojangcalling.calling.dto.response.MemberTagResponse;
 import com.codesmith.goojangcalling.calling.persistence.domain.Tag;
 import com.codesmith.goojangcalling.infra.aws.S3Client;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -33,8 +34,9 @@ class CallingControllerTest {
     
     private final Long memberId = 521L;
 
+    @DisplayName("사용자 태그를 조회한다.")
     @Test
-    public void 태그조회_멤버별() throws Exception {
+    public void 사용자_태그를_조회한다() throws Exception {
         List<MemberTagResponse> memberTagResponseList = new ArrayList<>();
         memberTagResponseList.add(new MemberTagResponse(new Tag("추락")));
         memberTagResponseList.add(new MemberTagResponse(new Tag("과다출혈")));
