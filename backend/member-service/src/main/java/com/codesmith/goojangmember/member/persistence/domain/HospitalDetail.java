@@ -17,7 +17,6 @@ public class HospitalDetail {
     @Id
     private String id;
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id", referencedColumnName = "id")
     private Member member;
     private String telephone1;
     private String telephone2;
