@@ -9,7 +9,7 @@ import org.springframework.web.servlet.function.EntityResponse;
 
 public interface MemberService {
     Member getMemberInfo(Long memberId);
+    HospitalDetail join(HospitalJoinRequest hospitalJoinRequest);
 
     ParamedicDetail join(ParamedicJoinRequest paramedicJoinRequest);
-    HospitalDetail join(HospitalJoinRequest hospitalJoinRequest);
 }
