@@ -67,7 +67,7 @@ class MemberServiceTest {
     void 구급대원_사용자를_추가한다() {
         ParamedicJoinRequest paramedicJoinRequest = new ParamedicJoinRequest("paramedic@example.com", "password123", "Paramedic Name", "paramedic.jpg", "PARAMEDIC", 1L);
         Member member = new Member(paramedicJoinRequest.getEmail(), paramedicJoinRequest.getPassword(), paramedicJoinRequest.getName(), paramedicJoinRequest.getImageUrl(), Role.PARAMEDIC);
-        SafetyCenter safetyCenter = new SafetyCenter(1L, "서울", "Safety Center Name", "123 Center St, City, Country", "123-456-789", "987-654-321"));
+        SafetyCenter safetyCenter = new SafetyCenter(1L, "서울", "Safety Center Name", "123 Center St, City, Country", "123-456-789", "987-654-321");
 
         given(memberRepository.save(Mockito.any(Member.class))).willReturn(new Member(1L, paramedicJoinRequest.getEmail(), paramedicJoinRequest.getPassword(), paramedicJoinRequest.getName(), paramedicJoinRequest.getImageUrl(), Role.PARAMEDIC));
         given(safetyCenterRepository.findById(paramedicJoinRequest.getCenterId())).willReturn(Optional.of(safetyCenter));
