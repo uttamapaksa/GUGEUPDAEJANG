@@ -6,10 +6,7 @@ import com.codesmith.goojangmember.member.persistence.HospitalDetailRepository;
 import com.codesmith.goojangmember.member.persistence.MemberRepository;
 import com.codesmith.goojangmember.member.persistence.ParamedicDetailRepository;
 import com.codesmith.goojangmember.member.persistence.SafetyCenterRepository;
-import com.codesmith.goojangmember.member.persistence.domain.HospitalDetail;
-import com.codesmith.goojangmember.member.persistence.domain.Member;
-import com.codesmith.goojangmember.member.persistence.domain.ParamedicDetail;
-import com.codesmith.goojangmember.member.persistence.domain.SafetyCenter;
+import com.codesmith.goojangmember.member.persistence.domain.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.function.EntityResponse;
@@ -39,16 +36,16 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public HospitalDetail join(HospitalJoinRequest hospitalJoinRequest) {
-        Member member = hospitalJoinRequest.toMember();
+        Member member = covertToMember(hospitalJoinRequest);
         member = memberRepository.save(member);
 
-        HospitalDetail hospitalDetail = hospitalJoinRequest.toHospitalDetail(member);
+        HospitalDetail hospitalDetail = covertToHospitalDetail(hospitalJoinRequest, member);
         return hospitalDetailRepository.save(hospitalDetail);
     }
 
     @Override
     public ParamedicDetail join(ParamedicJoinRequest paramedicJoinRequest) {
-        Member member = paramedicJoinRequest.toMember();
+        Member member = covertToMember(paramedicJoinRequest);
         member = memberRepository.save(member);
 
         memberValidator.validateSafetyCenterId(paramedicJoinRequest.getCenterId());
@@ -56,5 +53,36 @@ public class MemberServiceImpl implements MemberService {
 
         ParamedicDetail paramedicDetail = new ParamedicDetail(member, safetyCenter);
         return paramedicDetailRepository.save(paramedicDetail);
+    }
+
+    private Member covertToMember(HospitalJoinRequest hospitalJoinRequest) {
+        String email = hospitalJoinRequest.getEmail();
+        String password = hospitalJoinRequest.getPassword();
+        String name = hospitalJoinRequest.getName();
+        String imageUrl = hospitalJoinRequest.getImageUrl();
+        Role role = Role.valueOf(hospitalJoinRequest.getRole());
+
+        return new Member(email, password, name, imageUrl, role);
+    }
+
+    private Member covertToMember(ParamedicJoinRequest paramedicJoinRequest) {
+        String email = paramedicJoinRequest.getEmail();
+        String password = paramedicJoinRequest.getPassword();
+        String name = paramedicJoinRequest.getName();
+        String imageUrl = paramedicJoinRequest.getImageUrl();
+        Role role = Role.valueOf(paramedicJoinRequest.getRole());
+
+        return new Member(email, password, name, imageUrl, role);
+    }
+
+    private HospitalDetail covertToHospitalDetail(HospitalJoinRequest hospitalJoinRequest, Member member) {
+        String id = hospitalJoinRequest.getHospitalId();
+        String telephone1 = hospitalJoinRequest.getTelephone1();
+        String telephone2 = hospitalJoinRequest.getTelephone2();
+        String address = hospitalJoinRequest.getAddress();
+        Double latitude = hospitalJoinRequest.getLatitude();
+        Double longitude = hospitalJoinRequest.getLongitude();
+
+        return new HospitalDetail(id, member, telephone1, telephone2, address, latitude, longitude);
     }
 }
