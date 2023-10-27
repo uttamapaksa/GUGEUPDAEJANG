@@ -31,16 +31,15 @@ public class MemberTagServiceImpl implements MemberTagService {
 
     @Override
     public MemberTagResponse addMemberTag(Long memberId, String tagName) {
-        Optional<Tag> optionalTag = tagRepository.findByName(tagName);
-        if (optionalTag.isEmpty()) {
-            Tag createTag = new Tag(tagName);
-            tagRepository.save(createTag);
-            memberTagRepository.save(new MemberTag(memberId, createTag));
-            return new MemberTagResponse(createTag);
+        if (tagRepository.existsByName(tagName)) {
+            Tag tag = tagRepository.findByName(tagName).get();
+            memberTagValidator.validateMemberTag(memberId, tag);
+            memberTagRepository.save(new MemberTag(memberId, tag));
+            return new MemberTagResponse(tag);
         }
-        Tag tag = optionalTag.get();
-        memberTagValidator.validateMemberTag(memberId, tag);
-        memberTagRepository.save(new MemberTag(memberId, tag));
-        return new MemberTagResponse(tag);
+        Tag createTag = new Tag(tagName);
+        tagRepository.save(createTag);
+        memberTagRepository.save(new MemberTag(memberId, createTag));
+        return new MemberTagResponse(createTag);
     }
 }
