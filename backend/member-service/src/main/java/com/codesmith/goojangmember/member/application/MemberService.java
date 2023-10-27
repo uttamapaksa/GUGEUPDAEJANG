@@ -12,6 +12,6 @@ import java.util.List;
 public interface MemberService {
     Member getMemberInfo(Long memberId);
     List<String> getHospitalList(Double latitude, Double longitude, Double distance);
-    ParamedicDetail join(ParamedicJoinRequest paramedicJoinRequest);
     HospitalDetail join(HospitalJoinRequest hospitalJoinRequest);
+    ParamedicDetail join(ParamedicJoinRequest paramedicJoinRequest);
 }

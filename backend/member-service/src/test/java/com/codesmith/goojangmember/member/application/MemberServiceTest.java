@@ -27,13 +27,16 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
 
-    @ExtendWith(MockitoExtension.class)
-    class MemberServiceTest {
+@ExtendWith(MockitoExtension.class)
+class MemberServiceTest {
     private MemberRepository memberRepository = mock(MemberRepository.class);
     private HospitalDetailRepository hospitalDetailRepository = mock(HospitalDetailRepository.class);
     private ParamedicDetailRepository paramedicDetailRepository = mock(ParamedicDetailRepository.class);
     private SafetyCenterRepository safetyCenterRepository = mock(SafetyCenterRepository.class);
-    private MemberService memberService = new MemberServiceImpl(memberRepository);
+//    private MemberService memberService = new MemberServiceImpl(memberRepository);
+    private MemberValidator memberValidator = new MemberValidator(memberRepository, safetyCenterRepository);
+    private MemberService memberService = new MemberServiceImpl(memberRepository, hospitalDetailRepository, paramedicDetailRepository, safetyCenterRepository, memberValidator);
+
     private Long id = 1L;
     private String email = "test@test.com";
     private String name = "test";
@@ -82,6 +85,7 @@ import static org.mockito.Mockito.*;
 
         given(memberRepository.save(Mockito.any(Member.class))).willReturn(new Member(1L, paramedicJoinRequest.getEmail(), paramedicJoinRequest.getPassword(), paramedicJoinRequest.getName(), paramedicJoinRequest.getImageUrl(), Role.PARAMEDIC));
         given(safetyCenterRepository.findById(paramedicJoinRequest.getCenterId())).willReturn(Optional.of(safetyCenter));
+        given(safetyCenterRepository.existsById(paramedicJoinRequest.getCenterId())).willReturn(true);
         given(paramedicDetailRepository.save(Mockito.any(ParamedicDetail.class))).willReturn(new ParamedicDetail(1L, member, safetyCenter));
 
         ParamedicDetail savedParamedicDetail = memberService.join(paramedicJoinRequest);
