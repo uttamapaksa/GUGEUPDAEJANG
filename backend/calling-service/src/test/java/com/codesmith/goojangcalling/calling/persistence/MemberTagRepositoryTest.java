@@ -42,16 +42,13 @@ class MemberTagRepositoryTest {
     @DisplayName("추가할 태그가 존재하면 사용자태그에 추가한다.")
     @Test
     void 추가할_태그가_존재하면_사용자태그에_추가한다() throws Exception {
-        //given
         String inputTagName = "추락";
         Long memberId = 521L;
 
-        //when
         Tag tag = tagRepository.findByName(inputTagName).orElseThrow();
         MemberTag memberTag = new MemberTag(memberId, tag);
         MemberTag savedMemberTag = memberTagRepository.save(memberTag);
 
-        //then
         assertThat(savedMemberTag.getTag()).isEqualTo(tag);
         assertThat(savedMemberTag.getMemberId()).isEqualTo(521L);
     }
