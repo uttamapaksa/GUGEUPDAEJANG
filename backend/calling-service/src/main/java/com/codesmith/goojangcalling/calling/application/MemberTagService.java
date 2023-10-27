@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface MemberTagService {
     List<MemberTagResponse> getMemberTagList(Long memberId);
+
+    MemberTagResponse addMemberTag(Long memberId, String tagName);
 }
