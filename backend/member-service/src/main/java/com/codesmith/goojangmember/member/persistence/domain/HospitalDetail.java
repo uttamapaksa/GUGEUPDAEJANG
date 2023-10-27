@@ -17,7 +17,6 @@ public class HospitalDetail {
     @Id
     private String id;
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id", referencedColumnName = "id")
     private Member member;
     private String telephone1;
     private String telephone2;
@@ -27,8 +26,7 @@ public class HospitalDetail {
     @CreatedDate
     private LocalDateTime createdAt;
 
-    @Builder
-    public HospitalDetail(String id, Member member, String telephone1, String telephone2, String address, Double latitude, Double longitude) {
+    public HospitalDetail(String id, Member member, String telephone1, String telephone2, String address, double latitude, double longitude) {
         this.id = id;
         this.member = member;
         this.telephone1 = telephone1;

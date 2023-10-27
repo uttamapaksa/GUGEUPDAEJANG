@@ -18,3 +18,11 @@ spring:
       properties:
         hibernate:
           default_batch_fetch_size: 500
+  application:
+    name: member-service
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: https://k9b204.p.ssafy.io:8761/eureka

@@ -27,8 +27,16 @@ public class Member {
     @CreatedDate
     private LocalDateTime createdAt;
 
-    @Builder
     public Member(String email, String password, String name, String imageUrl, Role role) {
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.imageUrl = imageUrl;
+        this.role = role;
+    }
+
+    public Member(Long id, String email, String password, String name, String imageUrl, Role role) {
+        this.id = id;
         this.email = email;
         this.password = password;
         this.name = name;
