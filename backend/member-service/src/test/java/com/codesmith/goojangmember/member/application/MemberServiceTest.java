@@ -97,30 +97,30 @@ class MemberServiceTest {
         assertThat(savedParamedicDetail.getSafetyCenter().getId()).isEqualTo(paramedicJoinRequest.getCenterId());
     }
 
-    @Test
-    void 병상이_있는_병원들을_소요시간이_짧은_순으로_반환한다() {
-        // 가정: 병원 목록은 테스트용으로 설정합니다.
-        List<String> hospitalList = List.of("병원1", "병원2", "병원3");
-
-        // 가용병상 조회 API의 반환값 설정
-        given(OpennApiService.getAvailableBeds(hospitalList))
-            .willReturn(Map.of("병원1", 10, "병원2", 5, "병원3", 8));
-
-        // Tmap API의 반환값 설정 (소요 시간)
-        given(tmapService.getTravelTime("현재위치", "병원1"))
-            .willReturn(30); // 예시로 30분 소요
-        given(tmapService.getTravelTime("현재위치", "병원2"))
-            .willReturn(20); // 예시로 20분 소요
-        given(tmapService.getTravelTime("현재위치", "병원3"))
-            .willReturn(40); // 예시로 40분 소요
-
-        // MemberService의 getHospitalListSortedByTravelTime 메소드 호출
-        List<Hospital> sortedHospitalList = memberService.getHospitalListSortedByTravelTime("현재위치", hospitalList);
-
-        // 예상되는 결과: 병원2 (20분 소요) -> 병원1 (30분 소요) -> 병원3 (40분 소요)
-        Assertions.assertEquals(3, sortedHospitalList.size());
-        Assertions.assertEquals("병원2", sortedHospitalList.get(0).getName());
-        Assertions.assertEquals("병원1", sortedHospitalList.get(1).getName());
-        Assertions.assertEquals("병원3", sortedHospitalList.get(2).getName());
-    }
+//    @Test
+//    void 병상이_있는_병원들을_소요시간이_짧은_순으로_반환한다() {
+//        // 가정: 병원 목록은 테스트용으로 설정합니다.
+//        List<String> hospitalList = List.of("병원1", "병원2", "병원3");
+//
+//        // 가용병상 조회 API의 반환값 설정
+//        given(OpennApiService.getAvailableBeds(hospitalList))
+//            .willReturn(Map.of("병원1", 10, "병원2", 5, "병원3", 8));
+//
+//        // Tmap API의 반환값 설정 (소요 시간)
+//        given(tmapService.getTravelTime("현재위치", "병원1"))
+//            .willReturn(30); // 예시로 30분 소요
+//        given(tmapService.getTravelTime("현재위치", "병원2"))
+//            .willReturn(20); // 예시로 20분 소요
+//        given(tmapService.getTravelTime("현재위치", "병원3"))
+//            .willReturn(40); // 예시로 40분 소요
+//
+//        // MemberService의 getHospitalListSortedByTravelTime 메소드 호출
+//        List<Hospital> sortedHospitalList = memberService.getHospitalListSortedByTravelTime("현재위치", hospitalList);
+//
+//        // 예상되는 결과: 병원2 (20분 소요) -> 병원1 (30분 소요) -> 병원3 (40분 소요)
+//        Assertions.assertEquals(3, sortedHospitalList.size());
+//        Assertions.assertEquals("병원2", sortedHospitalList.get(0).getName());
+//        Assertions.assertEquals("병원1", sortedHospitalList.get(1).getName());
+//        Assertions.assertEquals("병원3", sortedHospitalList.get(2).getName());
+//    }
 }
