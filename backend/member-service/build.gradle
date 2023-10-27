@@ -64,12 +64,12 @@ asciidoctor {
 	inputs.dir snippetsDir
 }
 
-asciidoctor.doFirst { // add
+asciidoctor.doFirst {
 	println("---------------- delete present asciidoctor.")
 	delete file('src/main/resources/static/docs')
 }
 
-bootJar { // add
+bootJar {
 	dependsOn asciidoctor
 	copy {
 		from "${asciidoctor.outputDir}"
@@ -77,7 +77,7 @@ bootJar { // add
 	}
 }
 
-test { // 필수
+test {
 	outputs.dir snippetsDir
 	useJUnitPlatform()
 }
