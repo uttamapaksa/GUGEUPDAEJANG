@@ -39,7 +39,7 @@ class MemberControllerTest {
     @DisplayName("병원 회원가입 요청을 한다")
     @Test
     void 병원_회원가입_요청을_한다() throws Exception {
-        HospitalJoinRequest hospitalJoinRequest = new HospitalJoinRequest("example@example.com", "password123", "Hospital Name", "profile.jpg", "HOSPITAL", "123-456-789", "987-654-321", "123 Main St, City, Country", 40.7128, -74.0060);
+        HospitalJoinRequest hospitalJoinRequest = new HospitalJoinRequest("A11111", "example@example.com", "password123", "Hospital Name", "profile.jpg", "HOSPITAL", "123-456-789", "987-654-321", "123 Main St, City, Country", 40.7128, -74.0060);
 
         String requestBody = objectMapper.writeValueAsString(hospitalJoinRequest);
 

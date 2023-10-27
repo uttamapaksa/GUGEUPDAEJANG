@@ -60,7 +60,7 @@ class MemberServiceTest {
     @Test
     @DisplayName("병원 사용자를 추가한다")
     void 병원_사용자를_추가한다() {
-        HospitalJoinRequest hospitalJoinResponse = new HospitalJoinRequest("example@example.com", "password123", "Hospital Name", "profile.jpg", "HOSPITAL", "123-456-789", "987-654-321", "123 Main St, City, Country", 40.7128, -74.0060);
+        HospitalJoinRequest hospitalJoinResponse = new HospitalJoinRequest("A11111", "example@example.com", "password123", "Hospital Name", "profile.jpg", "HOSPITAL", "123-456-789", "987-654-321", "123 Main St, City, Country", 40.7128, -74.0060);
 
         given(memberRepository.save(Mockito.any(Member.class))).willReturn(new Member(1L, hospitalJoinResponse.getEmail(), hospitalJoinResponse.getPassword(), hospitalJoinResponse.getName(), hospitalJoinResponse.getImageUrl(), Role.HOSPITAL));
         given(hospitalDetailRepository.save(Mockito.any(HospitalDetail.class))).willReturn(new HospitalDetail("A1111111", null, hospitalJoinResponse.getTelephone1(), hospitalJoinResponse.getTelephone2(), hospitalJoinResponse.getAddress(), hospitalJoinResponse.getLatitude(), hospitalJoinResponse.getLongitude()));
