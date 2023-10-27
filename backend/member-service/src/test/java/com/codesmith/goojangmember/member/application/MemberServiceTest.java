@@ -1,26 +1,21 @@
 package com.codesmith.goojangmember.member.application;
 
-<<<<<<< HEAD
 import com.codesmith.goojangmember.member.exception.MemberNotFoundException;
-=======
 import com.codesmith.goojangmember.member.dto.request.HospitalJoinRequest;
 import com.codesmith.goojangmember.member.dto.request.ParamedicJoinRequest;
->>>>>>> 5545a86 (test: 회원가입 서비스 테스트 완료)
 import com.codesmith.goojangmember.member.persistence.HospitalDetailRepository;
 import com.codesmith.goojangmember.member.persistence.MemberRepository;
 import com.codesmith.goojangmember.member.persistence.ParamedicDetailRepository;
 import com.codesmith.goojangmember.member.persistence.SafetyCenterRepository;
 import com.codesmith.goojangmember.member.persistence.domain.*;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-<<<<<<< HEAD
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-=======
 import org.mockito.Mockito;
->>>>>>> 5545a86 (test: 회원가입 서비스 테스트 완료)
 
 import java.util.List;
 import java.util.Optional;
@@ -31,24 +26,14 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
-<<<<<<< HEAD
-@ExtendWith(MockitoExtension.class)
-public class MemberServiceTest {
-    @Mock
-    private MemberRepository memberRepository;
-    @Mock
-    private HospitalDetailRepository hospitalDetailRepository;
-    @InjectMocks
-    private MemberServiceImpl memberService;
-=======
-class MemberServiceTest {
+
+    @ExtendWith(MockitoExtension.class)
+    class MemberServiceTest {
     private MemberRepository memberRepository = mock(MemberRepository.class);
     private HospitalDetailRepository hospitalDetailRepository = mock(HospitalDetailRepository.class);
     private ParamedicDetailRepository paramedicDetailRepository = mock(ParamedicDetailRepository.class);
     private SafetyCenterRepository safetyCenterRepository = mock(SafetyCenterRepository.class);
     private MemberService memberService = new MemberServiceImpl(memberRepository);
->>>>>>> 5545a86 (test: 회원가입 서비스 테스트 완료)
-
     private Long id = 1L;
     private String email = "test@test.com";
     private String name = "test";
@@ -93,7 +78,7 @@ class MemberServiceTest {
     void 구급대원_사용자를_추가한다() {
         ParamedicJoinRequest paramedicJoinRequest = new ParamedicJoinRequest("paramedic@example.com", "password123", "Paramedic Name", "paramedic.jpg", "PARAMEDIC", 1L);
         Member member = new Member(paramedicJoinRequest.getEmail(), paramedicJoinRequest.getPassword(), paramedicJoinRequest.getName(), paramedicJoinRequest.getImageUrl(), Role.PARAMEDIC);
-        SafetyCenter safetyCenter = new SafetyCenter(1L, "서울", "Safety Center Name", "123 Center St, City, Country", "123-456-789", "987-654-321"));
+        SafetyCenter safetyCenter = new SafetyCenter(1L, "서울", "Safety Center Name", "123 Center St, City, Country", "123-456-789", "987-654-321");
 
         given(memberRepository.save(Mockito.any(Member.class))).willReturn(new Member(1L, paramedicJoinRequest.getEmail(), paramedicJoinRequest.getPassword(), paramedicJoinRequest.getName(), paramedicJoinRequest.getImageUrl(), Role.PARAMEDIC));
         given(safetyCenterRepository.findById(paramedicJoinRequest.getCenterId())).willReturn(Optional.of(safetyCenter));
