@@ -26,8 +26,7 @@ public class HospitalDetail {
     @CreatedDate
     private LocalDateTime createdAt;
 
-    @Builder
-    public HospitalDetail(String id, Member member, String telephone1, String telephone2, String address, Double latitude, Double longitude) {
+    public HospitalDetail(String id, Member member, String telephone1, String telephone2, String address, double latitude, double longitude) {
         this.id = id;
         this.member = member;
         this.telephone1 = telephone1;
