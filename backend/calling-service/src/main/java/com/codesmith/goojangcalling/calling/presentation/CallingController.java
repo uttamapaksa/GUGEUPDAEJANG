@@ -1,6 +1,7 @@
 package com.codesmith.goojangcalling.calling.presentation;
 
 import com.codesmith.goojangcalling.calling.application.MemberTagService;
+import com.codesmith.goojangcalling.calling.dto.request.AddMemberTagRequest;
 import com.codesmith.goojangcalling.calling.dto.response.FileUploadResponse;
 import com.codesmith.goojangcalling.calling.dto.response.MemberTagResponse;
 import com.codesmith.goojangcalling.infra.aws.S3Client;
@@ -30,5 +31,10 @@ public class CallingController {
     @GetMapping("/tag")
     public ResponseEntity<List<MemberTagResponse>> getTagListByMemberList() {
         return ResponseEntity.ok(memberTagService.getMemberTagList(memberId));
+    }
+
+    @PostMapping("/tag")
+    public ResponseEntity<MemberTagResponse> addMemberTag(@RequestBody AddMemberTagRequest addMemberTagRequest) {
+        return ResponseEntity.ok(memberTagService.addMemberTag(memberId, addMemberTagRequest.getTagName()));
     }
 }
