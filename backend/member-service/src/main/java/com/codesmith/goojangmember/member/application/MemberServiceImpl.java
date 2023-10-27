@@ -31,8 +31,11 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public HospitalDetail join(HospitalJoinRequest hospitalJoinRequest) {
+        Member member = hospitalJoinRequest.toMember();
+        member = memberRepository.save(member);
 
-        return null;
+        HospitalDetail hospitalDetail = hospitalJoinRequest.toHospitalDetail(member);
+        return hospitalDetailRepository.save(hospitalDetail);
     }
 
     @Override
