@@ -31,6 +31,9 @@ class CallingControllerTest {
 
     @MockBean
     S3Client s3Client;
+
+    @Autowired
+    private ObjectMapper objectMapper;
     
     private final Long memberId = 521L;
 
@@ -43,7 +46,6 @@ class CallingControllerTest {
         given(memberTagService.getMemberTagList(memberId))
                 .willReturn(memberTagResponseList);
 
-        ObjectMapper objectMapper = new ObjectMapper();
         String expectedJson = objectMapper.writeValueAsString(memberTagResponseList);
 
         ResultActions perform = mockMvc.perform(get("/calling/tag"));
