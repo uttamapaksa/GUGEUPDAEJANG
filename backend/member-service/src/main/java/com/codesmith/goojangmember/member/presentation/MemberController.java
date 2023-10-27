@@ -1,16 +1,15 @@
 package com.codesmith.goojangmember.member.presentation;
 
 import com.codesmith.goojangmember.member.application.MemberService;
+import com.codesmith.goojangmember.member.dto.request.HospitalJoinRequest;
+import com.codesmith.goojangmember.member.dto.request.ParamedicJoinRequest;
 import com.codesmith.goojangmember.member.persistence.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/member")
+@RequestMapping("/member")
 @RequiredArgsConstructor
 public class MemberController {
     private final MemberService memberService;
@@ -19,6 +18,20 @@ public class MemberController {
     public ResponseEntity<Member> getMember(@PathVariable("memberId") Long memberId) {
         return ResponseEntity.ok(memberService.getMemberInfo(memberId));
     }
+
+    @PostMapping("/join/paramedic")
+    public ResponseEntity<Void> join(@RequestBody ParamedicJoinRequest paramedicJoinRequest) {
+        memberService.join(paramedicJoinRequest);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/join/hospital")
+    public ResponseEntity<Void> join(@RequestBody HospitalJoinRequest hospitalJoinRequest) {
+        memberService.join(hospitalJoinRequest);
+        return ResponseEntity.ok().build();
+    }
+
+
 
 
 

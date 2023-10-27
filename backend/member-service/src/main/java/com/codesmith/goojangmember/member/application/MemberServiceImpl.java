@@ -31,6 +31,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public HospitalDetail join(HospitalJoinRequest hospitalJoinRequest) {
+
         return null;
     }
 
