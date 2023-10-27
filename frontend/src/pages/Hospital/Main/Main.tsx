@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Map, { MapProps, ParamedicItem, Position } from "../../../components/libraries/Map/Map";
 import styled from "styled-components";
 
+
 const posList = [//다중 마커 저장 배열
     {
         id: 1,
