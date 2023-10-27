@@ -1,13 +1,18 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { MapProps, Tmapv3 } from "../Map";
 import { HospitalMarkerContainer } from "./HospitalMarker.style";
 
 function HospitalMarker(props: any) {
+    const [hosList, setHosList] = useState<any>([]);
+
     useEffect(() => {
-        console.log(props)
-        if(props.hosList!==undefined && props.map!==undefined){
-            for (var i = 0; i < props.hosList.length; i++) {//for문을 통하여 배열 안에 있는 값을 마커 생성
-                var lonlat =  new Tmapv3.LatLng(props.hosList[i].pos.lat, props.hosList[i].pos.lon);
+        if (props.hosList !== undefined && props.map !== undefined) {
+            for (let i = 0; i < hosList.length; i++) {
+                hosList[i].marker.setMap(null);
+            }
+            let next = []
+            for (var i = 0; i < props.hosList.length; i++) {
+                var lonlat = new Tmapv3.LatLng(props.hosList[i].pos.lat, props.hosList[i].pos.lon);
                 var title = props.hosList[i].name;
                 const size = new Tmapv3.Size(30, 30);
                 console.log(props.hosList[i])
@@ -18,11 +23,10 @@ function HospitalMarker(props: any) {
                     map: props.map, //Marker가 표시될 Map 설정
                     // color: positions[i].color,
                     iconSize: size,
-                    // icon: props.hosList[i].type,
-                    // icon: Tmapv3.asset.Icon.get('b_m_a'),
-                    // label: title //Marker의 라벨.
                 });
+                next.push({marker:marker});
             }
+            setHosList(next);
         }
 
     }, [props]);

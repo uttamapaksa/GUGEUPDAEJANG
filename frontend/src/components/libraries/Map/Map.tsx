@@ -3,8 +3,6 @@ import { MapContainer } from "./Map.style";
 import ParamedicInfo from "./InfoWindow/ParamedicInfo";
 import ParamedicMarker from "./Marker/ParamedicMarker";
 import HospitalMarker from "./Marker/HospitalMarker";
-import { useRecoilState } from "recoil";
-import { mapData } from "./mapAtom";
 
 declare global {
     interface Window {
@@ -33,28 +31,31 @@ export const destroyMap = () => {
         curMap.remove();
     }
 }
-// export const selectMarker = (markerId: number) => {
-//     return markerId;
-// }
-//타입
+
+// 인터페이스
 export interface Position { lat: number, lon: number };
 export interface HospitalItem {
     id: number,
     name: string,
     pos: Position,
+    phone: string,
+    requestTime: string,
+    remainBed: number,
     response?: boolean,
 };
 export interface ParamedicItem {
     id: number,
-    name: string,
+    addr: string,
     pos: Position,
     ktas: number,
-    requestAt?: Date,
+    elapseMin: number,
+    leftTime: number,
+    requestAt?: string,
 };
 
 export interface MapProps {
     type: string,
-    pos: Position
+    pos: Position,
     hosList?: HospitalItem[],
     parList?: ParamedicItem[],
     selectMarker: (markerId: number) => number;
@@ -65,10 +66,7 @@ function Map(props: MapProps) {
     const [map, setMap] = useState();
 
     useEffect(() => {
-        console.log(map);
-        console.log(props);
         if (props !== undefined) {
-            console.log(props);
             const tmp = createMap(props.pos.lat, props.pos.lon);
             console.log(tmp);
             setMap(tmp);
@@ -80,10 +78,10 @@ function Map(props: MapProps) {
             {map !== undefined ?
                 <>
                     {props.type === "guest" ?
-                        <><HospitalMarker {...props} /></> :
+                        <><HospitalMarker {...props} map={map} /></> :
                         <></>}
                     {props.type === "paramedic" ?
-                        <><HospitalMarker {...props} /></> :
+                        <><HospitalMarker {...props} map={map} /></> :
                         <></>}
                     {props.type === "hospital" ?
                         <><ParamedicMarker {...props} map={map} /><ParamedicInfo {...props} map={map} /></> :
