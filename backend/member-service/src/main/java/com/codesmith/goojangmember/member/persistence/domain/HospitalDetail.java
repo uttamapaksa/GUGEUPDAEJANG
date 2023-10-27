@@ -22,13 +22,13 @@ public class HospitalDetail {
     private String telephone1;
     private String telephone2;
     private String address;
-    private double latitude;
-    private double longitude;
+    private Double latitude;
+    private Double longitude;
     @CreatedDate
     private LocalDateTime createdAt;
 
     @Builder
-    public HospitalDetail(String id, Member member, String telephone1, String telephone2, String address, double latitude, double longitude) {
+    public HospitalDetail(String id, Member member, String telephone1, String telephone2, String address, Double latitude, Double longitude) {
         this.id = id;
         this.member = member;
         this.telephone1 = telephone1;

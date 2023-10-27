@@ -38,3 +38,4 @@ out/
 
 *.pem
 *.p12
+/src/main/generated/
