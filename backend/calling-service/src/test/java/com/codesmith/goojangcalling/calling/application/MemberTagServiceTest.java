@@ -56,7 +56,6 @@ class MemberTagServiceTest {
     @Test
     void 추가할_태그가_존재하면_사용자태그에_추가한다() throws Exception {
         String inputTagName = "교통사고";
-        given(tagRepository.findByName(inputTagName)).willReturn(Optional.of(new Tag(inputTagName)));
         given(memberTagRepository.save(Mockito.any(MemberTag.class))).willReturn(new MemberTag(memberId, new Tag(inputTagName)));
 
         MemberTagResponse memberTagResponse = memberTagService.addMemberTag(memberId, inputTagName);
@@ -71,7 +70,6 @@ class MemberTagServiceTest {
     void 추가할_태그가_존재하지_않으면_태그를_생성하고_사용자태그에_추가한다() throws Exception {
         String inputTagName = "기절";
         Tag tag = new Tag(inputTagName);
-        given(tagRepository.findByName(inputTagName)).willReturn(Optional.empty());
         given(tagRepository.save(Mockito.any(Tag.class))).willReturn(new Tag(inputTagName));
         given(memberTagRepository.save(Mockito.any(MemberTag.class))).willReturn(new MemberTag(memberId, tag));
 
