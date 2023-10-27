@@ -1,6 +1,7 @@
 package com.codesmith.goojangcalling.calling.presentation;
 
 import com.codesmith.goojangcalling.calling.application.MemberTagService;
+import com.codesmith.goojangcalling.calling.dto.request.AddMemberTagRequest;
 import com.codesmith.goojangcalling.calling.dto.response.MemberTagResponse;
 import com.codesmith.goojangcalling.calling.persistence.domain.Tag;
 import com.codesmith.goojangcalling.infra.aws.S3Client;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -31,6 +33,9 @@ class CallingControllerTest {
 
     @MockBean
     S3Client s3Client;
+
+    @Autowired
+    private ObjectMapper objectMapper;
     
     private final Long memberId = 521L;
 
@@ -43,10 +48,29 @@ class CallingControllerTest {
         given(memberTagService.getMemberTagList(memberId))
                 .willReturn(memberTagResponseList);
 
-        ObjectMapper objectMapper = new ObjectMapper();
         String expectedJson = objectMapper.writeValueAsString(memberTagResponseList);
 
         ResultActions perform = mockMvc.perform(get("/calling/tag"));
+
+        perform
+                .andExpect(status().isOk())
+                .andExpect(content().json(expectedJson));
+    }
+
+    @DisplayName("사용자 태그를 생성한다.")
+    @Test
+    void 사용자_태그를_생성한다() throws Exception {
+        String inputTagName = "교통사고";
+        Tag tag = new Tag(inputTagName);
+        AddMemberTagRequest addMemberTagRequest = new AddMemberTagRequest(inputTagName);
+        MemberTagResponse memberTagResponse = new MemberTagResponse(tag);
+        given(memberTagService.addMemberTag(memberId, inputTagName)).willReturn(memberTagResponse);
+
+        String requestBody = objectMapper.writeValueAsString(addMemberTagRequest);
+        String expectedJson = objectMapper.writeValueAsString(memberTagResponse);
+        ResultActions perform = mockMvc.perform(post("/calling/tag")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody));
 
         perform
                 .andExpect(status().isOk())

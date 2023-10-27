@@ -7,9 +7,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface MemberTagRepository extends JpaRepository<MemberTag, Long> {
 
     @Query("select m.tag from MemberTag m where m.memberId = :memberId")
     List<Tag> findByMemberId (@Param("memberId") Long memberId);
+
+    Optional<MemberTag> findByMemberIdAndTag(Long memberId, Tag tag);
 }
