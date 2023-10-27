@@ -58,12 +58,12 @@ export interface MapProps {
     pos: Position,
     hosList?: HospitalItem[],
     parList?: ParamedicItem[],
-    selectMarker: (markerId: number) => number;
 }
 
 //props.type 의 구분에 따라 지도 반응형 크기 및 하위 컴포넌트 적용
 function Map(props: MapProps) {
     const [map, setMap] = useState();
+    const [selectedMarker, setSelectedMarker] = useState<number>();
 
     useEffect(() => {
         if (props !== undefined) {
@@ -72,6 +72,30 @@ function Map(props: MapProps) {
             setMap(tmp);
         }
     }, []);
+
+    useEffect(() => {
+        if (props.pos.lat !== null && map !== undefined) {
+            var latlon = new Tmapv3.LatLng(props.pos.lat, props.pos.lon);
+            const size = new Tmapv3.Size(30, 30)
+            const marker = new Tmapv3.Marker({
+                position: latlon,
+                map: map,
+                // color: positions[i].color,
+                iconSize: size,
+                // icon: props.parList[i].type,
+                // label: title //Marker의 라벨.
+            });
+            marker.on("Click", () => {
+                console.log("props.parList[i].id")
+            });
+        }
+    }, [props]);
+
+    const selectMarker = (markerId: number) =>{
+        console.log(markerId);
+        console.log("ssssssssssssssssssss");
+        setSelectedMarker(markerId);
+    }
 
     return (
         <MapContainer id="map_div">
@@ -84,7 +108,7 @@ function Map(props: MapProps) {
                         <><HospitalMarker {...props} map={map} /></> :
                         <></>}
                     {props.type === "hospital" ?
-                        <><ParamedicMarker {...props} map={map} /><ParamedicInfo {...props} map={map} /></> :
+                        <><ParamedicMarker {...props} selectMarker={(markerId: number)=>selectMarker(markerId)} map={map} /><ParamedicInfo {...props} map={map} /></> :
                         <></>
                     }
                 </> :

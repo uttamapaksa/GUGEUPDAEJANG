@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Map, { MapProps, ParamedicItem, Position } from "../../../components/libraries/Map/Map";
 import styled from "styled-components";
+import useGeolocation from "react-hook-geolocation";
 
 const posList = [//다중 마커 저장 배열
     {
@@ -56,6 +57,8 @@ function Main() {
     const [counter, setCounter] = useState(0);
     const [dummyData, setDummyData] = useState<ParamedicItem[]>(posList);
 
+    const geolocation = useGeolocation();
+
     useEffect(() => {
         const cnt = setInterval(() => {
             // 타이머 숫자가 하나씩 줄어들도록
@@ -66,14 +69,11 @@ function Main() {
             console.log(counter)
             setCounter(1);
             setProps();
+
         }
         return () => clearInterval(cnt);
     }, [counter]);
     // ----------------------------------
-
-    const selectMarker = (markerId: number) => {
-        return markerId;
-    };
 
     const setProps = () => {
         let nextData: ParamedicItem[] = []
@@ -92,18 +92,23 @@ function Main() {
                 requestAt: item.requestAt,
             })
         });
-        //더미데이터
+        let clat = 37.565128;
+        let clon = 126.988830;
+        if (geolocation !== undefined) {
+            clat = geolocation.latitude;
+            clon = geolocation.longitude;
+        }
+        console.log(typeof(clat), clon)
         setDummyData(nextData);
         const nextMapProps: MapProps = {
             type: "hospital",
-            pos: { lat: 37.56520450, lon: 126.98702028 },
-            parList: nextData,
-            selectMarker: selectMarker
+            pos: { lat: clat, lon: clon },
+            parList: nextData
         }
         setMapProps(nextMapProps);
     }
 
-    return (
+    return !geolocation.error ? (
         <Container>
             {mapProps !== undefined ?
                 <MapContainer>
@@ -111,6 +116,8 @@ function Main() {
                 </MapContainer> :
                 <>zzzzzzzzzzzzzz</>}
         </Container>
+    ) : (
+        <p>No geolocation, sorry.</p>
     );
 }
 

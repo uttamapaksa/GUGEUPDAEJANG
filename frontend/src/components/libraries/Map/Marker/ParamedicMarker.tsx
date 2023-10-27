@@ -22,6 +22,12 @@ function ParamedicMarker(props: any) {
                     iconSize: size,
                     // icon: props.parList[i].type,
                     // label: title //Marker의 라벨.
+                })
+                //--------------------------
+                //마커 클릭 이벤트 - 동작 안함
+                //--------------------------
+                marker.on("click", () => {
+                    console.log("test")
                 });
                 next.push({marker:marker});
             }

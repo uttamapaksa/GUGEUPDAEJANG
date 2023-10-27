@@ -15,7 +15,6 @@ export const InfoWindowContainer = styled.div`
 `;
 
 export const KtasDiv = styled.div<{ $num: String }>`
-  
   position: absolute;
   display: flex;
   top: 0;
@@ -23,7 +22,6 @@ export const KtasDiv = styled.div<{ $num: String }>`
   width: 60px;
   height: 30px;
   background-color: red;
-  //background-color: ${(props) => props.$num}; 
   border-radius: 0 10px 0 5px;
   color: #ffffff;
   align-items: center;
