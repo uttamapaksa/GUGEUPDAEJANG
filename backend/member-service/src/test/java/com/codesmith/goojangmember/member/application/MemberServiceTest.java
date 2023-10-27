@@ -1,6 +1,5 @@
 package com.codesmith.goojangmember.member.application;
 
-import com.codesmith.goojangmember.member.exception.MemberNotFoundException;
 import com.codesmith.goojangmember.member.dto.request.HospitalJoinRequest;
 import com.codesmith.goojangmember.member.dto.request.ParamedicJoinRequest;
 import com.codesmith.goojangmember.member.persistence.HospitalDetailRepository;
@@ -8,41 +7,41 @@ import com.codesmith.goojangmember.member.persistence.MemberRepository;
 import com.codesmith.goojangmember.member.persistence.ParamedicDetailRepository;
 import com.codesmith.goojangmember.member.persistence.SafetyCenterRepository;
 import com.codesmith.goojangmember.member.persistence.domain.*;
-import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.registerCustomDateFormat;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
 class MemberServiceTest {
-    private MemberRepository memberRepository = mock(MemberRepository.class);
-    private HospitalDetailRepository hospitalDetailRepository = mock(HospitalDetailRepository.class);
-    private ParamedicDetailRepository paramedicDetailRepository = mock(ParamedicDetailRepository.class);
-    private SafetyCenterRepository safetyCenterRepository = mock(SafetyCenterRepository.class);
-//    private MemberService memberService = new MemberServiceImpl(memberRepository);
-    private MemberValidator memberValidator = new MemberValidator(memberRepository, safetyCenterRepository);
-    private MemberService memberService = new MemberServiceImpl(memberRepository, hospitalDetailRepository, paramedicDetailRepository, safetyCenterRepository, memberValidator);
-
+    @Mock
+    private MemberRepository memberRepository;
+    @Mock
+    private HospitalDetailRepository hospitalDetailRepository;
+    @Mock
+    private ParamedicDetailRepository paramedicDetailRepository;
+    @Mock
+    private SafetyCenterRepository safetyCenterRepository;
+    @Mock
+    private MemberValidator memberValidator;
+    @InjectMocks
+    private MemberServiceImpl memberService;
     private Long id = 1L;
     private String email = "test@test.com";
     private String name = "test";
-    private Double latitude = 37.5938765502235;
-    private Double longitude = 127.05183223390303;
-    private Double distance = 2.0;
 
     @DisplayName("사용자 정보를 조회한다")
     @Test
@@ -85,7 +84,6 @@ class MemberServiceTest {
 
         given(memberRepository.save(Mockito.any(Member.class))).willReturn(new Member(1L, paramedicJoinRequest.getEmail(), paramedicJoinRequest.getPassword(), paramedicJoinRequest.getName(), paramedicJoinRequest.getImageUrl(), Role.PARAMEDIC));
         given(safetyCenterRepository.findById(paramedicJoinRequest.getCenterId())).willReturn(Optional.of(safetyCenter));
-        given(safetyCenterRepository.existsById(paramedicJoinRequest.getCenterId())).willReturn(true);
         given(paramedicDetailRepository.save(Mockito.any(ParamedicDetail.class))).willReturn(new ParamedicDetail(1L, member, safetyCenter));
 
         ParamedicDetail savedParamedicDetail = memberService.join(paramedicJoinRequest);
