@@ -10,7 +10,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
@@ -70,15 +69,17 @@ class MemberTagRepositoryTest {
     @DisplayName("추가할 태그가 존재하지 않으면 태그를 생성하고 사용자태그에 추가한다.")
     @Test
     void 추가할_태그가_존재하지_않으면_태그를_생성하고_사용자태그에_추가한다() throws Exception {
-        //given
+        Long memberId = 521L;
         String inputTagName = "추락1";
+        Optional<Tag> optionalTag = tagRepository.findByName(inputTagName);
+        assertFalse(optionalTag.isPresent(), "태그가 존재합니다.");
+        Tag tag = new Tag(inputTagName);
 
-        //when
-        assertThrows(NoSuchElementException.class, () -> {
-            tagRepository.findByName(inputTagName).orElseThrow();
-        });
+        tagRepository.save(tag);
+        MemberTag memberTag = new MemberTag(memberId, tag);
+        MemberTag savedMemberTag = memberTagRepository.save(memberTag);
 
-        //then
-
+        assertThat(savedMemberTag.getMemberId()).isEqualTo(521L);
+        assertThat(savedMemberTag.getTag()).isEqualTo(tag);
     }
 }
