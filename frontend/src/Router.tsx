@@ -3,9 +3,8 @@ import Root from './Root';
 import Home from './pages/Home';
 import ErrorComponent from './components/ErrorComponent';
 import NotFound from './pages/NotFound';
-import Main from './pages/Hospital/Main/Main';
-import HospitalSocket from './sockets/HospitalSocket';
-import ParamedicSocket from './sockets/ParamedicSocket';
+import PATH from './constants/path';
+import PAGE from './constants/page';
 
 const router = createBrowserRouter([
   {
@@ -18,18 +17,28 @@ const router = createBrowserRouter([
         errorElement: <ErrorComponent />,
       },
       {
-        path: '/hospital',
-        element: <Main />,
+        path: PATH.Login,
+        element: <PAGE.Login />,
         errorElement: <ErrorComponent />,
       },
       {
-        path: '/hospitalSocket',
-        element: <HospitalSocket paramedicId='1'/>,
+        path: PATH.Signup,
+        element: <PAGE.Signup />,
         errorElement: <ErrorComponent />,
       },
       {
-        path: '/paramedicSocket',
-        element: <ParamedicSocket hospitalId='1'/>,
+        path: PATH.Hospital,
+        element: <PAGE.Hospital />,
+        errorElement: <ErrorComponent />,
+      },
+      {
+        path: PATH.HospitalSocket,
+        element: <PAGE.HospitalSocket paramedicId="1" />,
+        errorElement: <ErrorComponent />,
+      },
+      {
+        path: PATH.ParamedicSocket,
+        element: <PAGE.ParamedicSocket hospitalId="1" />,
         errorElement: <ErrorComponent />,
       },
     ],
