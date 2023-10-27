@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import Map, { MapProps, Position } from "../../../components/libraries/Map/Map";
 import styled from "styled-components";
+    export const Container = styled.div`
+      width: 70vw;
+      height: 80vh;
+      position: fixed;
+    `;
 
 function Main() {
     const [mapProps, setMapProps] = useState<MapProps>();
@@ -69,9 +74,3 @@ function Main() {
 }
 
 export default Main;
-
-export const Container = styled.div`
-  width: 70vw;
-  height: 80vh;
-  position: fixed;
-`;
