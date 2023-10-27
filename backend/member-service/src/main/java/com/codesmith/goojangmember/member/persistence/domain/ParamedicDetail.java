@@ -22,4 +22,10 @@ public class ParamedicDetail {
         this.member = member;
         this.safetyCenter = safetyCenter;
     }
+
+    public ParamedicDetail(Long id, Member member, SafetyCenter safetyCenter) {
+        this.id = id;
+        this.member = member;
+        this.safetyCenter = safetyCenter;
+    }
 }
