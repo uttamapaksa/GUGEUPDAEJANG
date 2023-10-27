@@ -43,6 +43,7 @@ class MemberTagRepositoryTest {
         String inputTagName = "추락";
         Long memberId = 521L;
 
+        assertFalse(tagRepository.findByName(inputTagName).isEmpty());
         Tag tag = tagRepository.findByName(inputTagName).orElseThrow();
         MemberTag memberTag = new MemberTag(memberId, tag);
         MemberTag savedMemberTag = memberTagRepository.save(memberTag);
