@@ -20,7 +20,7 @@ public class MemberController {
         return ResponseEntity.ok(memberService.getMemberInfo(memberId));
     }
 
-    @GetMapping("/hplist")
+    @GetMapping("/hospital")
     public ResponseEntity<List<String>> getHospitalListFromHere(@RequestParam Double latitude, @RequestParam Double longitude, @RequestParam Double distance) {
         return ResponseEntity.ok(memberService.getHospitalListFromHere(latitude, longitude, distance));
     }
