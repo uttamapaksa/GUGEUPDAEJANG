@@ -49,10 +49,10 @@ function HospitalSocket({ paramedicId }: Props) {
   const sendMessage = () => {
     if (clientRef.current && messageToSend) {
       clientRef.current.publish({
-        destination: `/app/1`,
+        destination: `/app/${paramedicId}`,
         body: JSON.stringify({ name: '테스트이름', longitude: 35.123, latitude: 127.123 }),
       });
-      setMessageToSend(''); // 메시지 전송 후 상태 초기화
+      setMessageToSend('');
     }
   };
 
@@ -71,17 +71,11 @@ function HospitalSocket({ paramedicId }: Props) {
       <h3>Received messages for Paramedic {paramedicId}</h3>
       <ul>
         {messages.map((message, index) => (
-          <li key={index} style={{ color: 'white' }}>
-            {message}
-          </li>
+          <li key={index}>{message}</li>
         ))}
       </ul>
       <div>
-        <input
-          type="text"
-          value={messageToSend}
-          onChange={(e) => setMessageToSend(e.target.value)}
-        />
+        <input type="text" value={messageToSend} onChange={(e) => setMessageToSend(e.target.value)} />
         <button onClick={sendMessage}>Send Message</button>
       </div>
     </div>
