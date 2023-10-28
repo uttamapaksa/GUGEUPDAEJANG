@@ -12,8 +12,9 @@ const color = {
   fontPink2: "#FF8577",
 
   // button color
-  grayDark: "#393D50",
-  grayMedium: "#B7B7B7",
+  grayDarkest: "#393D50",
+  grayDark: "#B7B7B7",
+  grayMedium : "#DCDCE0",
   grayLight: "#F7F6F4",
 
   pinkDrak: "#F66457",

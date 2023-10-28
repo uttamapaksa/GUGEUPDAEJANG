@@ -1,10 +1,15 @@
-import styled from "styled-components"
+import styled, {css} from "styled-components"
 import theme from "/src/styles";
 
 interface ButtonProps {
   children?: React.ReactNode;
   onClick?: () => void;
-
+  $ktas?:
+    | "ktas1"
+    | "ktas2"
+    | "ktas3"
+    | "ktas4"
+    | "ktas5"
   $height?: string;
   $width?: string;
   $margin?: string;
@@ -35,17 +40,19 @@ interface ButtonProps {
   $justifyItems?: string;
   $alignContent?: string;
   $alignItems?: string;
+
+  $IsClick? : boolean;
 }
 
 const StyledButton = styled.button<ButtonProps>`
-  height: ${(props) => props.$height};
-  width: ${(props) => props.$width};
+  height: ${(props) => props.$height || "100%"};
+  width: ${(props) => props.$width || "100%"};
   margin: ${(props) => props.$margin};
   width: ${(props) => props.$width};
   height: ${(props) => props.$height};
   margin: ${(props) => props.$margin};
   padding: ${(props) => props.$padding};
-  border: ${(props) => props.$border};
+  border: ${(props) => props.$border || "0px"};
   border-color: ${(props) => props.$borderColor};
   border-radius: ${(props) => props.$borderRadius};
   box-sizing: ${(props) => props.$boxSizing};
@@ -71,12 +78,74 @@ const StyledButton = styled.button<ButtonProps>`
   justify-items: ${(props) => props.$justifyItems};
   align-content: ${(props) => props.$alignContent};
   align-items: ${(props) => props.$alignItems};
+
+  cursor: pointer;
 `
 
 export const BtnSubmit = styled(StyledButton)`
   color: ${theme.color.white};
-  font-weight: 700;
-  border: 0px;
+  font-size: ${theme.font.Medium3_23};
+  font-weight: 600;
   border-radius: 10px;
-  cursor: pointer;
+`
+
+export const BtnParaState = styled(StyledButton)`
+  display: flex;
+  flex-direction: column;
+  padding: 2%;
+  border-radius: 20px;
+  box-shadow: 0px 0px 10px 4px rgba(0, 0, 0, 0.25);
+`
+
+export const BtnKtas = styled(StyledButton)`
+  font-size: ${theme.font.Medium5_20};
+  font-weight: 600;
+
+  background-color: ${theme.color.ktas1_Active}; 
+
+  color: ${(props) => 
+    props.$ktas && ["3", "5"].includes(props.$ktas?.slice(4)) ? 
+    props.$IsClick ? `${theme.color.black}`:`${theme.color.fontGrey1}` :
+    `${theme.color.white}`};
+
+  border-radius: ${(props) => 
+    props.$ktas?.slice(4) === "1" ? "20px 0px 0px 20px":
+    props.$ktas?.slice(4) === "5" ? "0px 20px 20px 0px":""};
+
+  background-color: ${(props) =>
+    props.$ktas && props.$IsClick ? theme.color[`${props.$ktas}_Active`] :
+    props.$ktas && !props.$IsClick ? theme.color[`${props.$ktas}_Deactive`]:""};
+`
+
+export const BtnToggle = styled(StyledButton)`
+  font-size: ${theme.font.Medium2_24};
+  border-radius: 20px;
+  border: 3px solid ${theme.color.grayMedium} ;
+  background-color: ${theme.color.white};
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  ${(props) =>
+    props.$IsClick &&
+    css`
+      color: ${theme.color.white};
+      background-color: ${theme.color.grayDarkest};
+      box-shadow: 0px 0px 10px 4px rgba(0, 0, 0, 0.20);
+  `}
+`
+
+export const BtnMediaRecord = styled(StyledButton)`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+  font-size: ${theme.font.Large3_32};
+  color: ${theme.color.fontPink2};
+  
+  background-color: transparent;
+  border: 3px solid ${theme.color.pinkLight};
+  border-radius: 20px;
+  box-shadow: 0px 0px 10px 4px rgba(0, 0, 0, 0.10);
 `

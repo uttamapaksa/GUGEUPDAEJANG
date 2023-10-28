@@ -38,8 +38,8 @@ interface InputProps {
 }
 
 const StyledInput = styled.input<InputProps>`
-  height: ${(props) => props.$height};
-  width: ${(props) => props.$width};
+  height: ${(props) => props.$height || "100%"};
+  width: ${(props) => props.$width || "100%"};
   margin: ${(props) => props.$margin};
   width: ${(props) => props.$width};
   height: ${(props) => props.$height};
@@ -76,7 +76,7 @@ const StyledInput = styled.input<InputProps>`
 export const IptUserInfo = styled(StyledInput)`
   color: ${theme.color.fontGrey2};
   font-size: ${theme.font.Medium4_22};
-  padding-left:15px;
+  padding-left: 20px;
   border: 0px;
   border-radius: 10px;
   box-shadow: 0px 0px 4px 4px rgba(0, 0, 0, 0.10);

@@ -21,6 +21,7 @@ import record_video_black from "/src/assets/paramedic/record-video-black.png"
 import record_video_pink from "/src/assets/paramedic/record-video-pink.png"
 import record_voice_black from "/src/assets/paramedic/record-voice-black.png"
 import record_voice_pink from "/src/assets/paramedic/record-voice-pink.png"
+import arrow_pink_right from "/src/assets/paramedic/arrow-pink-right.png"
 
 // share
 import logo from "/src/assets/share/logo.png"
@@ -93,6 +94,7 @@ export const ImgRecordVideoBlack = styled(StyledImage).attrs({src: record_video_
 export const ImgRecordVideoPink = styled(StyledImage).attrs({src: record_video_pink})``;
 export const ImgRecordVoiceBlack = styled(StyledImage).attrs({src: record_voice_black})``;
 export const ImgRecordVoicePink = styled(StyledImage).attrs({src: record_voice_pink})``;
+export const ImgArrowPinkRight = styled(StyledImage).attrs({src: arrow_pink_right})``;
 
 // share
 export const ImgLogo = styled(StyledImage).attrs({src: logo})``;
