@@ -10,7 +10,6 @@ interface TextProps {
   $margin?: string;
   $padding?: string;
   $border?: string;
-  $borderColor?: string;
   $borderRadius?: string;
   $boxSizing?: string;
 
@@ -41,12 +40,8 @@ const StyledText = styled.p<TextProps>`
   height: ${(props) => props.$height || "100%"};
   width: ${(props) => props.$width || "100%"};
   margin: ${(props) => props.$margin};
-  width: ${(props) => props.$width};
-  height: ${(props) => props.$height};
-  margin: ${(props) => props.$margin};
   padding: ${(props) => props.$padding};
   border: ${(props) => props.$border};
-  border-color: ${(props) => props.$borderColor};
   border-radius: ${(props) => props.$borderRadius};
   box-sizing: ${(props) => props.$boxSizing};
 

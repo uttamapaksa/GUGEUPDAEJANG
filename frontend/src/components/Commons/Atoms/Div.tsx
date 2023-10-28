@@ -4,7 +4,12 @@ import theme from "/src/styles";
 interface DivProps {
   children?: React.ReactNode;
   onClick?: () => void;
-
+  $ktas?:
+    | "ktas1"
+    | "ktas2"
+    | "ktas3"
+    | "ktas4"
+    | "ktas5"
   $height?: string;
   $width?: string;
   $margin?: string;
@@ -43,17 +48,13 @@ const StyledDiv = styled.button<DivProps>`
   height: ${(props) => props.$height || "100%"};
   width: ${(props) => props.$width || "100%"};
   margin: ${(props) => props.$margin};
-  width: ${(props) => props.$width};
-  height: ${(props) => props.$height};
-  margin: ${(props) => props.$margin};
   padding: ${(props) => props.$padding};
   border: ${(props) => props.$border || "0px"};
-  border-color: ${(props) => props.$borderColor};
-  border-radius: ${(props) => props.$borderRadius};
+  border-radius: ${(props) => props.$borderRadius || "10px"};
   box-sizing: ${(props) => props.$boxSizing};
 
-  color: ${(props) => props.$color ||  `${theme.color.fontGrey4}`};
-  font-size: ${(props) => props.$fontSize || `${theme.font.Medium2_24}`};
+  color: ${(props) => props.$color || `${theme.color.fontGrey4}`};
+  font-size: ${(props) => props.$fontSize || `${theme.font.Medium1_30}`};
   font-weight: ${(props) => props.$fontWeight};
   text-align: ${(props) => props.$textAlign};
   line-height: ${(props) => props.$lineHeight};
@@ -76,11 +77,18 @@ const StyledDiv = styled.button<DivProps>`
 `
 
 export const DivKtasInfo = styled(StyledDiv)`
-  
+  border-radius: 0px 30px 0px 20px;
+  font-weight: 900;
+
+  color: ${(props) => 
+    props.$ktas && ["3", "5"].includes(props.$ktas?.slice(4)) ? 
+    `${theme.color.black}`:`${theme.color.white}`};
+
+  background-color: ${(props) =>
+    props.$ktas? theme.color[`${props.$ktas}_Active`] :""};
 `
 
 export const DivTag = styled(StyledDiv)`
-  border-radius: 10px;
   box-shadow: 0px 0px 4px 2px rgba(0, 0, 0, 0.10);
 `
 

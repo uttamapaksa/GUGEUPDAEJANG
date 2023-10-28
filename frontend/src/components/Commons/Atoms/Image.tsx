@@ -22,6 +22,7 @@ import record_video_pink from "/src/assets/paramedic/record-video-pink.png"
 import record_voice_black from "/src/assets/paramedic/record-voice-black.png"
 import record_voice_pink from "/src/assets/paramedic/record-voice-pink.png"
 import arrow_pink_right from "/src/assets/paramedic/arrow-pink-right.png"
+import arrow_black_right from "/src/assets/paramedic/arrow-black-right.png"
 
 // share
 import logo from "/src/assets/share/logo.png"
@@ -38,7 +39,6 @@ interface ImageProps {
   $margin?: string;
   $padding?: string;
   $border?: string;
-  $borderColor?: string;
   $borderRadius?: string;
   $boxSizing?: string;
 
@@ -55,12 +55,9 @@ const StyledImage = styled.img<ImageProps>`
   height: ${(props) => props.$height};
   width: ${(props) => props.$width};
   margin: ${(props) => props.$margin};
-  width: ${(props) => props.$width};
-  height: ${(props) => props.$height};
   margin: ${(props) => props.$margin};
   padding: ${(props) => props.$padding};
   border: ${(props) => props.$border};
-  border-color: ${(props) => props.$borderColor};
   border-radius: ${(props) => props.$borderRadius};
   box-sizing: ${(props) => props.$boxSizing};
 
@@ -95,6 +92,7 @@ export const ImgRecordVideoPink = styled(StyledImage).attrs({src: record_video_p
 export const ImgRecordVoiceBlack = styled(StyledImage).attrs({src: record_voice_black})``;
 export const ImgRecordVoicePink = styled(StyledImage).attrs({src: record_voice_pink})``;
 export const ImgArrowPinkRight = styled(StyledImage).attrs({src: arrow_pink_right})``;
+export const ImgArrowBlackRight = styled(StyledImage).attrs({src: arrow_black_right})``;
 
 // share
 export const ImgLogo = styled(StyledImage).attrs({src: logo})``;
@@ -104,7 +102,3 @@ export const ImgArrowRight = styled(StyledImage).attrs({src: arrow_right})``;
 export const ImgArrowBottom = styled(StyledImage).attrs({src: arrow_bottom})``;
 export const ImgArrowLeft = styled(StyledImage).attrs({src: arrow_left})``;
 export const ImgArrowUp = styled(StyledImage).attrs({src: arrow_up})``;
-
-
-
-
