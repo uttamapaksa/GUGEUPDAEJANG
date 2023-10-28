@@ -3,6 +3,7 @@ import Map, { MapProps, ParamedicItem, Position } from "../../../components/libr
 import styled from "styled-components";
 import useGeolocation from "react-hook-geolocation";
 
+
 const posList = [//다중 마커 저장 배열
     {
         id: 1,
