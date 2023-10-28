@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { BrowserRouter as Switch, Outlet } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 import styled from 'styled-components';
