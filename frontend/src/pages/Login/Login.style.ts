@@ -88,19 +88,6 @@ export const Row2 = styled.div`
   height: 11%;
 `;
 
-export const IptUserInfo = styled.div`
-  /* border: 3px solid purple; */
-  width: 70%;
-  height: 100%;
-`;
-
-export const BtnSubmit = styled.div`
-  margin-left: auto;
-  /* border: 3px solid purple; */
-  width: 25%;
-  height: 100%;
-`;
-
 export const LoginToggle = styled.div`
   display: flex;
   justify-content: center;
