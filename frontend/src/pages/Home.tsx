@@ -29,7 +29,7 @@ function Home() {
       <MainWrapper>
         <ImgLogo
           $width="400px"
-          $height="200px"/>
+        />
       
         <IptUserInfo
           $margin="10px"
