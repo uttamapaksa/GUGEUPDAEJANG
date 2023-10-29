@@ -47,6 +47,11 @@ const router = createBrowserRouter([
         errorElement: <ErrorComponent />,
       },
       {
+        path: PATH.ParamedicWaitMove,
+        element: <PAGE.ParamedicWaitMove />,
+        errorElement: <ErrorComponent />,
+      },
+      {
         path: PATH.ParamedicSocket,
         element: <PAGE.ParamedicSocket hospitalId="1" />,
         errorElement: <ErrorComponent />,

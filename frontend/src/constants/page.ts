@@ -4,6 +4,7 @@ import Hospital from '../pages/Hospital/Main/Main';
 import ParamedicCall from '../pages/Paramedic/Call/Call';
 import HospitalSocket from '../sockets/HospitalSocket';
 import Paramedic from '../pages/Paramedic/Main/Main';
+import ParamedicWaitMove from '../pages/Paramedic/WaitMove/WaitMove';
 import ParamedicSocket from '../sockets/ParamedicSocket';
 
 const PAGE = {
@@ -13,6 +14,7 @@ const PAGE = {
   HospitalSocket,
   Paramedic,
   ParamedicCall,
+  ParamedicWaitMove,
   ParamedicSocket,
 };
 
