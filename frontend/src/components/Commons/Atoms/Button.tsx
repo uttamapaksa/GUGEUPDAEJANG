@@ -15,7 +15,6 @@ interface ButtonProps {
   $margin?: string;
   $padding?: string;
   $border?: string;
-  $borderColor?: string;
   $borderRadius?: string;
   $boxSizing?: string;
 
@@ -48,12 +47,8 @@ const StyledButton = styled.button<ButtonProps>`
   height: ${(props) => props.$height || "100%"};
   width: ${(props) => props.$width || "100%"};
   margin: ${(props) => props.$margin};
-  width: ${(props) => props.$width};
-  height: ${(props) => props.$height};
-  margin: ${(props) => props.$margin};
   padding: ${(props) => props.$padding};
   border: ${(props) => props.$border || "0px"};
-  border-color: ${(props) => props.$borderColor};
   border-radius: ${(props) => props.$borderRadius};
   box-sizing: ${(props) => props.$boxSizing};
 
@@ -62,7 +57,7 @@ const StyledButton = styled.button<ButtonProps>`
   font-weight: ${(props) => props.$fontWeight};
   text-align: ${(props) => props.$textAlign};
   line-height: ${(props) => props.$lineHeight};
-  background-color: ${(props) => props.$backgroundColor};
+  background-color: ${(props) => props.$backgroundColor || `${theme.color.white}`};
 
   position: ${(props) => props.$position};
   float: ${(props) => props.$float};
@@ -84,7 +79,9 @@ const StyledButton = styled.button<ButtonProps>`
 
 export const BtnSubmit = styled(StyledButton)`
   color: ${theme.color.white};
-  font-size: ${theme.font.Medium3_23};
+  font-size: ${(props) => props.$fontSize ? 
+  `${props.$fontSize}` : `${theme.font.Medium3_23};`};
+  
   font-weight: 600;
   border-radius: 10px;
 `
@@ -99,7 +96,7 @@ export const BtnParaState = styled(StyledButton)`
 
 export const BtnKtas = styled(StyledButton)`
   font-size: ${theme.font.Medium5_20};
-  font-weight: 600;
+  font-weight: 900;
 
   background-color: ${theme.color.ktas1_Active}; 
 
@@ -118,17 +115,19 @@ export const BtnKtas = styled(StyledButton)`
 `
 
 export const BtnToggle = styled(StyledButton)`
-  font-size: ${theme.font.Medium2_24};
-  border-radius: 20px;
-  border: 3px solid ${theme.color.grayMedium} ;
-  background-color: ${theme.color.white};
+  font-size: ${(props) => 
+    props.$fontSize ? `${props.$fontSize}` : ` ${theme.font.Medium2_24}`};
+  border-radius: ${(props) => 
+    props.$borderRadius ? `${props.$borderRadius}` : "20px"};
+  border: ${(props) => `3px solid ${props.$border}`};
+
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 
   ${(props) =>
-    props.$IsClick &&
+    props.$IsClick && 
     css`
       color: ${theme.color.white};
       background-color: ${theme.color.grayDarkest};
@@ -140,12 +139,9 @@ export const BtnMediaRecord = styled(StyledButton)`
   display: flex;
   justify-content: space-around;
   align-items: center;
-
   font-size: ${theme.font.Large3_32};
-  color: ${theme.color.fontPink2};
-  
   background-color: transparent;
-  border: 3px solid ${theme.color.pinkLight};
+  border: ${(props) => `3px solid ${props.$border}`};
   border-radius: 20px;
   box-shadow: 0px 0px 10px 4px rgba(0, 0, 0, 0.10);
 `
