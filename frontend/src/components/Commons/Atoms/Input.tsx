@@ -19,6 +19,8 @@ interface InputProps {
   $textAlign?: string;
   $lineHeight?: string;
   $backgroundColor?: string;
+  $boxShadow?: string;
+
 
   $position?: string;
   $float?: string;
@@ -51,6 +53,7 @@ const StyledInput = styled.input<InputProps>`
   text-align: ${(props) => props.$textAlign};
   line-height: ${(props) => props.$lineHeight};
   background-color: ${(props) => props.$backgroundColor};
+  box-shadow: ${(props) => props.$boxShadow || '0px 0px 4px 4px rgba(0, 0, 0, 0.10)'};
 
   position: ${(props) => props.$position};
   float: ${(props) => props.$float};
@@ -70,9 +73,7 @@ const StyledInput = styled.input<InputProps>`
 
 export const IptUserInfo = styled(StyledInput)`
   color: ${theme.color.fontGrey2};
-  font-size: ${theme.font.Medium4_22};
   padding-left: 20px;
   border: 0px;
   border-radius: 10px;
-  box-shadow: 0px 0px 4px 4px rgba(0, 0, 0, 0.10);
 `

@@ -67,12 +67,12 @@ const StyledButton = styled.button<ButtonProps>`
   left: ${(props) => props.$left};
   z-index: ${(props) => props.$zIndex};
 
-  display: ${(props) => props.$display};
+  display: ${(props) => props.$display || 'flex'};
   flex-direction: ${(props) => props.$flexDirection};
-  justify-content: ${(props) => props.$justifyContent};
+  justify-content: ${(props) => props.$justifyContent || 'center'};
   justify-items: ${(props) => props.$justifyItems};
   align-content: ${(props) => props.$alignContent};
-  align-items: ${(props) => props.$alignItems};
+  align-items: ${(props) => props.$alignItems || 'center'};
 
   cursor: pointer;
 `
@@ -81,13 +81,12 @@ export const BtnSubmit = styled(StyledButton)`
   color: ${theme.color.white};
   font-size: ${(props) => props.$fontSize ? 
   `${props.$fontSize}` : `${theme.font.Medium3_23};`};
-  
   font-weight: 600;
   border-radius: 10px;
+  
 `
 
 export const BtnParaState = styled(StyledButton)`
-  display: flex;
   flex-direction: column;
   padding: 2%;
   border-radius: 20px;
@@ -120,11 +119,7 @@ export const BtnToggle = styled(StyledButton)`
   border-radius: ${(props) => 
     props.$borderRadius ? `${props.$borderRadius}` : "20px"};
   border: ${(props) => `3px solid ${props.$border}`};
-
-  display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
 
   ${(props) =>
     props.$IsClick && 
@@ -136,9 +131,7 @@ export const BtnToggle = styled(StyledButton)`
 `
 
 export const BtnMediaRecord = styled(StyledButton)`
-  display: flex;
   justify-content: space-around;
-  align-items: center;
   font-size: ${theme.font.Large3_32};
   background-color: transparent;
   border: ${(props) => `3px solid ${props.$border}`};
