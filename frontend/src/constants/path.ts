@@ -3,6 +3,9 @@ const PATH = {
   Signup: '/signup',
   Hospital: '/hospital',
   HospitalSocket: '/hospital-socket',
+  Paramedic: '/paramedic',
+  ParamedicCall: '/paramedic-call',
+  ParamedicWaitMove: '/paramedic-waitmove',
   ParamedicSocket: '/paramedic-socket',
 };
 
