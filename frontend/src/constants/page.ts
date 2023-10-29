@@ -1,6 +1,6 @@
 import Login from '../pages/Login/Login';
 import Signup from '../pages/Signup/Signup';
-import Hospital from '../pages/Hospital/Main/Main';
+import Hospital from '../pages/Hospital/Main';
 import ParamedicCall from '../pages/Paramedic/Call/Call';
 import HospitalSocket from '../sockets/HospitalSocket';
 import Paramedic from '../pages/Paramedic/Main/Main';
