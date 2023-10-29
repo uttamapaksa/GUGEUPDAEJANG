@@ -8,6 +8,7 @@ import com.codesmith.goojangmember.member.persistence.ParamedicDetailRepository;
 import com.codesmith.goojangmember.member.persistence.SafetyCenterRepository;
 import com.codesmith.goojangmember.member.persistence.domain.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.function.EntityResponse;
 
@@ -21,6 +22,7 @@ public class MemberServiceImpl implements MemberService {
     private final ParamedicDetailRepository paramedicDetailRepository;
     private final SafetyCenterRepository safetyCenterRepository;
     private final MemberValidator memberValidator;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public Member getMemberInfo(Long memberId) {
@@ -57,7 +59,7 @@ public class MemberServiceImpl implements MemberService {
 
     private Member covertToMember(HospitalJoinRequest hospitalJoinRequest) {
         String email = hospitalJoinRequest.getEmail();
-        String password = hospitalJoinRequest.getPassword();
+        String password = passwordEncoder.encode(hospitalJoinRequest.getPassword());
         String name = hospitalJoinRequest.getName();
         String imageUrl = hospitalJoinRequest.getImageUrl();
         Role role = Role.valueOf(hospitalJoinRequest.getRole());
@@ -67,7 +69,7 @@ public class MemberServiceImpl implements MemberService {
 
     private Member covertToMember(ParamedicJoinRequest paramedicJoinRequest) {
         String email = paramedicJoinRequest.getEmail();
-        String password = paramedicJoinRequest.getPassword();
+        String password = passwordEncoder.encode(paramedicJoinRequest.getPassword());
         String name = paramedicJoinRequest.getName();
         String imageUrl = paramedicJoinRequest.getImageUrl();
         Role role = Role.valueOf(paramedicJoinRequest.getRole());

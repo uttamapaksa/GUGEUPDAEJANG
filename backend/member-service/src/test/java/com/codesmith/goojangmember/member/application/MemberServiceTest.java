@@ -17,6 +17,8 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
@@ -37,6 +39,9 @@ class MemberServiceTest {
     private SafetyCenterRepository safetyCenterRepository;
     @Mock
     private MemberValidator memberValidator;
+
+    @Mock
+    private PasswordEncoder passwordEncoder;
     @InjectMocks
     private MemberServiceImpl memberService;
     private Long id = 1L;
@@ -62,14 +67,14 @@ class MemberServiceTest {
         HospitalJoinRequest hospitalJoinResponse = new HospitalJoinRequest("A11111", "example@example.com", "password123", "Hospital Name", "profile.jpg", "HOSPITAL", "123-456-789", "987-654-321", "123 Main St, City, Country", 40.7128, -74.0060);
 
         given(memberRepository.save(Mockito.any(Member.class))).willReturn(new Member(1L, hospitalJoinResponse.getEmail(), hospitalJoinResponse.getPassword(), hospitalJoinResponse.getName(), hospitalJoinResponse.getImageUrl(), Role.HOSPITAL));
-        given(hospitalDetailRepository.save(Mockito.any(HospitalDetail.class))).willReturn(new HospitalDetail("A1111111", null, hospitalJoinResponse.getTelephone1(), hospitalJoinResponse.getTelephone2(), hospitalJoinResponse.getAddress(), hospitalJoinResponse.getLatitude(), hospitalJoinResponse.getLongitude()));
+        given(hospitalDetailRepository.save(Mockito.any(HospitalDetail.class))).willReturn(new HospitalDetail(hospitalJoinResponse.getHospitalId(), null, hospitalJoinResponse.getTelephone1(), hospitalJoinResponse.getTelephone2(), hospitalJoinResponse.getAddress(), hospitalJoinResponse.getLatitude(), hospitalJoinResponse.getLongitude()));
 
         HospitalDetail savedHospitalDetail = memberService.join(hospitalJoinResponse);
 
         verify(memberRepository, times(1)).save(Mockito.any(Member.class));
         verify(hospitalDetailRepository, times(1)).save(Mockito.any(HospitalDetail.class));
 
-        assertThat(savedHospitalDetail.getId()).isEqualTo("A1111111");
+        assertThat(savedHospitalDetail.getId()).isEqualTo(hospitalJoinResponse.getHospitalId());
         assertThat(savedHospitalDetail.getTelephone1()).isEqualTo(hospitalJoinResponse.getTelephone1());
         assertThat(savedHospitalDetail.getTelephone2()).isEqualTo(hospitalJoinResponse.getTelephone2());
         assertThat(savedHospitalDetail.getAddress()).isEqualTo(hospitalJoinResponse.getAddress());
