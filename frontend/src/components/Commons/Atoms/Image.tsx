@@ -43,6 +43,7 @@ interface ImageProps {
   $boxSizing?: string;
 
   $position?: string;
+  $transform?: string;
   $float?: string;
   $top?: string;
   $bottom?: string;
@@ -55,13 +56,13 @@ const StyledImage = styled.img<ImageProps>`
   height: ${(props) => props.$height};
   width: ${(props) => props.$width};
   margin: ${(props) => props.$margin};
-  margin: ${(props) => props.$margin};
   padding: ${(props) => props.$padding};
   border: ${(props) => props.$border};
   border-radius: ${(props) => props.$borderRadius};
   box-sizing: ${(props) => props.$boxSizing};
 
   position: ${(props) => props.$position};
+  transform: ${(props) => props.$transform};
   float: ${(props) => props.$float};
   top: ${(props) => props.$top};
   bottom: ${(props) => props.$bottom};

@@ -108,7 +108,10 @@ function Map(props: MapProps) {
                         <><HospitalMarker {...props} map={map} /></> :
                         <></>}
                     {props.type === "hospital" ?
-                        <><ParamedicMarker {...props} selectMarker={(markerId: number)=>selectMarker(markerId)} map={map} /><ParamedicInfo {...props} map={map} /></> :
+                        <><ParamedicMarker {...props} 
+                            selectMarker={(markerId: number)=>selectMarker(markerId)} 
+                            map={map} />
+                        <ParamedicInfo {...props} map={map} /></> :
                         <></>
                     }
                 </> :
