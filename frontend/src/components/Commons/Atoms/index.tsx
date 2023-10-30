@@ -22,7 +22,9 @@ import {
   ImgSetupActivate,
   ImgSetupDeactivate,
   ImgAmbulance,
+  ImgAmbulanceActive,
   ImgRequestBell,
+  ImgRequestBellActive,
   ImgCellphone,
   ImgRecordVideoBlack,
   ImgRecordVideoPink,
@@ -36,14 +38,15 @@ import {
   ImgArrowRight,
   ImgArrowBottom,
   ImgArrowLeft,
-  ImgArrowUp}from './Image'
+  ImgArrowUp,}from './Image'
 
 import {
-  IptUserInfo}from './Input'
+  IptUserInfo,}from './Input'
 
 import{
   TxtParamedicTitle,
-  TxtHeaderTitle,}from './Text'
+  TxtHeaderTitle,
+  TxtContent,}from './Text'
 
 const A = {
   BtnSubmit,
@@ -67,7 +70,9 @@ const A = {
   ImgSetupActivate,
   ImgSetupDeactivate,
   ImgAmbulance,
+  ImgAmbulanceActive,
   ImgRequestBell,
+  ImgRequestBellActive,
   ImgCellphone,
   ImgRecordVideoBlack,
   ImgRecordVideoPink,
@@ -87,6 +92,7 @@ const A = {
 
   TxtParamedicTitle,
   TxtHeaderTitle,
+  TxtContent,
 };
 
 export default A;

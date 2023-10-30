@@ -1,7 +1,5 @@
 import * as S from './Signup.style';
-import { BtnSubmit } from '/src/components/Commons/Atoms/Button';
-import { ImgLogo } from '/src/components/Commons/Atoms/Image';
-import { IptUserInfo } from '/src/components/Commons/Atoms/Input';
+import A from '/src/components/Commons/Atoms';
 import theme from '/src/styles';
 
 function Signup() {
@@ -11,20 +9,20 @@ function Signup() {
         <S.ContentBox>
 
           <S.Logo>
-            <ImgLogo $width="40%" />
+            <A.ImgLogo $width="40%" />
           </S.Logo>
 
           <S.SignupInput>
             <S.Row1>
-            <IptUserInfo
+            <A.IptUserInfo
               $width='70%'
               $height='100%'
               $fontSize='2vh' 
               $boxShadow='0 0 0.3vh 0.3vh rgba(0, 0, 0, 0.10)'
               placeholder='이메일'
               >
-              </IptUserInfo>
-              <BtnSubmit
+              </A.IptUserInfo>
+              <A.BtnSubmit
               $margin='0 0 0 auto'
               $width='20%'
               $height='100%'
@@ -32,40 +30,40 @@ function Signup() {
               $backgroundColor={theme.color.grayDarkest}
               >
                 인증
-              </BtnSubmit>
+              </A.BtnSubmit>
             </S.Row1>
             <S.Row1>
-            <IptUserInfo
+            <A.IptUserInfo
               $width='100%'
               $height='100%'
               $fontSize='2vh' 
               $boxShadow='0 0 0.3vh 0.3vh rgba(0, 0, 0, 0.10)'
               placeholder='이름'
               >
-              </IptUserInfo>
+              </A.IptUserInfo>
             </S.Row1>
             <S.Row1>
-            <IptUserInfo
+            <A.IptUserInfo
               $width='100%'
               $height='100%'
               $fontSize='2vh' 
               $boxShadow='0 0 0.3vh 0.3vh rgba(0, 0, 0, 0.10)'
               placeholder='비밀번호'
               >
-              </IptUserInfo>
+              </A.IptUserInfo>
             </S.Row1>
             <S.Row1>
-            <IptUserInfo
+            <A.IptUserInfo
               $width='100%'
               $height='100%'
               $fontSize='2vh' 
               $boxShadow='0 0 0.3vh 0.3vh rgba(0, 0, 0, 0.10)'
               placeholder='비밀번호 확인'
               >
-              </IptUserInfo>
+              </A.IptUserInfo>
             </S.Row1>
             <S.Row1>
-            <BtnSubmit
+            <A.BtnSubmit
               $margin='0 auto'
               $width='95%'
               $height='100%'
@@ -73,7 +71,7 @@ function Signup() {
               $backgroundColor={theme.color.fontPink2}
               >
                 회원 가입
-              </BtnSubmit>
+              </A.BtnSubmit>
             </S.Row1>
             <S.Row2>
               <S.LoginToggle>회원가입 / 비밀번호 찾기</S.LoginToggle>

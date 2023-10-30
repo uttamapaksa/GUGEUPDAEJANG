@@ -15,7 +15,9 @@ import setup_deactivate from "/src/assets/hospital/setup-deactivate.png"
 
 // paramedic
 import ambulance from "/src/assets/paramedic/ambulance.png"
+import ambulance_active from "/src/assets/paramedic/ambulance-active.png"
 import request_bell from "/src/assets/paramedic/request-bell.png"
+import request_bell_active from "/src/assets/paramedic/request-bell-active.png"
 import cellphone from "/src/assets/paramedic/cellphone.png"
 import record_video_black from "/src/assets/paramedic/record-video-black.png"
 import record_video_pink from "/src/assets/paramedic/record-video-pink.png"
@@ -86,7 +88,9 @@ export const ImgSetupDeactivate = styled(StyledImage).attrs({src: setup_deactiva
 
 //paramedic
 export const ImgAmbulance = styled(StyledImage).attrs({src: ambulance})``;
+export const ImgAmbulanceActive = styled(StyledImage).attrs({src: ambulance_active})``;
 export const ImgRequestBell = styled(StyledImage).attrs({src: request_bell})``;
+export const ImgRequestBellActive = styled(StyledImage).attrs({src: request_bell_active})``;
 export const ImgCellphone = styled(StyledImage).attrs({src: cellphone})``;
 export const ImgRecordVideoBlack = styled(StyledImage).attrs({src: record_video_black})``;
 export const ImgRecordVideoPink = styled(StyledImage).attrs({src: record_video_pink})``;
