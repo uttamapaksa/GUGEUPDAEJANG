@@ -47,9 +47,12 @@ export interface ParamedicItem {
     id: number,
     addr: string,
     pos: Position,
-    ktas: number,
+    ktas: string,
     elapseMin: number,
     leftTime: number,
+    paraType: string,
+    paraTag: string[],
+    paraInfo: string,
     requestAt?: string,
 };
 
@@ -91,7 +94,7 @@ function Map(props: MapProps) {
         }
     }, [props]);
 
-    const selectMarker = (markerId: number) =>{
+    const selectMarker = (markerId: number) => {
         console.log(markerId);
         console.log("ssssssssssssssssssss");
         setSelectedMarker(markerId);
@@ -108,10 +111,10 @@ function Map(props: MapProps) {
                         <><HospitalMarker {...props} map={map} /></> :
                         <></>}
                     {props.type === "hospital" ?
-                        <><ParamedicMarker {...props} 
-                            selectMarker={(markerId: number)=>selectMarker(markerId)} 
+                        <><ParamedicMarker {...props}
+                            selectMarker={(markerId: number) => selectMarker(markerId)}
                             map={map} />
-                        <ParamedicInfo {...props} map={map} /></> :
+                            <ParamedicInfo {...props} map={map} /></> :
                         <></>
                     }
                 </> :

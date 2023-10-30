@@ -27,61 +27,61 @@ const HopsitalSidebar = () => {
     <SidebarContainer>
       {buttonState[0] ? (
         <ImgTransferActivate
-          $width="3vw"
-          $height="3vw"
+          $width="30px"
+          $height="30px"
           $position="relative"
           $left="50%"
           $transform="translate(-50%, 0%)"
-          $margin="0.25vw 0"
+          $margin="4px auto"
         />
       ) : (
         <ImgTransferDeactivate
-          $width="2.3vw"
-          $height="2vw"
+          $width="26px"
+          $height="22px"
           $position="relative"
           $left="50%"
           $transform="translate(-50%, 0%)"
-          $margin="0.75vw 0"
+          $margin="8px auto"
           onClick={() => changeButtonState(0)}
         />
       )}
       {buttonState[1] ? (
         <ImgHistoryActivate
-          $width="3vw"
-          $height="3vw"
+          $width="30px"
+          $height="30px"
           $position="relative"
           $left="50%"
           $transform="translate(-50%, 0%)"
-          $margin="0.25vw 0"
+          $margin="4px auto"
         />
       ) : (
         <ImgHistoryDeactivate
-          $width="2vw"
-          $height="2vw"
+          $width="26px"
+          $height="26px"
           $position="relative"
           $left="50%"
           $transform="translate(-50%, 0%)"
-          $margin="0.75vw 0"
+          $margin="6px auto"
           onClick={() => changeButtonState(1)}
         />
       )}
       {buttonState[2] ? (
         <ImgStatisticActivate
-          $width="3vw"
-          $height="3vw"
+          $width="30px"
+          $height="30px"
           $position="relative"
           $left="50%"
           $transform="translate(-50%, 0%)"
-          $margin="0.25vw 0"
+          $margin="4px auto"
         />
       ) : (
         <ImgStatisticDeactivate
-          $width="2.5vw"
-          $height="2.5vw"
+          $width="26px"
+          $height="26px"
           $position="relative"
           $left="50%"
           $transform="translate(-50%, 0%)"
-          $margin="0.5vw 0"
+          $margin="6px auto"
           onClick={() => changeButtonState(2)}
         />
       )}

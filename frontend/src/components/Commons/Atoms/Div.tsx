@@ -77,7 +77,7 @@ const StyledDiv = styled.button<DivProps>`
 `
 
 export const DivKtasInfo = styled(StyledDiv)`
-  border-radius: 0px 30px 0px 20px;
+  border-radius: ${(props) => props.$borderRadius || "0px 30px 0px 20px"};
   font-weight: 900;
 
   color: ${(props) => 

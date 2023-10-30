@@ -8,3 +8,9 @@ export const hospitalComponentType = atom({
   default: [true, false, false],
   effects_UNSTABLE: [persistAtom],
 });
+
+export const hospitalSidebarType = atom({
+  key: "hospitalSidebarType",
+  default: true,
+  effects_UNSTABLE: [persistAtom],
+});
