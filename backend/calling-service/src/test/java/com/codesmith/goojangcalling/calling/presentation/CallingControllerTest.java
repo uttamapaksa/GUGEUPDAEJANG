@@ -76,4 +76,13 @@ class CallingControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().json(expectedJson));
     }
+
+    @DisplayName("사용자 태그를 삭제한다.")
+    @Test
+    void 사용자_태그를_삭제한다() throws Exception {
+        Long expectedTagId = 2L;
+
+        mockMvc.perform(delete("/calling/tag/" + expectedTagId))
+                .andExpect(status().isOk());
+    }
 }

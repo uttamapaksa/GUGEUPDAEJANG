@@ -20,7 +20,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class MemberTagServiceTest {
@@ -78,5 +78,16 @@ class MemberTagServiceTest {
         verify(memberTagRepository).save(Mockito.any(MemberTag.class));
 
         assertThat(memberTagResponse.getTag().getName()).isEqualTo(inputTagName);
+    }
+
+    @DisplayName("사용자 태그에서 삭제하고싶은 태그가 존재하면 삭제한다.")
+    @Test
+    void 사용자_태그에서_삭제하고싶은_태그가_존재으면_삭제한다() throws Exception {
+        String inputTagName = "교통사고";
+        Tag tag = new Tag(3L, inputTagName);
+        when(tagRepository.findById(tag.getId())).thenReturn(Optional.of(tag));
+        memberTagService.deleteMemberTag(memberId, tag.getId());
+
+        verify(memberTagRepository, times(1)).deleteByMemberIdAndTag(eq(memberId), any(Tag.class));
     }
 }

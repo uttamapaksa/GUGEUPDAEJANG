@@ -7,9 +7,9 @@ import com.codesmith.goojangcalling.calling.persistence.domain.MemberTag;
 import com.codesmith.goojangcalling.calling.persistence.domain.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,5 +41,14 @@ public class MemberTagServiceImpl implements MemberTagService {
         tagRepository.save(createTag);
         memberTagRepository.save(new MemberTag(memberId, createTag));
         return new MemberTagResponse(createTag);
+    }
+
+    @Transactional
+    @Override
+    public void deleteMemberTag(Long memberId, Long tagId) {
+        memberTagValidator.validateTag(tagId);
+        Tag tag = tagRepository.findById(tagId).get();
+        memberTagValidator.validateExistMemberTag(memberId, tag);
+        memberTagRepository.deleteByMemberIdAndTag(memberId, tag);
     }
 }

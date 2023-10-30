@@ -37,4 +37,10 @@ public class CallingController {
     public ResponseEntity<MemberTagResponse> addMemberTag(@RequestBody AddMemberTagRequest addMemberTagRequest) {
         return ResponseEntity.ok(memberTagService.addMemberTag(memberId, addMemberTagRequest.getTagName()));
     }
+
+    @DeleteMapping("/tag/{tagId}")
+    public ResponseEntity<Void> deleteMemberTag(@PathVariable Long tagId) {
+        memberTagService.deleteMemberTag(memberId, tagId);
+        return ResponseEntity.ok().build();
+    }
 }
