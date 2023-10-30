@@ -29,9 +29,15 @@ spring:
     port: ${MEMBER_REDIS_PORT}
     password: ${MEMBER_REDIS_PASSWORD}
     database: 0
+    time-to-live: 604800000
 eureka:
   client:
     register-with-eureka: true
     fetch-registry: true
     service-url:
       defaultZone: https://k9b204.p.ssafy.io:8761/eureka
+jwt:
+  expiration:
+    access: 86400000
+    refresh: 604800000
+  key: ${SECRETE_KEY}
