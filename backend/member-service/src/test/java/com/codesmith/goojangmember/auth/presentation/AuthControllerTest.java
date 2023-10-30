@@ -35,7 +35,7 @@ class AuthControllerTest {
 
         String requestBody = objectMapper.writeValueAsString(authLoginRequest);
 
-        mockMvc.perform(post("/member/login")
+        mockMvc.perform(post("/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody)
                 )
