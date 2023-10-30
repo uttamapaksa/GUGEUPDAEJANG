@@ -42,4 +42,12 @@ public class MemberTagServiceImpl implements MemberTagService {
         memberTagRepository.save(new MemberTag(memberId, createTag));
         return new MemberTagResponse(createTag);
     }
+
+    @Override
+    public void deleteMemberTag(Long memberId, Long tagId) {
+        memberTagValidator.validateTag(tagId);
+        Tag tag = tagRepository.findById(tagId).get();
+        memberTagValidator.validateExistMemberTag(memberId, tag);
+        memberTagRepository.deleteByMemberIdAndTag(memberId, tag);
+    }
 }

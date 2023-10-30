@@ -17,4 +17,6 @@ public interface MemberTagRepository extends JpaRepository<MemberTag, Long> {
     Optional<MemberTag> findByMemberIdAndTag(Long memberId, Tag tag);
 
     void deleteByMemberIdAndTag(Long memberId, Tag tag);
+
+    boolean existsByMemberIdAndTag(Long memberId, Tag tag);
 }

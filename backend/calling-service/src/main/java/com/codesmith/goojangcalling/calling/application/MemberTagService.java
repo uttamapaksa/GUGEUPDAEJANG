@@ -8,4 +8,6 @@ public interface MemberTagService {
     List<MemberTagResponse> getMemberTagList(Long memberId);
 
     MemberTagResponse addMemberTag(Long memberId, String tagName);
+
+    void deleteMemberTag(Long memberId, Long tagId);
 }
