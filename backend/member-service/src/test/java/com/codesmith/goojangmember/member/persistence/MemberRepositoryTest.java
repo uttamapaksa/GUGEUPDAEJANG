@@ -79,4 +79,15 @@ class MemberRepositoryTest {
         assertEquals(savedMember, savedParamedicDetail.getMember());
         assertEquals(safetyCenter, savedParamedicDetail.getSafetyCenter());
     }
+
+    @DisplayName("사용자 정보를 가져온다")
+    @Test
+    void 사용자_정보를_가져온다() {
+        String email = "paramedic@example.com";
+
+        Member foundMember = memberRepository.findByEmail(email);
+
+        assertNotNull(foundMember);
+        assertEquals(email, foundMember.getEmail());
+    }
 }
