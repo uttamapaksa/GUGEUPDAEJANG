@@ -6,6 +6,10 @@ server:
     key-store: keystore.p12
     key-store-password: 9979
 spring:
+  application:
+    name: member-service
+  main:
+    allow-bean-definition-overriding: true
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
     url: ${MEMBER_MARIA_URL}
@@ -18,11 +22,22 @@ spring:
       properties:
         hibernate:
           default_batch_fetch_size: 500
-  application:
-    name: member-service
+  cache:
+    type: redis
+  redis:
+    host: ${MEMBER_REDIS_HOST}
+    port: ${MEMBER_REDIS_PORT}
+    password: ${MEMBER_REDIS_PASSWORD}
+    database: 0
+    time-to-live: 604800000
 eureka:
   client:
     register-with-eureka: true
     fetch-registry: true
     service-url:
       defaultZone: https://k9b204.p.ssafy.io:8761/eureka
+jwt:
+  expiration:
+    access: 86400000
+    refresh: 604800000
+  key: ${SECRETE_KEY}

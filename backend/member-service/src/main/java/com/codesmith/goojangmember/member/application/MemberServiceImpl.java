@@ -1,5 +1,8 @@
 package com.codesmith.goojangmember.member.application;
 
+import com.codesmith.goojangmember.auth.application.TokenProvider;
+import com.codesmith.goojangmember.auth.dto.request.AuthLoginRequest;
+import com.codesmith.goojangmember.auth.dto.response.AuthLoginResponse;
 import com.codesmith.goojangmember.member.dto.request.HospitalJoinRequest;
 import com.codesmith.goojangmember.member.dto.request.ParamedicJoinRequest;
 import com.codesmith.goojangmember.member.persistence.HospitalDetailRepository;
@@ -23,6 +26,7 @@ public class MemberServiceImpl implements MemberService {
     private final SafetyCenterRepository safetyCenterRepository;
     private final MemberValidator memberValidator;
     private final PasswordEncoder passwordEncoder;
+    private final TokenProvider tokenProvider;
 
     @Override
     public Member getMemberInfo(Long memberId) {

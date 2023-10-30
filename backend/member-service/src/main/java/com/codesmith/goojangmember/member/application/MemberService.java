@@ -1,5 +1,7 @@
 package com.codesmith.goojangmember.member.application;
 
+import com.codesmith.goojangmember.auth.dto.request.AuthLoginRequest;
+import com.codesmith.goojangmember.auth.dto.response.AuthLoginResponse;
 import com.codesmith.goojangmember.member.dto.request.HospitalJoinRequest;
 import com.codesmith.goojangmember.member.dto.request.ParamedicJoinRequest;
 import com.codesmith.goojangmember.member.persistence.domain.HospitalDetail;

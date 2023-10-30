@@ -24,4 +24,10 @@ public class MemberValidator {
             throw new SafetyCenterNotFoundException("없는 안전센터 ID");
         }
     }
+
+    public void doesEmailExist(String email) {
+        if (!memberRepository.existsByEmail(email)) {
+            throw new SafetyCenterNotFoundException("없는 이메일");
+        }
+    }
 }
