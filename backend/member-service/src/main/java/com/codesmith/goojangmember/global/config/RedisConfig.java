@@ -29,7 +29,9 @@ public class RedisConfig {
         redisConfiguration.setPort(port);
         redisConfiguration.setPassword(password);
         redisConfiguration.setDatabase(0);
-        return new LettuceConnectionFactory(redisConfiguration);
+        LettuceConnectionFactory lettuceConnectionFactory = new LettuceConnectionFactory(redisConfiguration);
+        lettuceConnectionFactory.isUseSsl();
+        return lettuceConnectionFactory;
     }
 
 }
