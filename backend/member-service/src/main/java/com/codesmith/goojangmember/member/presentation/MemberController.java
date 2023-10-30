@@ -3,11 +3,14 @@ package com.codesmith.goojangmember.member.presentation;
 import com.codesmith.goojangmember.member.application.MemberService;
 import com.codesmith.goojangmember.member.dto.request.HospitalJoinRequest;
 import com.codesmith.goojangmember.member.dto.request.ParamedicJoinRequest;
+import com.codesmith.goojangmember.member.dto.response.HospitalListResponse;
 import com.codesmith.goojangmember.member.persistence.domain.Member;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 
@@ -23,7 +26,7 @@ public class MemberController {
     }
 
     @GetMapping("/hospital")
-    public ResponseEntity<List<String>> getHospitalListFromHere(@RequestParam Double latitude, @RequestParam Double longitude, @RequestParam Double distance) {
+    public ResponseEntity<List<HospitalListResponse>> getHospitalListFromHere(@RequestParam Double latitude, @RequestParam Double longitude, @RequestParam Double distance) throws JsonProcessingException {
         return ResponseEntity.ok(memberService.getHospitalList(latitude, longitude, distance));
     }
 
