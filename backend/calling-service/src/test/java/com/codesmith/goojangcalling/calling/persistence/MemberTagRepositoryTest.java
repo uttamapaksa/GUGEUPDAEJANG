@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +26,9 @@ class MemberTagRepositoryTest {
 
     @Autowired
     private TagRepository tagRepository;
+
+    @Autowired
+    private TestEntityManager em;
 
     @DisplayName("사용자 태그를 조회한다.")
     @Test
@@ -82,5 +86,20 @@ class MemberTagRepositoryTest {
 
         assertThat(savedMemberTag.getMemberId()).isEqualTo(521L);
         assertThat(savedMemberTag.getTag()).isEqualTo(tag);
+    }
+
+    @DisplayName("사용자 태그를 삭제한다.")
+    @Test
+    void 사용자_태그를_삭제한다() throws Exception {
+        Long memberId = 521L;
+        Tag tag = new Tag("교통사고");
+        em.persistAndFlush(tag);
+        MemberTag memberTag = new MemberTag(memberId, tag);
+        em.persistAndFlush(memberTag);
+
+        memberTagRepository.deleteByMemberIdAndTag(memberId, tag);
+
+        Optional<MemberTag> findMemberTag = memberTagRepository.findByMemberIdAndTag(memberId, tag);
+        assertThat(findMemberTag.isPresent()).isFalse();
     }
 }
