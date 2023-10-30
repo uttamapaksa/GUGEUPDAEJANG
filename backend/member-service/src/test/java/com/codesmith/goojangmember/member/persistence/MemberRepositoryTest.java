@@ -60,7 +60,7 @@ class MemberRepositoryTest {
     @DisplayName("구급대원 회원이 성공적으로 추가된다")
     @Test
     void 구급대원_회원이_성공적으로_추가된다() {
-        Member newMember = new Member("paramedic@example.com", "password123", "Paramedic User", "profile.jpg", Role.PARAMEDIC);
+        Member newMember = new Member("paramedic@addtest.com", "password123", "Paramedic User", "profile.jpg", Role.PARAMEDIC);
         Member savedMember = memberRepository.save(newMember);
 
         assertNotNull(savedMember.getId());
@@ -78,6 +78,8 @@ class MemberRepositoryTest {
         assertNotNull(savedParamedicDetail.getId());
         assertEquals(savedMember, savedParamedicDetail.getMember());
         assertEquals(safetyCenter, savedParamedicDetail.getSafetyCenter());
+
+        memberRepository.deleteByEmail(savedMember.getEmail());
     }
 
     @DisplayName("사용자 정보를 가져온다")
