@@ -22,13 +22,13 @@ public class MemberTagValidator {
     }
 
     public void validateTag(Long tagId) {
-        if( !tagRepository.existsById(tagId) ) {
+        if(!tagRepository.existsById(tagId)) {
             throw new TagNotFoundException("존재하지 않는 태그입니다.");
         }
     }
 
     public void validateExistMemberTag(Long memberId, Tag tag) {
-        if ( !memberTagRepository.existsByMemberIdAndTag(memberId, tag) ) {
+        if (!memberTagRepository.existsByMemberIdAndTag(memberId, tag)) {
             throw new MemberTagNotFoundException("존재하지 않는 사용자 태그입니다.");
         }
     }
