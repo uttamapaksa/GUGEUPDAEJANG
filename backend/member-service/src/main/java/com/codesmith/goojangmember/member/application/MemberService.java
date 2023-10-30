@@ -16,5 +16,4 @@ public interface MemberService {
     List<String> getHospitalList(Double latitude, Double longitude, Double distance);
     HospitalDetail join(HospitalJoinRequest hospitalJoinRequest);
     ParamedicDetail join(ParamedicJoinRequest paramedicJoinRequest);
-    AuthLoginResponse login(AuthLoginRequest request);
 }

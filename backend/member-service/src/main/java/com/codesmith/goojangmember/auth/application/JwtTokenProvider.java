@@ -1,4 +1,4 @@
-package com.codesmith.goojangmember.global.jwt;
+package com.codesmith.goojangmember.auth.application;
 
 import com.codesmith.goojangmember.auth.exception.InvalidTokenException;
 import io.jsonwebtoken.*;
@@ -11,7 +11,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 @Component
-public class JwtTokenProvider {
+public class JwtTokenProvider implements TokenProvider {
     private final SecretKey key;
     private final long accessExpirationInMilliSeconds;
     private final long refreshExpirationRefreshInMilliSeconds;
@@ -24,14 +24,17 @@ public class JwtTokenProvider {
         this.refreshExpirationRefreshInMilliSeconds = refreshExpirationRefreshInMilliSeconds;
     }
 
+    @Override
     public String generateAccessToken(String payload) {
         return generateToken(payload, accessExpirationInMilliSeconds);
     }
 
+    @Override
     public String generateRefreshToken(String payload) {
         return generateToken(payload, refreshExpirationRefreshInMilliSeconds);
     }
 
+    @Override
     public String getPayload(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(key)
@@ -41,6 +44,7 @@ public class JwtTokenProvider {
                 .getSubject();
     }
 
+    @Override
     public void validateToken(String token) {
         try {
             Jws<Claims> claims = Jwts.parserBuilder()
