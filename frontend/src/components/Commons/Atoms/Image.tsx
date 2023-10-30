@@ -32,6 +32,7 @@ import arrow_right from "/src/assets/share/arrow-right.png"
 import arrow_bottom from "/src/assets/share/arrow-bottom.png"
 import arrow_left from "/src/assets/share/arrow-left.png"
 import arrow_up from "/src/assets/share/arrow-up.png"
+import bar from "/src/assets/share/bar.png"
 
 interface ImageProps {
   $height?: string;
@@ -68,7 +69,7 @@ const StyledImage = styled.img<ImageProps>`
   bottom: ${(props) => props.$bottom};
   right: ${(props) => props.$right};
   left: ${(props) => props.$left};
-  z-index: ${(props) => props.$zIndex};
+  z-index: ${(props) => props.$zIndex}; 
 `
 
 // hospital
@@ -103,3 +104,4 @@ export const ImgArrowRight = styled(StyledImage).attrs({src: arrow_right})``;
 export const ImgArrowBottom = styled(StyledImage).attrs({src: arrow_bottom})``;
 export const ImgArrowLeft = styled(StyledImage).attrs({src: arrow_left})``;
 export const ImgArrowUp = styled(StyledImage).attrs({src: arrow_up})``;
+export const ImgBar = styled(StyledImage).attrs({src: bar})``;
