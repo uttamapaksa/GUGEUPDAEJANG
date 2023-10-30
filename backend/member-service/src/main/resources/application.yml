@@ -25,6 +25,7 @@ spring:
   cache:
     type: redis
   redis:
+    ssl: true
     host: ${MEMBER_REDIS_HOST}
     port: ${MEMBER_REDIS_PORT}
     password: ${MEMBER_REDIS_PASSWORD}
@@ -36,6 +37,8 @@ eureka:
     fetch-registry: true
     service-url:
       defaultZone: https://k9b204.p.ssafy.io:8761/eureka
+    instance:
+      prefer-ip-address: true
 jwt:
   expiration:
     access: 86400000
