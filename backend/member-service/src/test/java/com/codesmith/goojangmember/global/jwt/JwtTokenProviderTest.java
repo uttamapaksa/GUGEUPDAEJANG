@@ -1,31 +1,25 @@
 package com.codesmith.goojangmember.global.jwt;
 
+import com.codesmith.goojangmember.auth.exception.InvalidTokenException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.test.context.ContextConfiguration;
 
+import javax.crypto.SecretKey;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class JwtTokenProviderTest {
-    private JwtTokenProvider jwtTokenProvider;
-
-    @Mock
-    private Keys keys;
-
+    private final JwtTokenProvider jwtTokenProvider = new JwtTokenProvider("SecretKeySecretKeySecretKeySecretKey", 3600000, 7200000);
     private final String validPayload = "validPayload";
     private final String invalidToken = "invalidToken";
-
-    @BeforeEach
-    public void setUp() {
-        MockitoAnnotations.initMocks(this);
-        jwtTokenProvider = new JwtTokenProvider();
-    }
 
     @Test
     public void testCreateAccessToken() {
@@ -54,6 +48,6 @@ class JwtTokenProviderTest {
 
     @Test
     public void testValidateTokenWithInvalidToken() {
-        assertThrows(MalformedJwtException.class, () -> jwtTokenProvider.validateToken(invalidToken));
+        assertThrows(InvalidTokenException.class, () -> jwtTokenProvider.validateToken(invalidToken));
     }
 }
