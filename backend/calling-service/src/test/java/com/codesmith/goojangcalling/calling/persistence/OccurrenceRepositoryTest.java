@@ -23,9 +23,6 @@ import static org.assertj.core.api.Assertions.*;
 class OccurrenceRepositoryTest {
 
     @Autowired
-    private OccurrenceRepository occurrenceRepository;
-
-    @Autowired
     TestEntityManager em;
 
     private Long memberId;
@@ -45,7 +42,7 @@ class OccurrenceRepositoryTest {
         CallingRequest callingRequest = new CallingRequest(files, KTAS.KTAS2, AgeGroup.YOUTH, Gender.MALE, "아파요", tagNames, 35.123, 127.123);
         Occurrence occurrence = new Occurrence(memberId, callingRequest.getKtas(), callingRequest.getAgeGroup(), callingRequest.getGender(), callingRequest.getSymptom(), callingRequest.getLatitude(), callingRequest.getLongitude());
 
-        Occurrence savedOccurrence = occurrenceRepository.save(occurrence);
+        Occurrence savedOccurrence = em.persist(occurrence);
 
         assertThat(savedOccurrence.getKtas()).isEqualTo(callingRequest.getKtas());
         assertThat(savedOccurrence.getAgeGroup()).isEqualTo(callingRequest.getAgeGroup());
