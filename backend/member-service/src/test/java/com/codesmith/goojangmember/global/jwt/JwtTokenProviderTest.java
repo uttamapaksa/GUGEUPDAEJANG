@@ -1,19 +1,9 @@
 package com.codesmith.goojangmember.global.jwt;
 
+import com.codesmith.goojangmember.auth.application.JwtTokenProvider;
 import com.codesmith.goojangmember.auth.exception.InvalidTokenException;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.test.context.ContextConfiguration;
-
-import javax.crypto.SecretKey;
-import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 

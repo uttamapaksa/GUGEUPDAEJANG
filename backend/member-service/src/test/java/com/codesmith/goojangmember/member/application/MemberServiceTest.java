@@ -1,5 +1,8 @@
 package com.codesmith.goojangmember.member.application;
 
+import com.codesmith.goojangmember.auth.application.TokenProvider;
+import com.codesmith.goojangmember.auth.dto.request.AuthLoginRequest;
+import com.codesmith.goojangmember.auth.dto.response.AuthLoginResponse;
 import com.codesmith.goojangmember.member.dto.request.HospitalJoinRequest;
 import com.codesmith.goojangmember.member.dto.request.ParamedicJoinRequest;
 import com.codesmith.goojangmember.member.persistence.HospitalDetailRepository;
@@ -39,7 +42,8 @@ class MemberServiceTest {
     private SafetyCenterRepository safetyCenterRepository;
     @Mock
     private MemberValidator memberValidator;
-
+    @Mock
+    private TokenProvider tokenProvider;
     @Mock
     private PasswordEncoder passwordEncoder;
     @InjectMocks
@@ -98,6 +102,22 @@ class MemberServiceTest {
 
         assertThat(savedParamedicDetail.getId()).isEqualTo(1L);
         assertThat(savedParamedicDetail.getSafetyCenter().getId()).isEqualTo(paramedicJoinRequest.getCenterId());
+    }
+
+    @Test
+    @DisplayName("로그인 정보를 검증한다")
+    void 로그인_정보를_검증한다() {
+        AuthLoginRequest request = new AuthLoginRequest("hello@naver.com", "1234");
+        String encodedPassword = passwordEncoder.encode(request.getPassword());
+
+        given(memberRepository.findByEmail("hello@naver.com")).willReturn(new Member(1L, request.getEmail(), encodedPassword, "nameHello", "imagePath", Role.PARAMEDIC));
+        given(tokenProvider.generateAccessToken("hello@naver.com")).willReturn("newAccessToken");
+        given(tokenProvider.generateRefreshToken("hello@naver.com")).willReturn("newRefreshToken");
+
+        AuthLoginResponse response = memberService.login(request);
+
+        assertThat(response.getAccessToken()).isEqualTo("newAccessToken");
+        assertThat(response.getRefreshToken()).isEqualTo("newRefreshToken");
     }
 
 //    @Test
