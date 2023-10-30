@@ -13,8 +13,8 @@ export const Wrapper = styled.div`
   align-items: center;
   /* border: 3px solid red;   */
   width: 60vh;  
-  padding-left: 3vw;
-  padding-right: 3vw;
+  padding-left: 1vh;
+  padding-right: 1vh;
   height: 60vh;
   padding-top: 20vh;
   padding-bottom: 20vh;

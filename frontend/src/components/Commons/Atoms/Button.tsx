@@ -17,6 +17,7 @@ interface ButtonProps {
   $border?: string;
   $borderRadius?: string;
   $boxSizing?: string;
+  $boxShadow?: string;
 
   $color?: string;
   $fontSize?: string;
@@ -51,6 +52,7 @@ const StyledButton = styled.button<ButtonProps>`
   border: ${(props) => props.$border || "0px"};
   border-radius: ${(props) => props.$borderRadius};
   box-sizing: ${(props) => props.$boxSizing};
+  box-shadow: ${(props) => props.$boxShadow};
 
   color: ${(props) => props.$color};
   font-size: ${(props) => props.$fontSize};
@@ -89,8 +91,14 @@ export const BtnSubmit = styled(StyledButton)`
 export const BtnParaState = styled(StyledButton)`
   flex-direction: column;
   padding: 2%;
-  border-radius: 20px;
-  box-shadow: 0px 0px 10px 4px rgba(0, 0, 0, 0.25);
+  /* border-radius: 20px; */
+  border-radius: 2vh;
+  /* box-shadow: 0px 0px 10px 4px rgba(0, 0, 0, 0.25); */
+  box-shadow: 0 0 1vh 0.4vh rgba(0, 0, 0, 0.25);
+  color: ${(props) => props.$IsClick ? theme.color.white : theme.color.black};
+  background-color: ${(props) => props.$IsClick ? theme.color.grayDarkest : theme.color.white};
+  transition: color 0.2s ease-in-out;
+  transition: background-color 0.2s ease-in-out;
 `
 
 export const BtnKtas = styled(StyledButton)`
@@ -111,24 +119,27 @@ export const BtnKtas = styled(StyledButton)`
   background-color: ${(props) =>
     props.$ktas && props.$IsClick ? theme.color[`${props.$ktas}_Active`] :
     props.$ktas && !props.$IsClick ? theme.color[`${props.$ktas}_Deactive`]:""};
-`
-
-export const BtnToggle = styled(StyledButton)`
+  
+  transition: background-color 0.2s ease-in-out;
+  `
+  
+  export const BtnToggle = styled(StyledButton)`
   font-size: ${(props) => 
     props.$fontSize ? `${props.$fontSize}` : ` ${theme.font.Medium2_24}`};
   border-radius: ${(props) => 
     props.$borderRadius ? `${props.$borderRadius}` : "20px"};
   border: ${(props) => `3px solid ${props.$border}`};
   flex-direction: column;
-
+  
   ${(props) =>
     props.$IsClick && 
     css`
       color: ${theme.color.white};
       background-color: ${theme.color.grayDarkest};
       box-shadow: 0px 0px 10px 4px rgba(0, 0, 0, 0.20);
-  `}
-`
+      `}
+  transition: background-color 0.2s ease-in-out;
+  `
 
 export const BtnMediaRecord = styled(StyledButton)`
   justify-content: space-around;
