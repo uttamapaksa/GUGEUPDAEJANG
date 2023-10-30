@@ -1,22 +1,13 @@
 import styled from "styled-components";
 import Map, { MapProps } from "/src/components/libraries/Map/Map";
-import theme from "/src/styles";
 import { ImgLogo, ImgLogoHospital } from "../../Commons/Atoms/Image";
-
-export const HeaderContainer = styled.div`
-  width: 100%;
-  height: 5%;
-  position: fixed;
-  background-color: ${theme.color.white};
-  z-index: 10001;
-`;
+import { HeaderContainer } from "./HopsitalHeader.style";
 
 const HopsitalHeader = () => {
   return (
     <HeaderContainer>
-        {/* transform: translate(-50%, -50%); */}
-      <ImgLogo $height="100%" $position="absolute" $top="10%"></ImgLogo>
-      <ImgLogoHospital $height="80%" $position="absolute" $top="10%" $right="20px"></ImgLogoHospital>
+      <ImgLogo $height="60%" $position="absolute" $top="50%" $left="1%" $transform="translate(0, -50%)"></ImgLogo>
+      <ImgLogoHospital $height="70%" $position="absolute" $top="50%" $right="1%" $transform="translate(0, -50%)"></ImgLogoHospital>
     </HeaderContainer>
   );
 };

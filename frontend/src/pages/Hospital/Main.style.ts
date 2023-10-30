@@ -10,6 +10,6 @@ export const ComponentContainer = styled.div`
   width: 96%;
   height: 95%;
   top: 5%;
-  left: 4%;
+  left: 50px;
   position: fixed;
 `;

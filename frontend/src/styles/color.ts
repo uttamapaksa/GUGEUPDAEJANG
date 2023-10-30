@@ -1,6 +1,7 @@
 const color = {
   black : "#000000",
   white : "#FFFFFF",
+  light : "#EDE5D8",
 
   // text color
   fontGrey1: "#818181",

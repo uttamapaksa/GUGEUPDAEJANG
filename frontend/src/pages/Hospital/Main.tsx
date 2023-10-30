@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { MapProps, ParamedicItem } from "../../components/libraries/Map/Map";
-import styled from "styled-components";
 import useGeolocation from "react-hook-geolocation";
-import HospitalMap from "/src/components/Hospital/Main/HospitalMap/HospitalMap";
 import HopsitalHeader from "/src/components/Hospital/HospitalHeader/HopsitalHeader";
 import HopsitalSidebar from "/src/components/Hospital/HospitalSidebar/HopsitalSidebar";
 import { useRecoilValue } from "recoil";
@@ -10,51 +8,66 @@ import { hospitalComponentType } from "/src/components/Hospital/HospitalAtoms";
 import HospitalMain from "/src/components/Hospital/Main/HospitalMain";
 import { ComponentContainer, Container } from "./Main.style";
 
-const posList = [
+const parList = [
   //다중 마커 저장 배열
   {
     id: 1,
     addr: "주소",
     pos: { lat: 37.5652045, lon: 126.98702028 }, //좌표 지정
-    ktas: 1,
+    ktas: "ktas1",
     elapseMin: 14,
     leftTime: 10,
+    paraType: "청년 (여)",
+    paraTag: ["추락", "과다출혈", "아픔", "많이 아픔", "골절", "타박상", "복합골절"],
+    paraInfo: "2층 높이 추락 사고 20대 여성 머리 출혈 환자 발생하였습니다.\n심정지 이력이 있는 환자입니다. 비상비상비상비상비상비상비상비상비상zzzzzzzzzzz비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상xxxxxxxxxxxx비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상",
     requestAt: "오전 01:34",
   },
   {
     id: 2,
     addr: "주소",
     pos: { lat: 37.566369, lon: 126.984895 },
-    ktas: 2,
+    ktas: "ktas2",
     elapseMin: 8,
     leftTime: 19,
+    paraType: "청년 (여)",
+    paraTag: ["추락", "과다출혈"],
+    paraInfo: "2층 높이 추락 사고 20대 여성 머리 출혈 환자 발생하였습니다.\n심정지 이력이 있는 환자입니다.",
     requestAt: "오전 01:51",
   },
   {
     id: 3,
     addr: "주소",
     pos: { lat: 37.563709, lon: 126.989577 },
-    ktas: 3,
+    ktas: "ktas3",
     elapseMin: 19,
     leftTime: 31,
+    paraType: "청년 (여)",
+    paraTag: ["추락", "과다출혈"],
+    paraInfo: "2층 높이 추락 사고 20대 여성 머리 출혈 환자 발생하였습니다.\n심정지 이력이 있는 환자입니다.",
     requestAt: "오전 02:04",
   },
   {
     id: 4,
     addr: "주소",
     pos: { lat: 37.565138, lon: 126.983655 },
-    ktas: 4,
+    ktas: "ktas4",
     elapseMin: 21,
     leftTime: 24,
+    paraType: "청년 (여)",
+    paraTag: ["추락", "과다출혈"],
+    paraInfo: "2층 높이 추락 사고 20대 여성 머리 출혈 환자 발생하였습니다.\n심정지 이력이 있는 환자입니다.",
     requestAt: "오전 01:19",
   },
   {
     id: 5,
     addr: "주소",
     pos: { lat: 37.565128, lon: 126.98883 },
-    ktas: 5,
+    ktas: "ktas5",
     elapseMin: 4,
     leftTime: 11,
+    paraType: "청년 (여)",
+    paraTag: ["추락", "과다출혈"],
+    paraInfo: "2층 높이 추락 사고 20대 여성 머리 출혈 환자 발생하였습니다.\n심정지 이력이 있는 환자입니다. 비상~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
     requestAt: "오전 01:31",
   },
 ];
@@ -65,7 +78,7 @@ function Main() {
 
   //통신 이전 테스트용 더미 데이터 -----
   const [counter, setCounter] = useState(0);
-  const [dummyData, setDummyData] = useState<ParamedicItem[]>(posList);
+  const [dummyData, setDummyData] = useState<ParamedicItem[]>(parList);
 
   const geolocation = useGeolocation();
 
@@ -99,6 +112,9 @@ function Main() {
         ktas: item.ktas,
         elapseMin: item.elapseMin,
         leftTime: item.leftTime,
+        paraType: item.paraType,
+        paraTag: item.paraTag,
+        paraInfo: item.paraInfo,
         requestAt: item.requestAt,
       });
     });
