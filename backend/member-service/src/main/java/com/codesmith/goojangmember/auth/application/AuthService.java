@@ -11,8 +11,10 @@ import com.codesmith.goojangmember.member.persistence.MemberRepository;
 import com.codesmith.goojangmember.member.persistence.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
+@Service
 public class AuthService {
     private final TokenProvider tokenProvider;
     private final MemberRepository memberRepository;
