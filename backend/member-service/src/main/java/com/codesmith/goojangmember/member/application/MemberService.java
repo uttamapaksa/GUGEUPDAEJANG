@@ -16,7 +16,7 @@ import java.util.List;
 
 public interface MemberService {
     Member getMemberInfo(Long memberId);
-    List<HospitalListResponse> getHospitalList(Double latitude, Double longitude, Double distance) throws JsonProcessingException;
+    List<HospitalListResponse> getHospitalList(Double latitude, Double longitude, Double distance) throws IOException;
     HospitalDetail join(HospitalJoinRequest hospitalJoinRequest);
     ParamedicDetail join(ParamedicJoinRequest paramedicJoinRequest);
 }

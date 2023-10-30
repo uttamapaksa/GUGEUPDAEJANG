@@ -12,11 +12,12 @@ import com.codesmith.goojangmember.member.persistence.MemberRepository;
 import com.codesmith.goojangmember.member.persistence.ParamedicDetailRepository;
 import com.codesmith.goojangmember.member.persistence.SafetyCenterRepository;
 import com.codesmith.goojangmember.member.persistence.domain.*;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -39,12 +40,12 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public List<HospitalListResponse> getHospitalList(Double latitude, Double longitude, Double distance) throws JsonProcessingException {
+    public List<HospitalListResponse> getHospitalList(Double latitude, Double longitude, Double distance) throws IOException {
         List<String> hospitalList = hospitalDetailRepository.findHospitalWithinDistance(latitude, longitude, distance);
         memberValidator.validateExistNearByHospital(hospitalList);
         
         HashMap<String, Long> hospitalInfoMap = publicDataClient.getRealTimeERBedInfo();
-        List<HospitalListResponse> hospitalListResponseList = null;
+        List<HospitalListResponse> hospitalListResponseList = new ArrayList<>();
         for (String hospitalId : hospitalList) {
             if (hospitalInfoMap.containsKey(hospitalId) && hospitalInfoMap.get(hospitalId) > 0) {
                 HospitalDetail hospitalDetail = hospitalDetailRepository.findById(hospitalId).get();
