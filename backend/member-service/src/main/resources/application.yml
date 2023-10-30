@@ -24,13 +24,15 @@ spring:
           default_batch_fetch_size: 500
   cache:
     type: redis
-  redis:
-    ssl: true
-    host: ${MEMBER_REDIS_HOST}
-    port: ${MEMBER_REDIS_PORT}
-    password: ${MEMBER_REDIS_PASSWORD}
-    database: 0
-    time-to-live: 604800000
+  data:
+    redis:
+      host: ${MEMBER_REDIS_HOST}
+      port: ${MEMBER_REDIS_PORT}
+      password: ${MEMBER_REDIS_PASSWORD}
+      database: 0
+      time-to-live: 604800000
+      ssl:
+        enabled: true
 eureka:
   client:
     register-with-eureka: true
