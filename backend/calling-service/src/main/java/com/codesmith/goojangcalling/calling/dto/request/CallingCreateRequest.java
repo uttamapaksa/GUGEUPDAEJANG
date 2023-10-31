@@ -16,13 +16,13 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CallingRequest {
-    private List<FileUploadResponse> files;
+public class CallingCreateRequest {
     private KTAS ktas;
     private AgeGroup ageGroup;
     private Gender gender;
     private String symptom;
-    private List<Tag> tags;
     private Double latitude;
     private Double longitude;
+    private List<Tag> tags;
+    private List<FileUploadResponse> files;
 }

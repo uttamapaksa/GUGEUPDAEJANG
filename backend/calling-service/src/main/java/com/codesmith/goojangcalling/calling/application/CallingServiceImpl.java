@@ -1,6 +1,6 @@
 package com.codesmith.goojangcalling.calling.application;
 
-import com.codesmith.goojangcalling.calling.dto.request.CallingRequest;
+import com.codesmith.goojangcalling.calling.dto.request.CallingCreateRequest;
 import com.codesmith.goojangcalling.calling.persistence.OccurrenceFileRepository;
 import com.codesmith.goojangcalling.calling.persistence.OccurrenceRepository;
 import com.codesmith.goojangcalling.calling.persistence.OccurrenceTagRepository;
@@ -23,16 +23,16 @@ public class CallingServiceImpl implements CallingService{
 
 
     @Override
-    public void addOccurrence(Long memberId, CallingRequest callingRequest) {
-        Occurrence occurrence = new Occurrence(memberId, callingRequest.getKtas(), callingRequest.getAgeGroup(), callingRequest.getGender(), callingRequest.getSymptom(), callingRequest.getLatitude(), callingRequest.getLongitude());
+    public void addOccurrence(Long memberId, CallingCreateRequest callingCreateRequest) {
+        Occurrence occurrence = new Occurrence(memberId, callingCreateRequest.getKtas(), callingCreateRequest.getAgeGroup(), callingCreateRequest.getGender(), callingCreateRequest.getSymptom(), callingCreateRequest.getLatitude(), callingCreateRequest.getLongitude());
         occurrenceRepository.save(occurrence);
 
-        List<OccurrenceTag> occurrenceTagList = callingRequest.getTags().stream()
+        List<OccurrenceTag> occurrenceTagList = callingCreateRequest.getTags().stream()
                 .map(o -> new OccurrenceTag(occurrence, o))
                 .collect(Collectors.toList());
         occurrenceTagRepository.saveAll(occurrenceTagList);
 
-        List<OccurrenceFile> occurrenceFileList = callingRequest.getFiles().stream()
+        List<OccurrenceFile> occurrenceFileList = callingCreateRequest.getFiles().stream()
                 .map(o -> new OccurrenceFile(occurrence, o.getUploadUrl(), o.getContentType(), o.getSize()))
                 .collect(Collectors.toList());
         occurrenceFileRepository.saveAll(occurrenceFileList);

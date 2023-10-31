@@ -1,6 +1,6 @@
 package com.codesmith.goojangcalling.calling.application;
 
-import com.codesmith.goojangcalling.calling.dto.request.CallingRequest;
+import com.codesmith.goojangcalling.calling.dto.request.CallingCreateRequest;
 import com.codesmith.goojangcalling.calling.dto.response.FileUploadResponse;
 import com.codesmith.goojangcalling.calling.persistence.OccurrenceFileRepository;
 import com.codesmith.goojangcalling.calling.persistence.OccurrenceRepository;
@@ -39,7 +39,7 @@ class CallingServiceImplTest {
 
     private Occurrence occurrence;
     private Long memberId;
-    private CallingRequest callingRequest;
+    private CallingCreateRequest callingCreateRequest;
     private List<FileUploadResponse> files;
     private List<Tag> tags;
 
@@ -50,24 +50,24 @@ class CallingServiceImplTest {
         tags = new ArrayList<>();
         tags.add(new Tag(1L, "추락"));
         memberId = 521L;
-        callingRequest = new CallingRequest(files, KTAS.KTAS2, AgeGroup.YOUTH, Gender.MALE, "아파요", tags, 35.123, 127.123);
-        occurrence = new Occurrence(memberId, callingRequest.getKtas(), callingRequest.getAgeGroup(), callingRequest.getGender(), callingRequest.getSymptom(), callingRequest.getLatitude(), callingRequest.getLongitude());
+        callingCreateRequest = new CallingCreateRequest(KTAS.KTAS2, AgeGroup.YOUTH, Gender.MALE, "아파요", 35.123, 127.123, tags, files);
+        occurrence = new Occurrence(memberId, callingCreateRequest.getKtas(), callingCreateRequest.getAgeGroup(), callingCreateRequest.getGender(), callingCreateRequest.getSymptom(), callingCreateRequest.getLatitude(), callingCreateRequest.getLongitude());
     }
 
     @DisplayName("사고, 사고파일, 사고태그를 저장한다.")
     @Test
     void 사고_사고파일_사고태그를_저장한다() throws Exception {
-        List<OccurrenceTag> occurrenceTagList = callingRequest.getTags().stream()
+        List<OccurrenceTag> occurrenceTagList = callingCreateRequest.getTags().stream()
                 .map(o -> new OccurrenceTag(occurrence, o))
                 .collect(Collectors.toList());
-        List<OccurrenceFile> occurrenceFileList = callingRequest.getFiles().stream()
+        List<OccurrenceFile> occurrenceFileList = callingCreateRequest.getFiles().stream()
                 .map(o -> new OccurrenceFile(occurrence, o.getUploadUrl(), o.getContentType(), o.getSize()))
                 .collect(Collectors.toList());
         given(occurrenceRepository.save(Mockito.any(Occurrence.class))).willReturn(occurrence);
         given(occurrenceFileRepository.saveAll(Mockito.any(List.class))).willReturn(occurrenceFileList);
         given(occurrenceTagRepository.saveAll(Mockito.any(List.class))).willReturn(occurrenceTagList);
 
-        callingService.addOccurrence(memberId, callingRequest);
+        callingService.addOccurrence(memberId, callingCreateRequest);
 
         verify(occurrenceRepository).save(Mockito.any(Occurrence.class));
         verify(occurrenceFileRepository).saveAll(Mockito.any(List.class));

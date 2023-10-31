@@ -1,6 +1,6 @@
 package com.codesmith.goojangcalling.calling.persistence;
 
-import com.codesmith.goojangcalling.calling.dto.request.CallingRequest;
+import com.codesmith.goojangcalling.calling.dto.request.CallingCreateRequest;
 import com.codesmith.goojangcalling.calling.dto.response.FileUploadResponse;
 import com.codesmith.goojangcalling.calling.persistence.domain.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,7 +25,7 @@ class OccurrenceRepositoryTest {
 
     private Occurrence occurrence;
     private Long memberId;
-    private CallingRequest callingRequest;
+    private CallingCreateRequest callingCreateRequest;
 
     @BeforeEach
     void setCallingRequest() {
@@ -34,8 +34,8 @@ class OccurrenceRepositoryTest {
         List<Tag> tags = new ArrayList<>();
         tags.add(new Tag(1L, "추락"));
         memberId = 521L;
-        callingRequest = new CallingRequest(files, KTAS.KTAS2, AgeGroup.YOUTH, Gender.MALE, "아파요", tags, 35.123, 127.123);
-        occurrence = new Occurrence(memberId, callingRequest.getKtas(), callingRequest.getAgeGroup(), callingRequest.getGender(), callingRequest.getSymptom(), callingRequest.getLatitude(), callingRequest.getLongitude());
+        callingCreateRequest = new CallingCreateRequest(KTAS.KTAS2, AgeGroup.YOUTH, Gender.MALE, "아파요", 35.123, 127.123, tags, files);
+        occurrence = new Occurrence(memberId, callingCreateRequest.getKtas(), callingCreateRequest.getAgeGroup(), callingCreateRequest.getGender(), callingCreateRequest.getSymptom(), callingCreateRequest.getLatitude(), callingCreateRequest.getLongitude());
     }
 
     @DisplayName("사고를 저장한다.")
@@ -43,11 +43,11 @@ class OccurrenceRepositoryTest {
     void 사고를_저장한다() throws Exception {
         Occurrence savedOccurrence = em.persist(occurrence);
 
-        assertThat(savedOccurrence.getKtas()).isEqualTo(callingRequest.getKtas());
-        assertThat(savedOccurrence.getAgeGroup()).isEqualTo(callingRequest.getAgeGroup());
-        assertThat(savedOccurrence.getGender()).isEqualTo(callingRequest.getGender());
-        assertThat(savedOccurrence.getSymptom()).isEqualTo(callingRequest.getSymptom());
-        assertThat(savedOccurrence.getLatitude()).isEqualTo(callingRequest.getLatitude());
-        assertThat(savedOccurrence.getLongitude()).isEqualTo(callingRequest.getLongitude());
+        assertThat(savedOccurrence.getKtas()).isEqualTo(callingCreateRequest.getKtas());
+        assertThat(savedOccurrence.getAgeGroup()).isEqualTo(callingCreateRequest.getAgeGroup());
+        assertThat(savedOccurrence.getGender()).isEqualTo(callingCreateRequest.getGender());
+        assertThat(savedOccurrence.getSymptom()).isEqualTo(callingCreateRequest.getSymptom());
+        assertThat(savedOccurrence.getLatitude()).isEqualTo(callingCreateRequest.getLatitude());
+        assertThat(savedOccurrence.getLongitude()).isEqualTo(callingCreateRequest.getLongitude());
     }
 }
