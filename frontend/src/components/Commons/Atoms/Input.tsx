@@ -48,12 +48,12 @@ const StyledInput = styled.input<InputProps>`
   box-sizing: ${(props) => props.$boxSizing};
 
   color: ${(props) => props.$color};
-  font-size: ${(props) => props.$fontSize};
+  font-size: ${(props) => props.$fontSize || "2vh"};
   font-weight: ${(props) => props.$fontWeight};
   text-align: ${(props) => props.$textAlign};
   line-height: ${(props) => props.$lineHeight};
   background-color: ${(props) => props.$backgroundColor};
-  box-shadow: ${(props) => props.$boxShadow || '0px 0px 1vh 1vh rgba(0, 0, 0, 0.10)'};
+  box-shadow: ${(props) => props.$boxShadow || '0px 0px 0.3vh 0.3vh rgba(0, 0, 0, 0.10)'};
 
   position: ${(props) => props.$position};
   float: ${(props) => props.$float};

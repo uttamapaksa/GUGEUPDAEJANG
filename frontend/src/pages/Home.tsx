@@ -1,6 +1,7 @@
 import { styled } from "styled-components";
 import theme from "../styles";
 import A from '/src/components/Commons/Atoms/index'
+import Spinner from "../components/libraries/Spinner/Spinner";
 
 const Container = styled.div`
   border: 3px solid black;
@@ -239,6 +240,9 @@ function Home() {
           $height="30px"
           $fontSize={theme.font.Small1_16}>과다 출혈</A.DivTag>
 
+        <Spinner
+          width="50px"
+          height="50px"></Spinner>
       </MainWrapper>
     </Container>
   );
