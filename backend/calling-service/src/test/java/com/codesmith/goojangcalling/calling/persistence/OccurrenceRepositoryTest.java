@@ -36,7 +36,7 @@ class OccurrenceRepositoryTest {
     @Test
     void 사고를_저장한다() throws Exception {
         ArrayList<FileUploadResponse> files = new ArrayList<>();
-        files.add(new FileUploadResponse("https://codesmith-ggdj.s3.ap-northeast-2.amazonaws.com/4798b489-5bf7-47de-a4e6-8a2ceffbfbc6%EC%8A%B9%EC%A2%85.png"));
+        files.add(new FileUploadResponse("https://codesmith-ggdj.s3.ap-northeast-2.amazonaws.com/62119bee-726d-4bd5-b6aa-07e65b39b951%EC%9C%A1%EA%B0%9C%EC%9E%A5.png","image/png",122776L));
         ArrayList<String> tagNames = new ArrayList<>();
         tagNames.add("추락");
         CallingRequest callingRequest = new CallingRequest(files, KTAS.KTAS2, AgeGroup.YOUTH, Gender.MALE, "아파요", tagNames, 35.123, 127.123);
