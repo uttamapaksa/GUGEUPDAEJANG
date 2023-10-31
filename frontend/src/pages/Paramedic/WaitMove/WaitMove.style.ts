@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import theme from '/src/styles';
 
 // templates
 export const Container = styled.div`
@@ -9,7 +10,7 @@ export const Container = styled.div`
 
 export const Wrapper = styled.div`
   display: flex;
-  border: 3px solid red;
+  /* border: 3px solid red; */
   flex-direction: column;
   width: 100%;
   height: 100%;
@@ -19,7 +20,7 @@ export const ParamedicHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border: 3px solid green;
+  /* border: 3px solid green; */
   width: 100%;
   height: 7vh;
 `;
@@ -46,16 +47,17 @@ export const ContentBox = styled.div`
 // molecules
 export const OpenCloseToggle = styled.div`
   display: flex;
-  border: 3px solid green;
+  align-items: end;
+  /* border: 3px solid green; */
   width: 100%;
-  height: 2vh;
+  height: 3vh;
 `;
 
 export const Time = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border: 3px solid green;
+  /* border: 3px solid green; */
   width: 90%;
   padding: 0vh 5%;
   height: 5vh;
@@ -64,7 +66,7 @@ export const Time = styled.div`
 export const HospitalList = styled.div`
   display: flex;
   flex-direction: column;
-  border: 3px solid skyblue;
+  /* border: 3px solid skyblue; */
   width: 95%;
   padding-bottom: 2vh;
 `;
@@ -72,7 +74,7 @@ export const HospitalList = styled.div`
 export const ListTitle = styled.div`
   display: flex;
   align-items: center;
-  border: 3px solid green;
+  /* border: 3px solid green; */
   width: 100%;
   height: 3vh;
   font-size: 2vh;
@@ -81,10 +83,9 @@ export const ListTitle = styled.div`
 
 export const HospitalItem = styled.div`
   display: flex;
-  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  border: 3px solid green;
+  /* border: 3px solid green; */
   width: 100%;
   height: 15vh;
   font-size: 2vh;
@@ -93,7 +94,7 @@ export const HospitalItem = styled.div`
 export const TotalInformation = styled.div`
   display: flex;
   flex-wrap: wrap;
-  border: 3px solid green;
+  /* border: 3px solid green; */
   width: 100%;
   padding-bottom: 2vh;
 `;
@@ -123,7 +124,7 @@ export const Arrow = styled.div`
 `;
 
 export const ItemTitle = styled.div`
-  border: 3px solid purple;
+  /* border: 3px solid purple; */
   padding: 1vh 0;
   display: flex;
   align-items: center;
@@ -136,7 +137,7 @@ export const ItemTitle = styled.div`
 `;
 
 export const ItemCallTime = styled.div`
-  border: 3px solid purple;
+  /* border: 3px solid purple; */
   margin: 0 1vh;
   padding: 1vh 0;
   display: flex;
@@ -162,36 +163,34 @@ export const ItemNumber = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 3px solid purple;
+  border: 3px solid ${theme.color.grayDarkest};
   border-radius: 15px;
-  width: 40%;
+  /* width: 40%; */
+  padding: 0 1.2vh;
   height: 5vh;
   font-size: 2vh;
-  color: white;
-  // pinkLight
-  background-color: #FF8577;
-  `;
+`;
 
 export const ItemDist = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 3px solid purple;
+  /* border: 3px solid purple; */
   width: 15%;
   height: 5vh;
-  `;
+`;
 
 export const ItemTime = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 3px solid purple;
+  /* border: 3px solid purple;s */
   width: 15%;
   height: 5vh;
 `;
 
 export const BtnToggle = styled.div`
-  border: 3px solid purple;
+  /* border: 3px solid purple; */
   width: 25%;
   height: 8vh;
 `;
