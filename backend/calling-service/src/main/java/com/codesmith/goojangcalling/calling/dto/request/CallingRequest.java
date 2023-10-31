@@ -4,6 +4,7 @@ import com.codesmith.goojangcalling.calling.dto.response.FileUploadResponse;
 import com.codesmith.goojangcalling.calling.persistence.domain.AgeGroup;
 import com.codesmith.goojangcalling.calling.persistence.domain.Gender;
 import com.codesmith.goojangcalling.calling.persistence.domain.KTAS;
+import com.codesmith.goojangcalling.calling.persistence.domain.Tag;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +22,7 @@ public class CallingRequest {
     private AgeGroup ageGroup;
     private Gender gender;
     private String symptom;
-    private List<String> tagNames;
+    private List<Tag> tags;
     private Double latitude;
     private Double longitude;
 }

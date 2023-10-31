@@ -20,9 +20,6 @@ import static org.assertj.core.api.Assertions.*;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class OccurrenceFileRepositoryTest {
     @Autowired
-    private OccurrenceFileRepository occurrenceFileRepository;
-
-    @Autowired
     TestEntityManager em;
 
     private Occurrence occurrence;
@@ -34,10 +31,10 @@ class OccurrenceFileRepositoryTest {
     void setCallingRequest() {
         files = new ArrayList<>();
         files.add(new FileUploadResponse("https://codesmith-ggdj.s3.ap-northeast-2.amazonaws.com/62119bee-726d-4bd5-b6aa-07e65b39b951%EC%9C%A1%EA%B0%9C%EC%9E%A5.png", "image/png",122776L));
-        List<String> tagNames = new ArrayList<>();
-        tagNames.add("추락");
+        List<Tag> tags = new ArrayList<>();
+        tags.add(new Tag(1L, "추락"));
         memberId = 521L;
-        callingRequest = new CallingRequest(files, KTAS.KTAS2, AgeGroup.YOUTH, Gender.MALE, "아파요", tagNames, 35.123, 127.123);
+        callingRequest = new CallingRequest(files, KTAS.KTAS2, AgeGroup.YOUTH, Gender.MALE, "아파요", tags, 35.123, 127.123);
         occurrence = new Occurrence(memberId, callingRequest.getKtas(), callingRequest.getAgeGroup(), callingRequest.getGender(), callingRequest.getSymptom(), callingRequest.getLatitude(), callingRequest.getLongitude());
     }
 
