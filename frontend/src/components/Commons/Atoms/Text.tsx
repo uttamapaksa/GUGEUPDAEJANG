@@ -62,22 +62,29 @@ const StyledText = styled.p<TextProps>`
 
   display: ${(props) => props.$display || 'flex'};
   flex-direction: ${(props) => props.$flexDirection};
-  justify-content: ${(props) => props.$justifyContent};
-  justify-items: ${(props) => props.$justifyItems || 'center'};
-  align-content: ${(props) => props.$alignContent || 'center'};
-  align-items: ${(props) => props.$alignItems};
+  justify-content: ${(props) => props.$justifyContent || 'center'};
+  justify-items: ${(props) => props.$justifyItems};
+  align-content: ${(props) => props.$alignContent};
+  align-items: ${(props) => props.$alignItems || 'center'};
 `
 
 export const TxtParamedicTitle = styled(StyledText)`
+  /* border: 3px solid purple; */
+  justify-content: start;
   color: ${theme.color.grayDarkest};
-  font-size: ${theme.font.Large2_36};
+  font-size: ${theme.font.Medium1_30};
   font-weight: 700;
+  width: 100%;
+  height: 5vh;
 `
 
 export const TxtHeaderTitle  = styled(StyledText)`
+  /* border: 3px solid purple; */
   color : ${theme.color.fontGrey4};
   font-size: ${theme.font.Large3_32};
   font-weight: 400;
+  width: 50%;
+  height: 80%;
 `
 
 export const TxtContent  = styled(StyledText)`
