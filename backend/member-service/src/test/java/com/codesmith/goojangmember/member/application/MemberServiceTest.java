@@ -3,8 +3,10 @@ package com.codesmith.goojangmember.member.application;
 import com.codesmith.goojangmember.auth.application.TokenProvider;
 import com.codesmith.goojangmember.auth.dto.request.AuthLoginRequest;
 import com.codesmith.goojangmember.auth.dto.response.AuthLoginResponse;
+import com.codesmith.goojangmember.infra.publicdata.PublicDataClient;
 import com.codesmith.goojangmember.member.dto.request.HospitalJoinRequest;
 import com.codesmith.goojangmember.member.dto.request.ParamedicJoinRequest;
+import com.codesmith.goojangmember.member.dto.response.HospitalListResponse;
 import com.codesmith.goojangmember.member.persistence.HospitalDetailRepository;
 import com.codesmith.goojangmember.member.persistence.MemberRepository;
 import com.codesmith.goojangmember.member.persistence.ParamedicDetailRepository;
@@ -23,9 +25,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
@@ -44,6 +51,8 @@ class MemberServiceTest {
     private MemberValidator memberValidator;
     @Mock
     private PasswordEncoder passwordEncoder;
+    @Mock
+    private PublicDataClient publicDataClient;
     @InjectMocks
     private MemberServiceImpl memberService;
     private Long id = 1L;
@@ -103,15 +112,27 @@ class MemberServiceTest {
     }
 
 //    @Test
-//    void 병상이_있는_병원들을_소요시간이_짧은_순으로_반환한다() {
-//        // 가정: 병원 목록은 테스트용으로 설정합니다.
-//        List<String> hospitalList = List.of("병원1", "병원2", "병원3");
+//    @DisplayName("병상이 있는 병원들을 소요시간이 짧은 순으로 반환한다")
+//    void 병상이_있는_병원들을_소요시간이_짧은_순으로_반환한다() throws IOException {
+//        given(hospitalDetailRepository.findHospitalWithinDistance(37.59387, 127.05183, 10.0))
+//                .willReturn(List.of("병원1", "병원2", "병원5"));
+//        given(publicDataClient.getRealTimeERBedInfo()).willReturn(new HashMap<>()
+//        {{
+//            put("병원1", 10L);
+//            put("병원2", 0L);
+//            put("병원3", 5L);
+//            put("병원4", 8L);
+//        }});
 //
-//        // 가용병상 조회 API의 반환값 설정
-//        given(OpennApiService.getAvailableBeds(hospitalList))
-//            .willReturn(Map.of("병원1", 10, "병원2", 5, "병원3", 8));
+//        List<HospitalListResponse> hospitalList = memberService.getHospitalList(37.59387, 127.05183, 10.0);
 //
-//        // Tmap API의 반환값 설정 (소요 시간)
+//        assertFalse(hospitalList.isEmpty());
+//
+//        HospitalListResponse firstHospital = hospitalList.get(0);
+//        assertThat(firstHospital.getHospitalId()).isEqualTo("병원1");
+//        assertThat(firstHospital.getBedCount()).isEqualTo(10L);
+
+        // Tmap API의 반환값 설정 (소요 시간)
 //        given(tmapService.getTravelTime("현재위치", "병원1"))
 //            .willReturn(30); // 예시로 30분 소요
 //        given(tmapService.getTravelTime("현재위치", "병원2"))
