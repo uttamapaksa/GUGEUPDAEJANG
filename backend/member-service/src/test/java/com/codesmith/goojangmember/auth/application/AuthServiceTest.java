@@ -75,7 +75,7 @@ class AuthServiceTest {
         when(memberRepository.findByEmail(email)).thenReturn(member);
         when(passportProvider.generatePassport(any(MemberInfo.class))).thenReturn(passport);
 
-        String actualPassport = authService.createPassport(accessToken);
+        String actualPassport = authService.createPassport(accessToken).getPassport();
 
         assertEquals(passport, actualPassport);
     }
