@@ -8,11 +8,11 @@ function Call() {
   const [ktasOption, setktasOption] = useState<number | null>(null);
   const ktasDescriptions = [
     undefined,
-    'KTAS1: 생명 혹은 사지, 신체기능에 잠재적인 위협이 있으며 이에 대한 빠른 치료가 필요한 경우',
-    'KTAS2: 생명 혹은 사지, 신체기능에 잠재적인 위협이 있으며 이에 대한 빠른 치료가 필요한 경우',
-    'KTAS3: 생명 혹은 사지, 신체기능에 잠재적인 위협이 있으며 이에 대한 빠른 치료가 필요한 경우',
-    'KTAS4: 생명 혹은 사지, 신체기능에 잠재적인 위협이 있으며 이에 대한 빠른 치료가 필요한 경우',
-    'KTAS5: 생명 혹은 사지, 신체기능에 잠재적인 위협이 있으며 이에 대한 빠른 치료가 필요한 경우',
+    '생명 혹은 사지, 신체기능에 잠재적인 위협이 있으며 이에 대한 빠른 치료가 필요한 경우',
+    '생명 혹은 사지, 신체기능에 잠재적인 위협이 있으며 이에 대한 빠른 치료가 필요한 경우',
+    '생명 혹은 사지, 신체기능에 잠재적인 위협이 있으며 이에 대한 빠른 치료가 필요한 경우',
+    '생명 혹은 사지, 신체기능에 잠재적인 위협이 있으며 이에 대한 빠른 치료가 필요한 경우',
+    '생명 혹은 사지, 신체기능에 잠재적인 위협이 있으며 이에 대한 빠른 치료가 필요한 경우',
   ];
 
   const ageGroups = [
@@ -82,8 +82,10 @@ function Call() {
            ))}
             </S.BtnKtas>
             <S.TxtKtas>
-              strnog 'KTAS1
+              <span>
+              <strong>{ktasOption && `KTAS${ktasOption} : `}</strong>
               {ktasOption && ktasDescriptions[ktasOption]}
+              </span>
             </S.TxtKtas>
           </S.Col9>
         </S.Ktas>

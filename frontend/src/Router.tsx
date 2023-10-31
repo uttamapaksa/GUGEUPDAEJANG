@@ -33,7 +33,7 @@ const router = createBrowserRouter([
       },
       {
         path: PATH.HospitalSocket,
-        element: <PAGE.HospitalSocket paramedicId="1" />,
+        element: <PAGE.HospitalSocket hospitalId="1" />,
         errorElement: <ErrorComponent />,
       },
       {
@@ -63,7 +63,7 @@ const router = createBrowserRouter([
       },
       {
         path: PATH.ParamedicSocket,
-        element: <PAGE.ParamedicSocket hospitalId="1" />,
+        element: <PAGE.ParamedicSocket paramedicId="1" />,
         errorElement: <ErrorComponent />,
       },
       {

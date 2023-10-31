@@ -18,6 +18,7 @@ interface DivProps {
   $borderColor?: string;
   $borderRadius?: string;
   $boxSizing?: string;
+  $boxShadow?: string;
 
   $color?: string;
   $fontSize?: string;
@@ -52,6 +53,7 @@ const StyledDiv = styled.button<DivProps>`
   border: ${(props) => props.$border || "0px"};
   border-radius: ${(props) => props.$borderRadius || "10px"};
   box-sizing: ${(props) => props.$boxSizing};
+  box-Shadow: ${(props) => props.$boxShadow};
 
   color: ${(props) => props.$color || `${theme.color.fontGrey4}`};
   font-size: ${(props) => props.$fontSize || `${theme.font.Medium1_30}`};
@@ -89,6 +91,6 @@ export const DivKtasInfo = styled(StyledDiv)`
 `
 
 export const DivTag = styled(StyledDiv)`
-  box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.10);
+  box-shadow: ${(props) => props.$boxShadow || '0px 0px 4px 2px rgba(0, 0, 0, 0.10)'};
 `
 
