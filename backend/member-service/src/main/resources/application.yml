@@ -16,7 +16,7 @@ spring:
     username: ${MEMBER_MARIA_USER}
     password: ${MEMBER_MARIA_PASSWORD}
   jpa:
-    show-sql: true
+#    show-sql: true
     hibernate:
       ddl-auto: update
       properties:
@@ -44,3 +44,6 @@ jwt:
     access: 86400000
     refresh: 604800000
   key: ${SECRETE_KEY}
+publicData:
+  api:
+    key: ${PUBLIC_DATA_API_KEY}

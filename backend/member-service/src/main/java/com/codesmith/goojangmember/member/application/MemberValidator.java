@@ -1,11 +1,14 @@
 package com.codesmith.goojangmember.member.application;
 
 import com.codesmith.goojangmember.member.exception.MemberNotFoundException;
+import com.codesmith.goojangmember.member.exception.NoNearByHospitalException;
 import com.codesmith.goojangmember.member.exception.SafetyCenterNotFoundException;
 import com.codesmith.goojangmember.member.persistence.MemberRepository;
 import com.codesmith.goojangmember.member.persistence.SafetyCenterRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -28,6 +31,12 @@ public class MemberValidator {
     public void doesEmailExist(String email) {
         if (!memberRepository.existsByEmail(email)) {
             throw new SafetyCenterNotFoundException("없는 이메일");
+        }
+    }
+
+    public void validateExistNearByHospital(List<String> hospitalList) {
+        if (hospitalList.isEmpty()) {
+            throw new NoNearByHospitalException("주변에 갈 수 있는 병원이 없음");
         }
     }
 }

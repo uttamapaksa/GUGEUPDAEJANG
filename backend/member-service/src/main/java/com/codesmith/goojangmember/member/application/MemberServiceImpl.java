@@ -3,8 +3,10 @@ package com.codesmith.goojangmember.member.application;
 import com.codesmith.goojangmember.auth.application.TokenProvider;
 import com.codesmith.goojangmember.auth.dto.request.AuthLoginRequest;
 import com.codesmith.goojangmember.auth.dto.response.AuthLoginResponse;
+import com.codesmith.goojangmember.infra.publicdata.PublicDataClient;
 import com.codesmith.goojangmember.member.dto.request.HospitalJoinRequest;
 import com.codesmith.goojangmember.member.dto.request.ParamedicJoinRequest;
+import com.codesmith.goojangmember.member.dto.response.HospitalListResponse;
 import com.codesmith.goojangmember.member.persistence.HospitalDetailRepository;
 import com.codesmith.goojangmember.member.persistence.MemberRepository;
 import com.codesmith.goojangmember.member.persistence.ParamedicDetailRepository;
@@ -13,8 +15,9 @@ import com.codesmith.goojangmember.member.persistence.domain.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.function.EntityResponse;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -27,6 +30,7 @@ public class MemberServiceImpl implements MemberService {
     private final MemberValidator memberValidator;
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
+    private final PublicDataClient publicDataClient;
 
     @Override
     public Member getMemberInfo(Long memberId) {
@@ -35,9 +39,19 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public List<String> getHospitalList(Double latitude, Double longitude, Double distance) {
+    public List<HospitalListResponse> getHospitalList(Double latitude, Double longitude, Double distance) {
         List<String> hospitalList = hospitalDetailRepository.findHospitalWithinDistance(latitude, longitude, distance);
-        return hospitalList;
+        memberValidator.validateExistNearByHospital(hospitalList);
+
+        HashMap<String, Long> hospitalInfoMap = publicDataClient.getRealTimeERBedInfo();
+        List<HospitalListResponse> hospitalListResponseList = new ArrayList<>();
+        for (String hospitalId : hospitalList) {
+            if (hospitalInfoMap.containsKey(hospitalId) && hospitalInfoMap.get(hospitalId) > 0) {
+                HospitalDetail hospitalDetail = hospitalDetailRepository.findById(hospitalId).get();
+                hospitalListResponseList.add(new HospitalListResponse(hospitalDetail, hospitalInfoMap.get(hospitalId)));
+            }
+        }
+        return hospitalListResponseList;
     }
 
     @Override

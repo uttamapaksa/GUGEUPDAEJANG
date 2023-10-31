@@ -2,9 +2,11 @@ package com.codesmith.goojangmember.member.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 public class HospitalJoinRequest {
     private String hospitalId;
     private String email;
