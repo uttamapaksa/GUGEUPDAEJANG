@@ -84,8 +84,6 @@ export const BtnSubmit = styled(StyledButton)`
   font-size: ${(props) => props.$fontSize ? 
   `${props.$fontSize}` : `${theme.font.Medium3_23};`};
   font-weight: 600;
-  border-radius: 10px;
-  
 `
 
 export const BtnParaState = styled(StyledButton)`
