@@ -3,35 +3,43 @@ import { MapProps, ParamedicItem, Tmapv3 } from "../Map";
 import { ParamedicMarkerContainer } from "./ParamedicMarker.style";
 
 function ParamedicMarker(props: any) {
-    const [parList, setParList] = useState<any>([]);
+    const [parList, setParList] = useState<any[]>([]);
+    // let parList:any = [];
 
     useEffect(() => {
-        if (props.parList !== undefined && props.map !== undefined) {
+        if (props.map !== undefined) {
             for (let i = 0; i < parList.length; i++) {
-                parList[i].marker.setMap(null);
+                parList[i].setMap(null);
             }
-            let next = []
+            let next:any[] = []
             for (var i = 0; i < props.parList.length; i++) {
                 var lonlat = new Tmapv3.LatLng(props.parList[i].pos.lat, props.parList[i].pos.lon);
-                var title = props.parList[i].name;
+                // var title = props.parList[i].name;
                 const size = new Tmapv3.Size(30, 30);
                 const marker = new Tmapv3.Marker({
                     position: lonlat,
                     map: props.map,
+                    draggable : true,
                     // color: positions[i].color,
                     iconSize: size,
                     // icon: props.parList[i].type,
                     // label: title //Marker의 라벨.
                 })
-                //--------------------------
-                //마커 클릭 이벤트 - 동작 안함
-                //--------------------------
-                marker.on("click", () => {
-                    console.log("test")
+                marker.on("Click", () => {
+                    console.log("1111")
                 });
-                next.push({marker:marker});
+                marker.on("click", () => {
+                    console.log("props.parList[i].id")
+                });
+                next.push(marker);
             }
-            setParList(next);
+            // console.log(next)
+            // next.forEach((item:any) => {
+            //     item.marker.on("click", function() {
+            //         console.log("test")
+            //     });
+            // });
+            setParList([...next]);
         }
 
     }, [props]);

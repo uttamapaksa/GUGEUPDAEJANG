@@ -41,6 +41,19 @@ function ParamedicInfo(props: any) {
     //     alert("onError");
     // }
 
+    // useEffect(() => {
+    //     console.log(renderToString(
+    //         <InfoContents
+    //             id={props.parList[0].id}
+    //             ktas={props.parList[0].ktas}
+    //             addr={props.parList[0].addr}
+    //             requestAt={props.parList[0].requestAt}
+    //             elapseMin={props.parList[0].elapseMin}
+    //             leftTime={props.parList[0].leftTime}
+    //         />
+    //     ))
+    // }, [])
+
     useEffect(() => {
         if (props.parList !== undefined && props.map !== undefined) {
 
@@ -56,11 +69,12 @@ function ParamedicInfo(props: any) {
                     offset: new Tmapv3.Point(0, -30),
                     content: renderToString(
                         <InfoContents
+                            id={props.parList[i].id}
                             ktas={props.parList[i].ktas}
                             addr={props.parList[i].addr}
-                            requestAt = {props.parList[i].requestAt}
-                            elapseMin = {props.parList[i].elapseMin}
-                            leftTime = {props.parList[i].leftTime}
+                            requestAt={props.parList[i].requestAt}
+                            elapseMin={props.parList[i].elapseMin}
+                            leftTime={props.parList[i].leftTime}
                         />
                     ),
                     border: '0px solid #ffffff',

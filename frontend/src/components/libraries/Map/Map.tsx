@@ -50,6 +50,7 @@ export interface ParamedicItem {
     ktas: string,
     elapseMin: number,
     leftTime: number,
+    dist: number,
     paraType: string,
     paraTag: string[],
     paraInfo: string,

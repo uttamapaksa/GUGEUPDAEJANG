@@ -1,54 +1,70 @@
 import {
   AddrP,
   AddrTitle,
+  BottomHr,
   ContentsP,
   ElapseTimeSpan,
-  InfoBox, 
-  InfoWindowArrow, 
-  InfoWindowContainer, 
-  KtasDiv, 
-  LeftTimeSpan, 
+  InfoBox,
+  InfoWindowArrow,
+  InfoWindowContainer,
+  LeftTimeSpan,
   StartTimeSpan
 } from "./InfoContents.style";
+import { DivKtasInfo } from "/src/components/Commons/Atoms/Div";
+import theme from "/src/styles";
 
-export interface InfoProps{
+export interface InfoProps {
   ktas: number;
   addt: string;
 }
 //infowindow 내용 - 개선 예정
-function InfoContents(props:any) {
+function InfoContents(props: any) {
+
+  const test = () => {
+    console.log("tttttttttttttttt")
+  }
+
 
   return (
-    <InfoWindowContainer>
-      <KtasDiv $num={'KTAS'+props.ktas}>
-        KTAS{props.ktas}
-      </KtasDiv>
+    <>
+      <InfoWindowContainer id={'infowindow'+props.id}>
+        <InfoBox>
+          <DivKtasInfo
+            $position="absolute"
+            $right="0%"
+            $top="0%"
+            $ktas={props.ktas}
+            $width="40px"
+            $height="20px"
+            $borderRadius="0px 0px 0px 5px"
+            $fontSize={theme.font.Small6_11}>
+            KTAS{props.ktas.charAt(4)}
+          </DivKtasInfo>
+          <AddrP>
+            <AddrTitle>
+              {props.addr}
+            </AddrTitle>
+            <span>{11.5}km</span>
+          </AddrP>
+          <ContentsP>
+            <StartTimeSpan>
+              {props.requestAt}
+            </StartTimeSpan>
+            <ElapseTimeSpan>
+              요청 대기 {props.elapseMin}분 경과
+            </ElapseTimeSpan>
+          </ContentsP>
+          <BottomHr/>
+          <ContentsP>
+            <LeftTimeSpan>
+              {props.leftTime}분 이내 도착 가능
+            </LeftTimeSpan>
+          </ContentsP>
+        </InfoBox>
+      </InfoWindowContainer>
+      {/* <a href='javascript:void(0)' onClick={test} className='btn-close' style={{position: 'absolute', top: '10px', right: '10px', display: 'block', width: '15px', height: '15px', backgroundColor:'red'}}></a> */}
       <InfoWindowArrow />
-      <InfoBox>
-        <AddrP>
-          <AddrTitle>
-            {props.addr}
-          </AddrTitle>
-          <span>{11.5}km</span>
-        </AddrP>
-        <ContentsP>
-          <StartTimeSpan>
-            {props.requestAt}
-          </StartTimeSpan>
-          <ElapseTimeSpan>
-            요청 대기 {props.elapseMin}분 경과
-          </ElapseTimeSpan>
-        </ContentsP>
-        <hr
-          style={{ borderWidth: 0, height: "0.5px", width: "100%", backgroundColor: "#8a8a8a" }}
-        />
-        <ContentsP>
-          <LeftTimeSpan>
-            {props.leftTime}분 이내 도착 가능
-          </LeftTimeSpan>
-        </ContentsP>
-      </InfoBox>
-    </InfoWindowContainer>
+    </>
   );
 }
 

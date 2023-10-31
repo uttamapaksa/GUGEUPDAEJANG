@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import theme from '/src/styles';
 
 export const InfoWindowContainer = styled.div`
   position: absolute;
@@ -9,23 +10,12 @@ export const InfoWindowContainer = styled.div`
   background-color: #ffffffea;
   box-shadow: 1px 5px 5px 5px #3b3b3b40;
   font-size: 12px;
-  border-radius: 10px;
+  border-radius: 5px;
   flex-direction: column;
-  width: 250px;
-`;
-
-export const KtasDiv = styled.div<{ $num: String }>`
-  position: absolute;
-  display: flex;
-  top: 0;
-  right: 0;
-  width: 60px;
-  height: 30px;
-  background-color: red;
-  border-radius: 0 10px 0 5px;
-  color: #ffffff;
-  align-items: center;
-  justify-content: center;
+  width: 220px;
+  height: fit-content;
+  overflow: hidden;
+  padding: 8px;
 `;
 
 export const InfoWindowArrow = styled.div`
@@ -49,19 +39,26 @@ export const AddrP = styled.p`
   display: flex;
   flex-direction: column;
   margin-bottom: 3px;
-  padding: 0 10px;
   overflow: hidden;
 `;
 
 export const AddrTitle = styled.span`
+  width: 180px;
   font-size: 13px;
   font-weight: bold;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  max-height: 15px;
+  overflow: hidden;
 `;
 
 export const ContentsP = styled.p`
   display: flex;
   flex-direction: row;
-  padding: 0 10px;
+  padding: 2px 0px;
+  width: 100%;
 `;
 
 export const StartTimeSpan = styled.span`
@@ -69,13 +66,26 @@ export const StartTimeSpan = styled.span`
   text-align: left;
   width: 50%;
 `;
+
+export const BottomHr = styled.hr`
+position: relative;
+  border-width: 0;
+  height: 0.5px;
+  left: -10%;
+  width: 120%;
+  background-color: ${theme.color.grayDark};
+`;
 export const ElapseTimeSpan = styled.span`
   color: #707070;
-  text-align: left;
+  text-align: right;
   width: 50%;
+  /* padding-right: 10px; */
 `;
 export const LeftTimeSpan = styled.span`
-  color: #707070;
-  text-align: left;
-  width: 50%;
+  display: flex;
+  color: ${theme.color.pinkDrak};
+  justify-content: end;
+  align-items: end;
+  padding-top: 5px;
+  width: 100%;
 `;
