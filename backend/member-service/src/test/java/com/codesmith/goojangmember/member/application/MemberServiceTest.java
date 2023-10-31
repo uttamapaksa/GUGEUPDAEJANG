@@ -4,6 +4,7 @@ import com.codesmith.goojangmember.auth.application.TokenProvider;
 import com.codesmith.goojangmember.auth.dto.request.AuthLoginRequest;
 import com.codesmith.goojangmember.auth.dto.response.AuthLoginResponse;
 import com.codesmith.goojangmember.infra.publicdata.PublicDataClient;
+import com.codesmith.goojangmember.infra.tmap.TmapClient;
 import com.codesmith.goojangmember.member.dto.request.HospitalJoinRequest;
 import com.codesmith.goojangmember.member.dto.request.ParamedicJoinRequest;
 import com.codesmith.goojangmember.member.dto.response.HospitalListResponse;
@@ -53,6 +54,8 @@ class MemberServiceTest {
     private PasswordEncoder passwordEncoder;
     @Mock
     private PublicDataClient publicDataClient;
+    @Mock
+    private TmapClient tmapClient;
     @InjectMocks
     private MemberServiceImpl memberService;
     private Long id = 1L;
@@ -111,28 +114,28 @@ class MemberServiceTest {
         assertThat(savedParamedicDetail.getSafetyCenter().getId()).isEqualTo(paramedicJoinRequest.getCenterId());
     }
 
-//    @Test
-//    @DisplayName("병상이 있는 병원들을 소요시간이 짧은 순으로 반환한다")
-//    void 병상이_있는_병원들을_소요시간이_짧은_순으로_반환한다() throws IOException {
-//        given(hospitalDetailRepository.findHospitalWithinDistance(37.59387, 127.05183, 10.0))
-//                .willReturn(List.of("병원1", "병원2", "병원5"));
-//        given(publicDataClient.getRealTimeERBedInfo()).willReturn(new HashMap<>()
-//        {{
-//            put("병원1", 10L);
-//            put("병원2", 0L);
-//            put("병원3", 5L);
-//            put("병원4", 8L);
-//        }});
-//
-//        List<HospitalListResponse> hospitalList = memberService.getHospitalList(37.59387, 127.05183, 10.0);
-//
-//        assertFalse(hospitalList.isEmpty());
-//
-//        HospitalListResponse firstHospital = hospitalList.get(0);
-//        assertThat(firstHospital.getHospitalId()).isEqualTo("병원1");
-//        assertThat(firstHospital.getBedCount()).isEqualTo(10L);
+    @Test
+    @DisplayName("병상이 있는 병원들을 소요시간이 짧은 순으로 반환한다")
+    void 병상이_있는_병원들을_소요시간이_짧은_순으로_반환한다() throws Exception {
+        given(hospitalDetailRepository.findHospitalWithinDistance(37.59387, 127.05183, 10.0))
+                .willReturn(List.of("병원1", "병원2", "병원5"));
+        given(publicDataClient.getRealTimeERBedInfo()).willReturn(new HashMap<>()
+        {{
+            put("병원1", 10L);
+            put("병원2", 0L);
+            put("병원3", 5L);
+            put("병원4", 8L);
+        }});
 
-        // Tmap API의 반환값 설정 (소요 시간)
+        List<HospitalListResponse> hospitalList = memberService.getHospitalList(37.59387, 127.05183, 10.0);
+
+        assertFalse(hospitalList.isEmpty());
+
+        HospitalListResponse firstHospital = hospitalList.get(0);
+        assertThat(firstHospital.getHospitalId()).isEqualTo("병원1");
+        assertThat(firstHospital.getBedCount()).isEqualTo(10L);
+
+//         Tmap API의 반환값 설정 (소요 시간)
 //        given(tmapService.getTravelTime("현재위치", "병원1"))
 //            .willReturn(30); // 예시로 30분 소요
 //        given(tmapService.getTravelTime("현재위치", "병원2"))
@@ -148,5 +151,5 @@ class MemberServiceTest {
 //        Assertions.assertEquals("병원2", sortedHospitalList.get(0).getName());
 //        Assertions.assertEquals("병원1", sortedHospitalList.get(1).getName());
 //        Assertions.assertEquals("병원3", sortedHospitalList.get(2).getName());
-//    }
+    }
 }

@@ -14,15 +14,18 @@ import com.codesmith.goojangmember.member.persistence.ParamedicDetailRepository;
 import com.codesmith.goojangmember.member.persistence.SafetyCenterRepository;
 import com.codesmith.goojangmember.member.persistence.domain.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     private final HospitalDetailRepository hospitalDetailRepository;
@@ -50,11 +53,11 @@ public class MemberServiceImpl implements MemberService {
         for (String hospitalId : hospitalList) {
             if (hospitalInfoMap.containsKey(hospitalId) && hospitalInfoMap.get(hospitalId) > 0) {
                 HospitalDetail hospitalDetail = hospitalDetailRepository.findById(hospitalId).get();
-                tmapClient.getPathInfo(longitude, latitude, hospitalDetail.getLongitude(), hospitalDetail.getLatitude());
-                hospitalListResponseList.add(new HospitalListResponse(hospitalDetail, hospitalInfoMap.get(hospitalId)));
+                HashMap<String, Long> tmapInfo = tmapClient.getPathInfo(longitude, latitude, hospitalDetail.getLongitude(), hospitalDetail.getLatitude());
+                hospitalListResponseList.add(new HospitalListResponse(hospitalDetail, hospitalInfoMap.get(hospitalId), tmapInfo.get("distance")/1000.0, (tmapInfo.get("time")+59)/60));
             }
         }
-
+        hospitalListResponseList.sort(Comparator.comparing(HospitalListResponse::getTime));
         return hospitalListResponseList;
     }
 
