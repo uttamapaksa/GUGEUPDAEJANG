@@ -10,7 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FileUploadResponse {
-    private String uploadUrl;
+    private String filePath;
     private String contentType;
     private Long size;
 }
