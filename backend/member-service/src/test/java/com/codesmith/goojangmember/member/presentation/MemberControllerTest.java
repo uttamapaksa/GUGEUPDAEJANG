@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -63,4 +64,14 @@ class MemberControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @DisplayName("이송 요청을 보낼 수 있는 병원 목록을 조회한다")
+    @Test
+    void 이송_요청을_보낼_수_있는_병원_목록을_조회한다() throws Exception {
+        mockMvc.perform(get("/member/hospital")
+                        .param("latitude", "40.7128")
+                        .param("longitude", "74.0060")
+                        .param("distance", "10")
+                )
+                .andExpect(status().isOk());
+    }
 }
