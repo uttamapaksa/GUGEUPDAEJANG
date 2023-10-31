@@ -4,6 +4,7 @@ import com.codesmith.goojangmember.auth.exception.InvalidTokenException;
 import com.codesmith.goojangmember.auth.persistence.domain.RefreshToken;
 import com.codesmith.goojangmember.global.passport.dto.MemberInfo;
 import com.codesmith.goojangmember.global.passport.exception.InvalidPassportException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,10 +12,9 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class HMacPassportProviderTest {
-    private final PassportProvider passportProvider = new HMacPassportProvider();
     private final String algorithm = "HmacSHA384";
     private final String secreteKey = "test-secrete-key";
-
+    private final PassportProvider passportProvider = new HMacPassportProvider(algorithm, secreteKey, new ObjectMapper());
     private MemberInfo memberInfo;
 
     @BeforeEach

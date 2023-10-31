@@ -47,3 +47,6 @@ jwt:
 publicData:
   api:
     key: ${PUBLIC_DATA_API_KEY}
+passport:
+  key: ${SECRETE_KEY}
+  algorithm: HmacSHA256
