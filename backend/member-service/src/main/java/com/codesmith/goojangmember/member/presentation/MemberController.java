@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.List;
 
 
@@ -25,7 +24,7 @@ public class MemberController {
     }
 
     @GetMapping("/hospital")
-    public ResponseEntity<List<HospitalListResponse>> getHospitalListFromHere(@RequestParam Double latitude, @RequestParam Double longitude, @RequestParam Double distance) throws IOException {
+    public ResponseEntity<List<HospitalListResponse>> getHospitalListFromHere(@RequestParam Double latitude, @RequestParam Double longitude, @RequestParam Double distance) {
         return ResponseEntity.ok(memberService.getHospitalList(latitude, longitude, distance));
     }
 

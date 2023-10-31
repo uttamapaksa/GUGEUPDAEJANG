@@ -16,7 +16,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,7 +39,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public List<HospitalListResponse> getHospitalList(Double latitude, Double longitude, Double distance) throws IOException {
+    public List<HospitalListResponse> getHospitalList(Double latitude, Double longitude, Double distance) {
         List<String> hospitalList = hospitalDetailRepository.findHospitalWithinDistance(latitude, longitude, distance);
         memberValidator.validateExistNearByHospital(hospitalList);
 

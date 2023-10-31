@@ -44,6 +44,6 @@ jwt:
     access: 86400000
     refresh: 604800000
   key: ${SECRETE_KEY}
-publicdata:
+publicData:
   api:
-    key: ${PUBLICDATA_API_KEY}
+    key: ${PUBLIC_DATA_API_KEY}
