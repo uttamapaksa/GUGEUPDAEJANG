@@ -19,6 +19,7 @@ import ambulance_active from "/src/assets/paramedic/ambulance-active.png"
 import request_bell from "/src/assets/paramedic/request-bell.png"
 import request_bell_active from "/src/assets/paramedic/request-bell-active.png"
 import cellphone from "/src/assets/paramedic/cellphone.png"
+import cellphone_gray from "/src/assets/paramedic/cellphone-gray.png"
 import record_video_black from "/src/assets/paramedic/record-video-black.png"
 import record_video_pink from "/src/assets/paramedic/record-video-pink.png"
 import record_voice_black from "/src/assets/paramedic/record-voice-black.png"
@@ -93,6 +94,7 @@ export const ImgAmbulanceActive = styled(StyledImage).attrs({src: ambulance_acti
 export const ImgRequestBell = styled(StyledImage).attrs({src: request_bell})``;
 export const ImgRequestBellActive = styled(StyledImage).attrs({src: request_bell_active})``;
 export const ImgCellphone = styled(StyledImage).attrs({src: cellphone})``;
+export const ImgCellphoneGray = styled(StyledImage).attrs({src: cellphone_gray})``;
 export const ImgRecordVideoBlack = styled(StyledImage).attrs({src: record_video_black})``;
 export const ImgRecordVideoPink = styled(StyledImage).attrs({src: record_video_pink})``;
 export const ImgRecordVoiceBlack = styled(StyledImage).attrs({src: record_voice_black})``;
