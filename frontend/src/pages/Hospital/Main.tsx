@@ -17,6 +17,7 @@ const parList = [
     ktas: "ktas1",
     elapseMin: 14,
     leftTime: 10,
+    dist: 10,
     paraType: "청년 (여)",
     paraTag: ["추락", "과다출혈", "아픔", "많이 아픔", "골절", "타박상", "복합골절"],
     paraInfo: "2층 높이 추락 사고 20대 여성 머리 출혈 환자 발생하였습니다.\n심정지 이력이 있는 환자입니다. 비상비상비상비상비상비상비상비상비상zzzzzzzzzzz비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상xxxxxxxxxxxx비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상비상",
@@ -24,11 +25,12 @@ const parList = [
   },
   {
     id: 2,
-    addr: "주소",
+    addr: "부산광역시 강서구 녹산산단382로14번가길 10~29번지(송정동)",
     pos: { lat: 37.566369, lon: 126.984895 },
     ktas: "ktas2",
     elapseMin: 8,
     leftTime: 19,
+    dist: 15,
     paraType: "청년 (여)",
     paraTag: ["추락", "과다출혈"],
     paraInfo: "2층 높이 추락 사고 20대 여성 머리 출혈 환자 발생하였습니다.\n심정지 이력이 있는 환자입니다.",
@@ -36,11 +38,12 @@ const parList = [
   },
   {
     id: 3,
-    addr: "주소",
+    addr: "부산광역시 강서구 녹산산단382로14번가길 10~29번지(송정동)",
     pos: { lat: 37.563709, lon: 126.989577 },
     ktas: "ktas3",
     elapseMin: 19,
     leftTime: 31,
+    dist: 4,
     paraType: "청년 (여)",
     paraTag: ["추락", "과다출혈"],
     paraInfo: "2층 높이 추락 사고 20대 여성 머리 출혈 환자 발생하였습니다.\n심정지 이력이 있는 환자입니다.",
@@ -53,6 +56,7 @@ const parList = [
     ktas: "ktas4",
     elapseMin: 21,
     leftTime: 24,
+    dist: 6,
     paraType: "청년 (여)",
     paraTag: ["추락", "과다출혈"],
     paraInfo: "2층 높이 추락 사고 20대 여성 머리 출혈 환자 발생하였습니다.\n심정지 이력이 있는 환자입니다.",
@@ -65,9 +69,10 @@ const parList = [
     ktas: "ktas5",
     elapseMin: 4,
     leftTime: 11,
+    dist: 19,
     paraType: "청년 (여)",
     paraTag: ["추락", "과다출혈"],
-    paraInfo: "2층 높이 추락 사고 20대 여성 머리 출혈 환자 발생하였습니다.\n심정지 이력이 있는 환자입니다. 비상~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+    paraInfo: "2층 높이 추락 사고 20대 여성 머리 출혈 환자 발생하였습니다.\n심정지 이력이 있는 환자입니다. 비사아아ㅏ아아아아아아ㅏㅏㅏㅏㅏㅏㅏㅏㅏ앙",
     requestAt: "오전 01:31",
   },
 ];
@@ -83,23 +88,29 @@ function Main() {
   const geolocation = useGeolocation();
 
   useEffect(() => {
-    const cnt = setInterval(() => {
-      // 타이머 숫자가 하나씩 줄어들도록
-      setCounter((counter) => counter - 1);
-    }, 1000);
+    setProps();
+  }, [])
 
-    if (counter == 0) {
-      console.log(counter);
-      setCounter(1);
-      setProps();
+  useEffect(() => {
+    if (componentType[0]) {
+      const cnt = setInterval(() => {
+        // 타이머 숫자가 하나씩 줄어들도록
+        setCounter((counter) => counter - 1);
+      }, 1000);
+
+      if (counter == 0) {
+        // console.log(counter);
+        setCounter(1);
+        setProps();
+      }
+      return () => clearInterval(cnt);
     }
-    return () => clearInterval(cnt);
-  }, [counter]);
+  }, [counter, componentType]);
   // ----------------------------------
 
   const setProps = () => {
     let nextData: ParamedicItem[] = [];
-    
+
     dummyData.forEach((item) => {
       const dx = (5 - Math.floor(Math.random() * 10 + 1)) * 0.0001;
       const dy = (5 - Math.floor(Math.random() * 10 + 1)) * 0.0001;
@@ -112,6 +123,7 @@ function Main() {
         ktas: item.ktas,
         elapseMin: item.elapseMin,
         leftTime: item.leftTime,
+        dist: item.dist,
         paraType: item.paraType,
         paraTag: item.paraTag,
         paraInfo: item.paraInfo,
@@ -142,7 +154,7 @@ function Main() {
       <HopsitalSidebar />
       <ComponentContainer>
         {componentType[0] ? (
-          <>{mapProps !== undefined ? <HospitalMain {...mapProps}/> : <></>}</>
+          <>{mapProps !== undefined ? <HospitalMain {...mapProps} /> : <></>}</>
         ) : (
           <></>
         )}
@@ -162,6 +174,4 @@ function Main() {
     <p>No geolocation, sorry.</p>
   );
 }
-
 export default Main;
-

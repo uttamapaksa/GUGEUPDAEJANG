@@ -10,13 +10,19 @@ export const ParamedicListContainer = styled.div`
   margin: 1% 0;
   overflow-y: scroll;
   overflow-x: hidden;
+
   &::-webkit-scrollbar {
-    width: 3px;
+    width: 12px;
     border-radius: 6px;
-    background: rgba(255, 255, 255, 0.4);
+    background: transparent;
   }
   &::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    background-clip: padding-box;
+    border: 5px solid transparent;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: ${theme.color.grayLight};
   }
 `;
