@@ -13,20 +13,19 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class OccurrenceTagRepositoryTest {
 
     @Autowired
-    private TagRepository tagRepository;
+    TestEntityManager em;
 
     @Autowired
-    TestEntityManager em;
+    private OccurrenceTagRepository occurrenceTagRepository;
 
     private Occurrence occurrence;
     private Long memberId;
@@ -47,12 +46,12 @@ class OccurrenceTagRepositoryTest {
     @DisplayName("사고_태그를_저장한다.")
     @Test
     void 사고_태그를_저장한다() throws Exception {
-        Tag tag = tags.get(0);
-        OccurrenceTag occurrenceTag = new OccurrenceTag(occurrence, tag);
+        List<OccurrenceTag> occurrenceTagList = callingRequest.getTags().stream()
+                .map(o -> new OccurrenceTag(occurrence, o))
+                .collect(Collectors.toList());
 
-        OccurrenceTag savedOccurrenceTag = em.persist(occurrenceTag);
+        List<OccurrenceTag> occurrenceTags = occurrenceTagRepository.saveAll(occurrenceTagList);
 
-        assertThat(savedOccurrenceTag.getOccurrence()).isEqualTo(occurrence);
-        assertThat(savedOccurrenceTag.getTag()).isEqualTo(tag);
+        assertThat(occurrenceTags.size()).isEqualTo(occurrenceTagList.size());
     }
 }

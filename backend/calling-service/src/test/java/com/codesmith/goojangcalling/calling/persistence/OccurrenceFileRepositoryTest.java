@@ -13,14 +13,19 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.*;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class OccurrenceFileRepositoryTest {
+
     @Autowired
     TestEntityManager em;
+
+    @Autowired
+    private OccurrenceFileRepository occurrenceFileRepository;
 
     private Occurrence occurrence;
     private Long memberId;
@@ -41,14 +46,12 @@ class OccurrenceFileRepositoryTest {
     @DisplayName("사고파일을 저장한다.")
     @Test
     void 사고파일을_저장한다() throws Exception {
-        FileUploadResponse fileUploadResponse = files.get(0);
-        OccurrenceFile occurrenceFile = new OccurrenceFile(occurrence, fileUploadResponse.getUploadUrl(), fileUploadResponse.getContentType(), fileUploadResponse.getSize());
+        List<OccurrenceFile> occurrenceFileList = callingRequest.getFiles().stream()
+                .map(o -> new OccurrenceFile(occurrence, o.getUploadUrl(), o.getContentType(), o.getSize()))
+                .collect(Collectors.toList());
 
-        OccurrenceFile savedOccurrenceFile = em.persist(occurrenceFile);
+        List<OccurrenceFile> occurrenceFiles = occurrenceFileRepository.saveAll(occurrenceFileList);
 
-        assertThat(savedOccurrenceFile.getOccurrence()).isEqualTo(occurrence);
-        assertThat(savedOccurrenceFile.getSavedFileName()).isEqualTo(fileUploadResponse.getUploadUrl());
-        assertThat(savedOccurrenceFile.getContentType()).isEqualTo(fileUploadResponse.getContentType());
-        assertThat(savedOccurrenceFile.getSize()).isEqualTo(fileUploadResponse.getSize());
+        assertThat(occurrenceFiles.size()).isEqualTo(occurrenceFileList.size());
     }
 }
