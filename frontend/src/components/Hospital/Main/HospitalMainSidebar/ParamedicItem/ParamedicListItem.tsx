@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { ParamedicItemContainer, ParamedicItemContent, ItemRequestAt, ItemParaType, ItemParaInfo, ItemParaTagGroup } from "./ParamedicListItem.style";
 import { BtnToggle } from "/src/components/Commons/Atoms/Button";
 import { DivKtasInfo, DivTag } from "/src/components/Commons/Atoms/Div";
@@ -9,7 +10,7 @@ const ParamedicListItem = (props: any) => {
 
   return (
     <ParamedicItemContainer>
-      <ParamedicItemContent onClick={props.onclick}>
+      <ParamedicItemContent onClick={props.onclick} $isSelected={props.isSelected}>
         <DivKtasInfo
           $position="absolute"
           $right="0%"
@@ -19,7 +20,7 @@ const ParamedicListItem = (props: any) => {
           $height="25px"
           $borderRadius="0px 0px 0px 10px"
           $fontSize={theme.font.Small5_12}>
-          KTAS1
+          KTAS{props.ktas.charAt(4)}
         </DivKtasInfo>
         <ItemRequestAt>{props.requestAt}</ItemRequestAt>
         <ItemParaType>{props.paraType}</ItemParaType>
@@ -49,7 +50,9 @@ const ParamedicListItem = (props: any) => {
           $borderRadius="0px"
           $color={theme.color.pinkDrak}
           $fontSize={theme.font.Small1_16}
+          $boxShadow="0 0.2px 0.1px 0px inset"          
         >
+          
           거절
         </BtnToggle>
 
@@ -62,7 +65,8 @@ const ParamedicListItem = (props: any) => {
           $borderRadius="0px"
           $color={theme.color.white}
           $fontSize={theme.font.Small1_16}
-          $backgroundColor={theme.color.pinkDrak}>
+          $backgroundColor={theme.color.pinkDrak}
+          $boxShadow="0 0.2px 0.1px 0px inset" >
           승인
         </BtnToggle>
       </ParamedicItemContent>

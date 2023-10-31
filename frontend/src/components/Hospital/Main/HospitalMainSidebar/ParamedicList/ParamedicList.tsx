@@ -9,9 +9,7 @@ import { MapProps, ParamedicItem } from "/src/components/libraries/Map/Map";
 const ParamedicList = (props: MapProps) => {
     const [paraItem, setParaItem] = useState<ParamedicItem | undefined>(undefined);
 
-    const selectParaDetail = (props: ParamedicItem|undefined) => {
-        console.log("sss")
-        console.log(props)
+    const selectParaDetail = (props: ParamedicItem | undefined) => {
         setParaItem(props);
     }
 
@@ -20,7 +18,11 @@ const ParamedicList = (props: MapProps) => {
             <ParamedicListContainer>
                 {props.parList !== undefined ?
                     <>{props.parList.map((item, index) => (
-                        <ParamedicListItem {...item} onclick={() => selectParaDetail(item)}></ParamedicListItem>
+                        <ParamedicListItem {...item}
+                            onclick={() => selectParaDetail(item)}
+                            isSelected={(paraItem !== undefined && paraItem.id == item.id)}
+                        >
+                        </ParamedicListItem>
                     ))}</> : <></>
                 }
 
@@ -32,15 +34,3 @@ const ParamedicList = (props: MapProps) => {
 };
 
 export default ParamedicList;
-
-// {
-//     id: 5,
-//     addr: "주소",
-//     pos: { lat: 37.565128, lon: 126.98883 },
-//     ktas: 5,
-//     elapseMin: 4,
-//     leftTime: 11,
-//     paraTag: ["추락", "과다출혈"],
-//     paraInfo: "2층 높이 추락 사고 20대 여성 머리 출혈 환자 발생하였습니다.\n심정지 이력이 있는 환자입니다.",
-//     requestAt: "오전 01:31",
-//   },
