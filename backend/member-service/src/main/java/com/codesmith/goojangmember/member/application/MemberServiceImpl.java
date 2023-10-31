@@ -43,7 +43,7 @@ public class MemberServiceImpl implements MemberService {
     public List<HospitalListResponse> getHospitalList(Double latitude, Double longitude, Double distance) throws IOException {
         List<String> hospitalList = hospitalDetailRepository.findHospitalWithinDistance(latitude, longitude, distance);
         memberValidator.validateExistNearByHospital(hospitalList);
-        
+
         HashMap<String, Long> hospitalInfoMap = publicDataClient.getRealTimeERBedInfo();
         List<HospitalListResponse> hospitalListResponseList = new ArrayList<>();
         for (String hospitalId : hospitalList) {
