@@ -33,7 +33,7 @@ public class CallingServiceImpl implements CallingService{
         occurrenceTagRepository.saveAll(occurrenceTagList);
 
         List<OccurrenceFile> occurrenceFileList = callingCreateRequest.getFiles().stream()
-                .map(o -> new OccurrenceFile(occurrence, o.getUploadUrl(), o.getContentType(), o.getSize()))
+                .map(o -> new OccurrenceFile(occurrence, o.getFilePath(), o.getContentType(), o.getSize()))
                 .collect(Collectors.toList());
         occurrenceFileRepository.saveAll(occurrenceFileList);
     }

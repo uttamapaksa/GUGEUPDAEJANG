@@ -61,7 +61,7 @@ class CallingServiceImplTest {
                 .map(o -> new OccurrenceTag(occurrence, o))
                 .collect(Collectors.toList());
         List<OccurrenceFile> occurrenceFileList = callingCreateRequest.getFiles().stream()
-                .map(o -> new OccurrenceFile(occurrence, o.getUploadUrl(), o.getContentType(), o.getSize()))
+                .map(o -> new OccurrenceFile(occurrence, o.getFilePath(), o.getContentType(), o.getSize()))
                 .collect(Collectors.toList());
         given(occurrenceRepository.save(Mockito.any(Occurrence.class))).willReturn(occurrence);
         given(occurrenceFileRepository.saveAll(Mockito.any(List.class))).willReturn(occurrenceFileList);

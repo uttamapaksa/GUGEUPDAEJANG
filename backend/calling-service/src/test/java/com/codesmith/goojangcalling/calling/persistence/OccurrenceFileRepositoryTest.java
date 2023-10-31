@@ -47,7 +47,7 @@ class OccurrenceFileRepositoryTest {
     @Test
     void 사고파일을_저장한다() throws Exception {
         List<OccurrenceFile> occurrenceFileList = callingCreateRequest.getFiles().stream()
-                .map(o -> new OccurrenceFile(occurrence, o.getUploadUrl(), o.getContentType(), o.getSize()))
+                .map(o -> new OccurrenceFile(occurrence, o.getFilePath(), o.getContentType(), o.getSize()))
                 .collect(Collectors.toList());
 
         List<OccurrenceFile> occurrenceFiles = occurrenceFileRepository.saveAll(occurrenceFileList);
