@@ -19,7 +19,7 @@ class HMacPassportProviderTest {
 
     @BeforeEach
     void setUp() {
-        memberInfo = new MemberInfo(1L, "test@tes.com", "testname", "ADMIN");
+        memberInfo = new MemberInfo(1L, "test@tes.com", "testname", "profile.jpg", "ADMIN");
     }
 
     @DisplayName("패스포트가 발급된다")

@@ -3,6 +3,9 @@ package com.codesmith.goojangmember.auth.application;
 import com.codesmith.goojangmember.auth.dto.request.AuthLoginRequest;
 import com.codesmith.goojangmember.auth.dto.response.AuthLoginResponse;
 import com.codesmith.goojangmember.auth.persistence.RefreshTokenRepository;
+import com.codesmith.goojangmember.global.passport.application.PassportProvider;
+import com.codesmith.goojangmember.global.passport.dto.MemberInfo;
+import com.codesmith.goojangmember.global.passport.dto.Passport;
 import com.codesmith.goojangmember.member.application.MemberValidator;
 import com.codesmith.goojangmember.member.persistence.MemberRepository;
 import com.codesmith.goojangmember.member.persistence.domain.Member;
@@ -32,6 +35,8 @@ class AuthServiceTest {
     private MemberValidator memberValidator;
     @Mock
     private PasswordEncoder passwordEncoder;
+    @Mock
+    private PassportProvider passportProvider;
     @InjectMocks
     private AuthService authService;
 
@@ -50,5 +55,21 @@ class AuthServiceTest {
 
         assertThat(response.getAccessToken()).isEqualTo("newAccessToken");
         assertThat(response.getRefreshToken()).isEqualTo("newRefreshToken");
+    }
+
+    @Test
+    @DisplayName("토큰으로 패스포트를 발급한다")
+    void 토큰으로_패스포트를_발급한다() {
+        String email = "paramedic@addtest.com";
+        Member member = new Member(1L, "paramedic@addtest.com", "password123", "Paramedic User", "profile.jpg", Role.PARAMEDIC);
+        MemberInfo memberInfo = new MemberInfo(1L, "paramedic@addtest.com", "Paramedic User", "profile.jpg", "PARAMEDIC");
+
+        given(tokenProvider.getPayload("AccessToken")).willReturn(email);
+        given(memberRepository.findByEmail(email)).willReturn(member);
+        given(passportProvider.generatePassport(memberInfo)).willReturn("1234");
+
+        String passportStr = authService.createPassport("AccessToken");
+
+        assertNotNull(passportStr);
     }
 }

@@ -6,6 +6,7 @@ import com.codesmith.goojangmember.auth.exception.InvalidLoginException;
 import com.codesmith.goojangmember.auth.exception.InvalidTokenException;
 import com.codesmith.goojangmember.auth.persistence.RefreshTokenRepository;
 import com.codesmith.goojangmember.auth.persistence.domain.RefreshToken;
+import com.codesmith.goojangmember.global.passport.dto.Passport;
 import com.codesmith.goojangmember.member.application.MemberValidator;
 import com.codesmith.goojangmember.member.persistence.MemberRepository;
 import com.codesmith.goojangmember.member.persistence.domain.Member;
@@ -35,5 +36,9 @@ public class AuthService {
         refreshTokenRepository.save(new RefreshToken(refreshToken, member.getEmail()));
 
         return new AuthLoginResponse(accessToken, refreshToken);
+    }
+
+    public String createPassport(String accessToken) {
+        return null;
     }
 }
