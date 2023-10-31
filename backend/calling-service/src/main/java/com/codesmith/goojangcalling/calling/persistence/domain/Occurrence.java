@@ -18,6 +18,7 @@ public class Occurrence {
     private Long memberId;
     @Enumerated(EnumType.STRING)
     private KTAS ktas;
+    @Enumerated(EnumType.STRING)
     private AgeGroup ageGroup;
     @Enumerated(EnumType.STRING)
     private Gender gender;
