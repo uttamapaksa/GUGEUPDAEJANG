@@ -2,6 +2,7 @@ package com.codesmith.goojangmember.global.passport.application;
 
 import com.codesmith.goojangmember.global.passport.dto.MemberInfo;
 import com.codesmith.goojangmember.global.passport.dto.Passport;
+import com.codesmith.goojangmember.global.passport.exception.InvalidPassportException;
 import com.codesmith.goojangmember.member.persistence.MemberRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -34,29 +35,54 @@ public class HMacPassportProvider implements PassportProvider {
 
     @Override
     public String generatePassport(MemberInfo memberInfo) {
-        String passportEncoded;
+        String message;
         try {
             String memberInfoStr = objectMapper.writeValueAsString(memberInfo);
             String hashStr = createHMAC(memberInfoStr);
 
             Passport passport = new Passport(memberInfo, hashStr);
             String passportStr = objectMapper.writeValueAsString(passport);
-            passportEncoded = Base64.getEncoder().encodeToString(passportStr.getBytes());
+            message = Base64.getEncoder().encodeToString(passportStr.getBytes());
+
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
 
-        return passportEncoded;
+        return message;
     }
 
     @Override
     public MemberInfo getMemberInfo(String message) {
-        return null;
+        MemberInfo memberInfo;
+        try {
+            String passportStr = new String(Base64.getDecoder().decode(message));
+            String infoStr = objectMapper.readTree(passportStr).get("memberInfo").toString();
+            memberInfo = objectMapper.readValue(infoStr, MemberInfo.class);
+
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
+        return memberInfo;
     }
 
     @Override
     public boolean validatePassport(String message) {
-        return false;
+        String infoEncodeStr;
+        String hashStr;
+        try {
+            String passportStr = new String(Base64.getDecoder().decode(message));
+            String infoStr = objectMapper.readTree(passportStr).get("memberInfo").toString();
+            infoEncodeStr = createHMAC(infoStr);
+            hashStr = objectMapper.readTree(passportStr).get("memberInfoIntegrity").asText();
+
+            if (!hashStr.equals(infoEncodeStr)) throw new InvalidPassportException("잘못된 패스포트");
+
+        } catch (Exception e) {
+            throw new InvalidPassportException("잘못된 패스포트");
+        }
+
+        return true;
     }
 
     private String createHMAC(String message) {
