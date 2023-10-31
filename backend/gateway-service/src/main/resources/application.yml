@@ -20,21 +20,21 @@ spring:
     gateway:
       routes:
         - id: member-service
-          uri: lb://MEMBER-SERVICE
+          uri: https://k9b204.p.ssafy.io:64417
           predicates:
             - Path=/api/member/**, /api/auth/**
           filters:
             - RewritePath=/api/(?<segment>.*), /$\{segment}
 
         - id: calling-service
-          uri: lb://CALLING-SERVICE
+          uri: https://k9b204.p.ssafy.io:64419
           predicates:
             - Path=/api/calling/**
           filters:
             - RewritePath=/api/(?<segment>.*), /$\{segment}
 
         - id: transfer-service
-          uri: lb://TRANSFER-SERVICE
+          uri: https://k9b204.p.ssafy.io:64415
           predicates:
             - Path=/api/transfer/**
           filters:
