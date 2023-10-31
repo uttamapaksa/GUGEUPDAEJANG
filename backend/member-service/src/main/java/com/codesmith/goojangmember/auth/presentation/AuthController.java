@@ -2,6 +2,7 @@ package com.codesmith.goojangmember.auth.presentation;
 
 import com.codesmith.goojangmember.auth.application.AuthService;
 import com.codesmith.goojangmember.auth.dto.request.AuthLoginRequest;
+import com.codesmith.goojangmember.auth.dto.request.PassportCreateRequest;
 import com.codesmith.goojangmember.auth.dto.response.AuthLoginResponse;
 import com.codesmith.goojangmember.auth.dto.response.PassportCreateResponse;
 import com.codesmith.goojangmember.global.passport.dto.Passport;
@@ -21,7 +22,7 @@ public class AuthController {
     }
 
     @PostMapping("/passport")
-    public ResponseEntity<PassportCreateResponse> getPassport(@RequestHeader("Authorization") String accessToken) {
-        return ResponseEntity.ok(authService.createPassport(accessToken));
+    public ResponseEntity<PassportCreateResponse> getPassport(@RequestBody PassportCreateRequest passportCreateRequest) {
+        return ResponseEntity.ok(authService.createPassport(passportCreateRequest));
     }
 }

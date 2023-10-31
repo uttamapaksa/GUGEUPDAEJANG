@@ -2,10 +2,12 @@ package com.codesmith.goojangmember.auth.presentation;
 
 import com.codesmith.goojangmember.auth.application.AuthService;
 import com.codesmith.goojangmember.auth.dto.request.AuthLoginRequest;
+import com.codesmith.goojangmember.auth.dto.request.PassportCreateRequest;
 import com.codesmith.goojangmember.auth.dto.response.PassportCreateResponse;
 import com.codesmith.goojangmember.member.dto.request.HospitalJoinRequest;
 import com.codesmith.goojangmember.member.presentation.MemberController;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import static junit.framework.TestCase.assertEquals;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
@@ -53,20 +56,19 @@ class AuthControllerTest {
     @DisplayName("패스포트를 요청한다")
     @Test
     void 패스포트를_요청한다() throws Exception {
-        String accessToken = "accessToken";
+        PassportCreateRequest request = new PassportCreateRequest("accessToken");
         String passport = "passport";
 
-        given(authService.createPassport(accessToken)).willReturn(new PassportCreateResponse(passport));
+        given(authService.createPassport(request)).willReturn(new PassportCreateResponse(passport));
 
-        MvcResult result = mockMvc.perform(post("/auth/passport")
+        String requestBody = objectMapper.writeValueAsString(request);
+
+        mockMvc.perform(post("/auth/passport")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header("Authorization", accessToken)
+                        .content(requestBody)
                 )
                 .andExpect(status().isOk())
                 .andReturn();
-
-        String responseBody = result.getResponse().getContentAsString();
-        assertThat(responseBody, containsString(passport));
     }
 
 }

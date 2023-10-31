@@ -1,6 +1,7 @@
 package com.codesmith.goojangmember.auth.application;
 
 import com.codesmith.goojangmember.auth.dto.request.AuthLoginRequest;
+import com.codesmith.goojangmember.auth.dto.request.PassportCreateRequest;
 import com.codesmith.goojangmember.auth.dto.response.AuthLoginResponse;
 import com.codesmith.goojangmember.auth.dto.response.PassportCreateResponse;
 import com.codesmith.goojangmember.auth.exception.InvalidLoginException;
@@ -42,8 +43,8 @@ public class AuthService {
         return new AuthLoginResponse(accessToken, refreshToken);
     }
 
-    public PassportCreateResponse createPassport(String accessToken) {
-        String email = tokenProvider.getPayload(accessToken);
+    public PassportCreateResponse createPassport(PassportCreateRequest passportCreateRequest) {
+        String email = tokenProvider.getPayload(passportCreateRequest.getAccessToken());
         memberValidator.doesEmailExist(email);
         Member member = memberRepository.findByEmail(email);
         MemberInfo memberInfo = new MemberInfo(member.getId(), member.getEmail(), member.getName(), member.getImageUrl(), member.getRole().getKey());

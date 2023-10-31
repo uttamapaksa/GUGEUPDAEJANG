@@ -1,6 +1,7 @@
 package com.codesmith.goojangmember.auth.application;
 
 import com.codesmith.goojangmember.auth.dto.request.AuthLoginRequest;
+import com.codesmith.goojangmember.auth.dto.request.PassportCreateRequest;
 import com.codesmith.goojangmember.auth.dto.response.AuthLoginResponse;
 import com.codesmith.goojangmember.auth.persistence.RefreshTokenRepository;
 import com.codesmith.goojangmember.global.passport.application.PassportProvider;
@@ -75,7 +76,7 @@ class AuthServiceTest {
         when(memberRepository.findByEmail(email)).thenReturn(member);
         when(passportProvider.generatePassport(any(MemberInfo.class))).thenReturn(passport);
 
-        String actualPassport = authService.createPassport(accessToken).getPassport();
+        String actualPassport = authService.createPassport(new PassportCreateRequest(accessToken)).getPassport();
 
         assertEquals(passport, actualPassport);
     }
