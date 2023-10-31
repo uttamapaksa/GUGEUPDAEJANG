@@ -10,8 +10,8 @@ function SignupInput () {
           $width='70%'
           $height='100%'
           $fontSize='2vh' 
-          $boxShadow='0 0 0.3vh 0.3vh rgba(0, 0, 0, 0.10)'
           placeholder='이메일'/>
+          
         <A.BtnSubmit
           $margin='0 0 0 auto'
           $width='20%'
@@ -26,7 +26,6 @@ function SignupInput () {
           $width='100%'
           $height='100%'
           $fontSize='2vh' 
-          $boxShadow='0 0 0.3vh 0.3vh rgba(0, 0, 0, 0.10)'
           placeholder='이름'/>
       </S.Row1>
 
@@ -35,7 +34,6 @@ function SignupInput () {
           $width='100%'
           $height='100%'
           $fontSize='2vh' 
-          $boxShadow='0 0 0.3vh 0.3vh rgba(0, 0, 0, 0.10)'
           placeholder='비밀번호'/>
       </S.Row1>
 
@@ -44,7 +42,6 @@ function SignupInput () {
           $width='100%'
           $height='100%'
           $fontSize='2vh' 
-          $boxShadow='0 0 0.3vh 0.3vh rgba(0, 0, 0, 0.10)'
           placeholder='비밀번호 확인'/>
       </S.Row1>
 

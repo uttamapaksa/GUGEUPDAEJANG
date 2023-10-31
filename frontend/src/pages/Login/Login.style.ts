@@ -15,9 +15,9 @@ export const Wrapper = styled.div`
   width: 60vh;  
   padding-left: 1vh;
   padding-right: 1vh;
-  height: 60vh;
-  padding-top: 20vh;
-  padding-bottom: 20vh;
+  height: 70vh;
+  padding-top: 15vh;
+  padding-bottom: 15vh;
 `;
 
 export const ContentBox = styled.div`

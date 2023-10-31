@@ -8,10 +8,10 @@ function LoginInput () {
     <S.Container>
       <S.Row1>
         <A.IptUserInfo
-        $width='70%'
-        $height='100%'
-        $fontSize='1.6vh' 
-        placeholder='이메일'/>
+          $width='70%'
+          $height='100%'
+          $fontSize='1.6vh' 
+          placeholder='이메일'/>
       </S.Row1>
 
       <S.Row1>
@@ -19,7 +19,7 @@ function LoginInput () {
           $width='70%'
           $height='100%'
           $fontSize='1.6vh' 
-          placeholder='이메일'/>
+          placeholder='비밀번호'/>
 
         <A.BtnSubmit
           $margin='0 0 0 auto'
