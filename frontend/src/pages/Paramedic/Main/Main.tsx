@@ -24,12 +24,14 @@ function Main() {
               onClick={()=>setSelected(selected === 1 ? 0 : 1)}
               $width="47.5%" 
               $IsClick={selected === 1 ? true : false}
+              style={{ boxShadow: selected !== 1 ? '0 0 1vh 0.4vh rgba(0, 0, 0, 0.1)' : '0 0 1vh 0.4vh rgba(0, 0, 0, 0.25)' }}
               >
               <A.TxtContent
                 $margin='3vh 0 0 6vh'
                 $fontSize='3.2vh'
                 $lineHeight='3.2vh'
                 $fontWeight='800'
+                $color={selected === 1 ? 'none' : 'rgba(0, 0, 0, 0.2)'}
                 >
               환자 이송
               </A.TxtContent>
@@ -38,6 +40,7 @@ function Main() {
                 $fontSize='3.2vh'
                 $lineHeight='3.2vh'
                 $fontWeight='800'
+                $color={selected === 1 ? 'none' : 'rgba(0, 0, 0, 0.2)'}
               >
               요청하기
               </A.TxtContent>
@@ -86,7 +89,7 @@ function Main() {
               </A.TxtContent>
               </>
               : <A.TxtContent
-              $margin='3vh 0 0 6vh'
+              $margin='2.6vh 0 0 6vh'
               $fontSize='3.2vh'
               $fontWeight='800'
               $color='rgba(0, 0, 0, 0.2)'

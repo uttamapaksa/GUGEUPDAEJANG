@@ -121,7 +121,7 @@ export const BtnKtas = styled(StyledButton)`
     props.$ktas && !props.$IsClick ? theme.color[`${props.$ktas}_Deactive`]:""};
   
   transition: background-color 0.2s ease-in-out;
-  `
+`
   
   export const BtnToggle = styled(StyledButton)`
   font-size: ${(props) => 
