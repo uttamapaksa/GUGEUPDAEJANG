@@ -1,10 +1,6 @@
 import { styled } from "styled-components";
-import { ImgArrowBlackRight, ImgArrowPinkRight, ImgArrowRight, ImgLogo, ImgRecordVideoBlack, ImgRecordVideoPink } from "../components/Commons/Atoms/Image";
-import { IptUserInfo } from "../components/Commons/Atoms/Input";
-import { BtnKtas, BtnMediaRecord, BtnParaState, BtnSubmit, BtnToggle } from "../components/Commons/Atoms/Button";
 import theme from "../styles";
-import { TxtHeaderTitle, TxtParamedicTitle } from "../components/Commons/Atoms/Text";
-import { DivKtasInfo, DivTag } from "../components/Commons/Atoms/Div";
+import A from '/src/components/Commons/Atoms/index'
 
 const Container = styled.div`
   border: 3px solid black;
@@ -27,222 +23,221 @@ function Home() {
   return (
     <Container>
       <MainWrapper>
-        <ImgLogo
-          $width="400px"
-        />
+        <A.ImgLogo
+          $width="400px"/>
       
-        <IptUserInfo
+        <A.IptUserInfo
           $margin="10px"
           $width='300px'
           $height="60px"
-          placeholder='이메일'></IptUserInfo>
+          placeholder='이메일'></A.IptUserInfo>
         
-        <IptUserInfo
+        <A.IptUserInfo
           $margin="10px"
           $width='300px'
           $height="60px"
-          placeholder='이름'></IptUserInfo>
+          placeholder='이름'></A.IptUserInfo>
 
-        <BtnSubmit
+        <A.BtnSubmit
           $margin="10px"
           $width='100px'
           $height='60px'
-          $backgroundColor={theme.color.pinkLight}>로그인</BtnSubmit>
+          $backgroundColor={theme.color.pinkLight}>로그인</A.BtnSubmit>
         
-        <BtnSubmit
+        <A.BtnSubmit
           $margin="10px"
           $width='100px'
           $height='60px'
-          $backgroundColor={theme.color.grayDarkest}>인증</BtnSubmit>
+          $backgroundColor={theme.color.grayDarkest}>인증</A.BtnSubmit>
         
-        <BtnSubmit
+        <A.BtnSubmit
           $margin="10px"
           $width='300px'
           $height='60px'
           $fontSize='23px'
-          $backgroundColor={theme.color.pinkLight}>회원가입</BtnSubmit>
+          $backgroundColor={theme.color.pinkLight}>회원가입</A.BtnSubmit>
         
-        <BtnParaState
+        <A.BtnParaState
           $margin="10px"
           $width="200px"
           $height="200px"
           $backgroundColor={theme.color.white}>
           하나병원
-        </BtnParaState>
+        </A.BtnParaState>
 
-        <BtnParaState
+        <A.BtnParaState
           $margin="10px"
           $width="200px"
           $height="200px"
           $backgroundColor={theme.color.grayDarkest}>
           하나병원
-        </BtnParaState>
+        </A.BtnParaState>
         
-        <TxtParamedicTitle>응급 분류</TxtParamedicTitle>
-        <TxtHeaderTitle>환자 등록</TxtHeaderTitle>
+        <A.TxtParamedicTitle>응급 분류</A.TxtParamedicTitle>
+        <A.TxtHeaderTitle>환자 등록</A.TxtHeaderTitle>
 
         <Ktas>
-          <BtnKtas
+          <A.BtnKtas
             $ktas="ktas1"
             $width="150px"
-            $height="70px">KTAS1</BtnKtas>
-          <BtnKtas
+            $height="70px">KTAS1</A.BtnKtas>
+          <A.BtnKtas
             $ktas="ktas2"
             $width="150px"
             $height="70px"
-            $IsClick>KTAS2</BtnKtas>
-          <BtnKtas
+            $IsClick>KTAS2</A.BtnKtas>
+          <A.BtnKtas
             $ktas="ktas3"
             $width="150px"
             $height="70px"
-            $IsClick>KTAS3</BtnKtas>
-          <BtnKtas
+            $IsClick>KTAS3</A.BtnKtas>
+          <A.BtnKtas
             $ktas="ktas4"
             $width="150px"
-            $height="70px">KTAS4</BtnKtas>
-          <BtnKtas
+            $height="70px">KTAS4</A.BtnKtas>
+          <A.BtnKtas
             $ktas="ktas5"
             $width="150px"
-            $height="70px">KTAS5</BtnKtas>
+            $height="70px">KTAS5</A.BtnKtas>
         </Ktas>
 
-        <BtnToggle 
+        <A.BtnToggle 
           $margin="10px"
           $width="140px"
           $height="90px"
           $border={theme.color.grayMedium}>
             <p>아동</p>
-            <p>(여)</p></BtnToggle>
+            <p>(여)</p></A.BtnToggle>
 
-        <BtnToggle 
+        <A.BtnToggle 
           $margin="10px"
           $width="140px"
           $height="90px"
           $IsClick={true}> 
           <p>청소년</p>
-          <p>(여)</p></BtnToggle>        
+          <p>(여)</p></A.BtnToggle>        
 
-        <BtnToggle 
+        <A.BtnToggle 
           $margin="10px"
           $width="200px"
           $height="50px"
-          $border={theme.color.grayDarkest}>의식 없음</BtnToggle>     
+          $border={theme.color.grayDarkest}>의식 없음</A.BtnToggle>     
 
-        <BtnToggle 
+        <A.BtnToggle 
           $margin="10px"
           $width="200px"
           $height="50px"
-          $IsClick={true}>과다 출혈</BtnToggle>     
+          $IsClick={true}>과다 출혈</A.BtnToggle>     
 
-        <BtnSubmit
+        <A.BtnSubmit
           $margin="10px"
           $width="600px"
           $height="75px"
           $fontSize="32px"
-          $backgroundColor={theme.color.pinkDrak}>이송 요청</BtnSubmit>
+          $backgroundColor={theme.color.pinkDrak}>이송 요청</A.BtnSubmit>
 
-        <DivTag
+        <A.DivTag
           $margin="10px"
           $width="100px"
           $height="40px"
           $fontSize={theme.font.Medium3_23}
           $color={theme.color.white}
-          $backgroundColor={theme.color.fontGrey1}>00:18</DivTag>
+          $backgroundColor={theme.color.fontGrey1}>00:18</A.DivTag>
 
-        <BtnToggle 
+        <A.BtnToggle 
           $margin="10px"
           $width="170px"
           $height="80px"
           $color={theme.color.fontPink1}
           $border={theme.color.pinkLight}
-          $borderRadius="10px">요청취소</BtnToggle> 
+          $borderRadius="10px">요청취소</A.BtnToggle> 
         
-        <BtnToggle 
+        <A.BtnToggle 
           $margin="10px"
           $width="170px"
           $height="80px"
           $borderRadius="10px"
-          $IsClick>요청 보내기</BtnToggle> 
+          $IsClick>요청 보내기</A.BtnToggle> 
 
-        <DivTag
+        <A.DivTag
           $margin="10px"
           $width="200px"
-          $height="60px">과다 출혈</DivTag>
+          $height="60px">과다 출혈</A.DivTag>
 
-        <DivTag
+        <A.DivTag
           $margin="10px"
           $width="200px"
           $height="60px"
           $color={theme.color.white}
-          $backgroundColor={theme.color.grayDarkest}>청소년 (여)</DivTag>
+          $backgroundColor={theme.color.grayDarkest}>청소년 (여)</A.DivTag>
 
-        <BtnMediaRecord
+        <A.BtnMediaRecord
           $margin="10px"
           $width="300px"
           $height="80px"
           $color={theme.color.pinkLight}
           $border={theme.color.pinkLight}>
-            <ImgRecordVideoPink $width="40px"/>
+            <A.ImgRecordVideoPink $width="40px"/>
             영상 촬영
-            <ImgArrowPinkRight $width="12px"/>
-        </BtnMediaRecord> 
+            <A.ImgArrowPinkRight $width="12px"/>
+        </A.BtnMediaRecord> 
 
-        <BtnMediaRecord
+        <A.BtnMediaRecord
           $margin="10px"
           $width="300px"
           $height="80px"
           $color={theme.color.grayDarkest}
           $border={theme.color.grayDarkest}>
-            <ImgRecordVideoBlack $width="40px"/>
+            <A.ImgRecordVideoBlack $width="40px"/>
             영상 통화
-            <ImgArrowBlackRight $width="12px"/>
-        </BtnMediaRecord> 
+            <A.ImgArrowBlackRight $width="12px"/>
+        </A.BtnMediaRecord> 
 
-        <DivKtasInfo
+        <A.DivKtasInfo
           $margin="10px"
           $ktas="ktas1"
           $width="100px"
           $height="50px"
-          $fontSize={theme.font.Medium5_20}>KTAS1</DivKtasInfo>
+          $fontSize={theme.font.Medium5_20}>KTAS1</A.DivKtasInfo>
 
-        <DivKtasInfo
+        <A.DivKtasInfo
           $margin="10px"
           $ktas="ktas3"
           $width="80px"
           $height="40px"
-          $fontSize={theme.font.Small1_16}>KTAS1</DivKtasInfo>
+          $fontSize={theme.font.Small1_16}>KTAS1</A.DivKtasInfo>
 
-        <DivTag
+        <A.DivTag
           $margin="10px"
           $width="400px"
           $height="50px"
           $color={theme.color.white}
           $borderRadius="0px"
           $fontSize={theme.font.Small1_16}
-          $backgroundColor={theme.color.blue}>3분 이내 도착 예정</DivTag>
+          $backgroundColor={theme.color.blue}>3분 이내 도착 예정</A.DivTag>
 
-        <BtnToggle 
+        <A.BtnToggle 
           $margin="10px"
           $width="170px"
           $height="80px"
           $borderRadius="0px"
           $color={theme.color.pinkDrak}
-          $fontSize={theme.font.Small1_16}>거절</BtnToggle> 
+          $fontSize={theme.font.Small1_16}>거절</A.BtnToggle> 
 
-        <BtnToggle 
+        <A.BtnToggle 
           $margin="10px"
           $width="170px"
           $height="80px"
           $borderRadius="0px"
           $color={theme.color.white}
           $fontSize={theme.font.Small1_16}
-          $backgroundColor={theme.color.pinkDrak}>승인</BtnToggle> 
+          $backgroundColor={theme.color.pinkDrak}>승인</A.BtnToggle> 
 
-        <DivTag
+        <A.DivTag
           $margin="10px"
           $width="100px"
           $height="30px"
-          $fontSize={theme.font.Small1_16}>과다 출혈</DivTag>
+          $fontSize={theme.font.Small1_16}>과다 출혈</A.DivTag>
 
       </MainWrapper>
     </Container>

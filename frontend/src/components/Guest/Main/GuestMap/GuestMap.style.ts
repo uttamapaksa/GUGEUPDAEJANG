@@ -1,7 +1,10 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  display: flex;
-  justify-content: center;
-  height: 100px;
+  height: 60vh;
+  width: 600px;
+
+  @media only screen and (max-width: 600px) {
+    width: 100vw;
+  }
 `;

@@ -38,7 +38,8 @@ import {
   ImgArrowRight,
   ImgArrowBottom,
   ImgArrowLeft,
-  ImgArrowUp,}from './Image'
+  ImgArrowUp,
+  ImgBar}from './Image'
 
 import {
   IptUserInfo,}from './Input'
@@ -87,6 +88,7 @@ const A = {
   ImgArrowBottom,
   ImgArrowLeft,
   ImgArrowUp,
+  ImgBar,
 
   IptUserInfo,
 
