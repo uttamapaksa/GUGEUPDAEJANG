@@ -1,5 +1,5 @@
-import styled from "styled-components"
-import theme from "/src/styles";
+import styled from 'styled-components';
+import theme from '/src/styles';
 
 interface InputProps {
   children?: React.ReactNode;
@@ -21,7 +21,6 @@ interface InputProps {
   $backgroundColor?: string;
   $boxShadow?: string;
 
-
   $position?: string;
   $float?: string;
   $top?: string;
@@ -29,7 +28,7 @@ interface InputProps {
   $right?: string;
   $left?: string;
   $zIndex?: string;
-  
+
   $display?: string;
   $flexDirection?: string;
   $justifyContent?: string;
@@ -39,15 +38,15 @@ interface InputProps {
 }
 
 const StyledInput = styled.input<InputProps>`
-  height: ${(props) => props.$height || "100%"};
-  width: ${(props) => props.$width || "100%"};
+  height: ${(props) => props.$height || '100%'};
+  width: ${(props) => props.$width || '100%'};
   margin: ${(props) => props.$margin};
   padding: ${(props) => props.$padding};
   border: ${(props) => props.$border};
   border-radius: ${(props) => props.$borderRadius};
   box-sizing: ${(props) => props.$boxSizing};
 
-  color: ${(props) => props.$color};
+  color: ${(props) => props.$color || `${theme.color.fontGrey2}`};
   font-size: ${(props) => props.$fontSize || "2vh"};
   font-weight: ${(props) => props.$fontWeight};
   text-align: ${(props) => props.$textAlign};
@@ -69,11 +68,11 @@ const StyledInput = styled.input<InputProps>`
   justify-items: ${(props) => props.$justifyItems};
   align-content: ${(props) => props.$alignContent};
   align-items: ${(props) => props.$alignItems};
-`
+`;
 
 export const IptUserInfo = styled(StyledInput)`
-  color: ${theme.color.fontGrey2};
   padding-left: 5%;
-  border-radius: 1vh;
-  border: 0px;
-`
+  border: ${(props) => props.$border || `0`};
+  border-radius: ${(props) => props.$borderRadius || `1vh`};
+  font-size: ${(props) => props.$fontSize || `${theme.font.Large3_32}`};
+`;

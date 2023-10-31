@@ -87,45 +87,42 @@ export const BtnSubmit = styled(StyledButton)`
 `
 
 export const BtnParaState = styled(StyledButton)`
+  position: relative;
   flex-direction: column;
-  padding: 2%;
-  /* border-radius: 20px; */
+  justify-content: start;
+  align-items: start;
+  width: 47.5%;
+  padding: 4vh;
   border-radius: 2vh;
-  /* box-shadow: 0px 0px 10px 4px rgba(0, 0, 0, 0.25); */
-  box-shadow: 0 0 1vh 0.4vh rgba(0, 0, 0, 0.25);
-  color: ${(props) => props.$IsClick ? theme.color.white : theme.color.black};
-  background-color: ${(props) => props.$IsClick ? theme.color.grayDarkest : theme.color.white};
-  transition: color 0.2s ease-in-out;
-  transition: background-color 0.2s ease-in-out;
+  box-shadow: 0 0 1vh 0.4vh rgba(0, 0, 0, 0.1);
+  ${(props) =>
+    props.$IsClick && 
+    css`
+      color: ${theme.color.white};
+      background-color: ${theme.color.grayDarkest};
+      box-shadow: 0 0 1vh 0.4vh rgba(0, 0, 0, 0.25);
+  `}
+  transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
 `
 
 export const BtnKtas = styled(StyledButton)`
-  font-size: ${theme.font.Medium5_20};
+  height: 7vh;
+  font-size: 1.5vh;
   font-weight: 900;
-
   background-color: ${theme.color.ktas1_Active}; 
-
   color: ${(props) => 
     props.$ktas && ["3", "5"].includes(props.$ktas?.slice(4)) ? 
     props.$IsClick ? `${theme.color.black}`:`${theme.color.fontGrey1}` :
     `${theme.color.white}`};
-
-  border-radius: ${(props) => 
-    props.$ktas?.slice(4) === "1" ? "20px 0px 0px 20px":
-    props.$ktas?.slice(4) === "5" ? "0px 20px 20px 0px":""};
-
   background-color: ${(props) =>
     props.$ktas && props.$IsClick ? theme.color[`${props.$ktas}_Active`] :
     props.$ktas && !props.$IsClick ? theme.color[`${props.$ktas}_Deactive`]:""};
-  
-  transition: background-color 0.2s ease-in-out;
+  transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
 `
   
   export const BtnToggle = styled(StyledButton)`
-  font-size: ${(props) => 
-    props.$fontSize ? `${props.$fontSize}` : ` ${theme.font.Medium2_24}`};
-  border-radius: ${(props) => 
-    props.$borderRadius ? `${props.$borderRadius}` : "20px"};
+  font-size: ${(props) => props.$fontSize || `${theme.font.Medium2_24}`};
+  border-radius: ${(props) => props.$borderRadius || "20px"};
   border: ${(props) => `3px solid ${props.$border}`};
   flex-direction: column;
   
@@ -136,14 +133,15 @@ export const BtnKtas = styled(StyledButton)`
       background-color: ${theme.color.grayDarkest};
       box-shadow: 0px 0px 10px 4px rgba(0, 0, 0, 0.20);
       `}
-  transition: background-color 0.2s ease-in-out;
+  
+  transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
   `
 
 export const BtnMediaRecord = styled(StyledButton)`
   justify-content: space-around;
-  font-size: ${theme.font.Large3_32};
+  font-size: ${(props) => props.$fontSize || `${theme.font.Large3_32}`};
   background-color: transparent;
   border: ${(props) => `3px solid ${props.$border}`};
-  border-radius: 20px;
-  box-shadow: 0px 0px 10px 4px rgba(0, 0, 0, 0.10);
+  border-radius: ${(props) => props.$borderRadius || `20px`};
+  box-shadow: ${(props) => props.$boxShadow || `0px 0px 10px 4px rgba(0, 0, 0, 0.10)`};
 `

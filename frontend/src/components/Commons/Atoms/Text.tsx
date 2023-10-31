@@ -69,23 +69,18 @@ const StyledText = styled.p<TextProps>`
 `
 
 export const TxtParamedicTitle = styled(StyledText)`
-  /* border: 3px solid purple; */
   justify-content: start;
   color: ${theme.color.grayDarkest};
-  font-size: ${theme.font.Medium1_30};
+  font-size: 2.6vh;
   font-weight: 700;
   width: 100%;
-  height: 5vh;
+  height: 8vh;
 `
 
 export const TxtHeaderTitle  = styled(StyledText)`
-  /* border: 3px solid purple; */
   color : ${theme.color.fontGrey4};
-  font-size: ${theme.font.Large3_32};
+  font-size: 2.5vh;
   font-weight: 400;
   width: 50%;
   height: 80%;
-`
-
-export const TxtContent  = styled(StyledText)`
 `
