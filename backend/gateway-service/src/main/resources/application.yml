@@ -28,14 +28,14 @@ spring:
             - RewritePath=/api/(?<segment>.*), /$\{segment}
 
         - id: calling-service
-          uri: https://k9b204.p.ssafy.io:64419
+          uri: https://k9b204a.p.ssafy.io:64419
           predicates:
             - Path=/api/calling/**
           filters:
             - RewritePath=/api/(?<segment>.*), /$\{segment}
 
         - id: transfer-service
-          uri: https://k9b204a.p.ssafy.io:64415
+          uri: https://k9b204.p.ssafy.io:64415
           predicates:
             - Path=/api/transfer/**
           filters:
