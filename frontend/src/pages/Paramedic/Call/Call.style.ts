@@ -126,7 +126,6 @@ export const TxtKtas = styled.div`
   align-items: center;
   padding: 0.5vh 1vh;
   /* border: 3px solid purple; */
-  overflow-wrap: break-word;
   width: 100%;
   height: 20%;
 `;

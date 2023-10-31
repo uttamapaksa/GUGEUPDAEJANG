@@ -5,10 +5,12 @@ import SockJS from 'sockjs-client';
 const SOCKET_SERVER_URL = 'https://k9b204a.p.ssafy.io:64419/calling-websocket';
 
 interface Props {
-  hospitalId: string;
+  paramedicId: string;
 }
 
-function ParamedicSocket({ hospitalId }: Props) {
+const hospitalId = '3'
+
+function ParamedicSocket({ paramedicId }: Props) {
   const [messages, setMessages] = useState<string[]>([]);
   const [messageToSend, setMessageToSend] = useState<string>('');
   const clientRef = useRef<Client | null>(null);
@@ -33,7 +35,7 @@ function ParamedicSocket({ hospitalId }: Props) {
   // 구독 함수
   const subscribeTopic = () => {
     if (clientRef.current) {
-      clientRef.current.subscribe(`/topic/${hospitalId}`, (message) => {
+      clientRef.current.subscribe(`/topic/${paramedicId}`, (message) => {
         receiveMessage(message.body);
       });
     }
@@ -64,7 +66,7 @@ function ParamedicSocket({ hospitalId }: Props) {
         clientRef.current.deactivate();
       }
     };
-  }, [hospitalId]);
+  }, [paramedicId]);
 
   return (
     <div>

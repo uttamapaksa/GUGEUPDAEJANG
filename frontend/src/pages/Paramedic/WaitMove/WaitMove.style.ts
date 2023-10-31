@@ -4,7 +4,7 @@ import styled from 'styled-components';
 export const Container = styled.div`
   display: flex;
   justify-content: center;
-  border: 3px solid black;
+  /* border: 3px solid black; */
 `;
 
 export const Wrapper = styled.div`
@@ -26,9 +26,12 @@ export const ParamedicHeader = styled.div`
 
 export const Map = styled.div`
   display: flex;
+  justify-content: center;
+  align-items: center;
   border: 3px solid green;
   width: 100%;
   height: 40vh;
+  font-size: 3vh;
 `;
 
 export const ContentBox = styled.div`
@@ -37,6 +40,7 @@ export const ContentBox = styled.div`
   align-items: center;
   border: 3px solid orange;
   width: 100%;
+  border-radius: 2vh 2vh 0 0;
 `;
 
 // molecules
@@ -49,8 +53,11 @@ export const OpenCloseToggle = styled.div`
 
 export const Time = styled.div`
   display: flex;
+  justify-content: space-between;
+  align-items: center;
   border: 3px solid green;
-  width: 100%;
+  width: 90%;
+  padding: 0vh 5%;
   height: 5vh;
 `;
 
@@ -64,10 +71,13 @@ export const HospitalList = styled.div`
 
 export const ListTitle = styled.div`
   display: flex;
+  align-items: center;
   border: 3px solid green;
   width: 100%;
   height: 3vh;
-  `;
+  font-size: 2vh;
+  font-weight: 400;
+`;
 
 export const HospitalItem = styled.div`
   display: flex;
@@ -77,13 +87,14 @@ export const HospitalItem = styled.div`
   border: 3px solid green;
   width: 100%;
   height: 15vh;
+  font-size: 2vh;
 `;
 
 export const TotalInformation = styled.div`
   display: flex;
   flex-wrap: wrap;
   border: 3px solid green;
-  width: 95%;
+  width: 100%;
   padding-bottom: 2vh;
 `;
 
@@ -104,37 +115,76 @@ export const TxtHeaderTitle = styled.div`
 `;
 
 export const Arrow = styled.div`
-  border: 3px solid purple;
+  display: flex;
+  justify-content: center;
+  /* border: 3px solid purple; */
   width: 10%;
   height: 80%;
 `;
 
 export const ItemTitle = styled.div`
-  overflow: break-word;
   border: 3px solid purple;
-  width: 80%;
-  height: 5vh;
+  padding: 1vh 0;
+  display: flex;
+  align-items: center;
+  height: 2.5vh;
+  font-size: 2.5vh;
+  font-weight: 700;
+  /* height: 5vh;
+  font-size: 4vh;
+  font-weight: 700; */
 `;
 
 export const ItemCallTime = styled.div`
   border: 3px solid purple;
-  width: 18%;
+  margin: 0 1vh;
+  padding: 1vh 0;
+  display: flex;
+  align-items: center;
+  color: #393d50;
+  height: 2.5vh;
+  font-size: 2vh;
+  /* height: 5vh;
+  font-size: 2vh; */
+`;
+export const ItemCallTimeBig = styled.div`
+  /* border: 3px solid purple; */
+  margin-left: 1vh;
+  padding: 1vh 0;
+  display: flex;
+  align-items: center;
   height: 5vh;
+  color: #393d50;
+  font-size: 2vh;
 `;
 
 export const ItemNumber = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border: 3px solid purple;
+  border-radius: 15px;
   width: 40%;
   height: 5vh;
-`;
+  font-size: 2vh;
+  color: white;
+  // pinkLight
+  background-color: #FF8577;
+  `;
 
 export const ItemDist = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border: 3px solid purple;
   width: 15%;
   height: 5vh;
-`;
+  `;
 
 export const ItemTime = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border: 3px solid purple;
   width: 15%;
   height: 5vh;
@@ -147,21 +197,24 @@ export const BtnToggle = styled.div`
 `;
 
 export const Move1 = styled.div`
-  margin-top: 1vh;
-  border: 3px solid purple;
-  width: 90%;
+  /* border: 3px solid purple; */
+  margin: 1.5vh 0 0 1vh;
+  width: 100%;
   height: 2vh;
+  color: #393d50;
+  font-size: 2vh;
 `;
 export const Move2 = styled.div`
-  margin-top: 1vh;
-  border: 3px solid purple;
-  width: 90%;
-  height: 4vh;
-`
+  /* border: 3px solid purple; */
+  margin: 10px;
+  padding: 1vh 1.5vh;
+  width: 100%;
+  font-size: 2.5vh;
+`;
 
 export const BtnMediaRecord = styled.div`
+  /* border: 3px solid purple; */
   margin-top: 1vh;
-  border: 3px solid purple;
   width: 40%;
   height: 70%;
 `;
