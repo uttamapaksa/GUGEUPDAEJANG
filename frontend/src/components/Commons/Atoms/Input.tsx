@@ -53,7 +53,7 @@ const StyledInput = styled.input<InputProps>`
   text-align: ${(props) => props.$textAlign};
   line-height: ${(props) => props.$lineHeight};
   background-color: ${(props) => props.$backgroundColor};
-  box-shadow: ${(props) => props.$boxShadow || '0px 0px 4px 4px rgba(0, 0, 0, 0.10)'};
+  box-shadow: ${(props) => props.$boxShadow || '0px 0px 1vh 1vh rgba(0, 0, 0, 0.10)'};
 
   position: ${(props) => props.$position};
   float: ${(props) => props.$float};
@@ -73,7 +73,7 @@ const StyledInput = styled.input<InputProps>`
 
 export const IptUserInfo = styled(StyledInput)`
   color: ${theme.color.fontGrey2};
-  padding-left: 20px;
+  padding-left: 5%;
+  border-radius: 1vh;
   border: 0px;
-  border-radius: 10px;
 `
