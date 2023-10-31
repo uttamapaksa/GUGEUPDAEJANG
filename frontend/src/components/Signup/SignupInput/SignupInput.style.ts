@@ -32,9 +32,12 @@ export const LoginToggle = styled.div`
   justify-content: center;
   align-items: center;
   /* border: 3px solid purple; */
+  width: 40%;
   height: 100%;
   font-size: 2vh;
-  @media (max-height: 1000px) {
+  @media (max-width: 500px) {
     font-size: 1.8vh;
+    width: 48%;
   }
+  cursor: pointer;
 `;

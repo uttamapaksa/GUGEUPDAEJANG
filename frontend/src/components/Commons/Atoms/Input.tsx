@@ -48,7 +48,7 @@ const StyledInput = styled.input<InputProps>`
   box-sizing: ${(props) => props.$boxSizing};
 
   color: ${(props) => props.$color};
-  font-size: ${(props) => props.$fontSize};
+  font-size: ${(props) => props.$fontSize || "2vh"};
   font-weight: ${(props) => props.$fontWeight};
   text-align: ${(props) => props.$textAlign};
   line-height: ${(props) => props.$lineHeight};
