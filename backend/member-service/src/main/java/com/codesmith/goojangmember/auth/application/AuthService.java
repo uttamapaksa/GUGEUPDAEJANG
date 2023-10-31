@@ -1,11 +1,16 @@
 package com.codesmith.goojangmember.auth.application;
 
 import com.codesmith.goojangmember.auth.dto.request.AuthLoginRequest;
+import com.codesmith.goojangmember.auth.dto.request.PassportCreateRequest;
 import com.codesmith.goojangmember.auth.dto.response.AuthLoginResponse;
+import com.codesmith.goojangmember.auth.dto.response.PassportCreateResponse;
 import com.codesmith.goojangmember.auth.exception.InvalidLoginException;
 import com.codesmith.goojangmember.auth.exception.InvalidTokenException;
 import com.codesmith.goojangmember.auth.persistence.RefreshTokenRepository;
 import com.codesmith.goojangmember.auth.persistence.domain.RefreshToken;
+import com.codesmith.goojangmember.global.passport.application.PassportProvider;
+import com.codesmith.goojangmember.global.passport.dto.MemberInfo;
+import com.codesmith.goojangmember.global.passport.dto.Passport;
 import com.codesmith.goojangmember.member.application.MemberValidator;
 import com.codesmith.goojangmember.member.persistence.MemberRepository;
 import com.codesmith.goojangmember.member.persistence.domain.Member;
@@ -21,6 +26,7 @@ public class AuthService {
     private final RefreshTokenRepository refreshTokenRepository;
     private final MemberValidator memberValidator;
     private final PasswordEncoder passwordEncoder;
+    private final PassportProvider passportProvider;
 
     public AuthLoginResponse login(AuthLoginRequest authLoginRequest) {
         memberValidator.doesEmailExist(authLoginRequest.getEmail());
@@ -35,5 +41,14 @@ public class AuthService {
         refreshTokenRepository.save(new RefreshToken(refreshToken, member.getEmail()));
 
         return new AuthLoginResponse(accessToken, refreshToken);
+    }
+
+    public PassportCreateResponse createPassport(PassportCreateRequest passportCreateRequest) {
+        String email = tokenProvider.getPayload(passportCreateRequest.getAccessToken());
+        memberValidator.doesEmailExist(email);
+        Member member = memberRepository.findByEmail(email);
+        MemberInfo memberInfo = new MemberInfo(member.getId(), member.getEmail(), member.getName(), member.getImageUrl(), member.getRole().getKey());
+
+        return new PassportCreateResponse(passportProvider.generatePassport(memberInfo));
     }
 }

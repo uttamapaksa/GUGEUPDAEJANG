@@ -1,4 +1,4 @@
-package com.codesmith.goojangmember.global.jwt;
+package com.codesmith.goojangmember.auth.application;
 
 import com.codesmith.goojangmember.auth.application.JwtTokenProvider;
 import com.codesmith.goojangmember.auth.exception.InvalidTokenException;

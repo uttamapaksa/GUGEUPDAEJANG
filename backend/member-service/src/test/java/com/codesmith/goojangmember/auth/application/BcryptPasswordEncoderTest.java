@@ -1,4 +1,4 @@
-package com.codesmith.goojangmember.global.jwt.encoder;
+package com.codesmith.goojangmember.auth.application;
 
 import com.codesmith.goojangmember.member.persistence.domain.Member;
 import com.codesmith.goojangmember.member.persistence.domain.Role;

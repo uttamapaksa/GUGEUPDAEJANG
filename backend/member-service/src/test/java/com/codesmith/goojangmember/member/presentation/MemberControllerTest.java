@@ -1,5 +1,6 @@
 package com.codesmith.goojangmember.member.presentation;
 
+import com.codesmith.goojangmember.global.passport.application.PassportProvider;
 import com.codesmith.goojangmember.member.application.MemberService;
 import com.codesmith.goojangmember.member.dto.request.HospitalJoinRequest;
 import com.codesmith.goojangmember.member.dto.request.ParamedicJoinRequest;
@@ -33,6 +34,8 @@ class MemberControllerTest {
     ObjectMapper objectMapper;
     @MockBean
     MemberService memberService;
+    @MockBean
+    PassportProvider passportProvider;
 
 
     @DisplayName("병원 회원가입 요청을 한다")
