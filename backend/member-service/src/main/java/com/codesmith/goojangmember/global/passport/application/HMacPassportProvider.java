@@ -23,8 +23,6 @@ public class HMacPassportProvider implements PassportProvider {
     private final String secretKey;
     private final ObjectMapper objectMapper;
 
-    private MemberRepository memberRepository;
-
     public HMacPassportProvider(@Value("${passport.algorithm}") final String HMacAlgo,
                                 @Value("${passport.key}") final String secretKey,
                                 final ObjectMapper objectMapper) {

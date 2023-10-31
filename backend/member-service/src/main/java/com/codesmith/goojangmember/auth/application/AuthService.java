@@ -6,6 +6,8 @@ import com.codesmith.goojangmember.auth.exception.InvalidLoginException;
 import com.codesmith.goojangmember.auth.exception.InvalidTokenException;
 import com.codesmith.goojangmember.auth.persistence.RefreshTokenRepository;
 import com.codesmith.goojangmember.auth.persistence.domain.RefreshToken;
+import com.codesmith.goojangmember.global.passport.application.PassportProvider;
+import com.codesmith.goojangmember.global.passport.dto.MemberInfo;
 import com.codesmith.goojangmember.global.passport.dto.Passport;
 import com.codesmith.goojangmember.member.application.MemberValidator;
 import com.codesmith.goojangmember.member.persistence.MemberRepository;
@@ -22,6 +24,7 @@ public class AuthService {
     private final RefreshTokenRepository refreshTokenRepository;
     private final MemberValidator memberValidator;
     private final PasswordEncoder passwordEncoder;
+    private final PassportProvider passportProvider;
 
     public AuthLoginResponse login(AuthLoginRequest authLoginRequest) {
         memberValidator.doesEmailExist(authLoginRequest.getEmail());
@@ -39,6 +42,11 @@ public class AuthService {
     }
 
     public String createPassport(String accessToken) {
-        return null;
+        String email = tokenProvider.getPayload(accessToken);
+        memberValidator.doesEmailExist(email);
+        Member member = memberRepository.findByEmail(email);
+        MemberInfo memberInfo = new MemberInfo(member.getId(), member.getEmail(), member.getName(), member.getImageUrl(), member.getRole().getKey());
+
+        return passportProvider.generatePassport(memberInfo);
     }
 }

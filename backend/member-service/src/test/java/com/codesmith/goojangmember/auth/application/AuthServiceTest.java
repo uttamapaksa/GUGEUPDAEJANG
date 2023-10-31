@@ -15,13 +15,19 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class AuthServiceTest {
@@ -60,16 +66,17 @@ class AuthServiceTest {
     @Test
     @DisplayName("토큰으로 패스포트를 발급한다")
     void 토큰으로_패스포트를_발급한다() {
-        String email = "paramedic@addtest.com";
-        Member member = new Member(1L, "paramedic@addtest.com", "password123", "Paramedic User", "profile.jpg", Role.PARAMEDIC);
-        MemberInfo memberInfo = new MemberInfo(1L, "paramedic@addtest.com", "Paramedic User", "profile.jpg", "PARAMEDIC");
+        String accessToken = "dummy-access-token";
+        String email = "dummy@example.com";
+        Member member = new Member(1L, email, "passwor1234", "Dummy Name", "https://example.com/image.png", Role.PARAMEDIC);
+        String passport = "dummy-passport";
 
-        given(tokenProvider.getPayload("AccessToken")).willReturn(email);
-        given(memberRepository.findByEmail(email)).willReturn(member);
-        given(passportProvider.generatePassport(memberInfo)).willReturn("1234");
+        when(tokenProvider.getPayload(accessToken)).thenReturn(email);
+        when(memberRepository.findByEmail(email)).thenReturn(member);
+        when(passportProvider.generatePassport(any(MemberInfo.class))).thenReturn(passport);
 
-        String passportStr = authService.createPassport("AccessToken");
+        String actualPassport = authService.createPassport(accessToken);
 
-        assertNotNull(passportStr);
+        assertEquals(passport, actualPassport);
     }
 }
