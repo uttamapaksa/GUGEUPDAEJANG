@@ -16,13 +16,14 @@ spring:
     name: gateway-service
   main:
     allow-bean-definition-overriding: true
+    web-application-type: reactive
   cloud:
     gateway:
       routes:
         - id: member-service
           uri: https://k9b204.p.ssafy.io:64417
           predicates:
-            - Path=/api/member/**, /api/auth/**
+            - Path=/api/member/**, /api/auth/**, /api/user/**
           filters:
             - RewritePath=/api/(?<segment>.*), /$\{segment}
 
