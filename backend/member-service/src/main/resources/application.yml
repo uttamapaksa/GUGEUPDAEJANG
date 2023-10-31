@@ -50,3 +50,6 @@ publicData:
 passport:
   key: ${SECRETE_KEY}
   algorithm: HmacSHA256
+tmap:
+    api:
+        key: ${TMAP_API_KEY}

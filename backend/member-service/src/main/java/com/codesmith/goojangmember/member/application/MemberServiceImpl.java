@@ -4,6 +4,7 @@ import com.codesmith.goojangmember.auth.application.TokenProvider;
 import com.codesmith.goojangmember.auth.dto.request.AuthLoginRequest;
 import com.codesmith.goojangmember.auth.dto.response.AuthLoginResponse;
 import com.codesmith.goojangmember.infra.publicdata.PublicDataClient;
+import com.codesmith.goojangmember.infra.tmap.TmapClient;
 import com.codesmith.goojangmember.member.dto.request.HospitalJoinRequest;
 import com.codesmith.goojangmember.member.dto.request.ParamedicJoinRequest;
 import com.codesmith.goojangmember.member.dto.response.HospitalListResponse;
@@ -31,6 +32,7 @@ public class MemberServiceImpl implements MemberService {
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
     private final PublicDataClient publicDataClient;
+    private final TmapClient tmapClient;
 
     @Override
     public Member getMemberInfo(Long memberId) {
@@ -48,9 +50,11 @@ public class MemberServiceImpl implements MemberService {
         for (String hospitalId : hospitalList) {
             if (hospitalInfoMap.containsKey(hospitalId) && hospitalInfoMap.get(hospitalId) > 0) {
                 HospitalDetail hospitalDetail = hospitalDetailRepository.findById(hospitalId).get();
+                tmapClient.getPathInfo(longitude, latitude, hospitalDetail.getLongitude(), hospitalDetail.getLatitude());
                 hospitalListResponseList.add(new HospitalListResponse(hospitalDetail, hospitalInfoMap.get(hospitalId)));
             }
         }
+
         return hospitalListResponseList;
     }
 
