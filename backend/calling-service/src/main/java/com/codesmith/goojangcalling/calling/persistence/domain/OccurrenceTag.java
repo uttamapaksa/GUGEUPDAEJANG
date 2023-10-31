@@ -15,10 +15,10 @@ public class OccurrenceTag {
     @ManyToOne(fetch = FetchType.LAZY)
     private Occurrence occurrence;
     @ManyToOne(fetch = FetchType.LAZY)
-    private Tag tagId;
+    private Tag tag;
 
-    public OccurrenceTag(Occurrence occurrence, Tag tagId) {
+    public OccurrenceTag(Occurrence occurrence, Tag tag) {
         this.occurrence = occurrence;
-        this.tagId = tagId;
+        this.tag = tag;
     }
 }

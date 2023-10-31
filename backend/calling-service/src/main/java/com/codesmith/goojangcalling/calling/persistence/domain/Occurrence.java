@@ -18,7 +18,8 @@ public class Occurrence {
     private Long memberId;
     @Enumerated(EnumType.STRING)
     private KTAS ktas;
-    private String age;
+    @Enumerated(EnumType.STRING)
+    private AgeGroup ageGroup;
     @Enumerated(EnumType.STRING)
     private Gender gender;
     private String symptom;
@@ -27,10 +28,10 @@ public class Occurrence {
     @CreatedDate
     private LocalDateTime createdAt;
 
-    public Occurrence(Long memberId, KTAS ktas, String age, Gender gender, String symptom, Double latitude, Double longitude) {
+    public Occurrence(Long memberId, KTAS ktas, AgeGroup ageGroup, Gender gender, String symptom, Double latitude, Double longitude) {
         this.memberId = memberId;
         this.ktas = ktas;
-        this.age = age;
+        this.ageGroup = ageGroup;
         this.gender = gender;
         this.symptom = symptom;
         this.latitude = latitude;

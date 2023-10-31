@@ -22,7 +22,7 @@ public class S3Client {
     private final AmazonS3 amazonS3;
 
     public List<FileUploadResponse> uploadFIle(List<MultipartFile> multipartFile) throws Exception{
-        List<FileUploadResponse> uploadUrl = new ArrayList<>();
+        List<FileUploadResponse> files = new ArrayList<>();
         for (MultipartFile file : multipartFile) {
             String originalFilename = file.getOriginalFilename();
             String uploadFilename = UUID.randomUUID().toString() + originalFilename;
@@ -32,8 +32,9 @@ public class S3Client {
             metadata.setContentType(file.getContentType());
 
             amazonS3.putObject(bucket, uploadFilename, file.getInputStream(), metadata);
-            uploadUrl.add(new FileUploadResponse(amazonS3.getUrl(bucket, uploadFilename).toString()));
+            String url = amazonS3.getUrl(bucket, uploadFilename).toString();
+            files.add(new FileUploadResponse(url, file.getContentType(), file.getSize()));
         }
-        return uploadUrl;
+        return files;
     }
 }
