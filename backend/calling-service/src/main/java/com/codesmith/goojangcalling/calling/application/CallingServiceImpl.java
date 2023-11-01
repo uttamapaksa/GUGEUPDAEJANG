@@ -2,12 +2,11 @@ package com.codesmith.goojangcalling.calling.application;
 
 import com.codesmith.goojangcalling.calling.dto.request.CallingCreateRequest;
 import com.codesmith.goojangcalling.calling.dto.response.HospitalSearchResponse;
+import com.codesmith.goojangcalling.calling.persistence.CallingRepository;
 import com.codesmith.goojangcalling.calling.persistence.OccurrenceFileRepository;
 import com.codesmith.goojangcalling.calling.persistence.OccurrenceRepository;
 import com.codesmith.goojangcalling.calling.persistence.OccurrenceTagRepository;
-import com.codesmith.goojangcalling.calling.persistence.domain.Occurrence;
-import com.codesmith.goojangcalling.calling.persistence.domain.OccurrenceFile;
-import com.codesmith.goojangcalling.calling.persistence.domain.OccurrenceTag;
+import com.codesmith.goojangcalling.calling.persistence.domain.*;
 import com.codesmith.goojangcalling.infra.member.HospitalClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,6 +22,7 @@ public class CallingServiceImpl implements CallingService{
     private final OccurrenceRepository occurrenceRepository;
     private final OccurrenceFileRepository occurrenceFileRepository;
     private final OccurrenceTagRepository occurrenceTagRepository;
+    private final CallingRepository callingRepository;
     private final HospitalClient hospitalClient;
 
     @Override
@@ -39,7 +39,17 @@ public class CallingServiceImpl implements CallingService{
                 .map(o -> new OccurrenceFile(occurrence, o.getFilePath(), o.getContentType(), o.getSize()))
                 .collect(Collectors.toList());
         occurrenceFileRepository.saveAll(occurrenceFileList);
-        searchHospital(callingCreateRequest.getLatitude(), callingCreateRequest.getLongitude(), 10.0);
+
+        addCalling(callingCreateRequest, occurrence);
+    }
+
+    public void addCalling(CallingCreateRequest callingCreateRequest, Occurrence occurrence) {
+        List<Calling> callingList = searchHospital(callingCreateRequest.getLatitude(), callingCreateRequest.getLongitude(), 10.0)
+                .block()
+                .stream()
+                .map(o -> new Calling(occurrence, o.getId(), Status.PENDING, null, ""))
+                .collect(Collectors.toList());
+        callingRepository.saveAll(callingList);
     }
 
     @Override
