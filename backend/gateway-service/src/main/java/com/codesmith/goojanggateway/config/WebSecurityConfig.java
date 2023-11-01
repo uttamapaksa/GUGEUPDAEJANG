@@ -67,7 +67,7 @@ public class WebSecurityConfig {
         bearerAuthenticationFilter.setServerAuthenticationConverter(
                 new BearerTokenServerAuthenticationConverter(
                         authenticationProvider,
-                        jwtTokenService, memberServiceClient)
+                        jwtTokenService)
         );
 
         bearerAuthenticationFilter.setRequiresAuthenticationMatcher(ServerWebExchangeMatchers.pathMatchers("/**"));

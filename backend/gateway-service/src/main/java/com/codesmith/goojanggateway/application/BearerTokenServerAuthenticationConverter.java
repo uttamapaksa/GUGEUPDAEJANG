@@ -1,9 +1,5 @@
 package com.codesmith.goojanggateway.application;
 
-import com.codesmith.goojanggateway.dto.CustomPrincipal;
-import com.codesmith.goojanggateway.dto.request.PassportCreateRequest;
-import com.codesmith.goojanggateway.dto.response.PassportCreateResponse;
-import com.codesmith.goojanggateway.infra.openfeign.MemberServiceClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
@@ -15,7 +11,6 @@ import reactor.core.publisher.Mono;
 public class BearerTokenServerAuthenticationConverter implements ServerAuthenticationConverter {
     private final AuthenticationProvider authenticationProvider;
     private final JwtTokenService jwtTokenService;
-    private final MemberServiceClient memberServiceClient;
 
     private final String BEARER_PREFIX = "Bearer_";
 
@@ -27,11 +22,10 @@ public class BearerTokenServerAuthenticationConverter implements ServerAuthentic
                 .flatMap(tokenValidationResult -> {
                     return authenticationProvider.create(tokenValidationResult)
                             .map(authentication -> {
-                                String email = (String) authentication.getPrincipal();
-                                PassportCreateResponse response = memberServiceClient.getPassport(new PassportCreateRequest(email));
+                                String passport = (String) authentication.getPrincipal();
 
                                 exchange.getRequest().mutate()
-                                        .header("Passport", response.getPassport())
+                                        .header("Passport", passport)
                                         .build();
 
                                 return authentication;
