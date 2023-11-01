@@ -47,8 +47,7 @@ import {
 
 import{
   TxtParamedicTitle,
-  TxtHeaderTitle,
-  TxtContent,}from './Text'
+  TxtHeaderTitle,}from './Text'
 
 const A = {
   BtnSubmit,
@@ -96,7 +95,6 @@ const A = {
 
   TxtParamedicTitle,
   TxtHeaderTitle,
-  TxtContent,
 };
 
 export default A;
