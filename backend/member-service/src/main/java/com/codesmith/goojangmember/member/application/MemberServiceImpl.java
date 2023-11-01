@@ -4,6 +4,7 @@ import com.codesmith.goojangmember.auth.application.TokenProvider;
 import com.codesmith.goojangmember.auth.dto.request.AuthLoginRequest;
 import com.codesmith.goojangmember.auth.dto.response.AuthLoginResponse;
 import com.codesmith.goojangmember.infra.publicdata.PublicDataClient;
+import com.codesmith.goojangmember.infra.tmap.TmapClient;
 import com.codesmith.goojangmember.member.dto.request.HospitalJoinRequest;
 import com.codesmith.goojangmember.member.dto.request.ParamedicJoinRequest;
 import com.codesmith.goojangmember.member.dto.response.HospitalListResponse;
@@ -13,15 +14,18 @@ import com.codesmith.goojangmember.member.persistence.ParamedicDetailRepository;
 import com.codesmith.goojangmember.member.persistence.SafetyCenterRepository;
 import com.codesmith.goojangmember.member.persistence.domain.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     private final HospitalDetailRepository hospitalDetailRepository;
@@ -31,6 +35,7 @@ public class MemberServiceImpl implements MemberService {
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
     private final PublicDataClient publicDataClient;
+    private final TmapClient tmapClient;
 
     @Override
     public Member getMemberInfo(Long memberId) {
@@ -40,17 +45,18 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public List<HospitalListResponse> getHospitalList(Double latitude, Double longitude, Double distance) {
-        List<String> hospitalList = hospitalDetailRepository.findHospitalWithinDistance(latitude, longitude, distance);
+        List<HospitalDetail> hospitalList = hospitalDetailRepository.findHospitalWithinDistance(latitude, longitude, distance);
         memberValidator.validateExistNearByHospital(hospitalList);
 
         HashMap<String, Long> hospitalInfoMap = publicDataClient.getRealTimeERBedInfo();
         List<HospitalListResponse> hospitalListResponseList = new ArrayList<>();
-        for (String hospitalId : hospitalList) {
-            if (hospitalInfoMap.containsKey(hospitalId) && hospitalInfoMap.get(hospitalId) > 0) {
-                HospitalDetail hospitalDetail = hospitalDetailRepository.findById(hospitalId).get();
-                hospitalListResponseList.add(new HospitalListResponse(hospitalDetail, hospitalInfoMap.get(hospitalId)));
+        for (HospitalDetail hospital : hospitalList) {
+            if (hospitalInfoMap.containsKey(hospital.getId()) && hospitalInfoMap.get(hospital.getId()) > 0) {
+                HashMap<String, Long> tmapInfo = tmapClient.getPathInfo(longitude, latitude, hospital.getLongitude(), hospital.getLatitude());
+                hospitalListResponseList.add(new HospitalListResponse(hospital, hospitalInfoMap.get(hospital.getId()), tmapInfo.get("distance")/1000.0, (tmapInfo.get("time")+59)/60));
             }
         }
+        hospitalListResponseList.sort(Comparator.comparing(HospitalListResponse::getTime));
         return hospitalListResponseList;
     }
 

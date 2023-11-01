@@ -9,7 +9,7 @@ import java.util.List;
 public interface HospitalDetailSupportRepository {
 
     @Query(value = """
-        SELECT id FROM hospital_detail WHERE (
+        SELECT * FROM hospital_detail WHERE (
             6371 * ACOS(COS(RADIANS(:latitude))
                 * COS(RADIANS(latitude))
                 * COS(RADIANS(longitude) - RADIANS(:longitude))
@@ -17,5 +17,5 @@ public interface HospitalDetailSupportRepository {
                 * SIN(RADIANS(latitude))
             )
         ) < :distance""", nativeQuery = true)
-    List<String> findHospitalWithinDistance(@Param("latitude") Double latitude, @Param("longitude") Double longitude, @Param("distance") Double distance);
+    List<HospitalDetail> findHospitalWithinDistance(@Param("latitude") Double latitude, @Param("longitude") Double longitude, @Param("distance") Double distance);
 }

@@ -46,7 +46,12 @@ jwt:
   key: ${SECRETE_KEY}
 publicData:
   api:
+    url: ${PUBLIC_DATA_API_URL}
     key: ${PUBLIC_DATA_API_KEY}
 passport:
   key: ${SECRETE_KEY}
   algorithm: HmacSHA256
+tmap:
+  api:
+    url: ${TMAP_API_URL}
+    key: ${TMAP_API_KEY}
