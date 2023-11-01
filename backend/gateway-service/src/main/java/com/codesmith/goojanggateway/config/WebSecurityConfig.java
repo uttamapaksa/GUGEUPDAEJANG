@@ -77,9 +77,7 @@ public class WebSecurityConfig {
     @Bean
     public HttpMessageConverters customConverters() {
         List<HttpMessageConverter<?>> converters = new ArrayList<>();
-        // 여기에 원하는 HttpMessageConverter 인스턴스를 추가할 수 있습니다.
         converters.add(new MappingJackson2HttpMessageConverter());
-        // 기타 필요한 컨버터들을 추가...
         return new HttpMessageConverters(converters);
     }
 }
