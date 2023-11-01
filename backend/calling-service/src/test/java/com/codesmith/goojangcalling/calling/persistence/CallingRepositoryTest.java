@@ -27,7 +27,8 @@ class CallingRepositoryTest {
     private CallingRepository callingRepository;
 
     private Occurrence occurrence;
-    private Long memberId;
+    private Long paramedicMemberId;
+    private Long hospitalMemberId;
     private CallingCreateRequest callingCreateRequest;
     private List<Tag> tags;
 
@@ -37,17 +38,18 @@ class CallingRepositoryTest {
         files.add(new FileUploadResponse("https://codesmith-ggdj.s3.ap-northeast-2.amazonaws.com/62119bee-726d-4bd5-b6aa-07e65b39b951%EC%9C%A1%EA%B0%9C%EC%9E%A5.png", "image/png",122776L));
         tags = new ArrayList<>();
         tags.add(new Tag(1L, "추락"));
-        memberId = 521L;
+        paramedicMemberId = 521L;
+        hospitalMemberId = 1040L;
         callingCreateRequest = new CallingCreateRequest(KTAS.KTAS2, AgeGroup.YOUTH, Gender.MALE, "아파요", 35.123, 127.123, tags, files);
-        occurrence = new Occurrence(memberId, callingCreateRequest.getKtas(), callingCreateRequest.getAgeGroup(), callingCreateRequest.getGender(), callingCreateRequest.getSymptom(), callingCreateRequest.getLatitude(), callingCreateRequest.getLongitude());
+        occurrence = new Occurrence(paramedicMemberId, callingCreateRequest.getKtas(), callingCreateRequest.getAgeGroup(), callingCreateRequest.getGender(), callingCreateRequest.getSymptom(), callingCreateRequest.getLatitude(), callingCreateRequest.getLongitude());
     }
 
     @DisplayName("요청을 저장한다.")
     @Test
     void 요청을_저장한다() throws Exception {
         List<Calling> callingList = Arrays.asList(
-                new Calling(occurrence, memberId, Status.PENDING, null, "" ),
-                new Calling(occurrence, memberId, Status.PENDING, null, "" )
+                new Calling(occurrence, hospitalMemberId, Status.PENDING, null, "" ),
+                new Calling(occurrence, hospitalMemberId, Status.PENDING, null, "" )
         );
 
         List<Calling> callings = callingRepository.saveAll(callingList);
