@@ -5,8 +5,9 @@ server:
     key-store-type: pkcs12
     key-store: keystore.p12
     key-store-password: 9979
-
 spring:
+  application:
+    name: transfer-service
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
     url: ${TRANSFER_MARIA_URL}
@@ -19,3 +20,21 @@ spring:
       properties:
         hibernate:
           default_batch_fetch_size: 500
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: https://k9b204.p.ssafy.io:8761/eureka
+  instance:
+    hostname: k9b204a.p.ssafy.io
+    secure-port: 64413
+    secure-port-enabled: true
+    non-secure-port-enabled: false
+    secure-virtual-host-name: k9b204a.p.ssafy.io
+    home-page-url-path: https://k9b204a.p.ssafy.io:64413/
+    status-page-url-path: https://k9b204a.p.ssafy.io:64413/
+    health-check-url: https://k9b204a.p.ssafy.io:64413/
+passport:
+  key: ${SECRETE_KEY}
+  algorithm: HmacSHA256
