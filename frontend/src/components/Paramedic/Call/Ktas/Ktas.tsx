@@ -20,7 +20,6 @@ function Ktas() {
       <S.BtnKtas>
         {ktasOptions.map((ktas) => (
           <A.BtnKtas
-            style={{ borderRadius: ktas === 1 ? '1vh 0 0 1vh' : ktas === 5 ? '0 1vh 1vh 0' : 'none' }}
             key={ktas}
             $ktas={`ktas${ktas}` as "ktas1" | "ktas2" | "ktas3" | "ktas4" | "ktas5"}
             $IsClick={ktasOption === ktas}
