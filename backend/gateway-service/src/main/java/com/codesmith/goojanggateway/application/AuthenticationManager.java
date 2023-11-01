@@ -1,6 +1,5 @@
 package com.codesmith.goojanggateway.application;
 
-import com.codesmith.goojanggateway.dto.CustomPrincipal;
 import com.codesmith.goojanggateway.exception.InvalidTokenException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;

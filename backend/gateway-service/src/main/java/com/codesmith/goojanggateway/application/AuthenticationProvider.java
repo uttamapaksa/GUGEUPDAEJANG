@@ -1,6 +1,5 @@
 package com.codesmith.goojanggateway.application;
 
-//import com.codesmith.goojanggateway.dto.CustomPrincipal;
 import com.codesmith.goojanggateway.dto.TokenValidationResult;
 import com.codesmith.goojanggateway.dto.request.PassportCreateRequest;
 import com.codesmith.goojanggateway.dto.response.PassportCreateResponse;
@@ -13,8 +12,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
-import java.security.Principal;
 import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class AuthenticationProvider {
