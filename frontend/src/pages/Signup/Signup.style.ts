@@ -13,14 +13,12 @@ export const Wrapper = styled.div`
   width: 58vh;  
   padding-left: 1vh;
   padding-right: 1vh;
-  padding-top: 10vh;
-  padding-bottom: 10vh;
+  padding-top: 15vh;
 `;
 
 export const ContentBox = styled.div`
   display: flex;
   flex-direction: column;
-  /* justify-content: space-between; */
   /* border: 3px solid orange; */
   width: 100%;
   height: 100%;

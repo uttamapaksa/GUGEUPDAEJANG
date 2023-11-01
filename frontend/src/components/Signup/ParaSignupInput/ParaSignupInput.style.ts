@@ -23,7 +23,6 @@ export const Row2 = styled.div`
   /* border: 3px solid skyblue; */
   width: 90%;
   height: 3vh;
-  margin-bottom: 4vh;
 `;
 
 export const LoginToggle = styled.div`
@@ -40,5 +39,3 @@ export const LoginToggle = styled.div`
   }
   cursor: pointer;
 `;
-
-

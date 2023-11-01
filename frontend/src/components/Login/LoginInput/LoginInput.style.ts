@@ -3,10 +3,8 @@ import styled from "styled-components";
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
   align-items: center;
   /* border: 3px solid green; */
-  height: 40%;
 `;
 
 export const Row1 = styled.div`
@@ -14,15 +12,16 @@ export const Row1 = styled.div`
   justify-content: space-between;
   /* border: 3px solid skyblue; */
   width: 90%;
-  height: 23%;
+  height: 6.2vh;
+  margin-bottom: 2.3vh;
 `;
 
 export const Row2 = styled.div`
   display: flex;
   justify-content: center;
   /* border: 3px solid skyblue; */
-  width: 85%;
-  height: 10%;
+  width: 90%;
+  height: 3vh;
 `;
 
 export const LoginToggle = styled.div`
