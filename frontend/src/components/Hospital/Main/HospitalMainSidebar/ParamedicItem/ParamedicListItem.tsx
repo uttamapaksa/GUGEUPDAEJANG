@@ -1,14 +1,18 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ParamedicItemContainer, ParamedicItemContent, ItemRequestAt, ItemParaType, ItemParaInfo, ItemParaTagGroup } from "./ParamedicListItem.style";
-import { BtnToggle } from "/src/components/Commons/Atoms/Button";
-import { DivKtasInfo, DivTag } from "/src/components/Commons/Atoms/Div";
+import A from "/src/components/Commons/Atoms";
 import theme from "/src/styles";
 
 const ParamedicListItem = (props: any) => {
+  const [scrollMoved, setScrollMoved] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    if (props.isSelected) moveScroll()
+    if (props.isSelected) setScrollMoved(true);
+    else setScrollMoved(false);
   }, [props])
+  useEffect(() => {
+    if (scrollMoved) moveScroll();
+  }, [scrollMoved])
   const moveScroll = () => {
     console.log(scrollRef)
     if (scrollRef.current != null) {
@@ -18,7 +22,7 @@ const ParamedicListItem = (props: any) => {
   return (
     <ParamedicItemContainer ref={scrollRef}>
       <ParamedicItemContent onClick={props.onclick} $isSelected={props.isSelected}>
-        <DivKtasInfo
+        <A.DivKtasInfo
           $position="absolute"
           $right="0%"
           $top="0%"
@@ -28,13 +32,13 @@ const ParamedicListItem = (props: any) => {
           $borderRadius="0px 0px 0px 10px"
           $fontSize={theme.font.Small5_12}>
           KTAS{props.ktas.charAt(4)}
-        </DivKtasInfo>
+        </A.DivKtasInfo>
         <ItemRequestAt>{props.requestAt}</ItemRequestAt>
         <ItemParaType>{props.paraType}</ItemParaType>
         <ItemParaInfo>{props.paraInfo}</ItemParaInfo>
         <ItemParaTagGroup>
           {props.paraTag.map((item: string, index: number) => (
-            <DivTag
+            <A.DivTag
               key={index}
               $margin="2px 5px 50px 2px"
               $width="fit-content"
@@ -43,11 +47,11 @@ const ParamedicListItem = (props: any) => {
               $textAlign="center"
               $padding="2px"
               $fontSize={theme.font.Small5_12}
-            >{item}</DivTag>
+            >{item}</A.DivTag>
           ))}
         </ItemParaTagGroup>
 
-        <BtnToggle
+        <A.BtnToggle
           $width="50%"
           $height="30px"
           $position="absolute"
@@ -59,9 +63,9 @@ const ParamedicListItem = (props: any) => {
           $boxShadow="0 0.2px 0.1px 0px inset"
         >
           거절
-        </BtnToggle>
+        </A.BtnToggle>
 
-        <BtnToggle
+        <A.BtnToggle
           $width="50%"
           $height="30px"
           $position="absolute"
@@ -73,7 +77,7 @@ const ParamedicListItem = (props: any) => {
           $backgroundColor={theme.color.pinkDrak}
           $boxShadow="0 0.2px 0.1px 0px inset" >
           승인
-        </BtnToggle>
+        </A.BtnToggle>
       </ParamedicItemContent>
     </ParamedicItemContainer>
   );

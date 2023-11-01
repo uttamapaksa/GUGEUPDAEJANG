@@ -10,8 +10,7 @@ import {
   LeftTimeSpan,
   StartTimeSpan
 } from "./InfoContents.style";
-import { DivKtasInfo } from "/src/components/Commons/Atoms/Div";
-import theme from "/src/styles";
+import A from "/src/components/Commons/Atoms";
 
 export interface InfoProps {
   ktas: number;
@@ -20,16 +19,11 @@ export interface InfoProps {
 //infowindow 내용 - 개선 예정
 function InfoContents(props: any) {
 
-  const test = () => {
-    console.log("tttttttttttttttt")
-  }
-
-
   return (
     <>
       <InfoWindowContainer id={'infowindow' + props.id} onClick={() => props.selectMarker(props.id)}>
         <InfoBox>
-          <DivKtasInfo
+          <A.DivKtasInfo
             $position="absolute"
             $right="0%"
             $top="0%"
@@ -39,7 +33,7 @@ function InfoContents(props: any) {
             $borderRadius="0px 0px 0px 5px"
             $fontSize="10px">
             KTAS{props.ktas.charAt(4)}
-          </DivKtasInfo>
+          </A.DivKtasInfo>
           <AddrP>
             <AddrTitle>
               {props.addr}
@@ -62,7 +56,6 @@ function InfoContents(props: any) {
           </ContentsP>
         </InfoBox>
       </InfoWindowContainer>
-      {/* <a href='javascript:void(0)' onClick={test} className='btn-close' style={{position: 'absolute', top: '10px', right: '10px', display: 'block', width: '15px', height: '15px', backgroundColor:'red'}}></a> */}
       <InfoWindowArrow />
     </>
   );

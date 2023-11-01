@@ -1,7 +1,6 @@
 import { ItemParaType, ItemRequestAt, } from "../ParamedicItem/ParamedicListItem.style";
 import { CloseDiv, DetailItemContainer, ItemElapseMin, ItemAddr, ParamedicDetailContainer, ParamedicDetailContent, DetailItemBetween, ItemLeftTime } from "./ParamedicDetail.style";
-import { BtnToggle } from "/src/components/Commons/Atoms/Button";
-import { DivKtasInfo, DivTag } from "/src/components/Commons/Atoms/Div";
+import A from "/src/components/Commons/Atoms";
 import theme from "/src/styles";
 
 const ParamedicDetail = (props: any) => {
@@ -10,7 +9,7 @@ const ParamedicDetail = (props: any) => {
         <ParamedicDetailContainer>
             <ParamedicDetailContent>
                 <DetailItemContainer>
-                    <DivKtasInfo
+                    <A.DivKtasInfo
                         $position="absolute"
                         $right="0%"
                         $top="0%"
@@ -20,7 +19,7 @@ const ParamedicDetail = (props: any) => {
                         $borderRadius="0px 0px 0px 10px"
                         $fontSize={theme.font.Small5_12}>
                         KTAS{props.ktas.charAt(4)}
-                    </DivKtasInfo>
+                    </A.DivKtasInfo>
                     <ItemRequestAt>{props.requestAt}</ItemRequestAt>
                     <DetailItemBetween>
                         <ItemParaType>{props.paraType}</ItemParaType>
@@ -29,7 +28,7 @@ const ParamedicDetail = (props: any) => {
 
                     <div style={{ width: "90%", margin: "0 auto" }}>
                         {props.paraTag.map((item: string, index: number) => (
-                            <DivTag
+                            <A.DivTag
                                 key={index}
                                 $margin="2px 5px 10px 2px"
                                 $width="fit-content"
@@ -38,7 +37,7 @@ const ParamedicDetail = (props: any) => {
                                 $textAlign="center"
                                 $padding="2px"
                                 $fontSize={theme.font.Small5_12}
-                            >{item}</DivTag>
+                            >{item}</A.DivTag>
                         ))}
                     </div>
 
@@ -53,7 +52,7 @@ const ParamedicDetail = (props: any) => {
                     </DetailItemBetween>
 
 
-                    <BtnToggle
+                    <A.BtnToggle
                         $width="50%"
                         $height="50px"
                         $position="absolute"
@@ -65,9 +64,9 @@ const ParamedicDetail = (props: any) => {
                         $boxShadow="0 0.2px 0.1px 0px inset"
                     >
                         거절
-                    </BtnToggle>
+                    </A.BtnToggle>
 
-                    <BtnToggle
+                    <A.BtnToggle
                         $width="50%"
                         $height="50px"
                         $position="absolute"
@@ -79,7 +78,7 @@ const ParamedicDetail = (props: any) => {
                         $backgroundColor={theme.color.pinkDrak}
                         $boxShadow="0 0.2px 0.1px 0px inset">
                         승인
-                    </BtnToggle>
+                    </A.BtnToggle>
                 </DetailItemContainer>
             </ParamedicDetailContent>
             <CloseDiv onClick={props.onclick}>&lt;</CloseDiv>

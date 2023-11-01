@@ -2,12 +2,11 @@ import { renderToString } from "react-dom/server";
 import { Tmapv3 } from "../Map";
 import InfoContents from "./InfoContents";
 import { ParamedicInfoContainer } from "./ParamedicInfo.style";
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 
 
 function ParamedicInfo(props: any) {
     const [paraInfo, setParaInfo] = useState<any[]>([]);
-    const [parList, setParList] = useState<any>([]);
     // const [addr, setAddr] = useState<string>();
 
     // const loadGetLonLatFromAddress = useCallback(

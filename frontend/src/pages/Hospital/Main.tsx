@@ -3,7 +3,7 @@ import useGeolocation from "react-hook-geolocation";
 import HopsitalHeader from "/src/components/Hospital/HospitalHeader/HopsitalHeader";
 import HopsitalSidebar from "/src/components/Hospital/HospitalSidebar/HopsitalSidebar";
 import { useRecoilValue } from "recoil";
-import { hospitalComponentType } from "/src/components/Hospital/HospitalAtoms";
+import { hospitalComponentType } from "../../recoils/HospitalAtoms";
 import HospitalMain from "/src/components/Hospital/Main/HospitalMain";
 import { ComponentContainer, Container } from "./Main.style";
 import { MapProps, ParamedicItem } from "/src/types/map";

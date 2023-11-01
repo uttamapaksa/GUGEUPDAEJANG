@@ -1,11 +1,8 @@
-import { useEffect, useState } from "react";
 import { HospitalMainSidebarContainer, HospitalMainSidebarContents, TypeButton, TypeButtonGroup } from "./HospitalMainSidebar.style";
 import { useRecoilState } from "recoil";
-import { hospitalSidebarType } from "../../HospitalAtoms";
+import { hospitalSidebarType } from "../../../../recoils/HospitalAtoms";
 import ParamedicList from "./ParamedicList/ParamedicList";
 import { MapProps } from "/src/types/map";
-
-
 
 const HospitalMainSidebar = (props: MapProps) => {
   const [sidebarType, setSidebarType] = useRecoilState(hospitalSidebarType);

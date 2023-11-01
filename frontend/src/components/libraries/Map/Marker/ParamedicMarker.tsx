@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { Tmapv3 } from "../Map";
 import { ParamedicMarkerContainer } from "./ParamedicMarker.style";
-import { useRecoilState } from "recoil";
-import { hospitalSelectedParaId } from "/src/components/Hospital/HospitalAtoms";
+import { useSetRecoilState } from "recoil";
+import { hospitalSelectedParaId } from "../../../../recoils/HospitalAtoms";
 
 function ParamedicMarker(props: any) {
     const [paraMarkers, setParaMarkers] = useState<any[]>([]);
-    const [paraItem, setParaItem] = useRecoilState(hospitalSelectedParaId);
+    const setParaItem = useSetRecoilState(hospitalSelectedParaId);
 
     const updateMarker = () => {
         if (props.map !== undefined && props.parList !== undefined) {
@@ -27,7 +27,7 @@ function ParamedicMarker(props: any) {
                 })
                 marker.name = props.parList[i].id
                 const tmp = props.parList[i]
-                marker.on("Click", (evt: any) => {
+                marker.on("Click", () => {
                     setParaItem(tmp)
                 });
                 next.push(marker);

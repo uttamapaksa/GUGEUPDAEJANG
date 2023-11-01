@@ -1,13 +1,8 @@
 import { useEffect, useState } from "react";
 import { MapContainer } from "./Map.style";
 import ParamedicInfo from "./InfoWindow/ParamedicInfo";
-// import ParamedicMarker from "./Marker/ParamedicMarker";
 import HospitalMarker from "./Marker/HospitalMarker";
 import { MapProps } from "/src/types/map";
-import { renderToString } from "react-dom/server";
-import InfoContents from "./InfoWindow/InfoContents";
-import { useRecoilState } from "recoil";
-import { hospitalSelectedParaId } from "../../Hospital/HospitalAtoms";
 import ParamedicMarker from "./Marker/ParamedicMarker";
 
 declare global {
@@ -25,8 +20,6 @@ export const createMap = (lat: number, lon: number) => {
         height: "100%",
         // 지도의 범위
         zoom: 15,
-        // zIndexMarker: 15,
-        // zIndexInfoWindow: 10,
     })
 }
 
@@ -41,11 +34,6 @@ export const destroyMap = () => {
 //props.type 의 구분에 따라 지도 반응형 크기 및 하위 컴포넌트 적용
 function Map(props: MapProps) {
     const [map, setMap] = useState();
-    // const [paraInfo, setParaInfo] = useState<any[]>([]);
-    // let parMarkers:any[] = [];
-    const [selectedMarker, setSelectedMarker] = useState<number>();
-
-    const [paraItem, setParaItem] = useRecoilState(hospitalSelectedParaId);
     
     useEffect(() => {
         if (props !== undefined) {
