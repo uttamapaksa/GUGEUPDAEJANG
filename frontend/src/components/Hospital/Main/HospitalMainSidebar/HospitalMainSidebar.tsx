@@ -3,7 +3,7 @@ import { HospitalMainSidebarContainer, HospitalMainSidebarContents, TypeButton, 
 import { useRecoilState } from "recoil";
 import { hospitalSidebarType } from "../../HospitalAtoms";
 import ParamedicList from "./ParamedicList/ParamedicList";
-import { MapProps } from "/src/components/libraries/Map/Map";
+import { MapProps } from "/src/types/map";
 
 
 

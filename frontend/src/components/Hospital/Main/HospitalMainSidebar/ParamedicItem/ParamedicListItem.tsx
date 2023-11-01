@@ -1,15 +1,22 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { ParamedicItemContainer, ParamedicItemContent, ItemRequestAt, ItemParaType, ItemParaInfo, ItemParaTagGroup } from "./ParamedicListItem.style";
 import { BtnToggle } from "/src/components/Commons/Atoms/Button";
 import { DivKtasInfo, DivTag } from "/src/components/Commons/Atoms/Div";
-import { ParamedicItem } from "/src/components/libraries/Map/Map";
 import theme from "/src/styles";
 
-
 const ParamedicListItem = (props: any) => {
-
+  const scrollRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (props.isSelected) moveScroll()
+  }, [props])
+  const moveScroll = () => {
+    console.log(scrollRef)
+    if (scrollRef.current != null) {
+      scrollRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
   return (
-    <ParamedicItemContainer>
+    <ParamedicItemContainer ref={scrollRef}>
       <ParamedicItemContent onClick={props.onclick} $isSelected={props.isSelected}>
         <DivKtasInfo
           $position="absolute"
@@ -40,7 +47,6 @@ const ParamedicListItem = (props: any) => {
           ))}
         </ItemParaTagGroup>
 
-
         <BtnToggle
           $width="50%"
           $height="30px"
@@ -50,9 +56,8 @@ const ParamedicListItem = (props: any) => {
           $borderRadius="0px"
           $color={theme.color.pinkDrak}
           $fontSize={theme.font.Small1_16}
-          $boxShadow="0 0.2px 0.1px 0px inset"          
+          $boxShadow="0 0.2px 0.1px 0px inset"
         >
-          
           거절
         </BtnToggle>
 

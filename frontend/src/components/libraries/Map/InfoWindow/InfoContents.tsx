@@ -27,7 +27,7 @@ function InfoContents(props: any) {
 
   return (
     <>
-      <InfoWindowContainer id={'infowindow'+props.id}>
+      <InfoWindowContainer id={'infowindow' + props.id} onClick={() => props.selectMarker(props.id)}>
         <InfoBox>
           <DivKtasInfo
             $position="absolute"
@@ -37,7 +37,7 @@ function InfoContents(props: any) {
             $width="40px"
             $height="20px"
             $borderRadius="0px 0px 0px 5px"
-            $fontSize={theme.font.Small6_11}>
+            $fontSize="10px">
             KTAS{props.ktas.charAt(4)}
           </DivKtasInfo>
           <AddrP>
@@ -54,7 +54,7 @@ function InfoContents(props: any) {
               요청 대기 {props.elapseMin}분 경과
             </ElapseTimeSpan>
           </ContentsP>
-          <BottomHr/>
+          <BottomHr />
           <ContentsP>
             <LeftTimeSpan>
               {props.leftTime}분 이내 도착 가능
