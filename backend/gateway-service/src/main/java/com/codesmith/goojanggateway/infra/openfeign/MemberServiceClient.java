@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Map;
 
-@FeignClient(name = "MEMBER-SERVICE", url = "https://k9b204.p.ssafy.io:64417")
+@FeignClient(name = "MEMBER-SERVICE")
 public interface MemberServiceClient {
 
     @PostMapping("/auth/passport")
