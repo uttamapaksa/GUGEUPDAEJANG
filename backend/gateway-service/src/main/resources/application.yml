@@ -40,3 +40,5 @@ spring:
             - Path=/api/transfer/**
           filters:
             - RewritePath=/api/(?<segment>.*), /$\{segment}
+jwt:
+  key: ${SECRETE_KEY}
