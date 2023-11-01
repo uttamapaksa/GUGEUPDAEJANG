@@ -4,6 +4,7 @@ import com.codesmith.goojangmember.infra.tmap.exception.FailedToReadDataExceptio
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -19,19 +20,22 @@ public class TmapClient {
 
     @Value("${tmap.api.key}")
     private String serviceKey;
+    @Value("${tmap.api.url}")
+    private String url;
+
+    @Autowired
+    private final ObjectMapper objectMapper;
 
     public HashMap<String, Long> getPathInfo(Double startX, Double startY, Double endX, Double endY) {
         try {
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("https://apis.openapi.sk.com/tmap/routes?version=1"))
+                    .uri(URI.create(url))
                     .header("accept", "application/json")
                     .header("appKey", serviceKey)
                     .header("content-type", "application/json")
                     .POST(HttpRequest.BodyPublishers.ofString("{\"endX\":\"" + endX + "\",\"endY\":\"" + endY + "\",\"startX\":\"" + startX + "\",\"startY\":\"" + startY + "\",\"totalValue\":2}"))
                     .build();
             HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-
-            ObjectMapper objectMapper = new ObjectMapper();
 
             JsonNode rootNode = objectMapper.readTree(response.body());
             JsonNode properties = rootNode.path("features").get(0).path("properties");

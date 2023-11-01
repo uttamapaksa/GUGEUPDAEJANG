@@ -4,6 +4,7 @@ import com.codesmith.goojangmember.infra.publicdata.exception.FailedToReadDataEx
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -20,10 +21,15 @@ public class PublicDataClient {
 
     @Value("${publicData.api.key}")
     private String serviceKey;
+    @Value("${publicData.api.url}")
+    private String url;
+
+    @Autowired
+    private final ObjectMapper objectMapper;
 
     public HashMap<String, Long> getRealTimeERBedInfo() {
         try {
-            StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/B552657/ErmctInfoInqireService/getEmrrmRltmUsefulSckbdInfoInqire");
+            StringBuilder urlBuilder = new StringBuilder(url);
             urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=" + serviceKey);
             urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8"));
             urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("500", "UTF-8"));
@@ -48,13 +54,10 @@ public class PublicDataClient {
             rd.close();
             conn.disconnect();
 
-            ObjectMapper objectMapper = new ObjectMapper();
             JsonNode rootNode = objectMapper.readTree(sb.toString());
-
             JsonNode items = rootNode.path("response").path("body").path("items").path("item");
 
             HashMap<String, Long> resultMap = new HashMap<>();
-
             for (JsonNode item : items) {
                 String hpid = item.path("hpid").asText();
                 long hvec = item.path("hvec").asLong();

@@ -5,6 +5,7 @@ import lombok.Getter;
 
 @Getter
 public class HospitalListResponse {
+    private Long id;
     private String hospitalId;
     private String name;
     private String address;
@@ -15,6 +16,7 @@ public class HospitalListResponse {
     private Long time;
 
 public HospitalListResponse(HospitalDetail hospitalDetail, Long bedCount, Double distance, Long time) {
+        this.id = hospitalDetail.getMember().getId();
         this.hospitalId = hospitalDetail.getId();
         this.name = hospitalDetail.getMember().getName();
         this.address = hospitalDetail.getAddress();
