@@ -1,6 +1,7 @@
 package com.codesmith.goojangcalling.infra.member;
 
 import com.codesmith.goojangcalling.calling.dto.response.HospitalSearchResponse;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -11,9 +12,9 @@ import java.util.List;
 public class HospitalClient {
     private final WebClient webClient;
 
-    public HospitalClient() {
+    public HospitalClient(@Value("${webclient.url.member}") String baseUrl) {
         this.webClient = WebClient.builder()
-                .baseUrl("https://k9b204.p.ssafy.io:8443/api/member")
+                .baseUrl(baseUrl)
                 .build();
     }
 

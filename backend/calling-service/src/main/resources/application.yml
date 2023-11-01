@@ -31,3 +31,7 @@ cloud:
       auto: false
     stack:
       auto: false
+
+webclient:
+  url:
+    member: https://k9b204.p.ssafy.io:8443/api/member
