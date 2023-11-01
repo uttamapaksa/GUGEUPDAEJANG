@@ -37,8 +37,15 @@ eureka:
     fetch-registry: true
     service-url:
       defaultZone: https://k9b204.p.ssafy.io:8761/eureka
-    instance:
-      prefer-ip-address: true
+  instance:
+    hostname: k9b204.p.ssafy.io
+    secure-port: 64417
+    secure-port-enabled: true
+    non-secure-port-enabled: false
+    secure-virtual-host-name: k9b204.p.ssafy.io
+    home-page-url-path: https://k9b204.p.ssafy.io:64417/
+    status-page-url-path: https://k9b204.p.ssafy.io:64417/
+    health-check-url: https://k9b204.p.ssafy.io:64417/
 jwt:
   expiration:
     access: 86400000
