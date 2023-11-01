@@ -1,6 +1,6 @@
 import * as S from './Signup.style';
 import M from '/src/components/Commons/Molecules'
-import SignupInput from '/src/components/Signup/SignupInput/SignupInput';
+import HosSignupInput from '../../components/Signup/HosSignupInput/HosSignupInput';
 
 function Signup() {
   return (
@@ -8,7 +8,7 @@ function Signup() {
       <S.Wrapper>
         <S.ContentBox>
           <M.Logo/>
-          <SignupInput/>
+          <HosSignupInput/>
         </S.ContentBox>
       </S.Wrapper>
     </S.Container>

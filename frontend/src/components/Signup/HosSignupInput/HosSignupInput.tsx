@@ -3,20 +3,28 @@ import {
   ChangeEvent} from "react"
 
 import { useNavigate } from 'react-router-dom';
-import * as S from './SignupInput.style';
+import * as S from './HosSignupInput.style';
 import A from '/src/components/Commons/Atoms';
 import theme from '/src/styles';
 import PATH from '/src/constants/path';
 
-function SignupInput () {
+function HosSignupInput () {
+  const [center, setcenter] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [Name, setName] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [repassword, setRepassword] = useState<string>("");
-  const MAX_LENGTH = 20;
+  const MAX_LENGTH = 50;
 
   const navigate = useNavigate()
   const goLogin = () => {navigate(`${PATH.Login}`)} 
+
+  const handleCenter = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value.length > MAX_LENGTH) {
+      e.target.value = e.target.value.slice(0, MAX_LENGTH);
+    }
+    setcenter(e.target.value.split(" ").join(""));
+  };
 
   const handleEmail = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length > MAX_LENGTH) {
@@ -54,8 +62,8 @@ function SignupInput () {
           type='email'
           $width='70%'
           $height='100%'
-          placeholder='이메일'
-          onChange={handleEmail}/>
+          placeholder='안전센터'
+          onChange={handleCenter}/>
           
         <A.BtnSubmit
           $margin='0 0 0 auto'
@@ -63,7 +71,7 @@ function SignupInput () {
           $height='100%'
           $fontSize='2vh'
           $borderRadius='1vh'
-          $backgroundColor={theme.color.grayDarkest}>인증</A.BtnSubmit>
+          $backgroundColor={theme.color.grayDark}>찾기</A.BtnSubmit>
       </S.Row1>
 
       <S.Row1>
@@ -94,9 +102,25 @@ function SignupInput () {
       </S.Row1>
 
       <S.Row1>
+        <A.IptUserInfo
+          type='email'
+          $width='70%'
+          $height='100%'
+          placeholder='이메일'
+          onChange={handleEmail}/>
+          
         <A.BtnSubmit
-          $margin='0 auto'
-          $width='95%'
+          $margin='0 0 0 auto'
+          $width='20%'
+          $height='100%'
+          $fontSize='2vh'
+          $borderRadius='1vh'
+          $backgroundColor={theme.color.grayDarkest}>인증</A.BtnSubmit>
+      </S.Row1>
+
+      <S.Row1>
+        <A.BtnSubmit
+          $width='100%'
           $height='100%'
           $fontSize='2vh'
           $borderRadius='1vh'
@@ -116,4 +140,4 @@ function SignupInput () {
   )
 }
 
-export default SignupInput
+export default HosSignupInput
