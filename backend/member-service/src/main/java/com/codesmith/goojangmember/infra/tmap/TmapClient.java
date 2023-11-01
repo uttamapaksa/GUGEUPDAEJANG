@@ -27,7 +27,7 @@ public class TmapClient {
                     .header("accept", "application/json")
                     .header("appKey", serviceKey)
                     .header("content-type", "application/json")
-                    .method("POST", HttpRequest.BodyPublishers.ofString("{\"endX\":\"" + endX + "\",\"endY\":\"" + endY + "\",\"startX\":\"" + startX + "\",\"startY\":\"" + startY + "\",\"totalValue\":2}"))
+                    .POST(HttpRequest.BodyPublishers.ofString("{\"endX\":\"" + endX + "\",\"endY\":\"" + endY + "\",\"startX\":\"" + startX + "\",\"startY\":\"" + startY + "\",\"totalValue\":2}"))
                     .build();
             HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
 

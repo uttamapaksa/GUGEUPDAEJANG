@@ -45,16 +45,15 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public List<HospitalListResponse> getHospitalList(Double latitude, Double longitude, Double distance) {
-        List<String> hospitalList = hospitalDetailRepository.findHospitalWithinDistance(latitude, longitude, distance);
+        List<HospitalDetail> hospitalList = hospitalDetailRepository.findHospitalWithinDistance(latitude, longitude, distance);
         memberValidator.validateExistNearByHospital(hospitalList);
 
         HashMap<String, Long> hospitalInfoMap = publicDataClient.getRealTimeERBedInfo();
         List<HospitalListResponse> hospitalListResponseList = new ArrayList<>();
-        for (String hospitalId : hospitalList) {
-            if (hospitalInfoMap.containsKey(hospitalId) && hospitalInfoMap.get(hospitalId) > 0) {
-                HospitalDetail hospitalDetail = hospitalDetailRepository.findById(hospitalId).get();
-                HashMap<String, Long> tmapInfo = tmapClient.getPathInfo(longitude, latitude, hospitalDetail.getLongitude(), hospitalDetail.getLatitude());
-                hospitalListResponseList.add(new HospitalListResponse(hospitalDetail, hospitalInfoMap.get(hospitalId), tmapInfo.get("distance")/1000.0, (tmapInfo.get("time")+59)/60));
+        for (HospitalDetail hospital : hospitalList) {
+            if (hospitalInfoMap.containsKey(hospital.getId()) && hospitalInfoMap.get(hospital.getId()) > 0) {
+                HashMap<String, Long> tmapInfo = tmapClient.getPathInfo(longitude, latitude, hospital.getLongitude(), hospital.getLatitude());
+                hospitalListResponseList.add(new HospitalListResponse(hospital, hospitalInfoMap.get(hospital.getId()), tmapInfo.get("distance")/1000.0, (tmapInfo.get("time")+59)/60));
             }
         }
         hospitalListResponseList.sort(Comparator.comparing(HospitalListResponse::getTime));

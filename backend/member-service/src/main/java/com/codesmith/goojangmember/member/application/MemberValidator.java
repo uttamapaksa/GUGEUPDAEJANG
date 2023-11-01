@@ -5,6 +5,7 @@ import com.codesmith.goojangmember.member.exception.NoNearByHospitalException;
 import com.codesmith.goojangmember.member.exception.SafetyCenterNotFoundException;
 import com.codesmith.goojangmember.member.persistence.MemberRepository;
 import com.codesmith.goojangmember.member.persistence.SafetyCenterRepository;
+import com.codesmith.goojangmember.member.persistence.domain.HospitalDetail;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -34,7 +35,7 @@ public class MemberValidator {
         }
     }
 
-    public void validateExistNearByHospital(List<String> hospitalList) {
+    public void validateExistNearByHospital(List<HospitalDetail> hospitalList) {
         if (hospitalList.isEmpty()) {
             throw new NoNearByHospitalException("주변에 갈 수 있는 병원이 없음");
         }
