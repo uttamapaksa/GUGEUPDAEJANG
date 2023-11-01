@@ -67,16 +67,14 @@ class AuthServiceTest {
     @Test
     @DisplayName("토큰으로 패스포트를 발급한다")
     void 토큰으로_패스포트를_발급한다() {
-        String accessToken = "dummy-access-token";
         String email = "dummy@example.com";
         Member member = new Member(1L, email, "passwor1234", "Dummy Name", "https://example.com/image.png", Role.PARAMEDIC);
         String passport = "dummy-passport";
 
-        when(tokenProvider.getPayload(accessToken)).thenReturn(email);
         when(memberRepository.findByEmail(email)).thenReturn(member);
         when(passportProvider.generatePassport(any(MemberInfo.class))).thenReturn(passport);
 
-        String actualPassport = authService.createPassport(new PassportCreateRequest(accessToken)).getPassport();
+        String actualPassport = authService.createPassport(new PassportCreateRequest(email)).getPassport();
 
         assertEquals(passport, actualPassport);
     }
