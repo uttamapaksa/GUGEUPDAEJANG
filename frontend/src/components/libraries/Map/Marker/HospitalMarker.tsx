@@ -13,7 +13,6 @@ function HospitalMarker(props: any) {
             let next = []
             for (var i = 0; i < props.hosList.length; i++) {
                 var lonlat = new Tmapv3.LatLng(props.hosList[i].pos.lat, props.hosList[i].pos.lon);
-                var title = props.hosList[i].name;
                 const size = new Tmapv3.Size(30, 30);
                 console.log(props.hosList[i])
                 // console.log(lonlat)
@@ -32,8 +31,7 @@ function HospitalMarker(props: any) {
     }, [props]);
 
     return (
-        <HospitalMarkerContainer>
-        </HospitalMarkerContainer>
+        <HospitalMarkerContainer/>
     );
 }
 

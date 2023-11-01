@@ -1,15 +1,6 @@
-import styled from "styled-components";
-import Map from "/src/components/libraries/Map/Map";
-import {
-  ImgHistoryActivate,
-  ImgHistoryDeactivate,
-  ImgStatisticActivate,
-  ImgStatisticDeactivate,
-  ImgTransferActivate,
-  ImgTransferDeactivate,
-} from "../../Commons/Atoms/Image";
+import A from "/src/components/Commons/Atoms";
 import { useRecoilState } from "recoil";
-import { hospitalComponentType } from "../HospitalAtoms";
+import { hospitalComponentType } from "../../../recoils/HospitalAtoms";
 import { SidebarContainer } from "./HopsitalSidebar.style";
 
 
@@ -26,7 +17,7 @@ const HopsitalSidebar = () => {
   return (
     <SidebarContainer>
       {buttonState[0] ? (
-        <ImgTransferActivate
+        <A.ImgTransferActivate
           $width="30px"
           $height="30px"
           $position="relative"
@@ -35,7 +26,7 @@ const HopsitalSidebar = () => {
           $margin="4px auto"
         />
       ) : (
-        <ImgTransferDeactivate
+        <A.ImgTransferDeactivate
           $width="26px"
           $height="22px"
           $position="relative"
@@ -46,7 +37,7 @@ const HopsitalSidebar = () => {
         />
       )}
       {buttonState[1] ? (
-        <ImgHistoryActivate
+        <A.ImgHistoryActivate
           $width="30px"
           $height="30px"
           $position="relative"
@@ -55,7 +46,7 @@ const HopsitalSidebar = () => {
           $margin="4px auto"
         />
       ) : (
-        <ImgHistoryDeactivate
+        <A.ImgHistoryDeactivate
           $width="26px"
           $height="26px"
           $position="relative"
@@ -66,7 +57,7 @@ const HopsitalSidebar = () => {
         />
       )}
       {buttonState[2] ? (
-        <ImgStatisticActivate
+        <A.ImgStatisticActivate
           $width="30px"
           $height="30px"
           $position="relative"
@@ -75,7 +66,7 @@ const HopsitalSidebar = () => {
           $margin="4px auto"
         />
       ) : (
-        <ImgStatisticDeactivate
+        <A.ImgStatisticDeactivate
           $width="26px"
           $height="26px"
           $position="relative"
