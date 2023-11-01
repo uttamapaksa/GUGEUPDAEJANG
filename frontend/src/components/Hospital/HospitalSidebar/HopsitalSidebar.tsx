@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Map, { MapProps } from "/src/components/libraries/Map/Map";
+import Map from "/src/components/libraries/Map/Map";
 import {
   ImgHistoryActivate,
   ImgHistoryDeactivate,

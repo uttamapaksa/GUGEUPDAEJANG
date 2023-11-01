@@ -29,6 +29,7 @@ export const InfoWindowArrow = styled.div`
   border-top: 20px solid #ffffffea;
   border-left: 20px solid transparent;
   border-right: 20px solid transparent;
+  pointer-events: none;
 `;
 
 export const InfoBox = styled.div`
@@ -68,7 +69,7 @@ export const StartTimeSpan = styled.span`
 `;
 
 export const BottomHr = styled.hr`
-position: relative;
+  position: relative;
   border-width: 0;
   height: 0.5px;
   left: -10%;

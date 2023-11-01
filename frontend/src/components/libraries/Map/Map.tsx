@@ -1,8 +1,14 @@
 import { useEffect, useState } from "react";
 import { MapContainer } from "./Map.style";
 import ParamedicInfo from "./InfoWindow/ParamedicInfo";
-import ParamedicMarker from "./Marker/ParamedicMarker";
+// import ParamedicMarker from "./Marker/ParamedicMarker";
 import HospitalMarker from "./Marker/HospitalMarker";
+import { MapProps } from "/src/types/map";
+import { renderToString } from "react-dom/server";
+import InfoContents from "./InfoWindow/InfoContents";
+import { useRecoilState } from "recoil";
+import { hospitalSelectedParaId } from "../../Hospital/HospitalAtoms";
+import ParamedicMarker from "./Marker/ParamedicMarker";
 
 declare global {
     interface Window {
@@ -19,7 +25,7 @@ export const createMap = (lat: number, lon: number) => {
         height: "100%",
         // 지도의 범위
         zoom: 15,
-        // zIndexMarker: 5,
+        // zIndexMarker: 15,
         // zIndexInfoWindow: 10,
     })
 }
@@ -32,77 +38,48 @@ export const destroyMap = () => {
     }
 }
 
-// 인터페이스
-export interface Position { lat: number, lon: number };
-export interface HospitalItem {
-    id: number,
-    name: string,
-    pos: Position,
-    phone: string,
-    requestTime: string,
-    remainBed: number,
-    response?: boolean,
-};
-export interface ParamedicItem {
-    id: number,
-    addr: string,
-    pos: Position,
-    ktas: string,
-    elapseMin: number,
-    leftTime: number,
-    dist: number,
-    paraType: string,
-    paraTag: string[],
-    paraInfo: string,
-    requestAt?: string,
-};
-
-export interface MapProps {
-    type: string,
-    pos: Position,
-    hosList?: HospitalItem[],
-    parList?: ParamedicItem[],
-}
-
 //props.type 의 구분에 따라 지도 반응형 크기 및 하위 컴포넌트 적용
 function Map(props: MapProps) {
     const [map, setMap] = useState();
+    // const [paraInfo, setParaInfo] = useState<any[]>([]);
+    // let parMarkers:any[] = [];
     const [selectedMarker, setSelectedMarker] = useState<number>();
 
+    const [paraItem, setParaItem] = useRecoilState(hospitalSelectedParaId);
+    
     useEffect(() => {
         if (props !== undefined) {
             const tmp = createMap(props.pos.lat, props.pos.lon);
-            console.log(tmp);
+            console.log("tmp", tmp);
             setMap(tmp);
         }
     }, []);
 
+    //현위치 갱신 과정 추가
     useEffect(() => {
-        if (props.pos.lat !== null && map !== undefined) {
-            var latlon = new Tmapv3.LatLng(props.pos.lat, props.pos.lon);
-            const size = new Tmapv3.Size(30, 30)
-            const marker = new Tmapv3.Marker({
-                position: latlon,
-                map: map,
-                // color: positions[i].color,
-                iconSize: size,
-                // icon: props.parList[i].type,
-                // label: title //Marker의 라벨.
-            });
-            marker.on("Click", () => {
-                console.log("props.parList[i].id")
-            });
-        }
+        // if (props.pos.lat !== null && map !== undefined) {
+        //     var latlon = new Tmapv3.LatLng(props.pos.lat, props.pos.lon);
+        //     const size = new Tmapv3.Size(30, 30)
+        //     const marker = new Tmapv3.Marker({
+        //         position: latlon,
+        //         map: map,
+        //         // color: positions[i].color,
+        //         iconSize: size,
+        //         // icon: props.parList[i].type,
+        //         // label: title //Marker의 라벨.
+        //     });
+        //     marker.on("Click", function(evt:any) {
+        //         console.log(evt)
+        //         console.log("evt")
+        //     });
+        //     // console.log("marker", marker)
+        // }
     }, [props]);
 
-    const selectMarker = (markerId: number) => {
-        console.log(markerId);
-        console.log("ssssssssssssssssssss");
-        setSelectedMarker(markerId);
-    }
-
     return (
-        <MapContainer id="map_div">
+        <>
+            <MapContainer id="map_div">
+            </MapContainer >
             {map !== undefined ?
                 <>
                     {props.type === "guest" ?
@@ -112,18 +89,17 @@ function Map(props: MapProps) {
                         <><HospitalMarker {...props} map={map} /></> :
                         <></>}
                     {props.type === "hospital" ?
-                        <><ParamedicMarker {...props}
-                            selectMarker={(markerId: number) => selectMarker(markerId)}
+                        <>
+                        <ParamedicMarker {...props}
                             map={map} />
                             <ParamedicInfo {...props} map={map} /></> :
-                        <></>
+                        <>
+                        </>
                     }
                 </> :
                 <></>
             }
-
-
-        </MapContainer >
+        </>
     );
 }
 

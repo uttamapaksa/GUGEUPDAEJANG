@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { MapProps, Tmapv3 } from "../Map";
+import { Tmapv3 } from "../Map";
 import { HospitalMarkerContainer } from "./HospitalMarker.style";
 
 function HospitalMarker(props: any) {

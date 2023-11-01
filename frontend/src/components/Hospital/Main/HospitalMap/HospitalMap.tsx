@@ -1,5 +1,6 @@
 import { MapContainer } from "./HospitalMap.styls";
-import Map, { MapProps } from "/src/components/libraries/Map/Map";
+import Map from "/src/components/libraries/Map/Map";
+import { MapProps } from "/src/types/map";
 
 const HospitalMap = (props: MapProps) => {
   return (
