@@ -4,11 +4,15 @@ import com.codesmith.goojanggateway.application.AuthenticationManager;
 import com.codesmith.goojanggateway.application.AuthenticationProvider;
 import com.codesmith.goojanggateway.application.BearerTokenServerAuthenticationConverter;
 import com.codesmith.goojanggateway.application.JwtTokenService;
+import com.codesmith.goojanggateway.infra.openfeign.MemberServiceClient;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
@@ -18,15 +22,20 @@ import org.springframework.security.web.server.authentication.AuthenticationWebF
 import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatchers;
 import reactor.core.publisher.Mono;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @RequiredArgsConstructor
+
 @EnableReactiveMethodSecurity
 public class WebSecurityConfig {
     private final JwtTokenService jwtTokenService;
     private final AuthenticationManager authenticationManager;
     private final AuthenticationProvider authenticationProvider;
+    private final MemberServiceClient memberServiceClient;
 
     @Bean
     public SecurityWebFilterChain filterChain(ServerHttpSecurity http) throws Exception {
@@ -58,11 +67,20 @@ public class WebSecurityConfig {
         bearerAuthenticationFilter.setServerAuthenticationConverter(
                 new BearerTokenServerAuthenticationConverter(
                         authenticationProvider,
-                        jwtTokenService)
+                        jwtTokenService, memberServiceClient)
         );
 
         bearerAuthenticationFilter.setRequiresAuthenticationMatcher(ServerWebExchangeMatchers.pathMatchers("/**"));
 
         return bearerAuthenticationFilter;
+    }
+
+    @Bean
+    public HttpMessageConverters customConverters() {
+        List<HttpMessageConverter<?>> converters = new ArrayList<>();
+        // 여기에 원하는 HttpMessageConverter 인스턴스를 추가할 수 있습니다.
+        converters.add(new MappingJackson2HttpMessageConverter());
+        // 기타 필요한 컨버터들을 추가...
+        return new HttpMessageConverters(converters);
     }
 }
