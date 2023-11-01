@@ -6,7 +6,6 @@ import M from "/src/components/Commons/Molecules"
 import A from "/src/components/Commons/Atoms"
 import GuestMap from '/src/components/Guest/Main/GuestMap/GuestMap';
 import { MapProps } from "/src/types/map";
-import theme from "/src/styles";
 import Spinner from "/src/components/libraries/Spinner/Spinner";
 
 function Main() {

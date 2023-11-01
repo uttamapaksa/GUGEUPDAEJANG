@@ -26,6 +26,7 @@ function HosSignupInput () {
     if (e.target.value.length > MAX_LENGTH) {
       e.target.value = e.target.value.slice(0, MAX_LENGTH);
     }
+    console.log(address)
     setAddress(e.target.value.split(" ").join(""));
   };
 
@@ -33,6 +34,7 @@ function HosSignupInput () {
     if (e.target.value.length > MAX_LENGTH) {
       e.target.value = e.target.value.slice(0, MAX_LENGTH);
     }
+    console.log(hospitalName)
     setHospitalName(e.target.value.split(" ").join(""));
   };
 
@@ -40,6 +42,7 @@ function HosSignupInput () {
     if (e.target.value.length > MAX_LENGTH) {
       e.target.value = e.target.value.slice(0, MAX_LENGTH);
     }
+    console.log(email)
     setEmail(e.target.value.split(" ").join(""));
   };
 
@@ -47,6 +50,7 @@ function HosSignupInput () {
     if (e.target.value.length > MAX_LENGTH) {
       e.target.value = e.target.value.slice(0, MAX_LENGTH);
     }
+    console.log(password)
     setPassword(e.target.value.split(" ").join(""));
   };
 
@@ -54,6 +58,7 @@ function HosSignupInput () {
     if (e.target.value.length > MAX_LENGTH) {
       e.target.value = e.target.value.slice(0, MAX_LENGTH);
     }
+    console.log(repassword)
     setRepassword(e.target.value.split(" ").join(""));
   };
 
@@ -61,6 +66,7 @@ function HosSignupInput () {
     if (e.target.value.length > MAX_LENGTH) {
       e.target.value = e.target.value.slice(0, MAX_LENGTH);
     }
+    console.log(phone1)
     setPhone1(e.target.value.split(" ").join(""));
   };
 
@@ -68,6 +74,7 @@ function HosSignupInput () {
     if (e.target.value.length > MAX_LENGTH) {
       e.target.value = e.target.value.slice(0, MAX_LENGTH);
     }
+    console.log(phone2)
     setPhone2(e.target.value.split(" ").join(""));
   };
 
