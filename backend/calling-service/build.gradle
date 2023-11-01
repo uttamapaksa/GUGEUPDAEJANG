@@ -21,7 +21,15 @@ repositories {
 	mavenCentral()
 }
 
+ext {
+	set('springCloudVersion', "2022.0.4")
+}
+
 dependencies {
+	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+
+	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+
 	implementation group: 'org.fluentd', name: 'fluent-logger', version: '0.3.4'
 	implementation group: 'com.sndyuk', name: 'logback-more-appenders', version: '1.5.6'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -33,6 +41,12 @@ dependencies {
 	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
 }
 
 tasks.named('test') {
