@@ -1,11 +1,12 @@
 import { renderToString } from "react-dom/server";
-import { MapProps, Tmapv3 } from "../Map";
+import { Tmapv3 } from "../Map";
 import InfoContents from "./InfoContents";
 import { ParamedicInfoContainer } from "./ParamedicInfo.style";
 import { useEffect, useState, useCallback } from 'react';
 
 
 function ParamedicInfo(props: any) {
+    const [paraInfo, setParaInfo] = useState<any[]>([]);
     const [parList, setParList] = useState<any>([]);
     // const [addr, setAddr] = useState<string>();
 
@@ -53,17 +54,11 @@ function ParamedicInfo(props: any) {
     //         />
     //     ))
     // }, [])
-
-    useEffect(() => {
-        if (props.parList !== undefined && props.map !== undefined) {
-
-            for (let i = 0; i < parList.length; i++) {
-                parList[i].infoWindow.setMap(null);
-            }
-            let next = []
+    const updateInfo = () => {
+        if (props.map !== undefined && props.parList !== undefined) {
+            let info: any[] = []
             for (var i = 0; i < props.parList.length; i++) {
                 var lonlat = new Tmapv3.LatLng(props.parList[i].pos.lat, props.parList[i].pos.lon);
-                const size = new Tmapv3.Size(30, 30);
                 const infoWindow = new Tmapv3.InfoWindow({
                     position: lonlat = lonlat,
                     offset: new Tmapv3.Point(0, -30),
@@ -81,11 +76,22 @@ function ParamedicInfo(props: any) {
                     type: 2,
                     map: props.map
                 });
-                next.push({ infoWindow: infoWindow });
+                info.push(infoWindow);
             }
-            setParList(next)
+            setParaInfo(info);
         }
-
+    }
+    const deleteInfo = () => {
+        for (let i = 0; i < paraInfo.length; i++) {
+            paraInfo[i].setMap(null);
+        }
+        setParaInfo([]);
+    }
+    useEffect(() => {
+        if (props.map !== undefined && props.parList !== undefined) {
+            deleteInfo();
+            updateInfo();
+        }
     }, [props]);
 
     return (

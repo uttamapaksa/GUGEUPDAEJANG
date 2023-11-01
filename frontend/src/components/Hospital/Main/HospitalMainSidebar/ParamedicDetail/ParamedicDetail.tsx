@@ -43,7 +43,7 @@ const ParamedicDetail = (props: any) => {
                     </div>
 
                     <video style={{ border: "1px solid gray" }}></video>
-                    <image></image>
+                    {/* <image></image> */}
 
                     <ItemAddr>{props.paraInfo}</ItemAddr>
                     <ItemAddr>{props.addr}</ItemAddr>

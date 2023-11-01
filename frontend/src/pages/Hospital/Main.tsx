@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { MapProps, ParamedicItem } from "../../components/libraries/Map/Map";
 import useGeolocation from "react-hook-geolocation";
 import HopsitalHeader from "/src/components/Hospital/HospitalHeader/HopsitalHeader";
 import HopsitalSidebar from "/src/components/Hospital/HospitalSidebar/HopsitalSidebar";
@@ -7,6 +6,7 @@ import { useRecoilValue } from "recoil";
 import { hospitalComponentType } from "/src/components/Hospital/HospitalAtoms";
 import HospitalMain from "/src/components/Hospital/Main/HospitalMain";
 import { ComponentContainer, Container } from "./Main.style";
+import { MapProps, ParamedicItem } from "/src/types/map";
 
 const parList = [
   //다중 마커 저장 배열
@@ -112,8 +112,8 @@ function Main() {
     let nextData: ParamedicItem[] = [];
 
     dummyData.forEach((item) => {
-      const dx = (5 - Math.floor(Math.random() * 10 + 1)) * 0.0001;
-      const dy = (5 - Math.floor(Math.random() * 10 + 1)) * 0.0001;
+      const dx = (5 - Math.floor(Math.random() * 10 + 1)) * 0.00002;
+      const dy = (5 - Math.floor(Math.random() * 10 + 1)) * 0.00002;
       const nx = item.pos.lat + dx;
       const ny = item.pos.lon + dy;
       nextData.push({
