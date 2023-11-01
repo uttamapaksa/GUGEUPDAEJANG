@@ -74,5 +74,4 @@ export const IptUserInfo = styled(StyledInput)`
   padding-left: 5%;
   border: ${(props) => props.$border || `0`};
   border-radius: ${(props) => props.$borderRadius || `1vh`};
-  font-size: ${(props) => props.$fontSize || `${theme.font.Large3_32}`};
 `;
