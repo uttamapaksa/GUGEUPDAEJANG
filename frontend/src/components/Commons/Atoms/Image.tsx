@@ -36,6 +36,9 @@ import arrow_bottom from "/src/assets/share/arrow-bottom.png"
 import arrow_left from "/src/assets/share/arrow-left.png"
 import arrow_up from "/src/assets/share/arrow-up.png"
 import bar from "/src/assets/share/bar.png"
+import exit_black from "/src/assets/share/exit-black.png"
+import exit_gray from "/src/assets/share/exit-gray.png"
+import search_gray from "/src/assets/share/search-gray.png"
 
 interface ImageProps {
   $height?: string;
@@ -54,6 +57,8 @@ interface ImageProps {
   $right?: string;
   $left?: string;
   $zIndex?: string;
+
+  $cursor?: string;
 }
 
 const StyledImage = styled.img<ImageProps>`
@@ -73,7 +78,9 @@ const StyledImage = styled.img<ImageProps>`
   right: ${(props) => props.$right};
   left: ${(props) => props.$left};
   z-index: ${(props) => props.$zIndex}; 
-`
+  
+  cursor: ${(props) => props.$cursor}; 
+  `
 
 // hospital
 export const ImgLogoHospital = styled(StyledImage).attrs({src: logo_hospital})``;
@@ -111,3 +118,6 @@ export const ImgArrowBottom = styled(StyledImage).attrs({src: arrow_bottom})``;
 export const ImgArrowLeft = styled(StyledImage).attrs({src: arrow_left})``;
 export const ImgArrowUp = styled(StyledImage).attrs({src: arrow_up})``;
 export const ImgBar = styled(StyledImage).attrs({src: bar})``;
+export const ImgExitBlack = styled(StyledImage).attrs({src: exit_black})``;
+export const ImgExitGray = styled(StyledImage).attrs({src: exit_gray})``;
+export const ImgSearchGray = styled(StyledImage).attrs({src: search_gray})``;

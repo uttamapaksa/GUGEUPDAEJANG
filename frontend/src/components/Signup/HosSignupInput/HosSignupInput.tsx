@@ -8,7 +8,12 @@ import A from '/src/components/Commons/Atoms';
 import theme from '/src/styles';
 import PATH from '/src/constants/path';
 
-function HosSignupInput () {
+interface HosSignupInputProps {
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsHosSearch: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+function HosSignupInput ({setIsOpen, setIsHosSearch}: HosSignupInputProps) {
     
   const [address, setAddress] = useState<string>("");
   const [hospitalName, setHospitalName] = useState<string>("");
@@ -90,6 +95,7 @@ function HosSignupInput () {
           onChange={handleAddress}/>
           
         <A.BtnSubmit
+          onClick={()=>(setIsOpen(true), setIsHosSearch(true))}
           $margin='0 0 0 auto'
           $width='20%'
           $height='100%'
