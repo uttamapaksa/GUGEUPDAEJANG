@@ -1,5 +1,8 @@
 
-export interface Position { lat: number, lon: number };
+export interface Position { 
+  lat: number, 
+  lon: number 
+}
 
 export interface HospitalItem {
     id: number,
@@ -9,7 +12,8 @@ export interface HospitalItem {
     requestTime: string,
     remainBed: number,
     response?: boolean,
-};
+}
+
 export interface ParamedicItem {
     id: number,
     addr: string,
@@ -22,7 +26,7 @@ export interface ParamedicItem {
     paraTag: string[],
     paraInfo: string,
     requestAt?: string,
-};
+}
 
 export interface MapProps {
     type: string,

@@ -6,20 +6,24 @@ function HospitalItem() {
   return (
     <S.HospitalItem>
       <S.LeftSection>
-        <S.ItemTitle>연세대학교 의과대학 강남세브란스 병원</S.ItemTitle>
-        <S.ItemNumber>
-          <A.ImgCellphoneGray $width="2vh" $margin="0 1.8vh 0 0" />
+        <S.Title>연세대학교 의과대학 강남세브란스 병원</S.Title>
+        <S.Number>
+          <A.ImgCellphoneGray 
+            $width="2.6vw" 
+            $margin="0 1.8vh 0 0" />
           02-2602-3024
-        </S.ItemNumber>
-        <S.ItemDist>3.4km</S.ItemDist>
-        <S.ItemTime>13분</S.ItemTime>
+        </S.Number>
+        <S.Dist>3.4km</S.Dist>
+        <S.Time>13분</S.Time>
       </S.LeftSection>
+
       <S.RightSection>
-        <S.ItemCallTime>10시 18분에 요청</S.ItemCallTime>
+        <S.CallTime>10시 18분에 요청</S.CallTime>
         <A.BtnToggle
           $width="90%"
           $height="8vh"
           $fontSize="2.2vh"
+          $borderRadius='1vh'
           $color={theme.color.pinkLight}
           $border={`0.25vh solid ${theme.color.pinkLight}`}
         >

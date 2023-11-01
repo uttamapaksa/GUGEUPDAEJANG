@@ -2,8 +2,10 @@ import {
   useEffect } from "react";
 
 import * as S from './GuestMap.style';
-import Map, { MapProps } from "/src/components/libraries/Map/Map";
-import { GuestMapProps } from "/src/types/map";
+import Map from "/src/components/libraries/Map/Map";
+import { 
+  GuestMapProps, 
+  MapProps } from "/src/types/map";
 
 function GuestMap ({ mapProps, setMapProps }: GuestMapProps) {
   const changePosition = () =>{
