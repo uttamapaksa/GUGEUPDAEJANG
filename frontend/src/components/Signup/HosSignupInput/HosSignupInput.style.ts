@@ -3,10 +3,8 @@ import styled from "styled-components";
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
   align-items: center;
   /* border: 3px solid green; */
-  height: 75%;
 `;
 
 // atoms
@@ -14,7 +12,8 @@ export const Row1 = styled.div`
   display: flex;
   /* border: 3px solid skyblue; */
   width: 90%;
-  height: 13%;
+  height: 6.2vh;
+  margin-bottom: 2.3vh;
 `;
 
 export const Row2 = styled.div`
@@ -23,9 +22,9 @@ export const Row2 = styled.div`
   align-items: center;
   /* border: 3px solid skyblue; */
   width: 90%;
-  height: 5%;
+  height: 3vh;
+  margin-bottom: 4vh;
 `;
-
 
 export const LoginToggle = styled.div`
   display: flex;
@@ -41,3 +40,5 @@ export const LoginToggle = styled.div`
   }
   cursor: pointer;
 `;
+
+

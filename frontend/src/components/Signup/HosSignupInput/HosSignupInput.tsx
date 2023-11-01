@@ -3,33 +3,44 @@ import {
   ChangeEvent} from "react"
 
 import { useNavigate } from 'react-router-dom';
-import * as S from './SignupInput.style';
+import * as S from './HosSignupInput.style';
 import A from '/src/components/Commons/Atoms';
 import theme from '/src/styles';
 import PATH from '/src/constants/path';
 
-function SignupInput () {
+function HosSignupInput () {
+    
+  const [address, setAddress] = useState<string>("");
+  const [hospitalName, setHospitalName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
-  const [Name, setName] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [repassword, setRepassword] = useState<string>("");
-  const MAX_LENGTH = 20;
+  const [phone1, setPhone1] = useState<string>("");
+  const [phone2, setPhone2] = useState<string>("");
+  const MAX_LENGTH = 50;
 
   const navigate = useNavigate()
   const goLogin = () => {navigate(`${PATH.Login}`)} 
+
+  const handleAddress = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value.length > MAX_LENGTH) {
+      e.target.value = e.target.value.slice(0, MAX_LENGTH);
+    }
+    setAddress(e.target.value.split(" ").join(""));
+  };
+
+  const handleHospitalName = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value.length > MAX_LENGTH) {
+      e.target.value = e.target.value.slice(0, MAX_LENGTH);
+    }
+    setHospitalName(e.target.value.split(" ").join(""));
+  };
 
   const handleEmail = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length > MAX_LENGTH) {
       e.target.value = e.target.value.slice(0, MAX_LENGTH);
     }
     setEmail(e.target.value.split(" ").join(""));
-  };
-
-  const handleName = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value.length > MAX_LENGTH) {
-      e.target.value = e.target.value.slice(0, MAX_LENGTH);
-    }
-    setName(e.target.value.split(" ").join(""));
   };
 
   const handlePassword = (e: ChangeEvent<HTMLInputElement>) => {
@@ -46,9 +57,49 @@ function SignupInput () {
     setRepassword(e.target.value.split(" ").join(""));
   };
 
+  const handlePhone1 = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value.length > MAX_LENGTH) {
+      e.target.value = e.target.value.slice(0, MAX_LENGTH);
+    }
+    setPhone1(e.target.value.split(" ").join(""));
+  };
+
+  const handlePhone2 = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value.length > MAX_LENGTH) {
+      e.target.value = e.target.value.slice(0, MAX_LENGTH);
+    }
+    setPhone2(e.target.value.split(" ").join(""));
+  };
+
 
   return(
     <S.Container>
+      <S.Row1>
+        <A.IptUserInfo
+          type='text'
+          $width='70%'
+          $height='100%'
+          placeholder='주소'
+          onChange={handleAddress}/>
+          
+        <A.BtnSubmit
+          $margin='0 0 0 auto'
+          $width='20%'
+          $height='100%'
+          $fontSize='2vh'
+          $borderRadius='1vh'
+          $backgroundColor={theme.color.grayDark}>찾기</A.BtnSubmit>
+      </S.Row1>
+
+      <S.Row1>
+        <A.IptUserInfo
+          type="text"
+          $width='100%'
+          $height='100%'
+          placeholder='병원이름'
+          onChange={handleHospitalName}/>
+      </S.Row1>
+
       <S.Row1>
         <A.IptUserInfo
           type='email'
@@ -64,15 +115,6 @@ function SignupInput () {
           $fontSize='2vh'
           $borderRadius='1vh'
           $backgroundColor={theme.color.grayDarkest}>인증</A.BtnSubmit>
-      </S.Row1>
-
-      <S.Row1>
-        <A.IptUserInfo
-          type="text"
-          $width='100%'
-          $height='100%'
-          placeholder='이름'
-          onChange={handleName}/>
       </S.Row1>
 
       <S.Row1>
@@ -94,9 +136,27 @@ function SignupInput () {
       </S.Row1>
 
       <S.Row1>
+        <A.IptUserInfo
+          type='text'
+          $width='100%'
+          $height='100%'
+          placeholder='전화번호1'
+          onChange={handlePhone1}/>
+      </S.Row1>
+
+      <S.Row1>
+        <A.IptUserInfo
+          type='text'
+          $width='100%'
+          $height='100%'
+          placeholder='전화번호2'
+          onChange={handlePhone2}/>
+      </S.Row1>
+
+
+      <S.Row1>
         <A.BtnSubmit
-          $margin='0 auto'
-          $width='95%'
+          $width='100%'
           $height='100%'
           $fontSize='2vh'
           $borderRadius='1vh'
@@ -116,4 +176,4 @@ function SignupInput () {
   )
 }
 
-export default SignupInput
+export default HosSignupInput

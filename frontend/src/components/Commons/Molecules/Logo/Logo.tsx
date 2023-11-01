@@ -4,7 +4,7 @@ import * as S from './Logo.style';
 function Logo() {
   return (
     <S.Container>
-      <A.ImgLogo $width='40%'/>
+      <A.ImgLogo $width='24vh'/>
     </S.Container>
   )
 }

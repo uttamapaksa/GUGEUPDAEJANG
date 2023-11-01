@@ -5,7 +5,8 @@ export const Container = styled.div`
   align-items: center;
   justify-content: center;
   /* border: 3px solid green; */
-  height: 25%;
+  margin-bottom: 8vh;
+  height: 16vh;
 `;
 
 export const BtnGoToGuest = styled.button`

@@ -4,5 +4,5 @@ export const Container = styled.div`
   align-items: center;
   justify-content: center;
   /* border: 3px solid black; */
-  height: 20%;
+  margin: 3vh 0px 6vh 0px;
 `;

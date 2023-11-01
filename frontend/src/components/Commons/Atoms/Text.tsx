@@ -84,3 +84,7 @@ export const TxtHeaderTitle  = styled(StyledText)`
   width: 50%;
   height: 80%;
 `
+
+export const TxtContent = styled(StyledText)`
+  
+`

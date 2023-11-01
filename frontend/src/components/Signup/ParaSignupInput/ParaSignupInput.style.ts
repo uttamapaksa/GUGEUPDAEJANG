@@ -7,9 +7,9 @@ export const Container = styled.div`
   /* border: 3px solid green; */
 `;
 
+// atoms
 export const Row1 = styled.div`
   display: flex;
-  justify-content: space-between;
   /* border: 3px solid skyblue; */
   width: 90%;
   height: 6.2vh;
@@ -19,6 +19,7 @@ export const Row1 = styled.div`
 export const Row2 = styled.div`
   display: flex;
   justify-content: center;
+  align-items: center;
   /* border: 3px solid skyblue; */
   width: 90%;
   height: 3vh;
