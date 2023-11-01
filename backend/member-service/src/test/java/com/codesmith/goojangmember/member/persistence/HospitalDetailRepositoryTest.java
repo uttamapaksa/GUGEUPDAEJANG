@@ -1,5 +1,6 @@
 package com.codesmith.goojangmember.member.persistence;
 
+import com.codesmith.goojangmember.member.persistence.domain.HospitalDetail;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,7 +24,7 @@ public class HospitalDetailRepositoryTest {
         Double longitude = 126.9780;
         Double distance = 5.0;
 
-        List<String> hospitalList = hospitalDetailRepository.findHospitalWithinDistance(latitude, longitude, distance);
+        List<HospitalDetail> hospitalList = hospitalDetailRepository.findHospitalWithinDistance(latitude, longitude, distance);
 
         Assertions.assertNotNull(hospitalList);
     }
