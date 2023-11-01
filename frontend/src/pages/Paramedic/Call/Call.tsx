@@ -1,11 +1,12 @@
 import * as S from './Call.style';
-import { ParamedicHeader, Ktas, Information, Status, Category } from '/src/components/Paramedic/Call';
+import M from '/src/components/Commons/Molecules';
+import { Ktas, Information, Status, Category } from '/src/components/Paramedic/Call';
 
 function Call() {
   return (
     <S.Container>
       <S.ContentBox>
-        <ParamedicHeader />
+        <M.ParamedicHeader />
         <S.Blank />
         <Ktas />
         <S.Blank />

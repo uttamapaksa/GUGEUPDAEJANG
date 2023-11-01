@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
+  /* border: 3px solid black; */
   display: flex;
   justify-content: center;
-  /* border: 3px solid black; */
   height: 100vh;
 `;
 

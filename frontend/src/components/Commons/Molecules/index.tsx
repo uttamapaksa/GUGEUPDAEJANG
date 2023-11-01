@@ -1,7 +1,9 @@
 import Logo from "../Molecules/Logo/Logo"
+import ParamedicHeader from "./ParamedicHeader/ParamedicHeader";
 
 const M = {
-  Logo
+  Logo,
+  ParamedicHeader,
 }
 
 export default M;
