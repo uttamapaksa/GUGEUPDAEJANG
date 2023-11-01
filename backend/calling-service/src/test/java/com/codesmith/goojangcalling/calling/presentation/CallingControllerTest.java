@@ -4,6 +4,8 @@ import com.codesmith.goojangcalling.calling.application.MemberTagService;
 import com.codesmith.goojangcalling.calling.dto.request.AddMemberTagRequest;
 import com.codesmith.goojangcalling.calling.dto.response.MemberTagResponse;
 import com.codesmith.goojangcalling.calling.persistence.domain.Tag;
+import com.codesmith.goojangcalling.global.config.WebConfig;
+import com.codesmith.goojangcalling.global.passport.presentation.AuthMemberArgumentResolver;
 import com.codesmith.goojangcalling.infra.aws.S3Client;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
@@ -33,6 +35,12 @@ class CallingControllerTest {
 
     @MockBean
     S3Client s3Client;
+
+    @MockBean
+    WebConfig webConfig;
+
+    @MockBean
+    AuthMemberArgumentResolver authMemberArgumentResolver;
 
     @Autowired
     private ObjectMapper objectMapper;
