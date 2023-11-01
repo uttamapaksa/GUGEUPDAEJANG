@@ -8,5 +8,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Getter
 public class PassportCreateRequest {
-    private String accessToken;
+    private String email;
 }

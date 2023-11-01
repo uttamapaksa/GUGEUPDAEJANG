@@ -44,7 +44,7 @@ public class AuthService {
     }
 
     public PassportCreateResponse createPassport(PassportCreateRequest passportCreateRequest) {
-        String email = tokenProvider.getPayload(passportCreateRequest.getAccessToken());
+        String email = passportCreateRequest.getEmail();
         memberValidator.doesEmailExist(email);
         Member member = memberRepository.findByEmail(email);
         MemberInfo memberInfo = new MemberInfo(member.getId(), member.getEmail(), member.getName(), member.getImageUrl(), member.getRole().getKey());
