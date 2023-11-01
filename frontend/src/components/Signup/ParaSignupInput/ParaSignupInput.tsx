@@ -17,6 +17,7 @@ function ParaSignupInput () {
   const [repassword, setRepassword] = useState<string>("");
   const MAX_LENGTH = 50;
 
+
   const navigate = useNavigate()
   const goLogin = () => {navigate(`${PATH.Login}`)} 
 
@@ -24,6 +25,7 @@ function ParaSignupInput () {
     if (e.target.value.length > MAX_LENGTH) {
       e.target.value = e.target.value.slice(0, MAX_LENGTH);
     }
+    console.log(center)
     setCenter(e.target.value.split(" ").join(""));
   };
 
@@ -31,6 +33,7 @@ function ParaSignupInput () {
     if (e.target.value.length > MAX_LENGTH) {
       e.target.value = e.target.value.slice(0, MAX_LENGTH);
     }
+    console.log(email)
     setEmail(e.target.value.split(" ").join(""));
   };
 
@@ -38,6 +41,7 @@ function ParaSignupInput () {
     if (e.target.value.length > MAX_LENGTH) {
       e.target.value = e.target.value.slice(0, MAX_LENGTH);
     }
+    console.log(Name)
     setName(e.target.value.split(" ").join(""));
   };
 
@@ -45,13 +49,15 @@ function ParaSignupInput () {
     if (e.target.value.length > MAX_LENGTH) {
       e.target.value = e.target.value.slice(0, MAX_LENGTH);
     }
+    console.log(password)
     setPassword(e.target.value.split(" ").join(""));
   };
 
   const handleRePassword = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length > MAX_LENGTH) {
       e.target.value = e.target.value.slice(0, MAX_LENGTH);
-    }
+    }    
+    console.log(repassword)
     setRepassword(e.target.value.split(" ").join(""));
   };
 

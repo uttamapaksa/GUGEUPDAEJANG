@@ -3,6 +3,7 @@ import styled, { keyframes } from 'styled-components';
 interface SpinnerProps {
   height?: string;
   width?: string;
+  top? : string;
 }
 
 const rotate = keyframes`
@@ -11,6 +12,8 @@ const rotate = keyframes`
 `;
 
 export const SpinnerWrapper = styled.div<SpinnerProps>`
+  position: absolute;
+  top : ${props => props.top};
   width: ${props => props.width || "100px"};
   height: ${props => props.height || "100px"};
   display: inline-block;
