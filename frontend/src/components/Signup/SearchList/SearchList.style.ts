@@ -17,7 +17,7 @@ export const List = styled.div`
   height: 100%;
   background-color: white;
   overflow: auto;
-  // chrome
+
   &::-webkit-scrollbar {
     width: 0;
   }
@@ -69,7 +69,9 @@ export const Listitem2 = styled.div`
 `;
 
 export const ListBtnWhite = styled.div`
-  border: 0.2vh solid ${theme.color.grayDark};
+  border: 0.2vh solid ${theme.color.grayMedium};
+  background-color: #F4F4F4;
+  color: ${theme.color.grayDarkest};
   border-radius: 0.3vh;
   padding: 0.2% 1%;
   font-size: 1.2vh;
@@ -77,10 +79,10 @@ export const ListBtnWhite = styled.div`
 `;
 
 export const ListBtnBlack = styled.div`
-  border: 0.2vh solid black;
-  background-color: black;
+  border: 0.2vh solid  ${theme.color.grayMedium};
+  background-color: white;
   border-radius: 0.3vh;
-  color: white;
+  color: ${theme.color.grayDarkest};
   padding: 0.2% 1%;
   font-size: 1.2vh;
   font-weight: 600;

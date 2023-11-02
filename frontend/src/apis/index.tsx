@@ -1,6 +1,6 @@
 import axios, {  AxiosInstance } from 'axios';
 
-const BASE_URL = 'https://k9b204.p.ssafy.io:8761';
+const BASE_URL = 'https://k9b204.p.ssafy.io:8443/api';
 axios.defaults.withCredentials = true;
 
 export const publicApi: AxiosInstance = axios.create({
@@ -45,15 +45,11 @@ privateApi.interceptors.response.use((response) => {
           const response = await postRefreshToken();
           const newAccessToken = response.headers['authorization'];
 
-          localStorage.setItem('access_token',
-            response.headers['authorization']);
-          localStorage.setItem('refresh_token',
-            response.headers['authorization-refresh']);
+          localStorage.setItem('access_token',response.headers['authorization']);
+          localStorage.setItem('refresh_token',response.headers['authorization-refresh']);
 
-          axios.defaults.headers.common.Authorization = 
-            `Bearer ${newAccessToken}`;
-          originRequest.headers.Authorization = 
-            `Bearer ${newAccessToken}`;
+          axios.defaults.headers.common.Authorization = `Bearer ${newAccessToken}`;
+          originRequest.headers.Authorization = `Bearer ${newAccessToken}`;
             
           return axios(originRequest);
         } 

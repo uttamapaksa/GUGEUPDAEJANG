@@ -5,16 +5,18 @@ import * as S from './ParaSignupInput.style';
 import A from '/src/components/Commons/Atoms';
 import theme from '/src/styles';
 import PATH from '/src/constants/path';
+import { useRecoilState } from "recoil";
+import { paramedicInfoState } from "/src/recoils/AuthAtoms";
+import { postParaJoin } from "/src/apis/auth";
 
 function ParaSignupInput ({setIsOpen, setIsHosSearch}: ParaSignupInputProps) {
-
   const [center, setCenter] = useState<string>("");
   const [email, setEmail] = useState<string>("");
-  const [Name, setName] = useState<string>("");
+  const [name, setName] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [repassword, setRepassword] = useState<string>("");
+  const [paramedicInfo, setParamedicInfo] = useRecoilState(paramedicInfoState);
   const MAX_LENGTH = 50;
-
 
   const navigate = useNavigate()
   const goLogin = () => {navigate(`${PATH.Login}`)} 
@@ -33,14 +35,16 @@ function ParaSignupInput ({setIsOpen, setIsHosSearch}: ParaSignupInputProps) {
     }
     console.log(email)
     setEmail(e.target.value.split(" ").join(""));
+    setParamedicInfo(prev => ({ ...prev, email: e.target.value.split(" ").join("") }));
   };
 
   const handleName = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length > MAX_LENGTH) {
       e.target.value = e.target.value.slice(0, MAX_LENGTH);
     }
-    console.log(Name)
+    console.log(name)
     setName(e.target.value.split(" ").join(""));
+    setParamedicInfo(prev => ({ ...prev, name: e.target.value.split(" ").join("") }));
   };
 
   const handlePassword = (e: ChangeEvent<HTMLInputElement>) => {
@@ -49,6 +53,7 @@ function ParaSignupInput ({setIsOpen, setIsHosSearch}: ParaSignupInputProps) {
     }
     console.log(password)
     setPassword(e.target.value.split(" ").join(""));
+    setParamedicInfo(prev => ({ ...prev, password: e.target.value.split(" ").join("") }));
   };
 
   const handleRePassword = (e: ChangeEvent<HTMLInputElement>) => {
@@ -57,7 +62,19 @@ function ParaSignupInput ({setIsOpen, setIsHosSearch}: ParaSignupInputProps) {
     }    
     console.log(repassword)
     setRepassword(e.target.value.split(" ").join(""));
+    console.log(paramedicInfo)
   };
+
+  const axiosParaJoin = async ():Promise<void> => {
+    try {
+      if (await postParaJoin(paramedicInfo) === 200) {
+        console.log("구급대원 회원가입 성공")
+      }
+    }
+    catch(error) {
+      console.log(error)
+    }
+  }
 
   return(
     <S.Container>
@@ -129,7 +146,8 @@ function ParaSignupInput ({setIsOpen, setIsHosSearch}: ParaSignupInputProps) {
           $height='100%'
           $fontSize='2vh'
           $borderRadius='1vh'
-          $backgroundColor={theme.color.fontPink2}>회원 가입</A.BtnSubmit>
+          $backgroundColor={theme.color.fontPink2}
+          onClick={()=>axiosParaJoin()}>회원 가입</A.BtnSubmit>
       </S.Row1>
       
       <S.Row2>
