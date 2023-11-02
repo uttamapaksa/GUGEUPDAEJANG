@@ -3,6 +3,7 @@ package com.codesmith.goojangmember.member.presentation;
 import com.codesmith.goojangmember.member.application.MemberService;
 import com.codesmith.goojangmember.member.dto.request.HospitalJoinRequest;
 import com.codesmith.goojangmember.member.dto.request.ParamedicJoinRequest;
+import com.codesmith.goojangmember.member.dto.response.CenterListResponse;
 import com.codesmith.goojangmember.member.dto.response.EmailCheckResponse;
 import com.codesmith.goojangmember.member.dto.response.HospitalListResponse;
 import com.codesmith.goojangmember.member.persistence.domain.Member;
@@ -30,7 +31,7 @@ public class MemberController {
     }
 
     @GetMapping("/check-email")
-    public ResponseEntity<EmailCheckResponse> checkEmail(@RequestParam String email) {
+    public ResponseEntity<EmailCheckResponse> checkEmail(@RequestParam("email") String email) {
         return ResponseEntity.ok(memberService.checkEmail(email));
     }
 
@@ -44,6 +45,11 @@ public class MemberController {
     public ResponseEntity<Void> join(@RequestBody HospitalJoinRequest hospitalJoinRequest) {
         memberService.join(hospitalJoinRequest);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/center")
+    public ResponseEntity<List<CenterListResponse>> searchCenter(@RequestParam("keyword") String keyword) {
+        return ResponseEntity.ok(memberService.getSafetyCenterList(keyword));
     }
 
 }

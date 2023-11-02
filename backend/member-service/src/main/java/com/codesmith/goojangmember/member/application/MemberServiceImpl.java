@@ -7,6 +7,7 @@ import com.codesmith.goojangmember.infra.publicdata.PublicDataClient;
 import com.codesmith.goojangmember.infra.tmap.TmapClient;
 import com.codesmith.goojangmember.member.dto.request.HospitalJoinRequest;
 import com.codesmith.goojangmember.member.dto.request.ParamedicJoinRequest;
+import com.codesmith.goojangmember.member.dto.response.CenterListResponse;
 import com.codesmith.goojangmember.member.dto.response.EmailCheckResponse;
 import com.codesmith.goojangmember.member.dto.response.HospitalListResponse;
 import com.codesmith.goojangmember.member.persistence.HospitalDetailRepository;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -88,6 +90,15 @@ public class MemberServiceImpl implements MemberService {
         return new EmailCheckResponse(exists);
     }
 
+    @Override
+    public List<CenterListResponse> getSafetyCenterList(String keyword) {
+        List<SafetyCenter> safetyCenters = safetyCenterRepository.findAllCenterByKeyword(keyword);
+
+        return safetyCenters.stream()
+                .map(this::convertToCenterListResponse)
+                .collect(Collectors.toList());
+    }
+
     private Member covertToMember(HospitalJoinRequest hospitalJoinRequest) {
         String email = hospitalJoinRequest.getEmail();
         String password = passwordEncoder.encode(hospitalJoinRequest.getPassword());
@@ -117,5 +128,14 @@ public class MemberServiceImpl implements MemberService {
         Double longitude = hospitalJoinRequest.getLongitude();
 
         return new HospitalDetail(id, member, telephone1, telephone2, address, latitude, longitude);
+    }
+
+    public CenterListResponse convertToCenterListResponse(SafetyCenter safetyCenter) {
+        Long id = safetyCenter.getId();
+        String region = safetyCenter.getRegion();
+        String name = safetyCenter.getName();
+        String address = safetyCenter.getAddress();
+        String telephone = safetyCenter.getTelephone();
+        return new CenterListResponse(id, region, name, address, telephone);
     }
 }
