@@ -14,7 +14,7 @@ function Status() {
       <S.Col9>
         <A.BtnMediaRecord
           $padding="0 1.5vh"
-          $width="45%"
+          $width="48%"
           $height="6.6vh"
           $color={theme.color.pinkLight}
           $border={`0.3vh solid ${theme.color.pinkLight}`}
@@ -22,13 +22,13 @@ function Status() {
           $boxShadow='0 0 1vh 0.4vh rgba(0, 0, 0, 0.10)'
           $fontSize="2.2vh"
         >
-          <A.ImgRecordVideoPink $width="3.2vh" />
-          영상 촬영
+          <A.ImgRecordCameraPink $width="3.2vh" />
+          카메라 촬영
           <A.ImgArrowPinkRight $width="1vh" />
         </A.BtnMediaRecord>
         <A.BtnMediaRecord
           $padding="0 1vh"
-          $width="45%"
+          $width="48%"
           $height="6.6vh"
           $color={theme.color.pinkLight}
           $border={`0.3vh solid ${theme.color.pinkLight}`}
