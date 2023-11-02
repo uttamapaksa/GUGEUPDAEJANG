@@ -5,12 +5,14 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EntityListeners(AuditingEntityListener.class)
 public class Occurrence {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,10 +27,11 @@ public class Occurrence {
     private String symptom;
     private Double latitude;
     private Double longitude;
+    private String address;
     @CreatedDate
     private LocalDateTime createdAt;
 
-    public Occurrence(Long memberId, KTAS ktas, AgeGroup ageGroup, Gender gender, String symptom, Double latitude, Double longitude) {
+    public Occurrence(Long memberId, KTAS ktas, AgeGroup ageGroup, Gender gender, String symptom, Double latitude, Double longitude, String address) {
         this.memberId = memberId;
         this.ktas = ktas;
         this.ageGroup = ageGroup;
@@ -36,5 +39,6 @@ public class Occurrence {
         this.symptom = symptom;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.address = address;
     }
 }

@@ -1,6 +1,6 @@
 package com.codesmith.goojangcalling.calling.persistence;
 
-import com.codesmith.goojangcalling.calling.dto.request.CallingCreateRequest;
+import com.codesmith.goojangcalling.calling.dto.request.OccurrenceCreateRequest;
 import com.codesmith.goojangcalling.calling.dto.response.FileUploadResponse;
 import com.codesmith.goojangcalling.calling.persistence.domain.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,7 +29,7 @@ class OccurrenceTagRepositoryTest {
 
     private Occurrence occurrence;
     private Long memberId;
-    private CallingCreateRequest callingCreateRequest;
+    private OccurrenceCreateRequest occurrenceCreateRequest;
     private List<Tag> tags;
 
     @BeforeEach
@@ -39,14 +39,15 @@ class OccurrenceTagRepositoryTest {
         tags = new ArrayList<>();
         tags.add(new Tag(7L, "추락"));
         memberId = 521L;
-        callingCreateRequest = new CallingCreateRequest(KTAS.KTAS2, AgeGroup.YOUTH, Gender.MALE, "아파요", 35.123, 127.123, tags, files);
-        occurrence = new Occurrence(memberId, callingCreateRequest.getKtas(), callingCreateRequest.getAgeGroup(), callingCreateRequest.getGender(), callingCreateRequest.getSymptom(), callingCreateRequest.getLatitude(), callingCreateRequest.getLongitude());
+        occurrenceCreateRequest = new OccurrenceCreateRequest(KTAS.KTAS2, AgeGroup.YOUTH, Gender.MALE, "아파요", 35.123, 127.123, "한밭대", tags, files);
+        occurrence = new Occurrence(memberId, occurrenceCreateRequest.getKtas(), occurrenceCreateRequest.getAgeGroup(), occurrenceCreateRequest.getGender(), occurrenceCreateRequest.getSymptom(),
+                occurrenceCreateRequest.getLatitude(), occurrenceCreateRequest.getLongitude(), "한밭대");
     }
 
     @DisplayName("사고_태그를_저장한다.")
     @Test
     void 사고_태그를_저장한다() throws Exception {
-        List<OccurrenceTag> occurrenceTagList = callingCreateRequest.getTags().stream()
+        List<OccurrenceTag> occurrenceTagList = occurrenceCreateRequest.getTags().stream()
                 .map(o -> new OccurrenceTag(occurrence, o))
                 .collect(Collectors.toList());
 

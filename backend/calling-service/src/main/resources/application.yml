@@ -53,4 +53,4 @@ passport:
   algorithm: HmacSHA256
 webclient:
   url:
-    member: https://k9b204.p.ssafy.io:8443/api/member
+    member: https://k9b204.p.ssafy.io:64417/member

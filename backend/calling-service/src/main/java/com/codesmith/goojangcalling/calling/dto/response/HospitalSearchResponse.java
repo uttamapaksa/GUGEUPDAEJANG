@@ -10,10 +10,13 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class HospitalSearchResponse {
+    private Long id;
     private String hospitalId;
     private String name;
     private String address;
     private String telephone1;
     private String telephone2;
     private Long bedCount;
+    private Double distance;
+    private Long time;
 }

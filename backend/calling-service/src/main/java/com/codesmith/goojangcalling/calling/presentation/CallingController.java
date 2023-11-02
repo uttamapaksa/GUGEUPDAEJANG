@@ -1,9 +1,16 @@
 package com.codesmith.goojangcalling.calling.presentation;
 
+import com.codesmith.goojangcalling.calling.application.CallingService;
 import com.codesmith.goojangcalling.calling.application.MemberTagService;
 import com.codesmith.goojangcalling.calling.dto.request.AddMemberTagRequest;
+import com.codesmith.goojangcalling.calling.dto.request.CallingCreateRequest;
+import com.codesmith.goojangcalling.calling.dto.request.OccurrenceCreateRequest;
+import com.codesmith.goojangcalling.calling.dto.response.OccurrenceCreateResponse;
+import com.codesmith.goojangcalling.calling.dto.response.CallingStatusResponse;
 import com.codesmith.goojangcalling.calling.dto.response.FileUploadResponse;
 import com.codesmith.goojangcalling.calling.dto.response.MemberTagResponse;
+import com.codesmith.goojangcalling.global.passport.MemberInfo;
+import com.codesmith.goojangcalling.global.passport.presentation.AuthMember;
 import com.codesmith.goojangcalling.infra.aws.S3Client;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,29 +25,40 @@ import java.util.List;
 public class CallingController {
 
     private final S3Client s3Client;
-    private final MemberTagService memberTagService;
 
-    //TODO : 임시 멤버 삭제하기
-    private final Long memberId = 521L; // 멤버 받기 전 임시
+    private final MemberTagService memberTagService;
+    private final CallingService callingService;
 
     @PostMapping("/upload")
     public ResponseEntity<List<FileUploadResponse>> upload(@RequestParam("files") List<MultipartFile> multipartFile) throws Exception {
         return ResponseEntity.ok(s3Client.uploadFIle(multipartFile));
     }
 
+    @PostMapping
+    public ResponseEntity<OccurrenceCreateResponse> addOccurrence(@AuthMember MemberInfo memberInfo, @RequestBody OccurrenceCreateRequest occurrenceCreateRequest) {
+        return ResponseEntity.ok(callingService.addOccurrence(memberInfo.getId(), occurrenceCreateRequest));
+    }
+
+    @PostMapping("/hospital")
+    public ResponseEntity<Void> addCallingAndSendToHospital(@AuthMember MemberInfo memberInfo, @RequestBody CallingCreateRequest callingCreateRequest) {
+        List<CallingStatusResponse> callingStatusResponses = callingService.addCalling(memberInfo.getId(), callingCreateRequest);
+        callingService.createCallingMessage(callingStatusResponses, callingCreateRequest.getOccurrenceId());
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("/tag")
-    public ResponseEntity<List<MemberTagResponse>> getTagListByMemberList() {
-        return ResponseEntity.ok(memberTagService.getMemberTagList(memberId));
+    public ResponseEntity<List<MemberTagResponse>> getTagListByMemberList(@AuthMember MemberInfo memberInfo) {
+        return ResponseEntity.ok(memberTagService.getMemberTagList(memberInfo.getId()));
     }
 
     @PostMapping("/tag")
-    public ResponseEntity<MemberTagResponse> addMemberTag(@RequestBody AddMemberTagRequest addMemberTagRequest) {
-        return ResponseEntity.ok(memberTagService.addMemberTag(memberId, addMemberTagRequest.getTagName()));
+    public ResponseEntity<MemberTagResponse> addMemberTag(@AuthMember MemberInfo memberInfo, @RequestBody AddMemberTagRequest addMemberTagRequest) {
+        return ResponseEntity.ok(memberTagService.addMemberTag(memberInfo.getId(), addMemberTagRequest.getTagName()));
     }
 
     @DeleteMapping("/tag/{tagId}")
-    public ResponseEntity<Void> deleteMemberTag(@PathVariable Long tagId) {
-        memberTagService.deleteMemberTag(memberId, tagId);
+    public ResponseEntity<Void> deleteMemberTag(@AuthMember MemberInfo memberInfo, @PathVariable Long tagId) {
+        memberTagService.deleteMemberTag(memberInfo.getId(), tagId);
         return ResponseEntity.ok().build();
     }
 }
