@@ -1,5 +1,7 @@
 package com.codesmith.goojangmember.member.application;
 
+import com.codesmith.goojangmember.auth.exception.InvalidTokenException;
+import com.codesmith.goojangmember.auth.persistence.RefreshTokenRepository;
 import com.codesmith.goojangmember.member.exception.MemberNotFoundException;
 import com.codesmith.goojangmember.member.exception.NoNearByHospitalException;
 import com.codesmith.goojangmember.member.exception.SafetyCenterNotFoundException;
@@ -16,6 +18,7 @@ import java.util.List;
 public class MemberValidator {
     private final MemberRepository memberRepository;
     private final SafetyCenterRepository safetyCenterRepository;
+    private final RefreshTokenRepository refreshTokenRepository;
 
     public void validateMemberId(Long memberId) {
         if (!memberRepository.existsById(memberId)) {
@@ -38,6 +41,13 @@ public class MemberValidator {
     public void validateExistNearByHospital(List<HospitalDetail> hospitalList) {
         if (hospitalList.isEmpty()) {
             throw new NoNearByHospitalException("주변에 갈 수 있는 병원이 없음");
+        }
+    }
+
+    public void existsByRefreshToken(String refreshToken) {
+        if (refreshTokenRepository.existsByRefreshToken(refreshToken)) {
+            System.out.println(refreshToken);
+            throw new InvalidTokenException("없는 리프레시 토큰");
         }
     }
 }

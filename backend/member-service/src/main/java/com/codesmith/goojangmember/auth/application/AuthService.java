@@ -2,8 +2,10 @@ package com.codesmith.goojangmember.auth.application;
 
 import com.codesmith.goojangmember.auth.dto.request.AuthLoginRequest;
 import com.codesmith.goojangmember.auth.dto.request.PassportCreateRequest;
+import com.codesmith.goojangmember.auth.dto.request.TokenRefreshRequest;
 import com.codesmith.goojangmember.auth.dto.response.AuthLoginResponse;
 import com.codesmith.goojangmember.auth.dto.response.PassportCreateResponse;
+import com.codesmith.goojangmember.auth.dto.response.TokenRefreshResponse;
 import com.codesmith.goojangmember.auth.exception.InvalidLoginException;
 import com.codesmith.goojangmember.auth.exception.InvalidTokenException;
 import com.codesmith.goojangmember.auth.persistence.RefreshTokenRepository;
@@ -50,5 +52,14 @@ public class AuthService {
         MemberInfo memberInfo = new MemberInfo(member.getId(), member.getEmail(), member.getName(), member.getImageUrl(), member.getRole().getKey());
 
         return new PassportCreateResponse(passportProvider.generatePassport(memberInfo));
+    }
+
+    public TokenRefreshResponse refresh(TokenRefreshRequest tokenRefreshRequest) {
+        memberValidator.existsByRefreshToken(tokenRefreshRequest.getRefreshToken());
+        RefreshToken refreshToken = refreshTokenRepository.findById(tokenRefreshRequest.getRefreshToken()).get();
+        String newRefreshToken = tokenProvider.generateRefreshToken(refreshToken.getEmail());
+        refreshTokenRepository.deleteById(refreshToken.getRefreshToken());
+        refreshTokenRepository.save(new RefreshToken(newRefreshToken, refreshToken.getEmail()));
+        return new TokenRefreshResponse(newRefreshToken);
     }
 }

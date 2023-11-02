@@ -28,13 +28,13 @@ public class MemberController {
         return ResponseEntity.ok(memberService.getHospitalList(latitude, longitude, distance));
     }
 
-    @PostMapping("/join/paramedic")
+    @PostMapping("/paramedic/join")
     public ResponseEntity<Void> join(@RequestBody ParamedicJoinRequest paramedicJoinRequest) {
         memberService.join(paramedicJoinRequest);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/join/hospital")
+    @PostMapping("/hospital/join")
     public ResponseEntity<Void> join(@RequestBody HospitalJoinRequest hospitalJoinRequest) {
         memberService.join(hospitalJoinRequest);
         return ResponseEntity.ok().build();
