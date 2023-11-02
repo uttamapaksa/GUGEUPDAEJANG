@@ -1,9 +1,5 @@
 import * as S from './SearchList.style';
-
-interface SearchListProps {
-  results: string[][];
-  isHosSearch: boolean;
-}
+import { SearchListProps } from '/src/types/auth';
 
 function SearchList({ results, isHosSearch }: SearchListProps) {
   return (

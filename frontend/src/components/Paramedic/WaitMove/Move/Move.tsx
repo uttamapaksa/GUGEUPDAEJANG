@@ -4,7 +4,7 @@ import A from '/src/components/Commons/Atoms';
 import theme from '/src/styles';
 
 function Move() {
-  const [categories, setCategories] = useState<string[]>(['추락', '과다출혈', '과다출혈']);
+  const [categories, _] = useState<string[]>(['추락', '과다출혈', '과다출혈']);
 
   return (
     <>

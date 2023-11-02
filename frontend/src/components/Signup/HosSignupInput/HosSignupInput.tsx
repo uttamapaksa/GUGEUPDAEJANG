@@ -1,17 +1,10 @@
-import {
-  useState, 
-  ChangeEvent} from "react"
-
+import { useState, ChangeEvent } from "react"
+import { HosSignupInputProps } from "/src/types/auth";
 import { useNavigate } from 'react-router-dom';
 import * as S from './HosSignupInput.style';
 import A from '/src/components/Commons/Atoms';
 import theme from '/src/styles';
 import PATH from '/src/constants/path';
-
-interface HosSignupInputProps {
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setIsHosSearch: React.Dispatch<React.SetStateAction<boolean>>;
-}
 
 function HosSignupInput ({setIsOpen, setIsHosSearch}: HosSignupInputProps) {
     
