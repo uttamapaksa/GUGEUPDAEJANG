@@ -4,7 +4,7 @@ import { Client } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 
 const CALLING_SERVER_URL = 'https://k9b204a.p.ssafy.io:64419/calling-websocket';
-const TRANSFER_SERVER_URL = 'https://k9b204a.p.ssafy.io:64419/transfer-websocket';
+const TRANSFER_SERVER_URL = 'https://k9b204a.p.ssafy.io:64413/transfer-websocket';
 const hospitalId = 2;
 const paramedicId = 1;
 
@@ -61,7 +61,7 @@ function HospitalSocket() {
   };
   const subscribeTransferTopic = () => {
     if (transferSocket.current) {
-      transferSocket.current.subscribe(`/topic/${hospitalId}`, (message) => {
+      transferSocket.current.subscribe(`/topic/${hospitalId}/location`, (message) => {
         transferReceiveMessage(message.body);
       });
     }
@@ -69,16 +69,23 @@ function HospitalSocket() {
 
   // 메시지 수신
   const callingReceiveMessage = (message: any) => {
+    // 요청소켓 수신
+    // 서버로부터 구급요청 리스트 수신
+    // 서버로부터 수락 확인 수신
     console.log('Received calling message:', message);
     setCaliingMessages((prev) => [...prev, message]);
   };
   const transferReceiveMessage = (message: any) => {
+    // 이송소켓 수신
+    // 구급대원으로부터 현재 위치 수신
     console.log('Received transfer message:', message);
     setTransferMessages((prev) => [...prev, message]);
   };
 
   // 메시지 송신
   const callingSendMessage = () => {
+    // 요청소켓 송신
+    // 구급대원에게 수락/거절 여부 송신
     if (callingSocket.current && setCallingMessageToSend) {
       callingSocket.current.publish({
         destination: `/app/${paramedicId}`,
@@ -88,9 +95,10 @@ function HospitalSocket() {
     }
   };
   const transferSendMessage = () => {
+    // 이송소켓 송신
     if (transferSocket.current && setTransferMessageToSend) {
       transferSocket.current.publish({
-        destination: `/app/${paramedicId}`,
+        destination: `/app/location/${paramedicId}`,
         body: JSON.stringify({ name: '테스트이름', longitude: 35.123, latitude: 127.123 }),
       });
       setTransferMessageToSend('');
@@ -111,7 +119,7 @@ function HospitalSocket() {
   }, [hospitalId]);
 
   return (
-<>
+    <>
       <h3>Calling messages for Hospital {hospitalId}</h3>
       <ul>
         {callingMessages.map((message, index) => (
