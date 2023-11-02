@@ -1,15 +1,17 @@
 import * as S from './HospitalItem.style';
 import A from '/src/components/Commons/Atoms';
 import theme from '/src/styles';
+import { CallHospitalType } from '/src/types/paramedic';
 
-function HospitalItem() {
+function HospitalItem(hospital: CallHospitalType) {
   return (
     <S.HospitalItem>
       <S.LeftSection>
-        <S.Title>연세대학교 의과대학 강남세브란스 병원</S.Title>
+        <S.Title>{hospital.hospitalId}</S.Title>
         <S.Number>
           <A.ImgCellphoneGray 
-            $width="2.6vw" 
+            // $width="2.6vw" 
+            $height="65%" 
             $margin="0 1.8vh 0 0" />
           02-2602-3024
         </S.Number>
