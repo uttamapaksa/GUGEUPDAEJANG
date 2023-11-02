@@ -44,7 +44,7 @@ function LoginInput () {
     try {
       const response = await postLogin(info)
       if (response === "PARAMEDIC") {goParamedic()}
-      else if (response === "HOSPITAL") {goParamedic()}
+      else if (response === "HOSPITAL") {goHospital()}
     }
     catch(error) {
       console.log(error)
