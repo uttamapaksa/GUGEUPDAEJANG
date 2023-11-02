@@ -26,6 +26,7 @@ public class TransferServiceImpl implements TransferService {
     @Override
     public TransferCompleteResponse completeTransfer(Long transferId) {
         transferValidator.validateTransferId(transferId);
+        transferValidator.validateTransferArrive(transferId);
         Transfer transfer = transferRepository.findById(transferId).get();
         transfer.updateArriveInfo(true, LocalDateTime.now());
         transferRepository.save(transfer);
