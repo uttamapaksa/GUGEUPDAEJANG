@@ -45,7 +45,7 @@ class MemberControllerTest {
 
         String requestBody = objectMapper.writeValueAsString(hospitalJoinRequest);
 
-        mockMvc.perform(post("/member/join/hospital")
+        mockMvc.perform(post("/member/hospital/join")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody)
                 )
@@ -70,7 +70,7 @@ class MemberControllerTest {
     @DisplayName("이송 요청을 보낼 수 있는 병원 목록을 조회한다")
     @Test
     void 이송_요청을_보낼_수_있는_병원_목록을_조회한다() throws Exception {
-        mockMvc.perform(get("/member/hospital/join")
+        mockMvc.perform(get("/member/hospital")
                         .param("latitude", "40.7128")
                         .param("longitude", "74.0060")
                         .param("distance", "10")
