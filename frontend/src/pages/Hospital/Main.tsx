@@ -7,6 +7,7 @@ import { hospitalComponentType } from "../../recoils/HospitalAtoms";
 import HospitalMain from "/src/components/Hospital/Main/HospitalMain";
 import { ComponentContainer, Container } from "./Main.style";
 import { MapProps, ParamedicItem } from "/src/types/map";
+import HospitalSocket from "/src/sockets/HospitalSocket";
 
 const parList = [
   //다중 마커 저장 배열
@@ -81,6 +82,10 @@ function Main() {
   const [mapProps, setMapProps] = useState<MapProps>();
   const componentType = useRecoilValue(hospitalComponentType);
 
+  //-----
+  // recoil
+  // const hospitalID = 9999;
+
   //통신 이전 테스트용 더미 데이터 -----
   const [counter, setCounter] = useState(0);
   const [dummyData, setDummyData] = useState<ParamedicItem[]>(parList);
@@ -150,6 +155,7 @@ function Main() {
 
   return !geolocation.error ? (
     <Container>
+      <HospitalSocket />
       <HopsitalHeader />
       <HopsitalSidebar />
       <ComponentContainer>

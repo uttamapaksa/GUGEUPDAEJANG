@@ -1,6 +1,6 @@
 import { atom } from "recoil";
 import { recoilPersist } from "recoil-persist";
-import { ParamedicItem } from "/src/types/map";
+import { HospitalRequestItem, ParamedicItem } from "/src/types/map";
 
 export const { persistAtom } = recoilPersist();
 
@@ -18,5 +18,10 @@ export const hospitalSidebarType = atom({
 
 export const hospitalSelectedParaId = atom<ParamedicItem | undefined>({
   key: "hospitalSelectedParaId",
+  default: undefined,
+});
+
+export const hospitalRequestList = atom<HospitalRequestItem[] | undefined>({
+  key: "hospitalRequestList",
   default: undefined,
 });
