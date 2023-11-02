@@ -4,7 +4,7 @@ import { Client } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 
 const CALLING_SERVER_URL = 'https://k9b204a.p.ssafy.io:64419/calling-websocket';
-const TRANSFER_SERVER_URL = 'https://k9b204a.p.ssafy.io:64419/transfer-websocket';
+const TRANSFER_SERVER_URL = 'https://k9b204a.p.ssafy.io:64413/transfer-websocket';
 const paramedicId = 1;
 const hospitalId = 2;
 
@@ -61,7 +61,7 @@ function ParamedicSocket() {
   };
   const subscribeTransferTopic = () => {
     if (transferSocket.current) {
-      transferSocket.current.subscribe(`/topic/${paramedicId}`, (message) => {
+      transferSocket.current.subscribe(`/topic/${paramedicId}/location`, (message) => {
         transferReceiveMessage(message.body);
       });
     }
@@ -90,7 +90,7 @@ function ParamedicSocket() {
   const transferSendMessage = () => {
     if (transferSocket.current && setTransferMessageToSend) {
       transferSocket.current.publish({
-        destination: `/app/${hospitalId}`,
+        destination: `/app/location/${hospitalId}`,
         body: JSON.stringify({ name: '테스트이름', longitude: 35.123, latitude: 127.123 }),
       });
       setTransferMessageToSend('');
