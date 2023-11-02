@@ -35,9 +35,10 @@ export const deleteLogout = async () => {
 
 // 구급대원 회원가입
 export const postParaJoin = async (info: ParaJoinProps) => {
+  console.log(info)
   try{
     const response = await publicApi.post("/member/paramedic/join", info);
-    return response
+    return response.status
   }
     catch (error) {
     console.log('postParaJoin 실패', error);

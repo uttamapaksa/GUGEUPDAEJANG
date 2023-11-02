@@ -36,6 +36,7 @@ export interface ParaJoinProps {
   role: string,
   centerId : number,
 }
+
 export interface HosJoinProps {
   hospitalId: string,
   email: string,
