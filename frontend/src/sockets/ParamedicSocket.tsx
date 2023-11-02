@@ -1,12 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
-import { ParamedicSocketProps } from '../types/socket';
+// import { ParamedicSocketProps } from '../types/socket';
 import { Client } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 
 const SOCKET_SERVER_URL = 'https://k9b204a.p.ssafy.io:64419/calling-websocket';
-const hospitalId = '3'
+const hospitalId = 4;
+const paramedicId = 5;
 
-function ParamedicSocket({ paramedicId }: ParamedicSocketProps) {
+// function ParamedicSocket({ paramedicId }: ParamedicSocketProps) {
+function ParamedicSocket() {
   const [messages, setMessages] = useState<string[]>([]);
   const [messageToSend, setMessageToSend] = useState<string>('');
   const clientRef = useRef<Client | null>(null);
@@ -66,7 +68,7 @@ function ParamedicSocket({ paramedicId }: ParamedicSocketProps) {
 
   return (
     <div>
-      <h3>Received messages for Hospital {hospitalId}</h3>
+      <h3>Received messages for Paramedic {paramedicId}</h3>
       <ul>
         {messages.map((message, index) => (
           <li key={index}>{message}</li>

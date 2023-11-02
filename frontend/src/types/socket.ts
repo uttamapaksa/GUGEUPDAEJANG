@@ -1,7 +1,7 @@
 export interface ParamedicSocketProps {
-  paramedicId: string;
+  paramedicId: number;
 }
 
 export interface HospitalSocketProps {
-  hospitalId: string;
+  hospitalId: number;
 }
