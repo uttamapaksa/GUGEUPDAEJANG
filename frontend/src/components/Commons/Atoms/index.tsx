@@ -40,7 +40,10 @@ import {
   ImgArrowBottom,
   ImgArrowLeft,
   ImgArrowUp,
-  ImgBar}from './Image'
+  ImgBar,
+  ImgExitBlack,
+  ImgExitGray,
+  ImgSearchGray,} from './Image'
 
 import {
   IptUserInfo,}from './Input'
@@ -91,6 +94,9 @@ const A = {
   ImgArrowLeft,
   ImgArrowUp,
   ImgBar,
+  ImgExitBlack,
+  ImgExitGray,
+  ImgSearchGray,
 
   IptUserInfo,
 

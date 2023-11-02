@@ -8,7 +8,12 @@ import A from '/src/components/Commons/Atoms';
 import theme from '/src/styles';
 import PATH from '/src/constants/path';
 
-function ParaSignupInput () {
+interface ParaSignupInputProps {
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsHosSearch: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+function ParaSignupInput ({setIsOpen, setIsHosSearch}: ParaSignupInputProps) {
 
   const [center, setCenter] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -72,6 +77,7 @@ function ParaSignupInput () {
           onChange={handleCenter}/>
           
         <A.BtnSubmit
+          onClick={()=>(setIsOpen(true), setIsHosSearch(false))}
           $margin='0 0 0 auto'
           $width='20%'
           $height='100%'
