@@ -17,6 +17,7 @@ public class CallingStatusResponse {
     private Status status;
     private String reason;
 
+    private Long memberId;
     private String hospitalName;
     private String telephone;
     private Double distance;
@@ -27,6 +28,7 @@ public class CallingStatusResponse {
         this.callingTime = calling.getCreatedAt();
         this.status = calling.getStatus();
         this.reason = calling.getReason();
+        this.memberId = hospitalSearchResponse.getId();
         this.hospitalName = hospitalSearchResponse.getName();
         this.telephone = hospitalSearchResponse.getTelephone1();
         this.distance = hospitalSearchResponse.getDistance();
