@@ -49,7 +49,7 @@ export const postParaJoin = async (info: ParaJoinProps) => {
 export const postHosJoin = async (info: HosJoinProps) => {
   try{
     const response = await publicApi.post("/member/hospital/join", info);
-    return response
+    return response.status
   }
     catch (error) {
     console.log('postHosJoin 실패', error);

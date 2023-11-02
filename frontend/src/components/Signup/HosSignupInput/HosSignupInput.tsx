@@ -5,6 +5,9 @@ import * as S from './HosSignupInput.style';
 import A from '/src/components/Commons/Atoms';
 import theme from '/src/styles';
 import PATH from '/src/constants/path';
+import { postHosJoin } from "/src/apis/auth";
+import { hospitalInfoState } from "/src/recoils/AuthAtoms";
+import { useRecoilState } from "recoil";
 
 function HosSignupInput ({setIsOpen, setIsHosSearch}: HosSignupInputProps) {
     
@@ -15,6 +18,8 @@ function HosSignupInput ({setIsOpen, setIsHosSearch}: HosSignupInputProps) {
   const [repassword, setRepassword] = useState<string>("");
   const [phone1, setPhone1] = useState<string>("");
   const [phone2, setPhone2] = useState<string>("");
+  const [hospitalInfo, setHospitalInfo] = useRecoilState(hospitalInfoState);
+
   const MAX_LENGTH = 50;
 
   const navigate = useNavigate()
@@ -26,6 +31,7 @@ function HosSignupInput ({setIsOpen, setIsHosSearch}: HosSignupInputProps) {
     }
     console.log(address)
     setAddress(e.target.value.split(" ").join(""));
+    setHospitalInfo(prev => ({ ...prev, address: e.target.value.split(" ").join("") }));
   };
 
   const handleHospitalName = (e: ChangeEvent<HTMLInputElement>) => {
@@ -42,6 +48,7 @@ function HosSignupInput ({setIsOpen, setIsHosSearch}: HosSignupInputProps) {
     }
     console.log(email)
     setEmail(e.target.value.split(" ").join(""));
+    setHospitalInfo(prev => ({ ...prev, email: e.target.value.split(" ").join("") }));
   };
 
   const handlePassword = (e: ChangeEvent<HTMLInputElement>) => {
@@ -50,6 +57,7 @@ function HosSignupInput ({setIsOpen, setIsHosSearch}: HosSignupInputProps) {
     }
     console.log(password)
     setPassword(e.target.value.split(" ").join(""));
+    setHospitalInfo(prev => ({ ...prev, password: e.target.value.split(" ").join("") }));
   };
 
   const handleRePassword = (e: ChangeEvent<HTMLInputElement>) => {
@@ -66,6 +74,7 @@ function HosSignupInput ({setIsOpen, setIsHosSearch}: HosSignupInputProps) {
     }
     console.log(phone1)
     setPhone1(e.target.value.split(" ").join(""));
+    setHospitalInfo(prev => ({ ...prev, phone1: e.target.value.split(" ").join("") }));
   };
 
   const handlePhone2 = (e: ChangeEvent<HTMLInputElement>) => {
@@ -74,7 +83,19 @@ function HosSignupInput ({setIsOpen, setIsHosSearch}: HosSignupInputProps) {
     }
     console.log(phone2)
     setPhone2(e.target.value.split(" ").join(""));
+    setHospitalInfo(prev => ({ ...prev, phone2: e.target.value.split(" ").join("") }));
   };
+
+  const axiosHosJoin = async ():Promise<void> => {
+    try {
+      if (await postHosJoin(hospitalInfo) === 200) {
+        console.log("구급대원 회원가입 성공")
+      }
+    }
+    catch(error) {
+      console.log(error)
+    }
+  }
 
 
   return(
@@ -166,7 +187,8 @@ function HosSignupInput ({setIsOpen, setIsHosSearch}: HosSignupInputProps) {
           $height='100%'
           $fontSize='2vh'
           $borderRadius='1vh'
-          $backgroundColor={theme.color.fontPink2}>회원 가입</A.BtnSubmit>
+          $backgroundColor={theme.color.fontPink2}
+          onClick={() => axiosHosJoin()}>회원 가입</A.BtnSubmit>
       </S.Row1>
       
       <S.Row2>
