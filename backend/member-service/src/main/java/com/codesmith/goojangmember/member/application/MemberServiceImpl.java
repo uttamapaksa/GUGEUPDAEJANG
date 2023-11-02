@@ -7,6 +7,7 @@ import com.codesmith.goojangmember.infra.publicdata.PublicDataClient;
 import com.codesmith.goojangmember.infra.tmap.TmapClient;
 import com.codesmith.goojangmember.member.dto.request.HospitalJoinRequest;
 import com.codesmith.goojangmember.member.dto.request.ParamedicJoinRequest;
+import com.codesmith.goojangmember.member.dto.response.EmailCheckResponse;
 import com.codesmith.goojangmember.member.dto.response.HospitalListResponse;
 import com.codesmith.goojangmember.member.persistence.HospitalDetailRepository;
 import com.codesmith.goojangmember.member.persistence.MemberRepository;
@@ -79,6 +80,12 @@ public class MemberServiceImpl implements MemberService {
 
         ParamedicDetail paramedicDetail = new ParamedicDetail(member, safetyCenter);
         return paramedicDetailRepository.save(paramedicDetail);
+    }
+
+    @Override
+    public EmailCheckResponse checkEmail(String email) {
+        boolean exists = memberRepository.existsByEmail(email);
+        return new EmailCheckResponse(exists);
     }
 
     private Member covertToMember(HospitalJoinRequest hospitalJoinRequest) {

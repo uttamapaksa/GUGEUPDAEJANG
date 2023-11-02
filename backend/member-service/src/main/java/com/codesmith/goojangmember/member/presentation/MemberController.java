@@ -3,6 +3,7 @@ package com.codesmith.goojangmember.member.presentation;
 import com.codesmith.goojangmember.member.application.MemberService;
 import com.codesmith.goojangmember.member.dto.request.HospitalJoinRequest;
 import com.codesmith.goojangmember.member.dto.request.ParamedicJoinRequest;
+import com.codesmith.goojangmember.member.dto.response.EmailCheckResponse;
 import com.codesmith.goojangmember.member.dto.response.HospitalListResponse;
 import com.codesmith.goojangmember.member.persistence.domain.Member;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,11 @@ public class MemberController {
     @GetMapping("/hospital")
     public ResponseEntity<List<HospitalListResponse>> getHospitalListFromHere(@RequestParam Double latitude, @RequestParam Double longitude, @RequestParam Double distance) {
         return ResponseEntity.ok(memberService.getHospitalList(latitude, longitude, distance));
+    }
+
+    @GetMapping("/check-email")
+    public ResponseEntity<EmailCheckResponse> checkEmail(@RequestParam String email) {
+        return ResponseEntity.ok(memberService.checkEmail(email));
     }
 
     @PostMapping("/paramedic/join")
