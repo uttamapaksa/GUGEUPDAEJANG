@@ -77,7 +77,8 @@ public class CallingServiceImpl implements CallingService{
         List<String> occurrenceFileList = occurrenceFileRepository.findAllFillNameByOccurrenceId(occurrenceId);
         callingStatusResponseList.forEach(o -> {
             CallingCreateMessage callingCreateMessage = new CallingCreateMessage(occurrence, o, occurrenceTagList, occurrenceFileList);
-            simpMessagingTemplate.convertAndSend("/topic/" + o.getMemberId(), callingCreateMessage);
+            simpMessagingTemplate.convertAndSend("/topic/" + 9999, callingCreateMessage);
+//            simpMessagingTemplate.convertAndSend("/topic/" + o.getMemberId(), callingCreateMessage);
         });
     }
 
