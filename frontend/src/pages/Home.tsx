@@ -2,6 +2,8 @@ import { styled } from "styled-components";
 import theme from "../styles";
 import A from '/src/components/Commons/Atoms/index'
 import Spinner from "../components/libraries/Spinner/Spinner";
+import { useNavigate } from "react-router-dom";
+import PATH from "../constants/path";
 
 const Container = styled.div`
   border: 3px solid black;
@@ -21,6 +23,9 @@ const Ktas = styled.div`
 `
 
 function Home() {
+  const navigate = useNavigate()
+  const goLogin = () => {navigate(`${PATH.Login}`)}
+
   return (
     <Container>
       <MainWrapper>
@@ -40,6 +45,7 @@ function Home() {
           placeholder='이름'></A.IptUserInfo>
 
         <A.BtnSubmit
+          onClick={goLogin}
           $margin="10px"
           $width='100px'
           $height='60px'
