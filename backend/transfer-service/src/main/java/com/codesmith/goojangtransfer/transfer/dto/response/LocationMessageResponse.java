@@ -1,19 +1,19 @@
-package com.codesmith.goojangtransfer.transfer.dto;
+package com.codesmith.goojangtransfer.transfer.dto.response;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class TransferMessageDto {
+public class LocationMessageResponse {
     private String name;
     private Double longitude;
     private Double latitude;
 
-    public TransferMessageDto() {
+    public LocationMessageResponse() {
     }
 
-    public TransferMessageDto(String name, Double longitude, Double latitude) {
+    public LocationMessageResponse(String name, Double longitude, Double latitude) {
         this.name = name;
         this.longitude = longitude;
         this.latitude = latitude;
