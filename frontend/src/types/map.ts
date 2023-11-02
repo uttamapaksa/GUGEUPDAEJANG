@@ -28,17 +28,28 @@ export interface ParamedicItem {
     requestAt?: string,
 }
 
+// export interface MapProps {
+//     type: string,
+//     pos: Position,
+//     hosList?: HospitalItem[],
+//     parList?: ParamedicItem[],
+// }
 export interface MapProps {
-    type: string,
-    pos: Position,
-    hosList?: HospitalItem[],
-    parList?: ParamedicItem[],
+  type: string,
+  pos: Position,
+  hosList?: HospitalItem[],
+  parList?: HospitalRequestItem[],
 }
+
 
 export interface GuestMapProps {
   mapProps: MapProps | undefined;
   setMapProps: React.Dispatch<React.SetStateAction<MapProps | undefined>>;
 }
+
+// "ktas": "KTAS1",   // KTAS1, KTAS2, KTAS3, KTAS4, KTAS5
+// "ageGroup": "INFANT",   // INFANT, CHILD, ADOLESCENT, YOUTH, MIDDLE, SENIOR
+// "gender": "MALE",    // MALE, FEMALE
 
 //구급대원 요청(서버)
 export interface HospitalRequestItem {

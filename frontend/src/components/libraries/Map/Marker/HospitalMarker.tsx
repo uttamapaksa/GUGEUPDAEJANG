@@ -6,13 +6,15 @@ function HospitalMarker(props: any) {
     const [hosList, setHosList] = useState<any>([]);
 
     useEffect(() => {
+        console.log(props)
         if (props.hosList !== undefined && props.map !== undefined) {
             for (let i = 0; i < hosList.length; i++) {
                 hosList[i].marker.setMap(null);
             }
             let next = []
             for (var i = 0; i < props.hosList.length; i++) {
-                var lonlat = new Tmapv3.LatLng(props.hosList[i].pos.lat, props.hosList[i].pos.lon);
+                console.log(props.hosList[i])
+                var lonlat = new Tmapv3.LatLng(props.hosList[i].latitude, props.hosList[i].latitude);
                 const size = new Tmapv3.Size(30, 30);
                 console.log(props.hosList[i])
                 // console.log(lonlat)

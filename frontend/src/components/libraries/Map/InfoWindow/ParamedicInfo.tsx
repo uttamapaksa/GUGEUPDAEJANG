@@ -57,7 +57,7 @@ function ParamedicInfo(props: any) {
         if (props.map !== undefined && props.parList !== undefined) {
             let info: any[] = []
             for (var i = 0; i < props.parList.length; i++) {
-                var lonlat = new Tmapv3.LatLng(props.parList[i].pos.lat, props.parList[i].pos.lon);
+                var lonlat = new Tmapv3.LatLng(props.parList[i].latitude, props.parList[i].latitude);
                 const infoWindow = new Tmapv3.InfoWindow({
                     position: lonlat = lonlat,
                     offset: new Tmapv3.Point(0, -30),
@@ -65,10 +65,10 @@ function ParamedicInfo(props: any) {
                         <InfoContents
                             id={props.parList[i].id}
                             ktas={props.parList[i].ktas}
-                            addr={props.parList[i].addr}
-                            requestAt={props.parList[i].requestAt}
-                            elapseMin={props.parList[i].elapseMin}
-                            leftTime={props.parList[i].leftTime}
+                            addr={props.parList[i].address}
+                            requestAt={props.parList[i].createdAt}
+                            elapseMin={props.parList[i].duration}
+                            leftTime={props.parList[i].duration}
                         />
                     ),
                     border: '0px solid #ffffff',

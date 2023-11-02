@@ -7,6 +7,7 @@ const ParamedicListItem = (props: any) => {
   const [scrollMoved, setScrollMoved] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
+    console.log(props)
     if (props.isSelected) setScrollMoved(true);
     else setScrollMoved(false);
   }, [props])
@@ -26,18 +27,19 @@ const ParamedicListItem = (props: any) => {
           $position="absolute"
           $right="0%"
           $top="0%"
-          $ktas={props.ktas}
+          $ktas={props.ktas.toLowerCase()}
           $width="50px"
           $height="25px"
           $borderRadius="0px 0px 0px 10px"
           $fontSize={theme.font.Small5_12}>
-          KTAS{props.ktas.charAt(4)}
+          {props.ktas}
         </A.DivKtasInfo>
-        <ItemRequestAt>{props.requestAt}</ItemRequestAt>
-        <ItemParaType>{props.paraType}</ItemParaType>
-        <ItemParaInfo>{props.paraInfo}</ItemParaInfo>
+        <ItemRequestAt>{props.duration}</ItemRequestAt>
+        <ItemParaType>{props.ageGroup}</ItemParaType>
+        {/* <ItemParaType>{props.gender}</ItemParaType> */}
+        <ItemParaInfo>{props.description}</ItemParaInfo>
         <ItemParaTagGroup>
-          {props.paraTag.map((item: string, index: number) => (
+          {props.tags.map((item: string, index: number) => (
             <A.DivTag
               key={index}
               $margin="2px 5px 50px 2px"

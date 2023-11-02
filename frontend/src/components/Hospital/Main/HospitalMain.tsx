@@ -1,14 +1,20 @@
 import HospitalMap from "./HospitalMap/HospitalMap";
 import HospitalMainSidebar from "./HospitalMainSidebar/HospitalMainSidebar";
 import { Container } from "./HospitalMain.styls";
-import { MapProps } from "/src/types/map";
+import { useRecoilValue } from "recoil";
+import { hospitalComponentType, hospitalSidebarType } from "/src/recoils/HospitalAtoms";
 
-const HospitalMain = (props: MapProps) => {
+const HospitalMain = (props:{type:string}) => {
+  
+  const sidebarType = useRecoilValue(hospitalSidebarType);
+  const componentType = useRecoilValue(hospitalComponentType);
+  
 
   return (
     <Container>
-      <HospitalMainSidebar {...props} />
+      <HospitalMainSidebar />
       <HospitalMap {...props} />
+
     </Container>
   );
 };
