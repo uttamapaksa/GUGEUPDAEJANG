@@ -27,10 +27,11 @@ public class Occurrence {
     private String symptom;
     private Double latitude;
     private Double longitude;
+    private String address;
     @CreatedDate
     private LocalDateTime createdAt;
 
-    public Occurrence(Long memberId, KTAS ktas, AgeGroup ageGroup, Gender gender, String symptom, Double latitude, Double longitude) {
+    public Occurrence(Long memberId, KTAS ktas, AgeGroup ageGroup, Gender gender, String symptom, Double latitude, Double longitude, String address) {
         this.memberId = memberId;
         this.ktas = ktas;
         this.ageGroup = ageGroup;
@@ -38,5 +39,6 @@ public class Occurrence {
         this.symptom = symptom;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.address = address;
     }
 }
