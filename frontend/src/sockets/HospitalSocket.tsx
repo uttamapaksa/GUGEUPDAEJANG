@@ -78,22 +78,27 @@ function HospitalSocket() {
     // 서버로부터 수락 확인 수신
     console.log('Received calling message:', message);
     // setCaliingMessages((prev) => [...prev, message]);
+    const obj = JSON.parse(message);
+    console.log(obj);
 
-
-    if (message.responseType === undefined) { //구급대원 요청(서버)
+    if (obj.responseType === undefined) { //구급대원 요청(서버)
+      console.log(requestList)
       let nextList = [];
       if (requestList !== undefined) {
+        let flag = true;
         for (let i = 0; i < requestList.length; i++) {
-          if (requestList[i].id == message.id) {
-            nextList.push(message);
+          if (requestList[i].id == obj.id) {
+            nextList.push(obj);
+            flag = false;
           }
           else {
             nextList.push(requestList[i]);
           }
         }
+        if(flag) nextList.push(obj);
       }
       else {
-        nextList.push(message);
+        nextList.push(obj);
       }
       console.log(nextList)
       setRequestList(nextList);
