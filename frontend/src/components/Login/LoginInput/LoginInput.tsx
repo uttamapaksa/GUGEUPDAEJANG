@@ -17,6 +17,8 @@ function LoginInput () {
 
   const navigate = useNavigate()
   const goSignUp = () => {navigate(`${PATH.Signup}`)} 
+  const goHospital = () => {navigate(`${PATH.Hospital}`)} 
+  const goParamedic = () => {navigate(`${PATH.Paramedic}`)} 
 
   const handleEmail = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length > MAX_LENGTH) {
@@ -41,7 +43,8 @@ function LoginInput () {
     }
     try {
       const response = await postLogin(info)
-      console.log(response)
+      if (response === "PARAMEDIC") {goParamedic()}
+      else if (response === "HOSPITAL") {goParamedic()}
     }
     catch(error) {
       console.log(error)
