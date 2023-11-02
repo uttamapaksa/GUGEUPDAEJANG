@@ -6,15 +6,15 @@ import lombok.Setter;
 @Getter
 @Setter
 public class LocationMessageResponse {
-    private String name;
+    private Long transferId;
     private Double longitude;
     private Double latitude;
 
     public LocationMessageResponse() {
     }
 
-    public LocationMessageResponse(String name, Double longitude, Double latitude) {
-        this.name = name;
+    public LocationMessageResponse(Long transferId, Double longitude, Double latitude) {
+        this.transferId = transferId;
         this.longitude = longitude;
         this.latitude = latitude;
     }
