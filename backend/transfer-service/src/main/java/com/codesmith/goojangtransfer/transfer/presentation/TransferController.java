@@ -5,6 +5,7 @@ import com.codesmith.goojangtransfer.transfer.dto.response.CreateTransferRespons
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -15,7 +16,7 @@ public class TransferController {
     private final TransferService transferService;
 
     @PostMapping
-    public CreateTransferResponse createTransfer(Long callingId) {
+    public CreateTransferResponse createTransfer(@RequestParam Long callingId) {
         return transferService.createTransfer(callingId);
     }
 
