@@ -2,14 +2,17 @@ import { useState, useEffect, useRef } from 'react';
 // import { HospitalSocketProps } from '../types/socket';
 import { Client } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
+import { useRecoilState } from 'recoil';
+import { hospitalRequestList } from '../recoils/HospitalAtoms';
 
 const CALLING_SERVER_URL = 'https://k9b204a.p.ssafy.io:64419/calling-websocket';
 const TRANSFER_SERVER_URL = 'https://k9b204a.p.ssafy.io:64413/transfer-websocket';
-const hospitalId = 2;
+const hospitalId = 9999;
 const paramedicId = 1;
 
 // function HospitalSocket({ hospitalId }: HospitalSocketProps) {
 function HospitalSocket() {
+  const [requestList, setRequestList] = useRecoilState(hospitalRequestList);
   const [callingMessages, setCaliingMessages] = useState<string[]>([]);
   const [callingMessageToSend, setCallingMessageToSend] = useState<string>('');
   const callingSocket = useRef<Client | null>(null);
@@ -67,14 +70,39 @@ function HospitalSocket() {
     }
   };
 
+  // const [requestList, setRequestList] = useRecoilState(hospitalRequestList);
   // 메시지 수신
   const callingReceiveMessage = (message: any) => {
     // 요청소켓 수신
     // 서버로부터 구급요청 리스트 수신
     // 서버로부터 수락 확인 수신
     console.log('Received calling message:', message);
-    setCaliingMessages((prev) => [...prev, message]);
+    // setCaliingMessages((prev) => [...prev, message]);
+
+
+    if (message.responseType === undefined) { //구급대원 요청(서버)
+      let nextList = [];
+      if (requestList !== undefined) {
+        for (let i = 0; i < requestList.length; i++) {
+          if (requestList[i].id == message.id) {
+            nextList.push(message);
+          }
+          else {
+            nextList.push(requestList[i]);
+          }
+        }
+      }
+      else {
+        nextList.push(message);
+      }
+      console.log(nextList)
+      setRequestList(nextList);
+    }
+    else { // 구급대원 확인 응답(서버)
+      console.log("응답 타입이 다름")
+    }
   };
+
   const transferReceiveMessage = (message: any) => {
     // 이송소켓 수신
     // 구급대원으로부터 현재 위치 수신
@@ -120,7 +148,7 @@ function HospitalSocket() {
 
   return (
     <>
-      <h3>Calling messages for Hospital {hospitalId}</h3>
+      {/* <h3>Calling messages for Hospital {hospitalId}</h3>
       <ul>
         {callingMessages.map((message, index) => (
           <li key={index}>{message}</li>
@@ -139,7 +167,7 @@ function HospitalSocket() {
       <div>
         <input type="text" value={transferMessageToSend} onChange={(e) => setTransferMessageToSend(e.target.value)} />
         <button onClick={transferSendMessage}>Transfer Send Message</button>
-      </div>
+      </div> */}
     </>
   );
 }

@@ -39,3 +39,43 @@ export interface GuestMapProps {
   mapProps: MapProps | undefined;
   setMapProps: React.Dispatch<React.SetStateAction<MapProps | undefined>>;
 }
+
+//구급대원 요청(서버)
+export interface HospitalRequestItem {
+  id: number;
+  createdAt: string;
+  occurrenceId: number;
+  memberId: number;
+  ktas: string;
+  ageGroup: string;
+  gender: string;
+  description: string;
+  latitude: number;
+  longitude: number;
+  address: string;
+  tags: string[];
+  files: string[];
+  distance: number;
+  duration: number;
+  }
+  
+  //병원 응답(프론트)
+  // 
+  
+  // 구급대원 응답(서버)
+  export interface ParaResponseItem {
+  id: number;
+  responseAt: string;
+  responseType: boolean; //true:수락, false:거절
+  }
+  
+  // 실시간 위치
+  export interface HospitalTransferItem {
+  id: number;
+  curLat: number;
+  curLon: number;
+  curAddr: number;
+  leftTime: number;
+  leftDist: number;
+  }
+  
