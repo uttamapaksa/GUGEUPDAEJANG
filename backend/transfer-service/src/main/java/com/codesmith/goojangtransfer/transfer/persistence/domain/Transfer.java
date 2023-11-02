@@ -7,8 +7,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
-import static org.apache.coyote.http11.Constants.a;
-
 @Entity
 @Getter
 @NoArgsConstructor
