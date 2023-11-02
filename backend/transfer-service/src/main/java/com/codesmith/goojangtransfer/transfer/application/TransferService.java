@@ -1,7 +1,7 @@
 package com.codesmith.goojangtransfer.transfer.application;
 
-import com.codesmith.goojangtransfer.transfer.dto.response.CreateTransferResponse;
+import com.codesmith.goojangtransfer.transfer.dto.response.TransferCreateResponse;
 
 public interface TransferService {
-    CreateTransferResponse createTransfer(Long callingId);
+    TransferCreateResponse createTransfer(Long callingId);
 }
