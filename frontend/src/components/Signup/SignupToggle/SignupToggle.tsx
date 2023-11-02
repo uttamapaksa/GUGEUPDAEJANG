@@ -1,9 +1,5 @@
 import * as S from './SignupToggle.style'
-
-export interface SignupToggleProps {
-  IsClick: boolean;
-  setIsClick: React.Dispatch<React.SetStateAction<boolean>>;
-}
+import { SignupToggleProps } from '/src/types/auth';
 
 function SignupToggle({IsClick, setIsClick}: SignupToggleProps){
 

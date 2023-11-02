@@ -17,11 +17,7 @@ export const List = styled.div`
   height: 100%;
   background-color: white;
   overflow: auto;
-<<<<<<< HEAD
   // chrome
-=======
-    // chrome
->>>>>>> ad5c6c4c9c7b97035b5712cdbc94451000d18961
   &::-webkit-scrollbar {
     width: 0;
   }
@@ -78,11 +74,8 @@ export const ListBtnWhite = styled.div`
   padding: 0.2% 1%;
   font-size: 1.2vh;
   font-weight: 600;
-<<<<<<< HEAD
 `;
-=======
-  `;
->>>>>>> ad5c6c4c9c7b97035b5712cdbc94451000d18961
+
 export const ListBtnBlack = styled.div`
   border: 0.2vh solid black;
   background-color: black;

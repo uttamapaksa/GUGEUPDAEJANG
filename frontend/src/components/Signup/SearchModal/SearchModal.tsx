@@ -1,6 +1,7 @@
 import * as S from './SearchModal.style';
 import A from '../../Commons/Atoms';
 import SearchList from '../SearchList/SearchList';
+import { SearchModalProps } from '/src/types/auth';
 
 const dummy_results = [
   ['대전 병원', '대전 대덕구 대전로 1215 대전병원', '042-625-0700'],
@@ -13,11 +14,6 @@ const dummy_results = [
   ['대전 병원', '대전 대덕구 대전로 1215 대전병원', '042-625-0700'],
   ['대전 병원', '대전 대덕구 대전로 1215 대전병원', '042-625-0700'],
 ];
-
-interface SearchModalProps {
-  isHosSearch: boolean;
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}
 
 function SearchModal({ isHosSearch, setIsOpen }: SearchModalProps) {
   return (
