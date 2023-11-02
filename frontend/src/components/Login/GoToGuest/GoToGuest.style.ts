@@ -26,4 +26,6 @@ export const BtnGoToGuest = styled.button`
   @media (max-width: 500px) {
     font-size: 2.2vh;
   }
+
+  cursor: pointer;
 `;

@@ -17,7 +17,11 @@ export const List = styled.div`
   height: 100%;
   background-color: white;
   overflow: auto;
+<<<<<<< HEAD
   // chrome
+=======
+    // chrome
+>>>>>>> f6b7495 (feat: login에서 guest라우터 추가 S09P31B204-308)
   &::-webkit-scrollbar {
     width: 0;
   }
