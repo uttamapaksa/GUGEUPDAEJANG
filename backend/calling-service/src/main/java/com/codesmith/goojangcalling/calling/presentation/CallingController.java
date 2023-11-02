@@ -34,7 +34,7 @@ public class CallingController {
         return ResponseEntity.ok(s3Client.uploadFIle(multipartFile));
     }
 
-    @PostMapping("")
+    @PostMapping
     public ResponseEntity<OccurrenceCreateResponse> addOccurrence(@AuthMember MemberInfo memberInfo, @RequestBody OccurrenceCreateRequest occurrenceCreateRequest) {
         return ResponseEntity.ok(callingService.addOccurrence(memberInfo.getId(), occurrenceCreateRequest));
     }
