@@ -42,7 +42,7 @@ public class AuthService {
         String refreshToken = tokenProvider.generateRefreshToken(member.getEmail());
         refreshTokenRepository.save(new RefreshToken(refreshToken, member.getEmail()));
 
-        return new AuthLoginResponse(accessToken, refreshToken);
+        return new AuthLoginResponse(accessToken, refreshToken, member.getRole().name());
     }
 
     public PassportCreateResponse createPassport(PassportCreateRequest passportCreateRequest) {
@@ -57,9 +57,10 @@ public class AuthService {
     public TokenRefreshResponse refresh(TokenRefreshRequest tokenRefreshRequest) {
         memberValidator.existsByRefreshToken(tokenRefreshRequest.getRefreshToken());
         RefreshToken refreshToken = refreshTokenRepository.findById(tokenRefreshRequest.getRefreshToken()).get();
+        String newAccessToken = tokenProvider.generateAccessToken(refreshToken.getEmail());
         String newRefreshToken = tokenProvider.generateRefreshToken(refreshToken.getEmail());
         refreshTokenRepository.deleteById(refreshToken.getRefreshToken());
         refreshTokenRepository.save(new RefreshToken(newRefreshToken, refreshToken.getEmail()));
-        return new TokenRefreshResponse(newRefreshToken);
+        return new TokenRefreshResponse(newAccessToken, newRefreshToken);
     }
 }
