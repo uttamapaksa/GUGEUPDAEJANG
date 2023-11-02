@@ -15,7 +15,6 @@ function ParaSignupInput ({setIsOpen, setIsHosSearch}: ParaSignupInputProps) {
   const [repassword, setRepassword] = useState<string>("");
   const MAX_LENGTH = 50;
 
-
   const navigate = useNavigate()
   const goLogin = () => {navigate(`${PATH.Login}`)} 
 
