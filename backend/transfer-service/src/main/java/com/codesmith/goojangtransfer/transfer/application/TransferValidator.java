@@ -1,5 +1,6 @@
 package com.codesmith.goojangtransfer.transfer.application;
 
+import com.codesmith.goojangtransfer.transfer.exception.TransferNotFoundException;
 import com.codesmith.goojangtransfer.transfer.persistence.TransferRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -11,7 +12,7 @@ public class TransferValidator {
 
     public void validateTransferId(Long transferId) {
         if (!transferRepository.existsById(transferId)) {
-            throw new RuntimeException("없는 이송 정보");
+            throw new TransferNotFoundException("없는 이송 정보");
         }
     }
 
