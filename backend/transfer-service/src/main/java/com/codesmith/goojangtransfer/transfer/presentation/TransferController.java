@@ -1,12 +1,10 @@
 package com.codesmith.goojangtransfer.transfer.presentation;
 
 import com.codesmith.goojangtransfer.transfer.application.TransferService;
+import com.codesmith.goojangtransfer.transfer.dto.response.TransferCompleteResponse;
 import com.codesmith.goojangtransfer.transfer.dto.response.TransferCreateResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/transfer")
@@ -18,6 +16,11 @@ public class TransferController {
     @PostMapping
     public TransferCreateResponse createTransfer(@RequestParam Long callingId) {
         return transferService.createTransfer(callingId);
+    }
+
+    @PutMapping("/{transferId}")
+    public TransferCompleteResponse completeTransfer(@PathVariable Long transferId) {
+        return transferService.completeTransfer(transferId);
     }
 
 }
