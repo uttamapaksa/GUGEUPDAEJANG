@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import * as S from './Information.style';
 import A from '/src/components/Commons/Atoms';
-import theme from '/src/styles';
 
 function Information() {
   const ageGroups = ['영유아', '아동', '청소년', '청년', '중장년', '노인'];
