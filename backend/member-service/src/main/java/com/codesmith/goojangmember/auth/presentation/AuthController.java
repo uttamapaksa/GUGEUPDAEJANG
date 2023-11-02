@@ -26,6 +26,11 @@ public class AuthController {
         return ResponseEntity.ok(authService.login(authLoginRequest));
     }
 
+    @PostMapping("/logout")
+    public ResponseEntity<Void> logout() {
+        return ResponseEntity.ok().build();
+    }
+
     @PostMapping("/passport")
     public ResponseEntity<PassportCreateResponse> getPassport(@RequestBody PassportCreateRequest passportCreateRequest) {
         return ResponseEntity.ok(authService.createPassport(passportCreateRequest));
