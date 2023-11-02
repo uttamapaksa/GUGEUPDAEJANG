@@ -15,7 +15,7 @@ export const { Tmapv3 } = window;
 export const createMap = (lat: number, lon: number) => {
     console.log(lat, lon)
     return new Tmapv3.Map("map_div", {
-        center: new Tmapv3.LatLng(37.56520450, 126.98702028),
+        center: new Tmapv3.LatLng(lat, lon),
         width: "100%",
         height: "100%",
         // 지도의 범위
@@ -36,7 +36,7 @@ function Map(props: MapProps) {
     const [map, setMap] = useState();
     
     useEffect(() => {
-        if (props !== undefined) {
+        if (props.pos !== undefined) {
             const tmp = createMap(props.pos.lat, props.pos.lon);
             console.log("tmp", tmp);
             setMap(tmp);
@@ -45,6 +45,7 @@ function Map(props: MapProps) {
 
     //현위치 갱신 과정 추가
     useEffect(() => {
+        console.log(props)
         // if (props.pos.lat !== null && map !== undefined) {
         //     var latlon = new Tmapv3.LatLng(props.pos.lat, props.pos.lon);
         //     const size = new Tmapv3.Size(30, 30)

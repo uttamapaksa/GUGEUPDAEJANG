@@ -13,21 +13,21 @@ const ParamedicDetail = (props: any) => {
                         $position="absolute"
                         $right="0%"
                         $top="0%"
-                        $ktas={props.ktas}
+                        $ktas={props.ktas.toLowerCase()}
                         $width="50px"
                         $height="25px"
                         $borderRadius="0px 0px 0px 10px"
                         $fontSize={theme.font.Small5_12}>
-                        KTAS{props.ktas.charAt(4)}
+                        {props.ktas}
                     </A.DivKtasInfo>
-                    <ItemRequestAt>{props.requestAt}</ItemRequestAt>
+                    <ItemRequestAt>-</ItemRequestAt>
                     <DetailItemBetween>
-                        <ItemParaType>{props.paraType}</ItemParaType>
-                        <ItemElapseMin>요청 대기 {props.elapseMin}분 경과</ItemElapseMin>
+                        <ItemParaType>{props.ageGroup} {props.gender}</ItemParaType>
+                        <ItemElapseMin>요청 대기 -분 경과</ItemElapseMin>
                     </DetailItemBetween>
 
                     <div style={{ width: "90%", margin: "0 auto" }}>
-                        {props.paraTag.map((item: string, index: number) => (
+                        {props.tags.map((item: string, index: number) => (
                             <A.DivTag
                                 key={index}
                                 $margin="2px 5px 10px 2px"
@@ -44,11 +44,17 @@ const ParamedicDetail = (props: any) => {
                     <video style={{ border: "1px solid gray" }}></video>
                     {/* <image></image> */}
 
-                    <ItemAddr>{props.paraInfo}</ItemAddr>
-                    <ItemAddr>{props.addr}</ItemAddr>
+                    <div style={{ width: "90%", margin: "0 auto" }}>
+                        {props.files.map((item: string, index: number) => (
+                            <img key={index} src={item}></img>
+                        ))}
+                    </div>
+
+                    <ItemAddr>{props.description}</ItemAddr>
+                    <ItemAddr>{props.address}</ItemAddr>
                     <DetailItemBetween>
-                        <ItemElapseMin>{props.dist} km</ItemElapseMin>
-                        <ItemLeftTime>{props.leftTime}분 이내 도착 가능</ItemLeftTime>
+                        <ItemElapseMin>{props.distance} km</ItemElapseMin>
+                        <ItemLeftTime>{props.duration}분 이내 도착 가능</ItemLeftTime>
                     </DetailItemBetween>
 
 

@@ -16,7 +16,11 @@ export const hospitalSidebarType = atom({
   effects_UNSTABLE: [persistAtom],
 });
 
-export const hospitalSelectedParaId = atom<ParamedicItem | undefined>({
+// export const hospitalSelectedParaId = atom<ParamedicItem | undefined>({
+//   key: "hospitalSelectedParaId",
+//   default: undefined,
+// });
+export const hospitalSelectedParaId = atom<HospitalRequestItem | undefined>({
   key: "hospitalSelectedParaId",
   default: undefined,
 });
@@ -24,4 +28,12 @@ export const hospitalSelectedParaId = atom<ParamedicItem | undefined>({
 export const hospitalRequestList = atom<HospitalRequestItem[] | undefined>({
   key: "hospitalRequestList",
   default: undefined,
+});
+
+export const currentPosition = atom({
+  key: "currentPosition",
+  default: {
+    lat:37.565128,
+    lon:126.98883
+  },
 });

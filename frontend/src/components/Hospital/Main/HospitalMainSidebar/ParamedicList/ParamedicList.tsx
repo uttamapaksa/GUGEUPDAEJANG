@@ -1,23 +1,29 @@
 import ParamedicDetail from "../ParamedicDetail/ParamedicDetail";
 import ParamedicListItem from "../ParamedicItem/ParamedicListItem";
 import { ParamedicListContainer } from "./ParamedicList.style";
-import { MapProps, ParamedicItem } from "/src/types/map";
-import { useRecoilState } from "recoil";
-import { hospitalSelectedParaId } from "../../../../../recoils/HospitalAtoms";
+import { HospitalRequestItem } from "/src/types/map";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { hospitalRequestList, hospitalSelectedParaId } from "../../../../../recoils/HospitalAtoms";
+import { useEffect } from "react";
 
-const ParamedicList = (props: MapProps) => {
+const ParamedicList = () => {
     const [paraItem, setParaItem] = useRecoilState(hospitalSelectedParaId);
+    const requestList = useRecoilValue(hospitalRequestList);
 
-    const selectParaDetail = (props: ParamedicItem | undefined) => {
-        setParaItem(props);
+    const selectParaDetail = (item: HospitalRequestItem | undefined) => {
+        setParaItem(item);
     }
+
+    useEffect(() => {
+        console.log(requestList)
+      }, [requestList])
 
     return (
         <>
             <ParamedicListContainer>
-                {props.parList !== undefined ?
+                {requestList !== undefined ?
                     <>
-                        {props.parList.map((item, index) => (
+                        {requestList.map((item, index) => (
                             <ParamedicListItem {...item} key={index}
                                 onclick={() => selectParaDetail(item)}
                                 isSelected={(paraItem !== undefined && paraItem.id == item.id)}
