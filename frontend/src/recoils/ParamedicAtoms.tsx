@@ -14,8 +14,3 @@ export const recordContentFile = atom<string>({
   key: "recordContentFile",
   default: "",
 });
-
-export const TestAtom = atom<string>({
-  key: "TestAtom",
-  default: "",
-});
