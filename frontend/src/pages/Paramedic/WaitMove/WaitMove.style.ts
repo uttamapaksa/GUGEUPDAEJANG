@@ -23,4 +23,5 @@ export const ContentBox = styled.div`
   width: 100%;
   border-radius: 2vh 2vh 0 0;
   box-shadow: 0 0 1vh 0.4vh rgba(0, 0, 0, 0.2);
+  padding-bottom: 5vh;
 `;

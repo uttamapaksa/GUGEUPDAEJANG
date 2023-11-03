@@ -1,13 +1,14 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import * as S from './Category.style';
 import A from '/src/components/Commons/Atoms';
 import theme from '/src/styles';
+import PATH from '/src/constants/path';
 
 function Category() {
   const [options, setOptions] = useState<string[]>(['의식 없음', '추락', '과다출혈', '심정지 이력', '정신 질환 이력']);
   const [newOption, setNewOption] = useState<string>('');
   const [selectedIndices, setSelectedIndices] = useState<number[]>([]);
-
   const optionClick = (index: number) => {
     if (selectedIndices.includes(index)) {
       setSelectedIndices(selectedIndices.filter((i) => i !== index));
@@ -15,13 +16,15 @@ function Category() {
       setSelectedIndices([...selectedIndices, index]);
     }
   };
-
   const addOption = () => {
     if (newOption.trim() === '') return;
     setOptions((prev) => [...prev, newOption]);
     setNewOption('');
   };
-
+  const navigate = useNavigate();
+  const goToWaitMove = () => {
+      navigate(PATH.ParamedicWaitMove)
+  }
   return (
     <S.Category>
       <A.TxtParamedicTitle>주요 분류</A.TxtParamedicTitle>
@@ -68,6 +71,7 @@ function Category() {
           추가
         </A.BtnSubmit>
         <A.BtnSubmit
+          onClick={goToWaitMove}
           $margin="10vh 0 0 0 "
           $borderRadius="1vh"
           $width="100%"
