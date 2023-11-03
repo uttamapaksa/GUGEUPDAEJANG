@@ -22,10 +22,14 @@ import cellphone from "/src/assets/paramedic/cellphone.png"
 import cellphone_gray from "/src/assets/paramedic/cellphone-gray.png"
 import record_video_black from "/src/assets/paramedic/record-video-black.png"
 import record_video_pink from "/src/assets/paramedic/record-video-pink.png"
+import record_camera_black from "/src/assets/paramedic/record-camera-black.png"
+import record_camera_pink from "/src/assets/paramedic/record-camera-pink.png"
 import record_voice_black from "/src/assets/paramedic/record-voice-black.png"
 import record_voice_pink from "/src/assets/paramedic/record-voice-pink.png"
 import arrow_pink_right from "/src/assets/paramedic/arrow-pink-right.png"
 import arrow_black_right from "/src/assets/paramedic/arrow-black-right.png"
+import recording_black from "/src/assets/paramedic/recording-black.png"
+import recording_pink from "/src/assets/paramedic/recording-pink.png"
 
 // share
 import logo from "/src/assets/share/logo.png"
@@ -104,10 +108,14 @@ export const ImgCellphone = styled(StyledImage).attrs({src: cellphone})``;
 export const ImgCellphoneGray = styled(StyledImage).attrs({src: cellphone_gray})``;
 export const ImgRecordVideoBlack = styled(StyledImage).attrs({src: record_video_black})``;
 export const ImgRecordVideoPink = styled(StyledImage).attrs({src: record_video_pink})``;
+export const ImgRecordCameraBlack = styled(StyledImage).attrs({src: record_camera_black})``;
+export const ImgRecordCameraPink = styled(StyledImage).attrs({src: record_camera_pink})``;
 export const ImgRecordVoiceBlack = styled(StyledImage).attrs({src: record_voice_black})``;
 export const ImgRecordVoicePink = styled(StyledImage).attrs({src: record_voice_pink})``;
 export const ImgArrowPinkRight = styled(StyledImage).attrs({src: arrow_pink_right})``;
 export const ImgArrowBlackRight = styled(StyledImage).attrs({src: arrow_black_right})``;
+export const ImgRecordingBlack = styled(StyledImage).attrs({src: recording_black})``;
+export const ImgRecordingPink = styled(StyledImage).attrs({src: recording_pink})``;
 
 // share
 export const ImgLogo = styled(StyledImage).attrs({src: logo})``;

@@ -1,48 +1,56 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import * as S from './Status.style';
 import A from '/src/components/Commons/Atoms';
 import theme from '/src/styles';
+import { useRecoilState } from 'recoil';
+import { 
+  recordCameraFile, 
+  recordContentFile, 
+  recordVoiceFile } from '/src/recoils/ParamedicAtoms';
+import { CallProps } from '/src/types/paramedic';
 
-function Status() {
-  const [content, setContent] = useState<string>(
-    '지금 대교 사고 10대 여성 머리 출혈 환자 발생하였습니다. 심정지 이력이 있는 환자입니다.',
-  );
-
+function Status({RecordStart} : CallProps) { 
+  const [recordContent, setRecordContent] = useRecoilState(recordContentFile);
+  const [recordVoice, setRecordVoice] = useRecoilState(recordVoiceFile);
+  const [recordCamera, setRecordCamera] = useRecoilState(recordCameraFile);
+  
   return (
     <S.Status>
       <A.TxtParamedicTitle>환자 상태</A.TxtParamedicTitle>
       <S.Col9>
         <A.BtnMediaRecord
           $padding="0 1.5vh"
-          $width="45%"
+          $width="48%"
           $height="6.6vh"
           $color={theme.color.pinkLight}
           $border={`0.3vh solid ${theme.color.pinkLight}`}
           $borderRadius="1.8vh"
           $boxShadow='0 0 1vh 0.4vh rgba(0, 0, 0, 0.10)'
-          $fontSize="2.2vh"
-        >
-          <A.ImgRecordVideoPink $width="3.2vh" />
-          영상 촬영
+          $fontSize="2.2vh">
+          <A.ImgRecordCameraPink $width="3.2vh" />
+          카메라 촬영
           <A.ImgArrowPinkRight $width="1vh" />
         </A.BtnMediaRecord>
+
         <A.BtnMediaRecord
           $padding="0 1vh"
-          $width="45%"
+          $width="48%"
           $height="6.6vh"
           $color={theme.color.pinkLight}
           $border={`0.3vh solid ${theme.color.pinkLight}`}
           $borderRadius="1.8vh"
           $boxShadow='0 0 1vh 0.4vh rgba(0, 0, 0, 0.10)'
           $fontSize="2.2vh"
-        >
+          onClick={()=>{ RecordStart?.() }}>
           <A.ImgRecordVoicePink $width="2.2vh" />
           음성 녹음
           <A.ImgArrowPinkRight $width="1vh" />
         </A.BtnMediaRecord>
+
         <S.TxtStatus
-          onChange={(e) => setContent(e.target.value)}
-          value={content} />
+          value={recordContent} 
+          onChange={(e) => setRecordContent(e.target.value)}
+          placeholder='환자의 상태를 상세히 입력해주세요.'/>
       </S.Col9>
     </S.Status>
   );

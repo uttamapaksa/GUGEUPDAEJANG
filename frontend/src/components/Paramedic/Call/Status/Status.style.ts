@@ -18,6 +18,7 @@ export const Col9 = styled.div`
 `;
 
 export const TxtStatus = styled.textarea`
+  /* border: 3px solid skyblue; */
   overflow-wrap: break-word;
   border: 0.3vh solid #dcdce0;
   border-radius: 1vh;
