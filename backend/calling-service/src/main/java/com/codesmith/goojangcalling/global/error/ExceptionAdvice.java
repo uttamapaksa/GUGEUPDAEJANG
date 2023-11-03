@@ -1,5 +1,6 @@
 package com.codesmith.goojangcalling.global.error;
 
+import com.codesmith.goojangcalling.calling.exception.CallingNotFoundException;
 import com.codesmith.goojangcalling.calling.exception.DuplicateMemberTagException;
 import com.codesmith.goojangcalling.calling.exception.MemberTagNotFoundException;
 import com.codesmith.goojangcalling.calling.exception.TagNotFoundException;
@@ -36,6 +37,12 @@ public class ExceptionAdvice {
     @ExceptionHandler({FileUploadFailedException.class})
     public ResponseEntity<ErrorResponse> fileUploadFail() {
         ErrorResponse errorResponse = new ErrorResponse(ErrorCode.FILE_UPLOAD_FAIL, "업로드에 실패했습니다.");
+        return ResponseEntity.status(HttpStatus.valueOf(ErrorStatus.INVALID_REQUEST.getValue())).body(errorResponse);
+    }
+
+    @ExceptionHandler({CallingNotFoundException.class})
+    public ResponseEntity<ErrorResponse> wrongCalling() {
+        ErrorResponse errorResponse = new ErrorResponse(ErrorCode.WRONG_CALLING, "잘못된 요청입니다.");
         return ResponseEntity.status(HttpStatus.valueOf(ErrorStatus.INVALID_REQUEST.getValue())).body(errorResponse);
     }
 }

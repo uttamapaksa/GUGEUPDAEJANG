@@ -1,6 +1,7 @@
 package com.codesmith.goojangcalling.calling.application;
 
 import com.codesmith.goojangcalling.calling.dto.message.CallingCreateMessage;
+import com.codesmith.goojangcalling.calling.dto.message.StatusChangeMessage;
 import com.codesmith.goojangcalling.calling.dto.request.CallingCreateRequest;
 import com.codesmith.goojangcalling.calling.dto.request.OccurrenceCreateRequest;
 import com.codesmith.goojangcalling.calling.dto.response.CallingStatusResponse;
@@ -14,6 +15,7 @@ import com.codesmith.goojangcalling.infra.member.HospitalClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import reactor.core.publisher.Mono;
 
@@ -30,8 +32,11 @@ public class CallingServiceImpl implements CallingService{
     private final OccurrenceTagRepository occurrenceTagRepository;
     private final CallingRepository callingRepository;
     private final TagRepository tagRepository;
+
     private final HospitalClient hospitalClient;
     private final S3Client s3Client;
+
+    private final CallingValidator callingValidator;
 
     private final SimpMessagingTemplate simpMessagingTemplate;
 
@@ -89,6 +94,15 @@ public class CallingServiceImpl implements CallingService{
     @Override
     public List<FileUploadResponse> fileUpload(List<MultipartFile> multipartFile) {
         return s3Client.uploadFIle(multipartFile);
+    }
+
+    @Transactional
+    @Override
+    public void changeCallingStatus(Long memberId, StatusChangeMessage changeMessage) {
+        callingValidator.validateCalling(changeMessage.getCallingId());
+        Calling calling = callingRepository.findById(changeMessage.getCallingId()).get();
+        calling.updateCalling(changeMessage.getStatus(), changeMessage.getReason());
+        callingRepository.save(calling);
     }
 
     @Override

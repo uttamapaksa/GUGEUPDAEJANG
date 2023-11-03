@@ -1,5 +1,6 @@
 package com.codesmith.goojangcalling.calling.application;
 
+import com.codesmith.goojangcalling.calling.dto.message.StatusChangeMessage;
 import com.codesmith.goojangcalling.calling.dto.request.CallingCreateRequest;
 import com.codesmith.goojangcalling.calling.dto.request.OccurrenceCreateRequest;
 import com.codesmith.goojangcalling.calling.dto.response.CallingStatusResponse;
@@ -21,4 +22,6 @@ public interface CallingService {
     void createCallingMessage(List<CallingStatusResponse> callingStatusResponseList, Long occurrenceId);
 
     List<FileUploadResponse> fileUpload(List<MultipartFile> multipartFile);
+
+    void changeCallingStatus(Long memberId, StatusChangeMessage changeMessage);
 }

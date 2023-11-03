@@ -34,4 +34,10 @@ public class Calling {
         this.responseTime = responseTime;
         this.reason = reason;
     }
+
+    public void updateCalling(Status status, String reason) {
+        this.status = status;
+        this.reason = reason;
+        this.responseTime = LocalDateTime.now();
+    }
 }
