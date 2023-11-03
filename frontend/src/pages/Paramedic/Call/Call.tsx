@@ -30,7 +30,8 @@ function Call() {
 
   const {       
     startListening,
-    stopListening} = SoundToText(setRecordContent);
+    stopListening,
+    hasRecognitionSupport} = SoundToText(setRecordContent);
 
   const {
     startRecording,
@@ -103,7 +104,9 @@ function Call() {
             width :'300px',
             height : '50px',
           }}></audio>
-          {formatTime(seconds)}
+          {hasRecognitionSupport ? (
+            formatTime(seconds)
+          ):(<></>)}
 
         {recording ? (
           <RecordModal 
