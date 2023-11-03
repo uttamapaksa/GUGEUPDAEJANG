@@ -103,6 +103,7 @@ function Call() {
             width :'300px',
             height : '50px',
           }}></audio>
+          {formatTime(seconds)}
 
         {recording ? (
           <RecordModal 
