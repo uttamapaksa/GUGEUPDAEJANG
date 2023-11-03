@@ -4,14 +4,17 @@ import com.codesmith.goojangcalling.calling.dto.message.CallingCreateMessage;
 import com.codesmith.goojangcalling.calling.dto.request.CallingCreateRequest;
 import com.codesmith.goojangcalling.calling.dto.request.OccurrenceCreateRequest;
 import com.codesmith.goojangcalling.calling.dto.response.CallingStatusResponse;
+import com.codesmith.goojangcalling.calling.dto.response.FileUploadResponse;
 import com.codesmith.goojangcalling.calling.dto.response.OccurrenceCreateResponse;
 import com.codesmith.goojangcalling.calling.dto.response.HospitalSearchResponse;
 import com.codesmith.goojangcalling.calling.persistence.*;
 import com.codesmith.goojangcalling.calling.persistence.domain.*;
+import com.codesmith.goojangcalling.infra.aws.S3Client;
 import com.codesmith.goojangcalling.infra.member.HospitalClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
@@ -28,6 +31,7 @@ public class CallingServiceImpl implements CallingService{
     private final CallingRepository callingRepository;
     private final TagRepository tagRepository;
     private final HospitalClient hospitalClient;
+    private final S3Client s3Client;
 
     private final SimpMessagingTemplate simpMessagingTemplate;
 
@@ -80,6 +84,11 @@ public class CallingServiceImpl implements CallingService{
             simpMessagingTemplate.convertAndSend("/topic/" + 9999, callingCreateMessage);
 //            simpMessagingTemplate.convertAndSend("/topic/" + o.getMemberId(), callingCreateMessage);
         });
+    }
+
+    @Override
+    public List<FileUploadResponse> fileUpload(List<MultipartFile> multipartFile) {
+        return s3Client.uploadFIle(multipartFile);
     }
 
     @Override
