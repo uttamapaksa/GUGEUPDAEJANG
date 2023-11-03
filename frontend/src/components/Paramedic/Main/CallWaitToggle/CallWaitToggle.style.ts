@@ -8,16 +8,36 @@ export const Container = styled.div`
   height: 45%;
 `;
 
-export const TxtParaState1 = styled.div<{ isClick?: boolean }>`
+export const TxtParaState1 = styled.div<{ selected: number }>`
   padding: 0.2vh 0;
   font-size: 3.2vh;
   font-weight: 800;
-  color: ${theme.color.grayMedium};
-  ${(props) =>
-    props.isClick &&
-    css`
-      color: ${theme.color.white};
-    `}
+  ${({ selected }) =>
+    selected === 0
+      ? css`
+          color: ${theme.color.grayDarkest};
+        `
+      : selected === 1
+      ? css`
+          color: ${theme.color.white};
+        `
+      : css`
+          color: ${theme.color.grayMedium};
+        `}
+`;
+
+export const TxtParaState5 = styled.div<{ selected: number }>`
+  padding: 0.2vh 0;
+  font-size: 3.2vh;
+  font-weight: 800;
+  ${({ selected }) =>
+    selected === 2
+      ? css`
+          color: ${theme.color.white};
+        `
+      : css`
+          color: ${theme.color.grayMedium};
+        `}
 `;
 
 export const TxtParaState2 = styled.div`

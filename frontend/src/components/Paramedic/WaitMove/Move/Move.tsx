@@ -58,7 +58,7 @@ function Move() {
           $borderRadius='2vh'
           >
           <A.ImgRecordVideoBlack $width="4vh" />
-          영상 촬영
+          영상 통화
           <A.ImgArrowBlackRight $width="1.2vh" />
         </A.BtnMediaRecord>
         <A.BtnMediaRecord
@@ -70,7 +70,7 @@ function Move() {
           $borderRadius='2vh'
         >
           <A.ImgRecordVoiceBlack $width="2.4vh" />
-          음성 녹음
+          음성 통화
           <A.ImgArrowBlackRight $width="1.2vh" />
         </A.BtnMediaRecord>
       </S.Calling>

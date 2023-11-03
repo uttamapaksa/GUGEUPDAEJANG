@@ -7,7 +7,8 @@ export const ParamedicHeader = styled.div`
   align-items: center;
   width: 100%;
   height: 7vh;
-  box-shadow: 0 0 0.5vh 0.25vh rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  box-shadow: 0 0 1vh 0.4vh rgba(0, 0, 0, 0.1);
 `;
 
 

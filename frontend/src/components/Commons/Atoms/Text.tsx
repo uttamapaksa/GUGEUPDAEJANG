@@ -74,7 +74,7 @@ export const TxtParamedicTitle = styled(StyledText)`
   font-size: 2.6vh;
   font-weight: 700;
   width: 100%;
-  height: 8vh;
+  height: 10vh;
 `
 
 export const TxtHeaderTitle  = styled(StyledText)`
