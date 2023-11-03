@@ -9,7 +9,6 @@ if ("webkitSpeechRecognition" in window) {
 }
 
 const SoundToText = (setText: React.Dispatch<React.SetStateAction<string>>) => {
-  const [sttState, setSttState] = useState<boolean>(false)
   const [isListening, setIsListening] = useState<boolean>(false)
 
   // STT 시작
@@ -18,7 +17,6 @@ const SoundToText = (setText: React.Dispatch<React.SetStateAction<string>>) => {
       setText("");
       recognition.start() 
       setIsListening(true)
-      setSttState(isListening)
       console.log("STT시작",true)
 
       recognition.onresult = (event: SpeechRecognitionEvent) => {
@@ -35,7 +33,6 @@ const SoundToText = (setText: React.Dispatch<React.SetStateAction<string>>) => {
     if  (recognition && isListening) {
       recognition.stop()
       setIsListening(false)
-      setSttState(isListening)
       console.log("STT종료",false)
     } 
   }
@@ -43,7 +40,6 @@ const SoundToText = (setText: React.Dispatch<React.SetStateAction<string>>) => {
   return {
     startListening,
     stopListening,
-    sttState,
     hasRecognitionSupport: !! recognition
   }
 }
