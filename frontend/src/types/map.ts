@@ -36,7 +36,7 @@ export interface ParamedicItem {
 // }
 export interface MapProps {
   type: string,
-  pos: Position,
+  pos?: Position,
   hosList?: HospitalItem[],
   parList?: HospitalRequestItem[],
 }

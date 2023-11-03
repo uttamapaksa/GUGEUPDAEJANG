@@ -33,7 +33,7 @@ export const hospitalRequestList = atom<HospitalRequestItem[] | undefined>({
 export const currentPosition = atom({
   key: "currentPosition",
   default: {
-    lat:37.565128,
-    lon:126.98883
+    lat:null,
+    lon:null
   },
 });

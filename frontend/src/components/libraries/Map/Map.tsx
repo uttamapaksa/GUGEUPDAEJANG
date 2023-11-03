@@ -4,6 +4,8 @@ import ParamedicInfo from "./InfoWindow/ParamedicInfo";
 import HospitalMarker from "./Marker/HospitalMarker";
 import { MapProps } from "/src/types/map";
 import ParamedicMarker from "./Marker/ParamedicMarker";
+import { useRecoilValue } from "recoil";
+import { currentPosition } from "/src/recoils/HospitalAtoms";
 
 declare global {
     interface Window {
@@ -34,36 +36,25 @@ export const destroyMap = () => {
 //props.type 의 구분에 따라 지도 반응형 크기 및 하위 컴포넌트 적용
 function Map(props: MapProps) {
     const [map, setMap] = useState();
-    
+
     useEffect(() => {
+        console.log(props)
         if (props.pos !== undefined) {
-            const tmp = createMap(props.pos.lat, props.pos.lon);
+            let pos = {
+                lat: 37.565128,
+                lon: 126.98883
+            }
+            if(props.pos.lat!=null){
+                pos = {
+                    lat: props.pos.lat,
+                    lon: props.pos.lon
+                }
+            }
+            const tmp = createMap(pos.lat, pos.lon);
             console.log("tmp", tmp);
             setMap(tmp);
         }
     }, []);
-
-    //현위치 갱신 과정 추가
-    useEffect(() => {
-        console.log(props)
-        // if (props.pos.lat !== null && map !== undefined) {
-        //     var latlon = new Tmapv3.LatLng(props.pos.lat, props.pos.lon);
-        //     const size = new Tmapv3.Size(30, 30)
-        //     const marker = new Tmapv3.Marker({
-        //         position: latlon,
-        //         map: map,
-        //         // color: positions[i].color,
-        //         iconSize: size,
-        //         // icon: props.parList[i].type,
-        //         // label: title //Marker의 라벨.
-        //     });
-        //     marker.on("Click", function(evt:any) {
-        //         console.log(evt)
-        //         console.log("evt")
-        //     });
-        //     // console.log("marker", marker)
-        // }
-    }, [props]);
 
     return (
         <>
@@ -79,9 +70,9 @@ function Map(props: MapProps) {
                         <></>}
                     {props.type === "hospital" ?
                         <>
-                        <ParamedicMarker {...props}
-                            map={map} />
-                            <ParamedicInfo {...props} map={map} /></> :
+                            <ParamedicMarker {...props} map={map} />
+                            <ParamedicInfo {...props} map={map} />
+                        </> :
                         <>
                         </>
                     }
