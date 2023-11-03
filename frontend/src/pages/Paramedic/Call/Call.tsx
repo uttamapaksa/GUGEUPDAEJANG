@@ -33,6 +33,7 @@ function Call() {
   const {       
     startListening,
     stopListening,
+    accentText,
     hasRecognitionSupport} = SoundToText(setRecordContent);
 
   const {
@@ -108,8 +109,9 @@ function Call() {
           }}></audio>
           {hasRecognitionSupport ? (
             <S.Div>
-              {formatTime(seconds)}
-              {recordContent}
+              {formatTime(seconds)}<br/>
+              {recordContent}<br/>
+              {accentText}
             </S.Div>
           ):(<></>)}
 
