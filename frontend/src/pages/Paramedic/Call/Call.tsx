@@ -10,7 +10,7 @@ import {
   Category, 
   RecordModal } from '/src/components/Paramedic/Call';
 import SoundToText from '/src/components/libraries/STT/SoundToText';
-import { useReactMediaRecorder } from "react-media-recorder";
+// import { useReactMediaRecorder } from "react-media-recorder";
 
 // 리코일
 import { 
@@ -35,27 +35,27 @@ function Call() {
     stopListening,
     hasRecognitionSupport} = SoundToText(setRecordContent);
 
-  const {
-    startRecording,
-    stopRecording,
-    mediaBlobUrl,
-  } = useReactMediaRecorder({ audio: true });
+  // const {
+  //   startRecording,
+  //   stopRecording,
+  //   mediaBlobUrl,
+  // } = useReactMediaRecorder({ audio: true });
 
   const RecordStart = () => {
     setRecording(true)
     startListening()
-    startRecording()
+    // startRecording()
   }
 
   const RecordStop = async () => {
     setRecording(false)
     stopListening()
-    stopRecording()
+    // stopRecording()
   }
 
-  useEffect (()=>{
-    setRecordVoice(mediaBlobUrl ?? "")
-  },[mediaBlobUrl])
+  // useEffect (()=>{
+  //   setRecordVoice(mediaBlobUrl ?? "")
+  // },[mediaBlobUrl])
 
   const handleRecordingTimer = () => {
     if (recording) {
