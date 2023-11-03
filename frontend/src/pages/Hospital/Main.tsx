@@ -25,6 +25,7 @@ function Main() {
 
   useEffect(()=>{
     setCurrentPos();
+    console.log("geolocation", geolocation)
   },[geolocation])
 
   return !geolocation.error ? (
@@ -34,7 +35,7 @@ function Main() {
       <HopsitalSidebar />
       <ComponentContainer>
         {componentType[0] ? (
-          <HospitalMain type={"hospital"}/>
+          <HospitalMain />
         ) : (
           <></>
         )}

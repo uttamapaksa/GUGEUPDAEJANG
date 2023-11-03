@@ -7,19 +7,18 @@ import {
 import { useRecoilState } from "recoil";
 import { hospitalSidebarType } from "../../../../recoils/HospitalAtoms";
 import ParamedicList from "./ParamedicList/ParamedicList";
-import { useEffect } from "react";
+// import { useEffect } from "react";
 
 const HospitalMainSidebar = () => {
   const [sidebarType, setSidebarType] = useRecoilState(hospitalSidebarType);
 
   const changeSidebarState = (flag: boolean) => {
-    console.log(flag);
     setSidebarType(flag);
   };
 
-  useEffect(() => {
-    console.log(sidebarType)
-  }, [sidebarType])
+  // useEffect(() => {
+  //   console.log(sidebarType)
+  // }, [sidebarType])
 
   return (
     <HospitalMainSidebarContainer>

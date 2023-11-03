@@ -8,7 +8,10 @@ export const InfoWindowContainer = styled.div`
   transform: translate(-50%, 0);
   display: flex;
   background-color: #ffffffea;
-  box-shadow: 1px 5px 5px 5px #3b3b3b40;
+  /* box-shadow: 1px 5px 5px 5px #3b3b3b40; */
+  border-style: solid;
+  border-width: 2px;
+  border-color: ${theme.color.grayMedium};
   font-size: 12px;
   border-radius: 5px;
   flex-direction: column;
@@ -74,7 +77,7 @@ export const BottomHr = styled.hr`
   height: 0.5px;
   left: -10%;
   width: 120%;
-  background-color: ${theme.color.grayDark};
+  background-color: ${theme.color.grayMedium};
 `;
 export const ElapseTimeSpan = styled.span`
   color: #707070;

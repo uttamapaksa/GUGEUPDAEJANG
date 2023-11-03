@@ -2,8 +2,8 @@ import { useState, useEffect, useRef } from 'react';
 // import { HospitalSocketProps } from '../types/socket';
 import { Client } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
-import { useRecoilState } from 'recoil';
-import { hospitalRequestList } from '../recoils/HospitalAtoms';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { hospitalRequestList, hospitalResponse } from '../recoils/HospitalAtoms';
 
 const CALLING_SERVER_URL = 'https://k9b204a.p.ssafy.io:64419/calling-websocket';
 const TRANSFER_SERVER_URL = 'https://k9b204a.p.ssafy.io:64413/transfer-websocket';
@@ -70,7 +70,6 @@ function HospitalSocket() {
     }
   };
 
-  // const [requestList, setRequestList] = useRecoilState(hospitalRequestList);
   // 메시지 수신
   const callingReceiveMessage = (message: any) => {
     // 요청소켓 수신
@@ -95,7 +94,7 @@ function HospitalSocket() {
             nextList.push(requestList[i]);
           }
         }
-        if(flag) nextList.push(obj);
+        if (flag) nextList.push(obj);
       }
       else {
         nextList.push(obj);
@@ -116,13 +115,15 @@ function HospitalSocket() {
   };
 
   // 메시지 송신
+
+  const [curHospitalResponse, setCurHospitalResponse] = useRecoilState(hospitalResponse);
   const callingSendMessage = () => {
     // 요청소켓 송신
     // 구급대원에게 수락/거절 여부 송신
     if (callingSocket.current && setCallingMessageToSend) {
       callingSocket.current.publish({
         destination: `/app/${paramedicId}`,
-        body: JSON.stringify({ name: '테스트이름', longitude: 35.123, latitude: 127.123 }),
+        body: JSON.stringify(curHospitalResponse),
       });
       setCallingMessageToSend('');
     }
@@ -150,6 +151,14 @@ function HospitalSocket() {
       }
     };
   }, [hospitalId]);
+
+  useEffect(() => {
+    if (curHospitalResponse !== undefined) {
+      callingSendMessage()
+      console.log(curHospitalResponse)
+      setCurHospitalResponse(undefined)
+    }
+  }, [curHospitalResponse])
 
   return (
     <>

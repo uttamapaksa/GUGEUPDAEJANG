@@ -27,12 +27,12 @@ function InfoContents(props: any) {
             $position="absolute"
             $right="0%"
             $top="0%"
-            $ktas={props.ktas}
+            $ktas={props.ktas.toLowerCase()}
             $width="40px"
             $height="20px"
             $borderRadius="0px 0px 0px 5px"
             $fontSize="10px">
-            KTAS{props.ktas.charAt(4)}
+            {props.ktas}
           </A.DivKtasInfo>
           <AddrP>
             <AddrTitle>
