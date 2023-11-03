@@ -10,10 +10,9 @@ function ParamedicMarker(props: any) {
 
     const updateMarker = () => {
         if (props.map !== undefined && props.parList !== undefined) {
-
             let next: any[] = []
             for (var i = 0; i < props.parList.length; i++) {
-                var lonlat = new Tmapv3.LatLng(props.parList[i].latitude, props.parList[i].latitude);
+                var lonlat = new Tmapv3.LatLng(props.parList[i].latitude, props.parList[i].longitude);
                 // var title = props.parList[i].name;
                 const size = new Tmapv3.Size(30, 30);
                 const marker = new Tmapv3.Marker({

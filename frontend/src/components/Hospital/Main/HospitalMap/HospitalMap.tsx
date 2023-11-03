@@ -11,21 +11,21 @@ const HospitalMap = (props: { type: string }) => {
 
   const [hospitalMapProps, setHospitalMapProps] = useState<MapProps>({
     type: props.type,
-    pos: { lat: curPos.lat, lon: curPos.lon },
   });
 
   useEffect(() => {
     const newProps: MapProps = {
       type: props.type,
-      pos: { lat: curPos.lat, lon: curPos.lon },
-      parList: requestList,
+      pos: curPos.lat != null && curPos.lon != null ? { lat: curPos.lat, lon: curPos.lon } : undefined,
+      parList: requestList !== undefined ? requestList : undefined,
     };
+    console.log(curPos)
     setHospitalMapProps(newProps);
-  }, [props]);
+  }, [requestList, curPos]);
 
   return (
     <MapContainer>
-      <Map {...hospitalMapProps}></Map>
+      {hospitalMapProps.pos != undefined ? <Map {...hospitalMapProps}></Map> : <></>}
     </MapContainer>
   );
 };
