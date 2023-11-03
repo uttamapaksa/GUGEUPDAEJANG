@@ -20,6 +20,8 @@ public class CallingStatusResponse {
     private Long memberId;
     private String hospitalName;
     private String telephone;
+    private Double latitude;
+    private Double longitude;
     private Double distance;
     private Long duration;
 
@@ -31,6 +33,8 @@ public class CallingStatusResponse {
         this.memberId = hospitalSearchResponse.getId();
         this.hospitalName = hospitalSearchResponse.getName();
         this.telephone = hospitalSearchResponse.getTelephone1();
+        this.latitude = hospitalSearchResponse.getLatitude();
+        this.longitude = hospitalSearchResponse.getLongitude();
         this.distance = hospitalSearchResponse.getDistance();
         this.duration = hospitalSearchResponse.getTime();
     }

@@ -16,6 +16,8 @@ public class HospitalSearchResponse {
     private String address;
     private String telephone1;
     private String telephone2;
+    private Double latitude;
+    private Double longitude;
     private Long bedCount;
     private Double distance;
     private Long time;
