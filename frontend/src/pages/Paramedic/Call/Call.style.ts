@@ -28,5 +28,5 @@ export const Div = styled.div`
   justify-content: center;
   background-color: gray;
   width: 100%;
-  height: 20px;
+  height: 40px;
 `

@@ -18,6 +18,7 @@ import {
   useRecoilValue, 
   useSetRecoilState } from 'recoil';
 import { 
+  TestAtom,
   recordContentFile, 
   recordVoiceFile } from '/src/recoils/ParamedicAtoms';
 
@@ -29,6 +30,7 @@ function Call() {
   const setRecordContent = useSetRecoilState(recordContentFile);
   const [recordVoice, setRecordVoice] = useRecoilState(recordVoiceFile);
   // const setRecordVoice = useSetRecoilState(recordVoiceFile);
+  const [test, setTest] = useRecoilState(TestAtom)
 
   const {       
     startListening,
@@ -108,8 +110,9 @@ function Call() {
           }}></audio>
           {hasRecognitionSupport ? (
             <S.Div>
-              {formatTime(seconds)}
-              {recordContent}
+              {formatTime(seconds)}  <br></br>
+              recordContent:{recordContent} <br></br>
+              test:{test}
             </S.Div>
           ):(<></>)}
 

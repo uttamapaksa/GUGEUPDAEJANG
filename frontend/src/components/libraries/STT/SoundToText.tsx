@@ -1,4 +1,6 @@
 import { useState } from "react"
+import { TestAtom } from "/src/recoils/ParamedicAtoms";
+import { useRecoilState } from "recoil";
 
 let recognition: SpeechRecognition | null = null;
 
@@ -10,11 +12,13 @@ if ("webkitSpeechRecognition" in window) {
 
 const SoundToText = (setText: React.Dispatch<React.SetStateAction<string>>) => {
   const [isListening, setIsListening] = useState<boolean>(false)
+  const [test, setTest] = useRecoilState(TestAtom)
 
   // STT 시작
   const startListening = () => {
     if (recognition && !isListening) {
       setText("");
+      setTest("")
       recognition.start() 
       setIsListening(true)
       console.log("STT시작",true)
@@ -24,6 +28,7 @@ const SoundToText = (setText: React.Dispatch<React.SetStateAction<string>>) => {
         for (let i = 0; i < event.results.length; i++) {
           fullTranscript += event.results[i][0].transcript;}
           setText(fullTranscript);
+          setTest(fullTranscript)
       }
     }
   }
