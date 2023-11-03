@@ -3,29 +3,32 @@ import { MapContainer } from "./HospitalMap.styls";
 import Map from "/src/components/libraries/Map/Map";
 import { MapProps } from "/src/types/map";
 import { useRecoilValue } from "recoil";
-import { currentPosition, hospitalRequestList } from "/src/recoils/HospitalAtoms";
+import { currentPosition, hospitalRequestList, hospitalSidebarType } from "/src/recoils/HospitalAtoms";
 
-const HospitalMap = (props: { type: string }) => {
+const HospitalMap = () => {
   const curPos = useRecoilValue(currentPosition);
   const requestList = useRecoilValue(hospitalRequestList);
 
-  const [hospitalMapProps, setHospitalMapProps] = useState<MapProps>({
-    type: props.type,
-  });
+  const isRequest = useRecoilValue(hospitalSidebarType);
+
+  const [hospitalMapProps, setHospitalMapProps] = useState<MapProps | undefined>(undefined);
 
   useEffect(() => {
-    const newProps: MapProps = {
-      type: props.type,
-      pos: curPos.lat != null && curPos.lon != null ? { lat: curPos.lat, lon: curPos.lon } : undefined,
-      parList: requestList !== undefined ? requestList : undefined,
-    };
-    console.log(curPos)
-    setHospitalMapProps(newProps);
-  }, [requestList, curPos]);
+    if(curPos.lat != null && curPos.lon != null){
+      const newProps: MapProps = {
+        type: isRequest ? "req" : "empty",
+        pos:  { lat: curPos.lat, lon: curPos.lon },
+        parList: requestList !== undefined ? requestList : undefined,
+      };
+      console.log(newProps.type, curPos, requestList)
+      setHospitalMapProps(newProps);
+    }
+    
+  }, [requestList, curPos, isRequest]);
 
   return (
     <MapContainer>
-      {hospitalMapProps.pos != undefined ? <Map {...hospitalMapProps}></Map> : <></>}
+      {hospitalMapProps !== undefined ? <Map {...hospitalMapProps}></Map> : <></>}
     </MapContainer>
   );
 };

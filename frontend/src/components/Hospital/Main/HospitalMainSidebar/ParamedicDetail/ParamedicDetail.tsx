@@ -1,10 +1,22 @@
+import { useSetRecoilState } from "recoil";
 import { ItemParaType, ItemRequestAt, } from "../ParamedicItem/ParamedicListItem.style";
 import { CloseDiv, DetailItemContainer, ItemElapseMin, ItemAddr, ParamedicDetailContainer, ParamedicDetailContent, DetailItemBetween, ItemLeftTime } from "./ParamedicDetail.style";
 import A from "/src/components/Commons/Atoms";
 import theme from "/src/styles";
+import { hospitalResponse } from "/src/recoils/HospitalAtoms";
+import { HospitalResponseItem } from "/src/types/map";
 
 const ParamedicDetail = (props: any) => {
+    const setCurResponse = useSetRecoilState(hospitalResponse);
 
+    const clickButton = (res: boolean) => {
+        const response:HospitalResponseItem = {
+          id: props.id,
+          responseAt: new Date().toLocaleDateString(),
+          responseType: res,
+        }
+        setCurResponse(response)
+      }
     return (
         <ParamedicDetailContainer>
             <ParamedicDetailContent>
@@ -41,8 +53,7 @@ const ParamedicDetail = (props: any) => {
                         ))}
                     </div>
 
-                    <video style={{ border: "1px solid gray" }}></video>
-                    {/* <image></image> */}
+                    {/* <video style={{ border: "1px solid gray" }}></video> */}
 
                     <div style={{ width: "90%", margin: "0 auto" }}>
                         {props.files.map((item: string, index: number) => (
@@ -68,6 +79,7 @@ const ParamedicDetail = (props: any) => {
                         $color={theme.color.pinkDrak}
                         $fontSize={theme.font.Small1_16}
                         $boxShadow="0 0.2px 0.1px 0px inset"
+                        onClick={()=>clickButton(false)}
                     >
                         거절
                     </A.BtnToggle>
@@ -82,7 +94,9 @@ const ParamedicDetail = (props: any) => {
                         $color={theme.color.white}
                         $fontSize={theme.font.Small1_16}
                         $backgroundColor={theme.color.pinkDrak}
-                        $boxShadow="0 0.2px 0.1px 0px inset">
+                        $boxShadow="0 0.2px 0.1px 0px inset"
+                        onClick={()=>clickButton(true)}
+                        >
                         승인
                     </A.BtnToggle>
                 </DetailItemContainer>
