@@ -1,14 +1,14 @@
 import HospitalMap from "./HospitalMap/HospitalMap";
 import HospitalMainSidebar from "./HospitalMainSidebar/HospitalMainSidebar";
 import { Container } from "./HospitalMain.styls";
-import { MapProps } from "/src/types/map";
 
-const HospitalMain = (props: MapProps) => {
+const HospitalMain = () => {
 
   return (
     <Container>
-      <HospitalMainSidebar {...props} />
-      <HospitalMap {...props} />
+      <HospitalMainSidebar />
+      <HospitalMap/>
+
     </Container>
   );
 };

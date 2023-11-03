@@ -1,40 +1,43 @@
-import { HospitalMainSidebarContainer, HospitalMainSidebarContents, TypeButton, TypeButtonGroup } from "./HospitalMainSidebar.style";
+import {
+  HospitalMainSidebarContainer,
+  HospitalMainSidebarContents,
+  TypeButton,
+  TypeButtonGroup,
+} from "./HospitalMainSidebar.style";
 import { useRecoilState } from "recoil";
 import { hospitalSidebarType } from "../../../../recoils/HospitalAtoms";
 import ParamedicList from "./ParamedicList/ParamedicList";
-import { MapProps } from "/src/types/map";
+// import { useEffect } from "react";
 
-const HospitalMainSidebar = (props: MapProps) => {
+const HospitalMainSidebar = () => {
   const [sidebarType, setSidebarType] = useRecoilState(hospitalSidebarType);
 
   const changeSidebarState = (flag: boolean) => {
-    console.log(flag)
     setSidebarType(flag);
-  }
+  };
+
+  // useEffect(() => {
+  //   console.log(sidebarType)
+  // }, [sidebarType])
 
   return (
     <HospitalMainSidebarContainer>
       {/* 사이드바 타입 */}
       <TypeButtonGroup>
-        <TypeButton
-          $checked={sidebarType}
-          onClick={() => changeSidebarState(true)}>
+        <TypeButton $checked={sidebarType} onClick={() => changeSidebarState(true)}>
           이송 대기 목록
         </TypeButton>
-        <TypeButton
-          $checked={!sidebarType}
-          onClick={() => changeSidebarState(false)}>
+        <TypeButton $checked={!sidebarType} onClick={() => changeSidebarState(false)}>
           이송 중
         </TypeButton>
       </TypeButtonGroup>
 
       {/* 리스트 */}
       <HospitalMainSidebarContents>
-        {sidebarType ? <ParamedicList {...props} /> : <></>}
-
+        {sidebarType ? <ParamedicList /> : <></>}
       </HospitalMainSidebarContents>
       {/*  */}
-    </HospitalMainSidebarContainer >
+    </HospitalMainSidebarContainer>
   );
 };
 

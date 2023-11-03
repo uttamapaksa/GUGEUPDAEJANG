@@ -1,19 +1,18 @@
 import { useEffect, useState } from "react";
 import { Tmapv3 } from "../Map";
 import { ParamedicMarkerContainer } from "./ParamedicMarker.style";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import { hospitalSelectedParaId } from "../../../../recoils/HospitalAtoms";
 
 function ParamedicMarker(props: any) {
     const [paraMarkers, setParaMarkers] = useState<any[]>([]);
-    const setParaItem = useSetRecoilState(hospitalSelectedParaId);
+    const [paraItem, setParaItem] = useRecoilState(hospitalSelectedParaId);
 
     const updateMarker = () => {
         if (props.map !== undefined && props.parList !== undefined) {
-
             let next: any[] = []
             for (var i = 0; i < props.parList.length; i++) {
-                var lonlat = new Tmapv3.LatLng(props.parList[i].pos.lat, props.parList[i].pos.lon);
+                var lonlat = new Tmapv3.LatLng(props.parList[i].latitude, props.parList[i].longitude);
                 // var title = props.parList[i].name;
                 const size = new Tmapv3.Size(30, 30);
                 const marker = new Tmapv3.Marker({
@@ -30,6 +29,7 @@ function ParamedicMarker(props: any) {
                 marker.on("Click", () => {
                     setParaItem(tmp)
                 });
+                // console.log(marker)
                 next.push(marker);
             }
             setParaMarkers(next);
@@ -43,12 +43,16 @@ function ParamedicMarker(props: any) {
     }
 
     useEffect(() => {
-        // console.log("props", props.map)
         if (props.map !== undefined && props.parList !== undefined) {
             deleteMarker()
-            updateMarker()
+            if (paraMarkers.length == 0) updateMarker()
         }
     }, [props]);
+    useEffect(() => {
+        if (paraItem != undefined)
+            props.map.setCenter(new Tmapv3.LatLng(paraItem.latitude, paraItem.longitude));
+
+    }, [paraItem]);
 
     return (
         <ParamedicMarkerContainer></ParamedicMarkerContainer>

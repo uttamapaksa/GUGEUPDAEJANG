@@ -5,7 +5,7 @@ export const ParamedicListContainer = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
-  background-color: ${theme.color.light};
+  /* background-color: ${theme.color.light}; */
   z-index: 10001;
   margin: 1% 0;
   overflow-y: scroll;

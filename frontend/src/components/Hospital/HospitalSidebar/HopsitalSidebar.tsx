@@ -1,18 +1,26 @@
 import A from "/src/components/Commons/Atoms";
 import { useRecoilState } from "recoil";
-import { hospitalComponentType } from "../../../recoils/HospitalAtoms";
+import { hospitalComponentType, hospitalSelectedParaId, hospitalSidebarType } from "../../../recoils/HospitalAtoms";
 import { SidebarContainer } from "./HopsitalSidebar.style";
+import { useEffect } from "react";
 
 
 const HopsitalSidebar = () => {
   
   const [buttonState, setButtonState] = useRecoilState(hospitalComponentType);
+  const [sidbarState, setSidbarState] = useRecoilState(hospitalSidebarType);
+  const [selectedParaId, setSelectedParaId] = useRecoilState(hospitalSelectedParaId);
 
   const changeButtonState = (idx: number) => {
     let tmp = [false, false, false];
     tmp[idx] = true;
     setButtonState(tmp);
   };
+
+  useEffect(()=>{
+    if(selectedParaId!==undefined) setSelectedParaId(undefined);
+    if(!sidbarState) setSidbarState(true);
+  }, [buttonState])
 
   return (
     <SidebarContainer>

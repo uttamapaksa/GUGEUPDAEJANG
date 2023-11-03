@@ -34,14 +34,14 @@ export const DetailItemContainer = styled.div`
   width: 90%;
   height: fit-content;
   min-height: 300px;
-  margin: 3% 5%;
+  margin: 3% 5% 60px 5%;
   position: relative;
   background-color: ${theme.color.white};
   border-radius: 10px;
   box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
   display: flex;
   flex-direction: column;
-  padding: 2% 2% 60px 2%;
+  padding: 1% 2% 60px 2%;
   overflow: hidden;
 `;
 
