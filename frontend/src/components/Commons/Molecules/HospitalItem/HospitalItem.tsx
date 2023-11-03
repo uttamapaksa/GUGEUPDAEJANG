@@ -40,9 +40,7 @@ function HospitalItem({ hospital, setHospitals }: { key: number; hospital: CallH
       case 'PENDING':
         setHospitals((currentHospitals: any) =>
           currentHospitals.map((hospital: any) =>
-            hospital.id === id
-              ? { ...hospital, status: 'CANCELED' }
-              : hospital,
+            hospital.id === id ? { ...hospital, status: 'CANCELED' } : hospital,
           ),
         );
         return;
@@ -54,7 +52,7 @@ function HospitalItem({ hospital, setHospitals }: { key: number; hospital: CallH
   return (
     <S.HospitalItem>
       <S.LeftSection>
-        <S.Title>{hospital.name}</S.Title>
+        <S.Title>{hospital.hospitalId}</S.Title>
         <S.Number>
           <A.ImgCellphoneGray
             // $width="2.6vw"
