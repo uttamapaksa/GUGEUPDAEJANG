@@ -22,3 +22,11 @@ export const Blank = styled.div`
   width: 100%;
   height: 5vh;
 `;
+
+export const Div = styled.div`
+  display: flex;
+  justify-content: center;
+  background-color: gray;
+  width: 100%;
+  height: 20px;
+`

@@ -15,12 +15,14 @@ import { useReactMediaRecorder } from "react-media-recorder";
 // 리코일
 import { 
   useRecoilState, 
+  useRecoilValue, 
   useSetRecoilState } from 'recoil';
 import { 
   recordContentFile, 
   recordVoiceFile } from '/src/recoils/ParamedicAtoms';
 
 function Call() {
+  const recordContent = useRecoilValue(recordContentFile);
   const [recording, setRecording] = useState<boolean>(false)
   const [seconds, setSeconds] = useState<number>(0);
   const [timer, setTimer] = useState<NodeJS.Timeout | null>(null);
@@ -105,7 +107,10 @@ function Call() {
             height : '50px',
           }}></audio>
           {hasRecognitionSupport ? (
-            formatTime(seconds)
+            <S.Div>
+              {formatTime(seconds)}
+              {recordContent}
+            </S.Div>
           ):(<></>)}
 
         {recording ? (
