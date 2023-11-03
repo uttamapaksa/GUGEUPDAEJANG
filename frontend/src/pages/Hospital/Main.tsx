@@ -7,6 +7,8 @@ import { currentPosition, hospitalComponentType } from "../../recoils/HospitalAt
 import HospitalMain from "/src/components/Hospital/Main/HospitalMain";
 import { ComponentContainer, Container } from "./Main.style";
 import HospitalSocket from "/src/sockets/HospitalSocket";
+import { MapProps, ParamedicItem } from "/src/types/map";
+import HospitalHistory from "/src/components/Hospital/History/HospitalHistory";
 
 
 function Main() {
@@ -40,7 +42,7 @@ function Main() {
           <></>
         )}
         {componentType[1] ? (
-          <>요청/이송 목록</>
+          <HospitalHistory/>
         ) : (
           <></>
         )}
