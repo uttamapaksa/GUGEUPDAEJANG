@@ -9,14 +9,12 @@ if ("webkitSpeechRecognition" in window) {
 }
 
 const SoundToText = (setText: React.Dispatch<React.SetStateAction<string>>) => {
-  const [accentText, setAccentText] = useState<string>("말하세요");
   const [isListening, setIsListening] = useState<boolean>(false)
 
   // STT 시작
   const startListening = () => {
     if (recognition && !isListening) {
       setText("");
-      setAccentText("")
       recognition.start() 
       setIsListening(true)
       console.log("STT시작",true)
@@ -26,7 +24,6 @@ const SoundToText = (setText: React.Dispatch<React.SetStateAction<string>>) => {
         for (let i = 0; i < event.results.length; i++) {
           fullTranscript += event.results[i][0].transcript;}
           setText(fullTranscript);
-          setAccentText(fullTranscript)
       }
     }
   }
@@ -43,7 +40,6 @@ const SoundToText = (setText: React.Dispatch<React.SetStateAction<string>>) => {
   return {
     startListening,
     stopListening,
-    accentText,
     hasRecognitionSupport: !! recognition
   }
 }

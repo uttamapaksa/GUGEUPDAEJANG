@@ -1,15 +1,45 @@
-// install event
-self.addEventListener("install", (e) => {
-  console.log("[Service Worker] installed");
+// 서비스 워커 파일: sw.js
+
+const CACHE_NAME = 'v1_cache';
+const urlsToCache = [
+  '/',
+  '/styles/main.css',
+  '/script/main.js'
+  // 다른 캐싱할 자원들을 여기에 추가
+];
+
+self.addEventListener('install', event => {
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then(cache => {
+        return cache.addAll(urlsToCache);
+      })
+  );
 });
 
-// activate event
-self.addEventListener("activate", (e) => {
-  console.log("[Service Worker] actived", e);
+self.addEventListener('fetch', event => {
+  event.respondWith(
+    caches.match(event.request)
+      .then(response => {
+        if (response) {
+          return response;
+        }
+        return fetch(event.request);
+      })
+  );
 });
 
-// fetch event
-self.addEventListener("fetch", (e) => {
-  console.log("[Service Worker] fetched resource " + e.request.url);
+self.addEventListener('activate', event => {
+  const cacheWhitelist = [CACHE_NAME];
+  event.waitUntil(
+    caches.keys().then(cacheNames => {
+      return Promise.all(
+        cacheNames.map(cacheName => {
+          if (cacheWhitelist.indexOf(cacheName) === -1) {
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    })
+  );
 });
-
