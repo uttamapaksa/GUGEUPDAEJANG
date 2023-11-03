@@ -5,6 +5,9 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     margin: 0;
     font-family: 'SUIT';
+    &::-webkit-scrollbar {
+    display: none;
+    }
   }
 
   /* body {
@@ -63,5 +66,3 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 export default GlobalStyle;
-
-

@@ -2,21 +2,25 @@ import * as S from './Wait.style';
 import M from '/src/components/Commons/Molecules';
 import { CallHospitalType } from '/src/types/paramedic';
 
-function Wait(hospitals: CallHospitalType[]) {
+function Wait({ hospitals, setHospitals }: { hospitals: CallHospitalType[], setHospitals: any }) {
   return (
     <>
       <S.HospitalList>
-        <S.ListTitle>보낸 요청</S.ListTitle>
-        {hospitals.map((hospital: CallHospitalType, index: number) => (
-          <M.HospitalItem key={index} hospital={hospital} />
-        )}
+        <S.ListTitle>수락된 요청</S.ListTitle>
+        {hospitals
+          .filter((hospital) => hospital.status === 'APPROVED')
+          .map((hospital, index) => (
+            <M.HospitalItem key={index} hospital={hospital} setHospitals={setHospitals} />
+          ))}
       </S.HospitalList>
 
       <S.HospitalList>
-        <S.ListTitle>대기 요청</S.ListTitle>
-        {hospitals.map((hospital: CallHospitalType, index: number) => (
-          <M.HospitalItem key={index} hospital={hospital} />
-        )}
+        <S.ListTitle>보낸 요청</S.ListTitle>
+        {hospitals
+          .filter((hospital) => hospital.status !== 'APPROVED')
+          .map((hospital, index) => (
+            <M.HospitalItem key={index} hospital={hospital} setHospitals={setHospitals} />
+          ))}
       </S.HospitalList>
     </>
   );

@@ -9,6 +9,7 @@ function Category() {
   const [options, setOptions] = useState<string[]>(['의식 없음', '추락', '과다출혈', '심정지 이력', '정신 질환 이력']);
   const [newOption, setNewOption] = useState<string>('');
   const [selectedIndices, setSelectedIndices] = useState<number[]>([]);
+  const [edit, setEdit] = useState<boolean>(false);
   const optionClick = (index: number) => {
     if (selectedIndices.includes(index)) {
       setSelectedIndices(selectedIndices.filter((i) => i !== index));
@@ -21,17 +22,28 @@ function Category() {
     setOptions((prev) => [...prev, newOption]);
     setNewOption('');
   };
+  const deleteOption = (index: number) => {
+    setOptions((curr) => curr.filter((_, i) => i !== index));
+  };
   const navigate = useNavigate();
   const goToWaitMove = () => {
-      navigate(PATH.ParamedicWaitMove)
-  }
+    navigate(PATH.ParamedicWaitMove);
+  };
   return (
     <S.Category>
-      <A.TxtParamedicTitle>주요 분류</A.TxtParamedicTitle>
+      <A.TxtParamedicTitle
+        $justifyContent='space-between'
+      >
+        주요 분류
+        <S.BtnEdit onClick={()=>setEdit(!edit)}>
+          {edit ? '수정완료' : '수정하기'}
+        </S.BtnEdit>
+      </A.TxtParamedicTitle>
       <S.Col9>
         {options.map((option: string, index: number) => (
           <A.BtnToggle
             key={index}
+            $position="relative"
             $border={`0.3vh solid ${theme.color.grayDarkest}`}
             $borderRadius="1.5vh"
             $margin="0 1vh 1.2vh 0"
@@ -42,13 +54,20 @@ function Category() {
             $IsClick={selectedIndices.includes(index) ? true : false}
             onClick={() => optionClick(index)}
           >
+            {edit && 
+            <A.ImgDeleteCategory
+            onClick={() => deleteOption(index)}
+            $position="absolute" 
+            $top="-2vh" 
+            $right="0vh" 
+            $width="4vh" />}
             {option}
           </A.BtnToggle>
         ))}
       </S.Col9>
       <S.Col9>
         <A.IptUserInfo
-          $boxShadow='0'
+          $boxShadow="0"
           $border={`0.25vh solid ${theme.color.grayDark}`}
           $borderRadius="1.5vh"
           $width="70%"
@@ -56,7 +75,7 @@ function Category() {
           $color={theme.color.grayDark}
           $fontSize="1.6vh"
           onChange={(e) => setNewOption(e.target.value)}
-          placeholder='태그를 추가해주세요'
+          placeholder="태그를 추가해주세요"
           value={newOption}
         ></A.IptUserInfo>
         <A.BtnSubmit

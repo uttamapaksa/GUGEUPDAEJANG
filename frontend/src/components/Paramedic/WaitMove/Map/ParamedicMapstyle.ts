@@ -6,6 +6,6 @@ export const Map = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 40vh;
+  height: 42vh;
   font-size: 3vh;
 `;

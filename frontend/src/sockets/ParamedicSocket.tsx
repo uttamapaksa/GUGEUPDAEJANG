@@ -55,14 +55,17 @@ function ParamedicSocket() {
   const subscribeCallingTopic = () => {
     if (callingSocket.current) {
       callingSocket.current.subscribe(`/topic/${paramedicId}`, (message) => {
-        callingReceiveMessage(message.body);
+        callingReceiveMessage(JSON.parse(message.body));
+      });
+      callingSocket.current.subscribe(`/topic/status/${paramedicId}/`, (message) => {
+        callingStatusMessage(JSON.parse(message.body));
       });
     }
   };
   const subscribeTransferTopic = () => {
     if (transferSocket.current) {
       transferSocket.current.subscribe(`/topic/${paramedicId}/location`, (message) => {
-        transferReceiveMessage(message.body);
+        transferReceiveMessage(JSON.parse(message.body));
       });
     }
   };
@@ -71,6 +74,9 @@ function ParamedicSocket() {
   const callingReceiveMessage = (message: any) => {
     console.log('Received calling message:', message);
     setCaliingMessages((prev) => [...prev, message]);
+  };
+  const callingStatusMessage = (message: any) => {
+    console.log('Received Status message:', message);
   };
   const transferReceiveMessage = (message: any) => {
     console.log('Received transfer message:', message);

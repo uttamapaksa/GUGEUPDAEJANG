@@ -47,6 +47,7 @@ export const Title = styled.div`
   padding: 1vh 0;
   display: flex;
   align-items: center;
+  width: 100%;
   height: 2.5vh;
   font-size: 2.4vh;
   font-weight: 500;
@@ -78,6 +79,7 @@ export const Number = styled.div`
 
 export const Dist = styled.div`
   /* border: 3px solid purple; */
+  margin-left: 5%;
   display: flex;
   justify-content: center;
   align-items: center;

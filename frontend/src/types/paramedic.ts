@@ -16,4 +16,7 @@ export interface CallHospitalType {
   bedCount: number;
   distance: number;
   time: number;
+  callingTime: string,
+  status: string,
+  reason: string,
 }
