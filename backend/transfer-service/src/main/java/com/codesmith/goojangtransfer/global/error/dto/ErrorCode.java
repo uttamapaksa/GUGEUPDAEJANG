@@ -1,16 +1,16 @@
 package com.codesmith.goojangtransfer.global.error.dto;
 
 public enum ErrorCode {
-    NO_TRANSFER(1001),
-    ALREADY_ARRIVED(1002);
+    NO_TRANSFER("T1001"),
+    ALREADY_ARRIVED("T1002");
 
-    private final int value;
+    private final String value;
 
-    ErrorCode(int value) {
+    ErrorCode(String value) {
         this.value = value;
     }
 
-    public int getValue() {
+    public String getValue() {
         return value;
     }
 }
