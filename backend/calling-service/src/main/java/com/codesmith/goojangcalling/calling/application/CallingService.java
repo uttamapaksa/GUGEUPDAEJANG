@@ -21,7 +21,7 @@ public interface CallingService {
 
     void createCallingMessage(List<CallingStatusResponse> callingStatusResponseList, Long occurrenceId);
 
-    List<FileUploadResponse> fileUpload(List<MultipartFile> multipartFile);
+    List<FileUploadResponse> fileUpload(List<MultipartFile> files);
 
     void changeCallingStatus(Long memberId, StatusChangeMessage changeMessage);
 }

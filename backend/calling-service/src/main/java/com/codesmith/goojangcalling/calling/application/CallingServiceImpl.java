@@ -92,8 +92,8 @@ public class CallingServiceImpl implements CallingService{
     }
 
     @Override
-    public List<FileUploadResponse> fileUpload(List<MultipartFile> multipartFile) {
-        return s3Client.uploadFIle(multipartFile);
+    public List<FileUploadResponse> fileUpload(List<MultipartFile> files) {
+        return s3Client.uploadFIle(files);
     }
 
     @Transactional
@@ -104,7 +104,6 @@ public class CallingServiceImpl implements CallingService{
         calling.updateCalling(changeMessage.getStatus(), changeMessage.getReason());
         callingRepository.save(calling);
     }
-
     @Override
     public Mono<List<HospitalSearchResponse>> searchHospital(Double latitude, Double longitude, Double distance) {
         return hospitalClient.searchHospital(latitude, longitude, distance);
