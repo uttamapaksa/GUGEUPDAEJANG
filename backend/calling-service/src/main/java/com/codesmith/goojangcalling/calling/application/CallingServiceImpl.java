@@ -1,17 +1,22 @@
 package com.codesmith.goojangcalling.calling.application;
 
 import com.codesmith.goojangcalling.calling.dto.message.CallingCreateMessage;
+import com.codesmith.goojangcalling.calling.dto.message.StatusChangeMessage;
 import com.codesmith.goojangcalling.calling.dto.request.CallingCreateRequest;
 import com.codesmith.goojangcalling.calling.dto.request.OccurrenceCreateRequest;
 import com.codesmith.goojangcalling.calling.dto.response.CallingStatusResponse;
+import com.codesmith.goojangcalling.calling.dto.response.FileUploadResponse;
 import com.codesmith.goojangcalling.calling.dto.response.OccurrenceCreateResponse;
 import com.codesmith.goojangcalling.calling.dto.response.HospitalSearchResponse;
 import com.codesmith.goojangcalling.calling.persistence.*;
 import com.codesmith.goojangcalling.calling.persistence.domain.*;
+import com.codesmith.goojangcalling.infra.aws.S3Client;
 import com.codesmith.goojangcalling.infra.member.HospitalClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
@@ -27,7 +32,11 @@ public class CallingServiceImpl implements CallingService{
     private final OccurrenceTagRepository occurrenceTagRepository;
     private final CallingRepository callingRepository;
     private final TagRepository tagRepository;
+
     private final HospitalClient hospitalClient;
+    private final S3Client s3Client;
+
+    private final CallingValidator callingValidator;
 
     private final SimpMessagingTemplate simpMessagingTemplate;
 
@@ -82,6 +91,19 @@ public class CallingServiceImpl implements CallingService{
         });
     }
 
+    @Override
+    public List<FileUploadResponse> fileUpload(List<MultipartFile> files) {
+        return s3Client.uploadFIle(files);
+    }
+
+    @Transactional
+    @Override
+    public void changeCallingStatus(Long memberId, StatusChangeMessage changeMessage) {
+        callingValidator.validateCalling(changeMessage.getCallingId());
+        Calling calling = callingRepository.findById(changeMessage.getCallingId()).get();
+        calling.updateCalling(changeMessage.getStatus(), changeMessage.getReason());
+        callingRepository.save(calling);
+    }
     @Override
     public Mono<List<HospitalSearchResponse>> searchHospital(Double latitude, Double longitude, Double distance) {
         return hospitalClient.searchHospital(latitude, longitude, distance);
