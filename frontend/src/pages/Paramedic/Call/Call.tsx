@@ -8,6 +8,7 @@ import SoundToText from '/src/components/libraries/STT/SoundToText';
 // 리코일
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { recordContentFile, recordVoiceFile, paramedicCallState } from '/src/recoils/ParamedicAtoms';
+import AnnyangSTT from '/src/components/libraries/STT/AnnyangSTT';
 
 function Call() {
   const setCallState = useSetRecoilState(paramedicCallState);
@@ -19,8 +20,23 @@ function Call() {
   const [recordVoice, setRecordVoice] = useRecoilState(recordVoiceFile);
   // const setRecordVoice = useSetRecoilState(recordVoiceFile);
 
-  const { startListening, stopListening, hasRecognitionSupport } = SoundToText(setRecordContent);
+  const [Test, setTest] = useState<string>("시험용")
 
+  const { 
+    startListening, 
+    stopListening, 
+    hasRecognitionSupport } = SoundToText(setRecordContent);
+  
+  const { 
+    texts, 
+    listening, 
+    startListenings, 
+    stopListenings } = AnnyangSTT();
+  
+  useEffect(() => {
+    setTest(Test + texts)
+  },[texts])
+  
   // const {
   //   startRecording,
   //   stopRecording,
@@ -29,13 +45,15 @@ function Call() {
 
   const RecordStart = () => {
     setRecording(true);
-    startListening();
+    startListenings()
+    // startListening();
     // startRecording()
   };
 
   const RecordStop = async () => {
     setRecording(false);
-    stopListening();
+    stopListenings()
+    // stopListening();
     // stopRecording()
   };
 
@@ -98,14 +116,8 @@ function Call() {
             height: '50px',
           }}
         ></audio>
-        {hasRecognitionSupport ? (
-          <S.Div>
-            {formatTime(seconds)}
-            {recordContent}
-          </S.Div>
-        ) : (
-          <></>
-        )}
+        <p>Listening: {listening ? 'Yes' : 'No'}</p>
+        <p>Test: {Test}</p>
 
         {recording ? <RecordModal RecordStop={RecordStop} time={formatTime(seconds)} /> : <></>}
         <S.Blank />
