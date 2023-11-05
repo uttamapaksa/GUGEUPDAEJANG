@@ -26,7 +26,7 @@ public class TransferValidator {
     }
 
     public void validateTransferArrive(Long transferId) {
-        if (transferRepository.findById(transferId).get().getStatus() == Status.COMPLETED) {
+        if (transferRepository.findById(transferId).get().getStatus() == Status.COMPLETE) {
             throw new TransferAlreadyArrivedException("이미 도착 완료된 이송 정보");
         }
     }

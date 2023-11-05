@@ -34,7 +34,7 @@ public class Transfer {
     }
 
     public void complete() {
-        this.status = Status.COMPLETED;
+        this.status = Status.COMPLETE;
         this.arrivedAt = LocalDateTime.now();
     }
 
