@@ -14,7 +14,7 @@ export const recordCameraFile = atom<string>({
 
 export const recordContentFile = atom<string>({
   key: "recordContentFile",
-  default: "이것도 말하세요",
+  default: "",
 });
 
 export const showWaitState = atom({

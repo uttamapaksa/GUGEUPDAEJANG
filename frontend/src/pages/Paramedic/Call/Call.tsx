@@ -1,76 +1,71 @@
 import { useState, useEffect } from 'react';
 import * as S from './Call.style';
 import M from '/src/components/Commons/Molecules';
-import { Ktas, Information, Status, Category, RecordModal } from '/src/components/Paramedic/Call';
-// import SoundToText from '/src/components/libraries/STT/SoundToText';
-import { useReactMediaRecorder } from "react-media-recorder";
+import { 
+  Ktas, 
+  Information, 
+  Status, 
+  Category, 
+  RecordModal } from '/src/components/Paramedic/Call';
 
 import "regenerator-runtime/runtime";
+import { useReactMediaRecorder } from "react-media-recorder";
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition'
 
+// import SoundToText from '/src/components/libraries/STT/SoundToText';
+// import AnnyangSTT from '/src/components/libraries/STT/AnnyangSTT';
 
 // 리코일
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { recordContentFile, recordVoiceFile, paramedicCallState } from '/src/recoils/ParamedicAtoms';
-// import AnnyangSTT from '/src/components/libraries/STT/AnnyangSTT';
+import { 
+  useRecoilState, 
+  useSetRecoilState } from 'recoil';
+import { 
+  recordContentFile, 
+  recordVoiceFile, 
+  paramedicCallState } from '/src/recoils/ParamedicAtoms';
 
 function Call() {
   const setCallState = useSetRecoilState(paramedicCallState);
-  const recordContent = useRecoilValue(recordContentFile);
   const [recording, setRecording] = useState<boolean>(false);
   const [seconds, setSeconds] = useState<number>(0);
   const [timer, setTimer] = useState<NodeJS.Timeout | null>(null);
-  const setRecordContent = useSetRecoilState(recordContentFile);
+  const [recordContent,setRecordContent] = useRecoilState(recordContentFile);
   const [recordVoice, setRecordVoice] = useRecoilState(recordVoiceFile);
   // const setRecordVoice = useSetRecoilState(recordVoiceFile);
 
   const {
+    startRecording,
+    stopRecording,
+    mediaBlobUrl,
+  } = useReactMediaRecorder({ audio: true });
+  
+  const {
     transcript,
     listening,
-    browserSupportsSpeechRecognition
+    resetTranscript,
   } = useSpeechRecognition();
-
-  if (!browserSupportsSpeechRecognition) {
-    return <span>Browser doesn't support speech recognition.</span>;
-  }
-
-  // const [Test, setTest] = useState<string>("시험용")
 
   // const { 
   //   startListening, 
   //   stopListening, 
   //   isListeningRef} = SoundToText(setRecordContent);
   
-  // const { 
-  //   texts, 
-  //   listening, 
-  //   startListenings, 
-  //   stopListenings } = AnnyangSTT();
+  useEffect(() => {
+    setRecordContent(transcript)
+  },[transcript])
   
-  // useEffect(() => {
-  //   setTest(Test + texts)
-  // },[texts])
-  
-  const {
-    startRecording,
-    stopRecording,
-    mediaBlobUrl,
-  } = useReactMediaRecorder({ audio: true });
 
   const RecordStart = () => {
     setRecording(true);
+    resetTranscript()
     SpeechRecognition.startListening({ continuous: true })
-    // startListenings()
-    // startListening();
-    startRecording()
+    // startRecording()
   };
 
   const RecordStop = async () => {
     setRecording(false);
     SpeechRecognition.stopListening()
-    // stopListenings()
-    // stopListening();
-    stopRecording()
+    // stopRecording()
   };
 
   useEffect (()=>{
@@ -130,10 +125,12 @@ function Call() {
           style={{
             width: '300px',
             height: '50px',
-          }}
-        ></audio>
+          }}></audio>
+        <div>
+          <button onClick={startRecording}>임시녹음시작</button>
+          <button onClick={stopRecording}>임시녹음종료</button>
+        </div>
         <p>Microphone: {listening ? 'on' : 'off'}</p>
-        <p>Test: {transcript}</p>
 
         {recording ? <RecordModal RecordStop={RecordStop} time={formatTime(seconds)} /> : <></>}
         <S.Blank />
