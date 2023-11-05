@@ -1,29 +1,43 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { categoriesState, categoriesSelectedState } from '/src/recoils/ParamedicAtoms';
 import * as S from './Category.style';
 import A from '/src/components/Commons/Atoms';
 import theme from '/src/styles';
 import PATH from '/src/constants/path';
 
-function Category() {
-  const [options, setOptions] = useState<string[]>(['의식 없음', '추락', '과다출혈', '심정지 이력', '정신 질환 이력']);
+function Category({ setCallState }: { setCallState: any }) {
+  const [options, setOptions] = useRecoilState(categoriesState);
   const [newOption, setNewOption] = useState<string>('');
-  const [selectedIndices, setSelectedIndices] = useState<number[]>([]);
+  const [selected, setSelected] = useRecoilState(categoriesSelectedState);
   const [edit, setEdit] = useState<boolean>(false);
-  const optionClick = (index: number) => {
-    if (selectedIndices.includes(index)) {
-      setSelectedIndices(selectedIndices.filter((i) => i !== index));
+  const optionClick = (option: string) => {
+    if (selected.includes(option)) {
+      const newArray = selected.filter((i) => i !== option);
+      setSelected(newArray);
+      setCallState((prev: any) => ({
+        ...prev,
+        tags: newArray,
+      }));
     } else {
-      setSelectedIndices([...selectedIndices, index]);
+      const newArray = [...selected, option];
+      setSelected(newArray);
+      setCallState((prev: any) => ({
+        ...prev,
+        tags: newArray,
+      }));
     }
   };
   const addOption = () => {
     if (newOption.trim() === '') return;
+    if (options.includes(newOption)) return;
     setOptions((prev) => [...prev, newOption]);
     setNewOption('');
   };
-  const deleteOption = (index: number) => {
-    setOptions((curr) => curr.filter((_, i) => i !== index));
+  const deleteOption = (option: string) => {
+    setOptions(options.filter((i) => i !== option));
+    setSelected(selected.filter((i) => i !== option));
   };
   const navigate = useNavigate();
   const goToWaitMove = () => {
@@ -31,18 +45,14 @@ function Category() {
   };
   return (
     <S.Category>
-      <A.TxtParamedicTitle
-        $justifyContent='space-between'
-      >
+      <A.TxtParamedicTitle $justifyContent="space-between">
         주요 분류
-        <S.BtnEdit onClick={()=>setEdit(!edit)}>
-          {edit ? '수정완료' : '수정하기'}
-        </S.BtnEdit>
+        <S.BtnEdit onClick={() => setEdit(!edit)}>{edit ? '삭제완료' : '삭제하기'}</S.BtnEdit>
       </A.TxtParamedicTitle>
       <S.Col9>
-        {options.map((option: string, index: number) => (
+        {options.map((option: string) => (
           <A.BtnToggle
-            key={index}
+            key={option}
             $position="relative"
             $border={`0.3vh solid ${theme.color.grayDarkest}`}
             $borderRadius="1.5vh"
@@ -51,16 +61,18 @@ function Category() {
             $width="auto"
             $height="4.5vh"
             $fontSize="2vh"
-            $IsClick={selectedIndices.includes(index) ? true : false}
-            onClick={() => optionClick(index)}
+            $IsClick={selected.includes(option) ? true : false}
+            onClick={() => optionClick(option)}
           >
-            {edit && 
-            <A.ImgDeleteCategory
-            onClick={() => deleteOption(index)}
-            $position="absolute" 
-            $top="-2vh" 
-            $right="0vh" 
-            $width="4vh" />}
+            {edit && (
+              <A.ImgDeleteCategory
+                onClick={() => deleteOption(option)}
+                $position="absolute"
+                $top="-2vh"
+                $right="0vh"
+                $width="4vh"
+              />
+            )}
             {option}
           </A.BtnToggle>
         ))}

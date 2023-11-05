@@ -1,47 +1,71 @@
-import { atom } from "recoil";
+import { atom } from 'recoil';
 import { recoilPersist } from 'recoil-persist';
 export const { persistAtom } = recoilPersist();
 
 export const recordVoiceFile = atom<string>({
-  key: "recordVoiceFile",
-  default: "",
+  key: 'recordVoiceFile',
+  default: '',
 });
 
 export const recordCameraFile = atom<string>({
-  key: "recordCameraFile",
-  default: "",
+  key: 'recordCameraFile',
+  default: '',
 });
 
 export const recordContentFile = atom<string>({
-  key: "recordContentFile",
-  default: "이것도 말하세요",
+  key: 'recordContentFile',
+  default: '이것도 말하세요',
 });
 
 export const showWaitState = atom({
   key: 'showWaitState',
   default: true,
+});
+
+export const informationSelectedState = atom<string>({
+  key: 'informationSelectedState',
+  default: '',
   // effects_UNSTABLE: [persistAtom],
 });
 
-export const paramedicCallState = atom({
+export const ktasState = atom<number | null>({
+  key: 'ktasState',
+  default: null,
+  // effects_UNSTABLE: [persistAtom],
+});
+
+export const categoriesState = atom<string[]>({
+  key: 'categoriesState',
+  default: ['의식 없음', '추락', '과다출혈', '심정지 이력', '정신 질환 이력'],
+  // effects_UNSTABLE: [persistAtom],
+});
+
+export const categoriesSelectedState = atom<string[]>({
+  key: 'categoriesSelectedState',
+  default: [],
+  // effects_UNSTABLE: [persistAtom],
+});
+
+export const paramedicCallState = atom<any>({
   key: 'paramedicCallState',
   default: {
     id: 0,
     createdAt: '',
     occurrenceId: 0,
     memberId: 0,
-    ktas: '',
+    ktas: ktasState,
     ageGroup: '',
     gender: '',
     description: '',
     latitude: 0,
     longitude: '',
     address: '',
-    tags: [''],
+    tags: categoriesSelectedState,
     files: [''],
     distance: 0,
     duration: 0,
   },
+  // effects_UNSTABLE: [persistAtom],
 });
 
 export const CallHospitalState = atom({
@@ -128,4 +152,10 @@ export const CallHospitalState = atom({
       reason: '',
     },
   ],
+});
+
+export const isTransportingState = atom({
+  key: 'isTransportingState',
+  default: false,
+  // effects_UNSTABLE: [persistAtom],
 });

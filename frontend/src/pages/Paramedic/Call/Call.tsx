@@ -137,7 +137,7 @@ function Call() {
 
         {recording ? <RecordModal RecordStop={RecordStop} time={formatTime(seconds)} /> : <></>}
         <S.Blank />
-        <Category />
+        <Category setCallState={setCallState} />
         <S.Blank />
       </S.ContentBox>
     </S.Container>
