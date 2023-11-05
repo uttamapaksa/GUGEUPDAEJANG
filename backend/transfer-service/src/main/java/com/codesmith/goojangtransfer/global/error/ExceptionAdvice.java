@@ -3,7 +3,6 @@ package com.codesmith.goojangtransfer.global.error;
 import com.codesmith.goojangtransfer.global.error.dto.ErrorCode;
 import com.codesmith.goojangtransfer.global.error.dto.ErrorResponse;
 import com.codesmith.goojangtransfer.global.error.dto.ErrorStatus;
-import com.codesmith.goojangtransfer.transfer.exception.InvalidStatusException;
 import com.codesmith.goojangtransfer.transfer.exception.TransferAlreadyArrivedException;
 import com.codesmith.goojangtransfer.transfer.exception.TransferNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -23,12 +22,6 @@ public class ExceptionAdvice {
     @ExceptionHandler({TransferAlreadyArrivedException.class})
     public ResponseEntity<ErrorResponse> alreadyArrived() {
         ErrorResponse errorResponse = new ErrorResponse(ErrorCode.ALREADY_ARRIVED, "이미 도착 완료된 이송 정보입니다.");
-        return ResponseEntity.status(HttpStatus.valueOf(ErrorStatus.BAD_REQUEST.getValue())).body(errorResponse);
-    }
-
-    @ExceptionHandler({InvalidStatusException.class})
-    public ResponseEntity<ErrorResponse> illegalStatus() {
-        ErrorResponse errorResponse = new ErrorResponse(ErrorCode.INVALID_STATUS, "잘못된 이송 상태 값입니다.");
         return ResponseEntity.status(HttpStatus.valueOf(ErrorStatus.BAD_REQUEST.getValue())).body(errorResponse);
     }
 }

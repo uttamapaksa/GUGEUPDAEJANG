@@ -33,8 +33,12 @@ public class Transfer {
         this.arrivedAt = arrivedAt;
     }
 
-    public void updateStatus(Status status, LocalDateTime arrivedAt) {
-        this.status = status;
-        this.arrivedAt = arrivedAt;
+    public void complete() {
+        this.status = Status.COMPLETED;
+        this.arrivedAt = LocalDateTime.now();
+    }
+
+    public void cancel() {
+        this.status = Status.CANCELED;
     }
 }

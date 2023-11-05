@@ -24,16 +24,21 @@ public class TransferServiceImpl implements TransferService {
     }
 
     @Override
-    public TransferStatusChangeResponse changeTransferStatus(Long transferId, int status) {
+    public TransferStatusChangeResponse completeTransfer(Long transferId) {
         transferValidator.validateTransferId(transferId);
         transferValidator.validateTransferArrive(transferId);
-        transferValidator.validateTransferStatus(status);
         Transfer transfer = transferRepository.findById(transferId).get();
-        if (status == 0) {
-            transfer.updateStatus(Status.CANCELED, null);
-        } else if (status == 1) {
-            transfer.updateStatus(Status.COMPLETED, LocalDateTime.now());
-        }
+        transfer.complete();
+        transferRepository.save(transfer);
+        return new TransferStatusChangeResponse(true);
+    }
+
+    @Override
+    public TransferStatusChangeResponse cancelTransfer(Long transferId) {
+        transferValidator.validateTransferId(transferId);
+        transferValidator.validateTransferArrive(transferId);
+        Transfer transfer = transferRepository.findById(transferId).get();
+        transfer.cancel();
         transferRepository.save(transfer);
         return new TransferStatusChangeResponse(true);
     }

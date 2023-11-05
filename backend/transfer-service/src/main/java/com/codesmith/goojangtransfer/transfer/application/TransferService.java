@@ -5,5 +5,6 @@ import com.codesmith.goojangtransfer.transfer.dto.response.TransferCreateRespons
 
 public interface TransferService {
     TransferCreateResponse createTransfer(Long callingId);
-    TransferStatusChangeResponse changeTransferStatus(Long transferId, int status);
+    TransferStatusChangeResponse completeTransfer(Long transferId);
+    TransferStatusChangeResponse cancelTransfer(Long transferId);
 }

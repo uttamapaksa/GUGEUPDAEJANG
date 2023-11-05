@@ -19,8 +19,12 @@ public class TransferController {
     }
 
     @PutMapping("/{transferId}")
-    public TransferStatusChangeResponse changeTransferStatus(@PathVariable Long transferId, @RequestParam int status) {
-        return transferService.changeTransferStatus(transferId, status);
+    public TransferStatusChangeResponse completeTransfer(@PathVariable Long transferId) {
+        return transferService.completeTransfer(transferId);
     }
 
+    @DeleteMapping("/{transferId}")
+    public TransferStatusChangeResponse cancelTransfer(@PathVariable Long transferId) {
+        return transferService.cancelTransfer(transferId);
+    }
 }

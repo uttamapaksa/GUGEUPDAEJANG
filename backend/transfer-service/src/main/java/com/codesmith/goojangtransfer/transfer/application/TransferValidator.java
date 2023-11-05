@@ -1,6 +1,5 @@
 package com.codesmith.goojangtransfer.transfer.application;
 
-import com.codesmith.goojangtransfer.transfer.exception.InvalidStatusException;
 import com.codesmith.goojangtransfer.transfer.exception.TransferAlreadyArrivedException;
 import com.codesmith.goojangtransfer.transfer.exception.TransferNotFoundException;
 import com.codesmith.goojangtransfer.transfer.persistence.TransferRepository;
@@ -22,12 +21,6 @@ public class TransferValidator {
     public void validateTransferArrive(Long transferId) {
         if (transferRepository.findById(transferId).get().getStatus() == Status.COMPLETED) {
             throw new TransferAlreadyArrivedException("이미 도착 완료된 이송 정보");
-        }
-    }
-
-    public void validateTransferStatus(int status) {
-        if (status != 0 && status != 1) {
-            throw new InvalidStatusException("잘못된 status 값");
         }
     }
 }
