@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import * as S from './CameraModal.style'
 import { CallProps } from '/src/types/paramedic';
 import { useRecoilState } from 'recoil';
@@ -10,7 +10,6 @@ function CameraModal({CameraClose} : CallProps) {
   const handleCapture = (event: React.ChangeEvent<HTMLInputElement>) => {
     const fileReader = new FileReader();
     const file = event.target.files && event.target.files[0];
-
     if(file)fileReader.readAsDataURL(file);
     fileReader.onloadend = () => {
       if (fileReader.result) {
@@ -32,15 +31,20 @@ function CameraModal({CameraClose} : CallProps) {
   };
 
   const handleCameraClick = () => {
-    CameraClose?.()
+    setRecordCamera("")
     const fileInput = document.getElementById('fileInput');
     if(fileInput) {fileInput.click()}
   };
+  
   const handleVideoClick = () => {
-    CameraClose?.()
+    setRecordCamera("")
     const videoInput = document.getElementById('videoInput');
     if(videoInput) {videoInput.click()}
   };
+
+  useEffect (()=>{
+    if(recordCamera) { CameraClose?.() }
+  },[recordCamera])
 
   return (
     <S.Overlay>
