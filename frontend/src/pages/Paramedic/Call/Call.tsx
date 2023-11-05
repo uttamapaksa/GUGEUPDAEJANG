@@ -3,7 +3,7 @@ import * as S from './Call.style';
 import M from '/src/components/Commons/Molecules';
 import { Ktas, Information, Status, Category, RecordModal } from '/src/components/Paramedic/Call';
 // import SoundToText from '/src/components/libraries/STT/SoundToText';
-// import { useReactMediaRecorder } from "react-media-recorder";
+import { useReactMediaRecorder } from "react-media-recorder";
 
 import "regenerator-runtime/runtime";
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition'
@@ -51,18 +51,18 @@ function Call() {
   //   setTest(Test + texts)
   // },[texts])
   
-  // const {
-  //   startRecording,
-  //   stopRecording,
-  //   mediaBlobUrl,
-  // } = useReactMediaRecorder({ audio: true });
+  const {
+    startRecording,
+    stopRecording,
+    mediaBlobUrl,
+  } = useReactMediaRecorder({ audio: true });
 
   const RecordStart = () => {
     setRecording(true);
     SpeechRecognition.startListening({ continuous: true })
     // startListenings()
     // startListening();
-    // startRecording()
+    startRecording()
   };
 
   const RecordStop = async () => {
@@ -70,12 +70,12 @@ function Call() {
     SpeechRecognition.stopListening()
     // stopListenings()
     // stopListening();
-    // stopRecording()
+    stopRecording()
   };
 
-  // useEffect (()=>{
-  //   setRecordVoice(mediaBlobUrl ?? "")
-  // },[mediaBlobUrl])
+  useEffect (()=>{
+    setRecordVoice(mediaBlobUrl ?? "")
+  },[mediaBlobUrl])
 
   const handleRecordingTimer = () => {
     if (recording) {
