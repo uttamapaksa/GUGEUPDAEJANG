@@ -12,7 +12,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class StatusChangeMessage {
     private Long memberId;
-    private Long CallingId;
+    private Long callingId;
     private Status status;
     private String reason;
 }
