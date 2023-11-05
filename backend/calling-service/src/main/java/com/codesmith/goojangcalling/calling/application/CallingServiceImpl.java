@@ -1,6 +1,7 @@
 package com.codesmith.goojangcalling.calling.application;
 
 import com.codesmith.goojangcalling.calling.dto.message.CallingCreateMessage;
+import com.codesmith.goojangcalling.calling.dto.message.CallingTerminateMessage;
 import com.codesmith.goojangcalling.calling.dto.message.StatusChangeMessage;
 import com.codesmith.goojangcalling.calling.dto.request.CallingCreateRequest;
 import com.codesmith.goojangcalling.calling.dto.request.OccurrenceCreateRequest;
@@ -75,6 +76,7 @@ public class CallingServiceImpl implements CallingService{
         for (int i=0; i< savedCallingList.size(); i++) {
             callingStatusResponseList.add(new CallingStatusResponse(savedCallingList.get(i), searchHospitalList.get(i)));
         }
+        // 병원 리스트 반환
         simpMessagingTemplate.convertAndSend("/topic/" + memberId, callingStatusResponseList);
         return callingStatusResponseList;
     }
@@ -86,6 +88,7 @@ public class CallingServiceImpl implements CallingService{
         List<String> occurrenceFileList = occurrenceFileRepository.findAllFillNameByOccurrenceId(occurrenceId);
         callingStatusResponseList.forEach(o -> {
             CallingCreateMessage callingCreateMessage = new CallingCreateMessage(occurrence, o, occurrenceTagList, occurrenceFileList);
+            // 병원들에게 요청 전달
             simpMessagingTemplate.convertAndSend("/topic/" + 9999, callingCreateMessage);
 //            simpMessagingTemplate.convertAndSend("/topic/" + o.getMemberId(), callingCreateMessage);
         });
@@ -115,7 +118,6 @@ public class CallingServiceImpl implements CallingService{
         em.flush();
         em.clear();
         changePendingCalling(selectedCalling);
-        // TODO : 상태들을 변경 후 병원들한테 종료됐다고 전달
         // TODO : 수락한 요청을 토대로 이송 만들기 (이송 서비스에 내놓으라고 요청)
         return null;
     }
@@ -126,6 +128,9 @@ public class CallingServiceImpl implements CallingService{
         callingList.forEach(o -> {
             if (o.getStatus().equals(Status.PENDING)) {
                 o.terminateCalling(Status.TERMINATED);
+//                simpMessagingTemplate.convertAndSend("/topic/status/" + o.getMemberId(), new CallingTerminateMessage(o));
+                // TODO : 상태들을 변경 후 병원들한테 종료됐다고 전달
+                simpMessagingTemplate.convertAndSend("/topic/status/" + 9999, new CallingTerminateMessage(o));
             }
         });
     }

@@ -22,6 +22,7 @@ public class CallingMessageController {
         return callingMessageDto;
     }
 
+    // TODO : 병원들이 상태를 변경하는 코드, 병원의 요청인지 확인하는 확인?
     @MessageMapping("/status/{memberId}")
     @SendTo("/topic/status/{memberId}")
     public StatusChangeMessage changeCallingStatus(@AuthMember MemberInfo memberInfo, StatusChangeMessage statusChangeMessage) {
