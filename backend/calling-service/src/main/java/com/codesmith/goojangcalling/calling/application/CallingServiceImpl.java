@@ -4,14 +4,12 @@ import com.codesmith.goojangcalling.calling.dto.message.CallingCreateMessage;
 import com.codesmith.goojangcalling.calling.dto.message.StatusChangeMessage;
 import com.codesmith.goojangcalling.calling.dto.request.CallingCreateRequest;
 import com.codesmith.goojangcalling.calling.dto.request.OccurrenceCreateRequest;
-import com.codesmith.goojangcalling.calling.dto.response.CallingStatusResponse;
-import com.codesmith.goojangcalling.calling.dto.response.FileUploadResponse;
-import com.codesmith.goojangcalling.calling.dto.response.OccurrenceCreateResponse;
-import com.codesmith.goojangcalling.calling.dto.response.HospitalSearchResponse;
+import com.codesmith.goojangcalling.calling.dto.response.*;
 import com.codesmith.goojangcalling.calling.persistence.*;
 import com.codesmith.goojangcalling.calling.persistence.domain.*;
 import com.codesmith.goojangcalling.infra.aws.S3Client;
 import com.codesmith.goojangcalling.infra.member.HospitalClient;
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
@@ -39,6 +37,8 @@ public class CallingServiceImpl implements CallingService{
     private final CallingValidator callingValidator;
 
     private final SimpMessagingTemplate simpMessagingTemplate;
+
+    private final EntityManager em;
 
     @Override
     public OccurrenceCreateResponse addOccurrence(Long memberId, OccurrenceCreateRequest occurrenceCreateRequest) {
@@ -102,8 +102,34 @@ public class CallingServiceImpl implements CallingService{
         callingValidator.validateCalling(changeMessage.getCallingId());
         Calling calling = callingRepository.findById(changeMessage.getCallingId()).get();
         calling.updateCalling(changeMessage.getStatus(), changeMessage.getReason());
-        callingRepository.save(calling);
     }
+
+    @Transactional
+    @Override
+    public TransferInfoResponse createTransfer(Long memberId, Long callingId) {
+        // TODO : 현재 발생한 사고 상태들을 종료됐다고 변경
+        callingValidator.validateCalling(callingId);
+        Calling selectedCalling = callingRepository.findById(callingId).get();
+        callingValidator.validateApprovedCalling(selectedCalling);
+        selectedCalling.fixCalling(Status.FIXED);
+        em.flush();
+        em.clear();
+        changePendingCalling(selectedCalling);
+        // TODO : 상태들을 변경 후 병원들한테 종료됐다고 전달
+        // TODO : 수락한 요청을 토대로 이송 만들기 (이송 서비스에 내놓으라고 요청)
+        return null;
+    }
+
+    private void changePendingCalling(Calling selectedCalling) {
+        Occurrence occurrence = selectedCalling.getOccurrence();
+        List<Calling> callingList = callingRepository.findAllByOccurrence(occurrence);
+        callingList.forEach(o -> {
+            if (o.getStatus().equals(Status.PENDING)) {
+                o.terminateCalling(Status.TERMINATED);
+            }
+        });
+    }
+
     @Override
     public Mono<List<HospitalSearchResponse>> searchHospital(Double latitude, Double longitude, Double distance) {
         return hospitalClient.searchHospital(latitude, longitude, distance);
