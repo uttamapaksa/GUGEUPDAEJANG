@@ -18,7 +18,7 @@ function Call() {
   const [timer, setTimer] = useState<NodeJS.Timeout | null>(null);
   const setRecordContent = useSetRecoilState(recordContentFile);
   const [recordVoice, setRecordVoice] = useRecoilState(recordVoiceFile);
-  const setRecordVoice = useSetRecoilState(recordVoiceFile);
+  // const setRecordVoice = useSetRecoilState(recordVoiceFile);
 
   const [Test, setTest] = useState<string>("시험용")
 
