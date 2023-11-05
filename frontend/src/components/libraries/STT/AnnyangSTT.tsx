@@ -44,7 +44,11 @@ const AnnyangSTT = () => {
   // 음성 인식을 중지하는 함수
   const stopListenings = () => annyang.abort();
 
-  return { texts, listening, startListenings, stopListenings };
+  return { 
+    texts, 
+    listening, 
+    startListenings, 
+    stopListenings };
 };
 
 export default AnnyangSTT;
