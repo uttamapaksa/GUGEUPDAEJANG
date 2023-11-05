@@ -1,6 +1,8 @@
 export interface CallProps {
   RecordStart?: () => void;
   RecordStop?: () => void;
+  CameraOpen?: () => void;
+  CameraClose?: () => void;
   time?: string;
 }
 

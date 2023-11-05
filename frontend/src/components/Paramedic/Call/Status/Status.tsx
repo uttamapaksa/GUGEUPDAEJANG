@@ -4,15 +4,11 @@ import A from '/src/components/Commons/Atoms';
 import theme from '/src/styles';
 import { useRecoilState } from 'recoil';
 import { 
-  recordCameraFile, 
-  recordContentFile, 
-  recordVoiceFile } from '/src/recoils/ParamedicAtoms';
+  recordContentFile} from '/src/recoils/ParamedicAtoms';
 import { CallProps } from '/src/types/paramedic';
 
-function Status({RecordStart} : CallProps) { 
+function Status({RecordStart,CameraOpen} : CallProps) { 
   const [recordContent, setRecordContent] = useRecoilState(recordContentFile);
-  const [recordVoice, setRecordVoice] = useRecoilState(recordVoiceFile);
-  const [recordCamera, setRecordCamera] = useRecoilState(recordCameraFile);
   
   return (
     <S.Status>
@@ -26,7 +22,8 @@ function Status({RecordStart} : CallProps) {
           $border={`0.3vh solid ${theme.color.pinkLight}`}
           $borderRadius="1.8vh"
           $boxShadow='0 0 1vh 0.4vh rgba(0, 0, 0, 0.10)'
-          $fontSize="2.2vh">
+          $fontSize="2.2vh"
+          onClick={()=>{ CameraOpen?.() }}>
           <A.ImgRecordCameraPink $width="3.2vh" />
           카메라 촬영
           <A.ImgArrowPinkRight $width="1vh" />

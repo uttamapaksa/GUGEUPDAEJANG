@@ -23,16 +23,17 @@ import {
   recordContentFile, 
   recordVoiceFile, 
   paramedicCallState } from '/src/recoils/ParamedicAtoms';
-import TestCamera from '/src/components/Paramedic/Call/TestCamera';
+import CameraModal from '../../../components/Paramedic/Call/CameraModal/CameraModal';
 
 function Call() {
   const setCallState = useSetRecoilState(paramedicCallState);
   const [recording, setRecording] = useState<boolean>(false);
+  const [cameraing, setCameraing] = useState<boolean>(false);
   const [seconds, setSeconds] = useState<number>(0);
   const [timer, setTimer] = useState<NodeJS.Timeout | null>(null);
-  const [recordContent,setRecordContent] = useRecoilState(recordContentFile);
+  const setRecordContent = useSetRecoilState(recordContentFile);
   const [recordVoice, setRecordVoice] = useRecoilState(recordVoiceFile);
-  // const setRecordVoice = useSetRecoilState(recordVoiceFile);
+  // const [recordCamera, setRecordCamera] = useRecoilState(recordCameraFile);
 
   const {
     startRecording,
@@ -46,15 +47,9 @@ function Call() {
     resetTranscript,
   } = useSpeechRecognition();
 
-  // const { 
-  //   startListening, 
-  //   stopListening, 
-  //   isListeningRef} = SoundToText(setRecordContent);
-  
   useEffect(() => {
     setRecordContent(transcript)
   },[transcript])
-  
 
   const RecordStart = () => {
     setRecording(true);
@@ -67,6 +62,13 @@ function Call() {
     setRecording(false);
     SpeechRecognition.stopListening()
     // stopRecording()
+  };
+
+  const CameraOpen = async () => {
+    setCameraing(true)
+  };
+  const CameraClose = async () => {
+    setCameraing(false)
   };
 
   useEffect (()=>{
@@ -99,14 +101,14 @@ function Call() {
   };
 
   useEffect(() => {
-    if (recording) {
+    if (recording || cameraing) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'auto';
     }
     handleRecordingTimer();
     return clearTimer;
-  }, [recording]);
+  }, [recording, cameraing]);
 
   return (
     <S.Container>
@@ -117,7 +119,17 @@ function Call() {
         <S.Blank />
         <Information setCallState={setCallState} />
         <S.Blank />
-        <Status RecordStart={RecordStart} />
+        <Status 
+          RecordStart={RecordStart}
+          CameraOpen={CameraOpen} />
+
+        {cameraing ? (
+          <CameraModal
+            CameraClose={CameraClose}/> ) : (<></>)}
+        {recording ? (
+          <RecordModal 
+            RecordStop={RecordStop} 
+            time={formatTime(seconds)} /> ) : (<></>)}
 
         {/* 임시 태그 삭제할 예정 */}
         <audio
@@ -132,9 +144,7 @@ function Call() {
           <button onClick={stopRecording}>임시녹음종료</button>
         </div>
         <p>Microphone: {listening ? 'on' : 'off'}</p>
-        <TestCamera/>
 
-        {recording ? <RecordModal RecordStop={RecordStop} time={formatTime(seconds)} /> : <></>}
         <S.Blank />
         <Category />
         <S.Blank />
