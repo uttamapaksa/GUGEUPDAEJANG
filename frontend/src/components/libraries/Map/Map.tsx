@@ -4,8 +4,6 @@ import ParamedicInfo from "./InfoWindow/ParamedicInfo";
 import HospitalMarker from "./Marker/HospitalMarker";
 import { MapProps } from "/src/types/map";
 import ParamedicMarker from "./Marker/ParamedicMarker";
-import { useRecoilValue } from "recoil";
-import { currentPosition } from "/src/recoils/HospitalAtoms";
 
 declare global {
     interface Window {
@@ -29,6 +27,7 @@ export const createMap = (lat: number, lon: number) => {
 export const destroyMap = () => {
     console.log("destroy")
     const curMap = document.querySelector("#map_div > div:nth-child(2)");
+    console.log("curMap", curMap)
     if (curMap !== null) {
         curMap.remove();
     }
@@ -94,6 +93,7 @@ function Map(props: MapProps) {
             </MapContainer >
             {map !== undefined ?
                 <>
+                    
                     {props.type === "guest" ?
                         <><HospitalMarker {...props} map={map} /></> :
                         <></>}
@@ -105,9 +105,8 @@ function Map(props: MapProps) {
                             <ParamedicMarker {...props} map={map} />
                             <ParamedicInfo {...props} map={map} />
                         </> :
-                        <>
-                        </>
-                    }
+                        <></>}
+                    
                 </> :
                 <></>
             }

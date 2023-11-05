@@ -16,7 +16,7 @@ const HospitalMap = () => {
   useEffect(() => {
     if(curPos.lat != null && curPos.lon != null){
       const newProps: MapProps = {
-        type: isRequest ? "req" : "empty",
+        type: isRequest ? "req" : "transfer",
         pos:  { lat: curPos.lat, lon: curPos.lon },
         parList: requestList !== undefined ? requestList : undefined,
       };

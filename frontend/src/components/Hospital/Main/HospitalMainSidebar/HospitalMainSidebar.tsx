@@ -6,7 +6,8 @@ import {
 } from "./HospitalMainSidebar.style";
 import { useRecoilState } from "recoil";
 import { hospitalSidebarType } from "../../../../recoils/HospitalAtoms";
-import ParamedicList from "./ParamedicList/ParamedicList";
+import ParamedicList from "./Request/ParamedicList/ParamedicList";
+import TransferList from "./Transfer/TransferList/TransferList";
 // import { useEffect } from "react";
 
 const HospitalMainSidebar = () => {
@@ -34,7 +35,7 @@ const HospitalMainSidebar = () => {
 
       {/* 리스트 */}
       <HospitalMainSidebarContents>
-        {sidebarType ? <ParamedicList /> : <></>}
+        {sidebarType ? <ParamedicList /> : <TransferList/>}
       </HospitalMainSidebarContents>
       {/*  */}
     </HospitalMainSidebarContainer>
