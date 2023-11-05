@@ -3,6 +3,7 @@ export interface Position {
   lon: number;
 }
 
+//수정 예정
 export interface HospitalItem {
   id: number;
   name: string;
@@ -86,4 +87,5 @@ export interface HospitalTransferItem {
   curAddr: number;
   leftTime: number;
   leftDist: number;
+  data: ParaRequestItem;
 }

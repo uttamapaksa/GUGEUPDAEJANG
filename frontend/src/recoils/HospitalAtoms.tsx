@@ -28,6 +28,7 @@ export const hospitalSelectedParaId = atom<ParaRequestItem | undefined>({
 export const hospitalRequestList = atom<ParaRequestItem[] | undefined>({
   key: "hospitalRequestList",
   default: undefined,
+  effects_UNSTABLE: [persistAtom],
 });
 
 export const currentPosition = atom<{

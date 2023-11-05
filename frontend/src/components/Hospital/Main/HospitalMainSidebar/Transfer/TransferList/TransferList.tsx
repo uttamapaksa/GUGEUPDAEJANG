@@ -1,16 +1,16 @@
-import ParamedicDetail from "../ParamedicDetail/ParamedicDetail";
-import ParamedicListItem from "../ParamedicItem/ParamedicListItem";
-import { ParamedicListContainer } from "./ParamedicList.style";
-import { HospitalRequestItem } from "/src/types/map";
+import ParamedicDetail from "../TransferDetail/TransferDetail";
+import ParamedicListItem from "../TransferListItem/TransferListItem";
+import { TransferListContainer } from "./TransferList.style";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { hospitalRequestList, hospitalSelectedParaId } from "../../../../../recoils/HospitalAtoms";
+import { hospitalRequestList, hospitalSelectedParaId } from "../../../../../../recoils/HospitalAtoms";
 import { useEffect } from "react";
+import { ParaRequestItem } from "/src/types/map";
 
-const ParamedicList = () => {
+const TransferList = () => {
     const [paraItem, setParaItem] = useRecoilState(hospitalSelectedParaId);
     const requestList = useRecoilValue(hospitalRequestList);
 
-    const selectParaDetail = (item: HospitalRequestItem | undefined) => {
+    const selectParaDetail = (item: ParaRequestItem | undefined) => {
         setParaItem(item);
     }
 
@@ -20,7 +20,7 @@ const ParamedicList = () => {
 
     return (
         <>
-            <ParamedicListContainer>
+            <TransferListContainer>
                 {requestList !== undefined ?
                     <>
                         {requestList.map((item, index) => (
@@ -32,7 +32,7 @@ const ParamedicList = () => {
                     </> :
                     <></>
                 }
-            </ParamedicListContainer>
+            </TransferListContainer>
             {paraItem !== undefined ? <ParamedicDetail {...paraItem} onclick={() => selectParaDetail(undefined)}></ParamedicDetail>
                 :
                 <></>}
@@ -40,4 +40,4 @@ const ParamedicList = () => {
     );
 };
 
-export default ParamedicList;
+export default TransferList;
