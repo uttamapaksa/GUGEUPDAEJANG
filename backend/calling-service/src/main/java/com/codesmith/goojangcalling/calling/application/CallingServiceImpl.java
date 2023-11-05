@@ -115,6 +115,8 @@ public class CallingServiceImpl implements CallingService{
         Calling selectedCalling = callingRepository.findById(callingId).get();
         callingValidator.validateApprovedCalling(selectedCalling);
         selectedCalling.fixCalling(Status.FIXED);
+//        simpMessagingTemplate.convertAndSend("/topic/status/" + selectedCalling.getMemberId(), new CallingTerminateMessage(selectedCalling));
+        simpMessagingTemplate.convertAndSend("/topic/status/" + 9999, new CallingTerminateMessage(selectedCalling));
         em.flush();
         em.clear();
         changePendingCalling(selectedCalling);
