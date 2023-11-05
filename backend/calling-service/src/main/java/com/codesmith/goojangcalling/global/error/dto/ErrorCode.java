@@ -5,7 +5,8 @@ public enum ErrorCode {
     WRONG_MEMBER_TAG("C2002"),
     EXISTS_MEMBER_TAG("C2003"),
     FILE_UPLOAD_FAIL("C2011"),
-    WRONG_CALLING("C2021");
+    WRONG_CALLING("C2021"),
+    WRONG_CALLING_STATUS("C2031");
 
 
     private final String value;

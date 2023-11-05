@@ -1,9 +1,6 @@
 package com.codesmith.goojangcalling.global.error;
 
-import com.codesmith.goojangcalling.calling.exception.CallingNotFoundException;
-import com.codesmith.goojangcalling.calling.exception.DuplicateMemberTagException;
-import com.codesmith.goojangcalling.calling.exception.MemberTagNotFoundException;
-import com.codesmith.goojangcalling.calling.exception.TagNotFoundException;
+import com.codesmith.goojangcalling.calling.exception.*;
 import com.codesmith.goojangcalling.global.error.dto.ErrorCode;
 import com.codesmith.goojangcalling.global.error.dto.ErrorStatus;
 import com.codesmith.goojangcalling.infra.aws.exception.FileUploadFailedException;
@@ -43,6 +40,12 @@ public class ExceptionAdvice {
     @ExceptionHandler({CallingNotFoundException.class})
     public ResponseEntity<ErrorResponse> wrongCalling() {
         ErrorResponse errorResponse = new ErrorResponse(ErrorCode.WRONG_CALLING, "잘못된 요청입니다.");
+        return ResponseEntity.status(HttpStatus.valueOf(ErrorStatus.INVALID_REQUEST.getValue())).body(errorResponse);
+    }
+
+    @ExceptionHandler({CallingStatusNotApprovedException.class})
+    public ResponseEntity<ErrorResponse> wrongCallingStatus() {
+        ErrorResponse errorResponse = new ErrorResponse(ErrorCode.WRONG_CALLING_STATUS, "병원에서 승인하지 않은 요청입니다.");
         return ResponseEntity.status(HttpStatus.valueOf(ErrorStatus.INVALID_REQUEST.getValue())).body(errorResponse);
     }
 }
