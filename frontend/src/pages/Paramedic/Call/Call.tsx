@@ -23,6 +23,7 @@ import {
   recordContentFile, 
   recordVoiceFile, 
   paramedicCallState } from '/src/recoils/ParamedicAtoms';
+import TestCamera from '/src/components/Paramedic/Call/TestCamera';
 
 function Call() {
   const setCallState = useSetRecoilState(paramedicCallState);
@@ -131,6 +132,7 @@ function Call() {
           <button onClick={stopRecording}>임시녹음종료</button>
         </div>
         <p>Microphone: {listening ? 'on' : 'off'}</p>
+        <TestCamera/>
 
         {recording ? <RecordModal RecordStop={RecordStop} time={formatTime(seconds)} /> : <></>}
         <S.Blank />
