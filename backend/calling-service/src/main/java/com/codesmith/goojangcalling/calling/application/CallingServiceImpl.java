@@ -85,7 +85,7 @@ public class CallingServiceImpl implements CallingService{
     public void createCallingMessage(List<CallingStatusResponse> callingStatusResponseList, Long occurrenceId) {
         Occurrence occurrence = occurrenceRepository.findById(occurrenceId).orElseThrow();
         List<String> occurrenceTagList = tagRepository.findAllTagNameByOccurrenceId(occurrenceId);
-        List<String> occurrenceFileList = occurrenceFileRepository.findAllFillNameByOccurrenceId(occurrenceId);
+        List<String> occurrenceFileList = occurrenceFileRepository.findAllFileNameByOccurrenceId(occurrenceId);
         callingStatusResponseList.forEach(o -> {
             CallingCreateMessage callingCreateMessage = new CallingCreateMessage(occurrence, o, occurrenceTagList, occurrenceFileList);
             // 병원들에게 요청 전달

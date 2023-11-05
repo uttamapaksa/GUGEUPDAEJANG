@@ -9,5 +9,5 @@ import java.util.List;
 
 public interface OccurrenceFileRepository extends JpaRepository<OccurrenceFile, Long> {
     @Query("SELECT of.savedFileName FROM OccurrenceFile of WHERE of.occurrence.id = :occurrenceId")
-    List<String> findAllFillNameByOccurrenceId(@Param("occurrenceId") Long occurrenceId);
+    List<String> findAllFileNameByOccurrenceId(@Param("occurrenceId") Long occurrenceId);
 }
