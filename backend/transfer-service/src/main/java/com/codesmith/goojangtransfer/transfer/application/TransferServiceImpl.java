@@ -19,6 +19,7 @@ public class TransferServiceImpl implements TransferService {
 
     @Override
     public TransferCreateResponse createTransfer(Long callingId) {
+        transferValidator.validateCallingId(callingId);
         Transfer transfer = transferRepository.save(new Transfer(callingId, Status.TRANSFERRING, null));
         return new TransferCreateResponse(transfer.getId(), true);
     }
