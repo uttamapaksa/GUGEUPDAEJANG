@@ -25,7 +25,7 @@ function Call() {
   const { 
     startListening, 
     stopListening, 
-    hasRecognitionSupport } = SoundToText(setRecordContent);
+    isListeningRef} = SoundToText(setRecordContent);
   
   const { 
     texts, 
@@ -46,14 +46,14 @@ function Call() {
   const RecordStart = () => {
     setRecording(true);
     startListenings()
-    // startListening();
+    startListening();
     // startRecording()
   };
 
   const RecordStop = async () => {
     setRecording(false);
     stopListenings()
-    // stopListening();
+    stopListening();
     // stopRecording()
   };
 
@@ -116,8 +116,8 @@ function Call() {
             height: '50px',
           }}
         ></audio>
-        <p>Listening: {listening ? 'Yes' : 'No'}</p>
-        <p>Test: {Test}</p>
+        <p>Listening: {isListeningRef.current ? 'Yes' : 'No'}</p>
+        <p>Test: {recordContent}</p>
 
         {recording ? <RecordModal RecordStop={RecordStop} time={formatTime(seconds)} /> : <></>}
         <S.Blank />
