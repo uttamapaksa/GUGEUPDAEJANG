@@ -85,9 +85,25 @@ function TestCamera() {
     }
   };
 
+  const handleCapture = ({ target }) => {
+    const fileReader = new FileReader();
+    const file = target.files[0];
+
+    fileReader.readAsDataURL(file);
+    fileReader.onloadend = () => {
+      console.log(fileReader.result); // Data URL: Base64 인코딩된 이미지 데이터
+    };
+  };
+
   return (
     <Container>
       <h1>카메라 React 앱</h1>
+
+      <div>
+        <input type="file" accept="image/*" capture="environment" onChange={handleCapture} />
+        <input type="file" accept="video/*" capture="environment" onChange={handleCapture} />
+      </div>
+
       <div>
         <button 
           onClick={startCamera}>카메라 시작</button>
