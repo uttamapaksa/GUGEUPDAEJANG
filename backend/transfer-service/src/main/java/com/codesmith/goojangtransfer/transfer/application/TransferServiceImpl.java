@@ -1,6 +1,8 @@
 package com.codesmith.goojangtransfer.transfer.application;
 
+import com.codesmith.goojangtransfer.transfer.dto.request.TransferCreateRequest;
 import com.codesmith.goojangtransfer.transfer.dto.response.TransferCreateResponse;
+import com.codesmith.goojangtransfer.transfer.dto.response.TransferListResponse;
 import com.codesmith.goojangtransfer.transfer.dto.response.TransferStatusChangeResponse;
 import com.codesmith.goojangtransfer.transfer.persistence.TransferRepository;
 import com.codesmith.goojangtransfer.transfer.persistence.domain.Status;
@@ -9,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -18,9 +22,9 @@ public class TransferServiceImpl implements TransferService {
     private final TransferValidator transferValidator;
 
     @Override
-    public TransferCreateResponse createTransfer(Long callingId) {
-        transferValidator.validateCallingId(callingId);
-        Transfer transfer = transferRepository.save(new Transfer(callingId, Status.TRANSFERRING, null));
+    public TransferCreateResponse createTransfer(TransferCreateRequest transferCreateRequest) {
+        transferValidator.validateCallingId(transferCreateRequest.getCallingId());
+        Transfer transfer = transferRepository.save(new Transfer(transferCreateRequest.getCallingId(), transferCreateRequest.getMemberId(), Status.TRANSFERRING, null));
         return new TransferCreateResponse(transfer.getId(), true);
     }
 
@@ -42,5 +46,20 @@ public class TransferServiceImpl implements TransferService {
         transfer.cancel();
         transferRepository.save(transfer);
         return new TransferStatusChangeResponse(true);
+    }
+
+    @Override
+    public List<TransferListResponse> getTransferByMember(Long memberId) {
+        List<Transfer> transfers = transferRepository.findByMemberId(memberId);
+
+        return transfers.stream()
+                .map(transfer -> new TransferListResponse(
+                        transfer.getId(),
+                        transfer.getCallingId(),
+                        transfer.getMemberId(),
+                        transfer.getStatus().name(),
+                        transfer.getArrivedAt()
+                ))
+                .collect(Collectors.toList());
     }
 }

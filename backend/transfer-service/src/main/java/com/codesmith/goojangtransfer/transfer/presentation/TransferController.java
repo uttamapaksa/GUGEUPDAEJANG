@@ -33,7 +33,7 @@ public class TransferController {
         return ResponseEntity.ok(transferService.cancelTransfer(transferId));
     }
 
-    @GetMapping("/{memberId}")
+    @GetMapping("/member/{memberId}")
     public ResponseEntity<List<TransferListResponse>> getTransferByMember(@PathVariable Long memberId) {
         return ResponseEntity.ok(transferService.getTransferByMember(memberId));
     }
