@@ -43,6 +43,13 @@ public class CallingController {
         return ResponseEntity.ok().build();
     }
 
+    // TODO : 추 후에 이송 반환으로 수정
+    @PutMapping("/fix/{callingId}")
+    public ResponseEntity<Void> fixCallingAndSendToHospital(@AuthMember MemberInfo memberInfo, @PathVariable Long callingId) {
+        callingService.createTransfer(memberInfo.getId(), callingId);
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("/tag")
     public ResponseEntity<List<MemberTagResponse>> getTagListByMemberList(@AuthMember MemberInfo memberInfo) {
         return ResponseEntity.ok(memberTagService.getMemberTagList(memberInfo.getId()));

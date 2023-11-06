@@ -40,4 +40,13 @@ public class Calling {
         this.reason = reason;
         this.responseTime = LocalDateTime.now();
     }
+
+    public void fixCalling(Status status) {
+        this.status = status;
+        this.responseTime = LocalDateTime.now();
+    }
+
+    public void terminateCalling(Status status) {
+        this.status = status;
+    }
 }

@@ -30,6 +30,7 @@ public class CallingCreateMessage {
 
     private Double distance;
     private Long duration;
+    private Status status;
 
     public CallingCreateMessage(Occurrence occurrence, CallingStatusResponse callingStatusResponse, List<String> tags, List<String> files) {
         this.id = callingStatusResponse.getCallingId();
@@ -47,5 +48,6 @@ public class CallingCreateMessage {
         this.files = files;
         this.distance = callingStatusResponse.getDistance();
         this.duration = callingStatusResponse.getDuration();
+        this.status = callingStatusResponse.getStatus();
     }
 }
