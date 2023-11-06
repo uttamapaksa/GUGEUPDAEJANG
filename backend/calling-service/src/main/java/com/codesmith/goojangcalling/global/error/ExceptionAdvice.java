@@ -15,19 +15,19 @@ public class ExceptionAdvice {
 
     @ExceptionHandler({TagNotFoundException.class})
     public ResponseEntity<ErrorResponse> wrongTag() {
-        ErrorResponse errorResponse = new ErrorResponse(ErrorCode.WRONG_TAG, "존재하지 않는 태그입니다.");
+        ErrorResponse errorResponse = new ErrorResponse(ErrorCode.INVALID_TAG, "존재하지 않는 태그입니다.");
         return ResponseEntity.status(HttpStatus.valueOf(ErrorStatus.INVALID_REQUEST.getValue())).body(errorResponse);
     }
 
     @ExceptionHandler({MemberTagNotFoundException.class})
     public ResponseEntity<ErrorResponse> wrongMemberTag() {
-        ErrorResponse errorResponse = new ErrorResponse(ErrorCode.WRONG_MEMBER_TAG, "존재하지 않는 멤버 테그입니다.");
+        ErrorResponse errorResponse = new ErrorResponse(ErrorCode.INVALID_MEMBER_TAG, "존재하지 않는 멤버 테그입니다.");
         return ResponseEntity.status(HttpStatus.valueOf(ErrorStatus.INVALID_REQUEST.getValue())).body(errorResponse);
     }
 
     @ExceptionHandler({DuplicateMemberTagException.class})
     public ResponseEntity<ErrorResponse> duplicatedMemberTag() {
-        ErrorResponse errorResponse = new ErrorResponse(ErrorCode.EXISTS_MEMBER_TAG, "이미 존재하는 태그입니다.");
+        ErrorResponse errorResponse = new ErrorResponse(ErrorCode.DUPLICATE_MEMBER_TAG, "이미 존재하는 태그입니다.");
         return ResponseEntity.status(HttpStatus.valueOf(ErrorStatus.INVALID_REQUEST.getValue())).body(errorResponse);
     }
 
@@ -39,13 +39,13 @@ public class ExceptionAdvice {
 
     @ExceptionHandler({CallingNotFoundException.class})
     public ResponseEntity<ErrorResponse> wrongCalling() {
-        ErrorResponse errorResponse = new ErrorResponse(ErrorCode.WRONG_CALLING, "잘못된 요청입니다.");
+        ErrorResponse errorResponse = new ErrorResponse(ErrorCode.INVALID_CALLING, "잘못된 요청입니다.");
         return ResponseEntity.status(HttpStatus.valueOf(ErrorStatus.INVALID_REQUEST.getValue())).body(errorResponse);
     }
 
     @ExceptionHandler({CallingStatusNotApprovedException.class})
     public ResponseEntity<ErrorResponse> wrongCallingStatus() {
-        ErrorResponse errorResponse = new ErrorResponse(ErrorCode.WRONG_CALLING_STATUS, "병원에서 승인하지 않은 요청입니다.");
+        ErrorResponse errorResponse = new ErrorResponse(ErrorCode.INVALID_CALLING_STATUS, "병원에서 승인하지 않은 요청입니다.");
         return ResponseEntity.status(HttpStatus.valueOf(ErrorStatus.INVALID_REQUEST.getValue())).body(errorResponse);
     }
 }
