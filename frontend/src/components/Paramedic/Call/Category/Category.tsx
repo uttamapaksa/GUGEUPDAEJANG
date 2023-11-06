@@ -1,48 +1,79 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
-import { categoriesState, categoriesSelectedState } from '/src/recoils/ParamedicAtoms';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { CallStateType } from '/src/types/paramedic';
+import { categoriesState, calledHospitalsState } from '/src/recoils/ParamedicAtoms';
+import { currentPosition } from '/src/recoils/HospitalAtoms';
+import { getHospitalList } from '/src/apis/paramedic';
 import * as S from './Category.style';
 import A from '/src/components/Commons/Atoms';
 import theme from '/src/styles';
 import PATH from '/src/constants/path';
 
-function Category({ setCallState }: { setCallState: any }) {
+function Category({ callState, setCallState }: { callState: CallStateType; setCallState: any }) {
   const [options, setOptions] = useRecoilState(categoriesState);
   const [newOption, setNewOption] = useState<string>('');
-  const [selected, setSelected] = useRecoilState(categoriesSelectedState);
+  const selected: string[] | undefined = callState.tags;
   const [edit, setEdit] = useState<boolean>(false);
+  const currPosition = useRecoilValue(currentPosition);
+  const [hospitals, setHospitals] = useRecoilState(calledHospitalsState);
+
+  const addToState = (option: string) => setCallState((prev: any) => ({ ...prev, tags: [...prev.tags, option] }));
+  const deleteToState = (option: string) =>
+    setCallState((prev: any) => ({ ...prev, tags: prev.tags.filter((i: string) => i !== option) }));
+  const addToOptions = (option: string) => {
+    setOptions((prev) => [...prev, option]);
+    setNewOption('');
+  };
+  const deleteToOptions = (option: string) => setOptions(options.filter((i) => i !== option));
+
   const optionClick = (option: string) => {
-    if (selected.includes(option)) {
-      const newArray = selected.filter((i) => i !== option);
-      setSelected(newArray);
-      setCallState((prev: any) => ({
-        ...prev,
-        tags: newArray,
-      }));
+    if (selected && selected.includes(option)) {
+      deleteToState(option);
     } else {
-      const newArray = [...selected, option];
-      setSelected(newArray);
-      setCallState((prev: any) => ({
-        ...prev,
-        tags: newArray,
-      }));
+      addToState(option);
     }
   };
   const addOption = () => {
     if (newOption.trim() === '') return;
-    if (options.includes(newOption)) return;
-    setOptions((prev) => [...prev, newOption]);
-    setNewOption('');
+    if (options.includes(newOption)) {
+      alert('이미 있는 분류입니다.');
+      return;
+    }
+    addToOptions(newOption);
   };
   const deleteOption = (option: string) => {
-    setOptions(options.filter((i) => i !== option));
-    setSelected(selected.filter((i) => i !== option));
+    deleteToOptions(option);
+    deleteToState(option);
   };
+
+  const updateHospitalsList = (hospitals: any, newHospitals: any) => {
+    newHospitals.forEach((newHospital: any) => {
+      const index = hospitals.findIndex((h: any) => h.callingId === newHospital.callingId);
+      if (index > -1) {
+        hospitals[index] = newHospital;
+      } else {
+        hospitals.push(newHospital);
+      }
+    });
+  
+    // time을 기준으로 배열을 정렬합니다. 만약 time이 동일한 경우 callingId로 2차 정렬을 수행합니다.
+    // hospitals.sort((a, b) => a.time - b.time || a.callingId - b.callingId);
+  
+    return hospitals;
+  };
+
   const navigate = useNavigate();
-  const goToWaitMove = () => {
-    navigate(PATH.ParamedicWaitMove);
+  const goToWaitMove = (hospitals: any) => {
+    getHospitalList(currPosition.lat, currPosition.lon, 10).then((newHospitals) => {
+      if (newHospitals) {
+        const updatedHospitals = updateHospitalsList(hospitals, newHospitals);
+        setHospitals(updatedHospitals);
+        navigate(PATH.ParamedicWaitMove);
+      }
+    });
   };
+
   return (
     <S.Category>
       <A.TxtParamedicTitle $justifyContent="space-between">
@@ -61,7 +92,7 @@ function Category({ setCallState }: { setCallState: any }) {
             $width="auto"
             $height="4.5vh"
             $fontSize="2vh"
-            $IsClick={selected.includes(option) ? true : false}
+            $IsClick={selected && selected.includes(option) ? true : false}
             onClick={() => optionClick(option)}
           >
             {edit && (
@@ -102,7 +133,7 @@ function Category({ setCallState }: { setCallState: any }) {
           추가
         </A.BtnSubmit>
         <A.BtnSubmit
-          onClick={goToWaitMove}
+          onClick={()=>goToWaitMove(hospitals)}
           $margin="10vh 0 0 0 "
           $borderRadius="1vh"
           $width="100%"

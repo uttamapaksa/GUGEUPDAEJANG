@@ -3,19 +3,16 @@ import * as S from './Call.style';
 import M from '/src/components/Commons/Molecules';
 import { Ktas, Information, Status, Category, RecordModal } from '/src/components/Paramedic/Call';
 // import SoundToText from '/src/components/libraries/STT/SoundToText';
-import { useReactMediaRecorder } from "react-media-recorder";
-
-import "regenerator-runtime/runtime";
-import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition'
-
-
+import { useReactMediaRecorder } from 'react-media-recorder';
+import 'regenerator-runtime/runtime';
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 // 리코일
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { recordContentFile, recordVoiceFile, paramedicCallState } from '/src/recoils/ParamedicAtoms';
 // import AnnyangSTT from '/src/components/libraries/STT/AnnyangSTT';
 
 function Call() {
-  const setCallState = useSetRecoilState(paramedicCallState);
+  const [callState, setCallState] = useRecoilState(paramedicCallState);
   const recordContent = useRecoilValue(recordContentFile);
   const [recording, setRecording] = useState<boolean>(false);
   const [seconds, setSeconds] = useState<number>(0);
@@ -24,11 +21,7 @@ function Call() {
   const [recordVoice, setRecordVoice] = useRecoilState(recordVoiceFile);
   // const setRecordVoice = useSetRecoilState(recordVoiceFile);
 
-  const {
-    transcript,
-    listening,
-    browserSupportsSpeechRecognition
-  } = useSpeechRecognition();
+  const { transcript, listening, browserSupportsSpeechRecognition } = useSpeechRecognition();
 
   if (!browserSupportsSpeechRecognition) {
     return <span>Browser doesn't support speech recognition.</span>;
@@ -36,46 +29,42 @@ function Call() {
 
   // const [Test, setTest] = useState<string>("시험용")
 
-  // const { 
-  //   startListening, 
-  //   stopListening, 
+  // const {
+  //   startListening,
+  //   stopListening,
   //   isListeningRef} = SoundToText(setRecordContent);
-  
-  // const { 
-  //   texts, 
-  //   listening, 
-  //   startListenings, 
+
+  // const {
+  //   texts,
+  //   listening,
+  //   startListenings,
   //   stopListenings } = AnnyangSTT();
-  
+
   // useEffect(() => {
   //   setTest(Test + texts)
   // },[texts])
-  
-  const {
-    startRecording,
-    stopRecording,
-    mediaBlobUrl,
-  } = useReactMediaRecorder({ audio: true });
+
+  const { startRecording, stopRecording, mediaBlobUrl } = useReactMediaRecorder({ audio: true });
 
   const RecordStart = () => {
     setRecording(true);
-    SpeechRecognition.startListening({ continuous: true })
+    SpeechRecognition.startListening({ continuous: true });
     // startListenings()
     // startListening();
-    startRecording()
+    startRecording();
   };
 
   const RecordStop = async () => {
     setRecording(false);
-    SpeechRecognition.stopListening()
+    SpeechRecognition.stopListening();
     // stopListenings()
     // stopListening();
-    stopRecording()
+    stopRecording();
   };
 
-  useEffect (()=>{
-    setRecordVoice(mediaBlobUrl ?? "")
-  },[mediaBlobUrl])
+  useEffect(() => {
+    setRecordVoice(mediaBlobUrl ?? '');
+  }, [mediaBlobUrl]);
 
   const handleRecordingTimer = () => {
     if (recording) {
@@ -117,9 +106,9 @@ function Call() {
       <S.ContentBox>
         <M.ParamedicHeader />
         <S.Blank />
-        <Ktas setCallState={setCallState} />
+        <Ktas callState={callState} setCallState={setCallState} />
         <S.Blank />
-        <Information setCallState={setCallState} />
+        <Information callState={callState} setCallState={setCallState} />
         <S.Blank />
         <Status RecordStart={RecordStart} />
 
@@ -137,7 +126,7 @@ function Call() {
 
         {recording ? <RecordModal RecordStop={RecordStop} time={formatTime(seconds)} /> : <></>}
         <S.Blank />
-        <Category setCallState={setCallState} />
+        <Category callState={callState} setCallState={setCallState} />
         <S.Blank />
       </S.ContentBox>
     </S.Container>
