@@ -1,19 +1,20 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import * as S from './CameraModal.style'
 import { CallProps } from '/src/types/paramedic';
-import { useRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { recordCameraFile } from '/src/recoils/ParamedicAtoms';
 
 function CameraModal({CameraClose} : CallProps) {
-  const [recordCamera, setRecordCamera] = useRecoilState(recordCameraFile);
+  const setRecordCamera = useSetRecoilState(recordCameraFile);
 
   const handleCapture = (event: React.ChangeEvent<HTMLInputElement>) => {
+    CameraClose?.()
     const fileReader = new FileReader();
     const file = event.target.files && event.target.files[0];
-    if(file)fileReader.readAsDataURL(file);
+    if (file) {fileReader.readAsDataURL(file);}
     fileReader.onloadend = () => {
       if (fileReader.result) {
-        const base64Data = fileReader.result;
+        const base64Data = fileReader.result as string;
         const byteString = atob(base64Data.split(',')[1]);
         const arrayBuffer = new ArrayBuffer(byteString.length);
         const intArray = new Uint8Array(arrayBuffer);
@@ -42,10 +43,6 @@ function CameraModal({CameraClose} : CallProps) {
     if(videoInput) {videoInput.click()}
   };
 
-  useEffect (()=>{
-    if(recordCamera) { CameraClose?.() }
-  },[recordCamera])
-
   return (
     <S.Overlay>
       <S.Container>
@@ -60,8 +57,8 @@ function CameraModal({CameraClose} : CallProps) {
           onClick={handleCameraClick}>사진 촬영</S.BtnCamera>
 
         <S.IptVideo
-          id="videoInput"
           type="file"
+          id="videoInput"
           accept="video/*"
           capture="environment"
           onChange={handleCapture}/>
