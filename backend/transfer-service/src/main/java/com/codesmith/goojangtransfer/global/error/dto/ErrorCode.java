@@ -3,7 +3,7 @@ package com.codesmith.goojangtransfer.global.error.dto;
 public enum ErrorCode {
     NO_TRANSFER("T1001"),
     ALREADY_ARRIVED("T1002"),
-    EXIST_TRANSFER("T1003"),;
+    TRANSFER_DUPLICATE("T1003"),;
 
     private final String value;
 

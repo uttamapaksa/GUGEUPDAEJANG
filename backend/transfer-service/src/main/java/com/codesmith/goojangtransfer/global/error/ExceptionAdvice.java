@@ -4,7 +4,7 @@ import com.codesmith.goojangtransfer.global.error.dto.ErrorCode;
 import com.codesmith.goojangtransfer.global.error.dto.ErrorResponse;
 import com.codesmith.goojangtransfer.global.error.dto.ErrorStatus;
 import com.codesmith.goojangtransfer.transfer.exception.TransferAlreadyArrivedException;
-import com.codesmith.goojangtransfer.transfer.exception.TransferExistException;
+import com.codesmith.goojangtransfer.transfer.exception.TransferDuplicateException;
 import com.codesmith.goojangtransfer.transfer.exception.TransferNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,9 +26,9 @@ public class ExceptionAdvice {
         return ResponseEntity.status(HttpStatus.valueOf(ErrorStatus.BAD_REQUEST.getValue())).body(errorResponse);
     }
 
-    @ExceptionHandler({TransferExistException.class})
-    public ResponseEntity<ErrorResponse> existTransfer() {
-        ErrorResponse errorResponse = new ErrorResponse(ErrorCode.EXIST_TRANSFER, "이미 이송 중인 요청입니다.");
+    @ExceptionHandler({TransferDuplicateException.class})
+    public ResponseEntity<ErrorResponse> duplicateTransfer() {
+        ErrorResponse errorResponse = new ErrorResponse(ErrorCode.TRANSFER_DUPLICATE, "이미 이송 중인 요청입니다.");
         return ResponseEntity.status(HttpStatus.valueOf(ErrorStatus.BAD_REQUEST.getValue())).body(errorResponse);
     }
 }
