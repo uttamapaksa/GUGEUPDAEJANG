@@ -5,24 +5,24 @@ import { ParamedicInfoContainer } from "./ParamedicInfo.style";
 import { useEffect, useState } from 'react';
 
 
-function ParamedicInfo(props: any) {
+function ParamedicTransferInfo(props: any) {
     const [paraInfo, setParaInfo] = useState<any[]>([]);
     const updateInfo = () => {
-        if (props.map !== undefined && props.paraRequestList !== undefined) {
+        if (props.map !== undefined && props.paraTransferList !== undefined) {
             let info: any[] = []
-            for (var i = 0; i < props.paraRequestList.length; i++) {
-                var lonlat = new Tmapv3.LatLng(props.paraRequestList[i].latitude, props.paraRequestList[i].longitude);
+            for (var i = 0; i < props.paraTransferList.length; i++) {
+                var lonlat = new Tmapv3.LatLng(props.paraTransferList[i].data.latitude, props.paraTransferList[i].data.longitude);
                 const infoWindow = new Tmapv3.InfoWindow({
                     position: lonlat = lonlat,
                     offset: new Tmapv3.Point(0, -30),
                     content: renderToString(
                         <InfoContents
-                            id={props.paraRequestList[i].id}
-                            ktas={props.paraRequestList[i].ktas}
-                            addr={props.paraRequestList[i].address}
-                            requestAt={props.paraRequestList[i].createdAt}
+                            id={props.paraTransferList[i].id}
+                            ktas={props.paraTransferList[i].data.ktas}
+                            addr={props.paraTransferList[i].data.address}
+                            requestAt={props.paraTransferList[i].data.createdAt}
                             elapseMin={"-"}
-                            leftTime={props.paraRequestList[i].duration}
+                            leftTime={props.paraTransferList[i].data.duration}
                         />
                     ),
                     border: '0px solid #ffffff',
@@ -44,7 +44,7 @@ function ParamedicInfo(props: any) {
         setParaInfo([]);
     }
     useEffect(() => {
-        if (props.map !== undefined && props.paraRequestList !== undefined) {
+        if (props.map !== undefined && props.paraTransferList !== undefined) {
             deleteInfo();
             if(paraInfo.length==0)updateInfo();
         }
@@ -56,4 +56,4 @@ function ParamedicInfo(props: any) {
     );
 }
 
-export default ParamedicInfo;
+export default ParamedicTransferInfo;

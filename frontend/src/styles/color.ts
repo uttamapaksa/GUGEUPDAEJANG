@@ -34,6 +34,9 @@ const color = {
   ktas4_Deactive: "#B6D6B8",
   ktas5_Active: "#FFFFFF",
   ktas5_Deactive: "#EDEDED",
+
+  // hospital color
+  // waiting: "#FFF101",
 } as const;
 
 export type colorThemeKey = keyof typeof color;

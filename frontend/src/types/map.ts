@@ -28,17 +28,13 @@ export interface ParamedicItem {
   requestAt?: string;
 }
 
-// export interface MapProps {
-//     type: string,
-//     pos: Position,
-//     hosList?: HospitalItem[],
-//     parList?: ParamedicItem[],
-// }
 export interface MapProps {
   type: string;
   pos?: Position;
   hosList?: HospitalItem[];
-  parList?: ParaRequestItem[];
+  paraRequestList?: ParaRequestItem[];
+  paraTransferList?: HospitalTransferItem[];
+
 }
 
 export interface GuestMapProps {
@@ -69,8 +65,11 @@ export interface ParaRequestItem {
   duration: number;
 }
 
-//병원 응답(프론트)
-//
+//병원 응답 http post
+export interface HospitalResponsePostProps {
+  id: number;
+  responseType: boolean; //true:수락, false:거절
+}
 
 // 구급대원 응답(서버)
 export interface HospitalResponseItem {
@@ -79,13 +78,25 @@ export interface HospitalResponseItem {
   responseType: boolean; //true:수락, false:거절
 }
 
-// 실시간 위치
+// 실시간 위치 + 구급대원 정보 (프론트에서 관리하는 객체)
 export interface HospitalTransferItem {
   id: number;
+  state: string; // transfer, complete, cancel, wait
+  curLat?: number;
+  curLon?: number;
+  curAddr?: number;
+  leftTime?: number;
+  leftDist?: number;
+  data: ParaRequestItem;
+}
+
+// 실시간 위치 (웹소켓으로 받는 객체)
+export interface HospitalTransferParaItem {
+  id: number;
+  state: string; // transfer, complete, cancel, wait
   curLat: number;
   curLon: number;
   curAddr: number;
   leftTime: number;
   leftDist: number;
-  data: ParaRequestItem;
 }

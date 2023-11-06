@@ -1,4 +1,4 @@
-import { useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { ItemParaType, ItemRequestAt } from "../TransferListItem/TransferListItem.style";
 import {
   CloseDiv,
@@ -12,19 +12,17 @@ import {
 } from "./TransferDetail.style";
 import A from "/src/components/Commons/Atoms";
 import theme from "/src/styles";
-import { hospitalResponse } from "/src/recoils/HospitalAtoms";
-import { HospitalResponseItem } from "/src/types/map";
+import { hospitalTransferList } from "/src/recoils/HospitalAtoms";
+import { HospitalTransferItem } from "/src/types/map";
 
 const TransferDetail = (props: any) => {
-  const setCurResponse = useSetRecoilState(hospitalResponse);
+  const [transferList, setTransferList] = useRecoilState(hospitalTransferList);
 
-  const clickButton = (res: boolean) => {
-    const response: HospitalResponseItem = {
-      id: props.id,
-      responseAt: new Date().toLocaleDateString(),
-      responseType: res,
-    };
-    setCurResponse(response);
+  const clickButton = () => {
+    if(transferList!=undefined){
+      let nextTransferList = transferList.filter((item:HospitalTransferItem) => item.id!=props.id);
+      setTransferList(nextTransferList);
+    }
   };
   return (
     <TransferDetailContainer>
@@ -34,24 +32,24 @@ const TransferDetail = (props: any) => {
             $position="absolute"
             $right="0%"
             $top="0%"
-            $ktas={props.ktas.toLowerCase()}
+            $ktas={props.data.ktas.toLowerCase()}
             $width="50px"
             $height="25px"
             $borderRadius="0px 0px 0px 10px"
             $fontSize={theme.font.Small5_12}
           >
-            {props.ktas}
+            {props.data.ktas}
           </A.DivKtasInfo>
           <ItemRequestAt>-</ItemRequestAt>
           <DetailItemBetween>
             <ItemParaType>
-              {props.ageGroup} {props.gender}
+              {props.data.ageGroup} {props.data.gender}
             </ItemParaType>
             <ItemElapseMin>요청 대기 -분 경과</ItemElapseMin>
           </DetailItemBetween>
 
           <div style={{ width: "90%", margin: "0 auto" }}>
-            {props.tags.map((item: string, index: number) => (
+            {props.data.tags.map((item: string, index: number) => (
               <A.DivTag
                 key={index}
                 $margin="2px 5px 10px 2px"
@@ -70,61 +68,80 @@ const TransferDetail = (props: any) => {
           {/* <video style={{ border: "1px solid gray" }}></video> */}
 
           <div style={{ width: "90%", margin: "0 auto" }}>
-            {props.files.map((item: string, index: number) => (
+            {props.data.files.map((item: string, index: number) => (
               <img key={index} src={item}></img>
             ))}
           </div>
 
-          <ItemAddr>{props.description}</ItemAddr>
-          <ItemAddr>{props.address}</ItemAddr>
+          <ItemAddr>{props.data.description}</ItemAddr>
+          <ItemAddr>{props.data.address}</ItemAddr>
           <DetailItemBetween>
-            <ItemElapseMin>{props.distance} km</ItemElapseMin>
-            <ItemLeftTime>{props.duration}분 이내 도착 가능</ItemLeftTime>
+            <ItemElapseMin>{props.data.distance} km</ItemElapseMin>
+            <ItemLeftTime>{props.data.duration}분 이내 도착 가능</ItemLeftTime>
           </DetailItemBetween>
 
-          {/* <A.BtnToggle
-            $width="50%"
-            $height="50px"
-            $position="absolute"
-            $left="0%"
-            $bottom="0%"
-            $borderRadius="0px"
-            $color={theme.color.pinkDrak}
-            $fontSize={theme.font.Small1_16}
-            $boxShadow="0 0.2px 0.1px 0px inset"
-            onClick={() => clickButton(false)}
-          >
-            거절
-          </A.BtnToggle>
-
-          <A.BtnToggle
-            $width="50%"
-            $height="50px"
-            $position="absolute"
-            $right="0%"
-            $bottom="0%"
-            $borderRadius="0px"
-            $color={theme.color.white}
-            $fontSize={theme.font.Small1_16}
-            $backgroundColor={theme.color.pinkDrak}
-            $boxShadow="0 0.2px 0.1px 0px inset"
-            onClick={() => clickButton(true)}
-          >
-            승인
-          </A.BtnToggle> */}
-          <A.DivTag
-            $width="100%"
-            $height="50px"
-            $position="absolute"
-            $left="0%"
-            $bottom="0%"
-            $color={theme.color.white}
-            $borderRadius="0px"
-            $fontSize={theme.font.Small1_16}
-            $backgroundColor={theme.color.blue}
-          >
-            3분 이내 도착 예정
-          </A.DivTag>
+          {props.state == "transfer" ?
+            <A.DivTag
+              $width="100%"
+              $height="50px"
+              $position="absolute"
+              $left="0%"
+              $bottom="0%"
+              $color={theme.color.white}
+              $borderRadius="0px"
+              $fontSize={theme.font.Small1_16}
+              $backgroundColor={theme.color.blue}
+              $boxShadow=""
+            >
+              {3}분 이내 도착 예정
+            </A.DivTag> : <></>}
+          {props.state == "wait" ?
+            <A.DivTag
+              $width="100%"
+              $height="50px"
+              $position="absolute"
+              $left="0%"
+              $bottom="0%"
+              $color={theme.color.black}
+              $borderRadius="0px"
+              $fontSize={theme.font.Small1_16}
+              $backgroundColor={theme.color.ktas3_Active}
+              $boxShadow="0"
+            >
+              대기중
+            </A.DivTag> : <></>}
+          {props.state == "complete" ?
+            <A.DivTag
+              $width="100%"
+              $height="50px"
+              $position="absolute"
+              $left="0%"
+              $bottom="0%"
+              $color={theme.color.white}
+              $borderRadius="0px"
+              $fontSize={theme.font.Small1_16}
+              $backgroundColor={theme.color.ktas4_Active}
+              $boxShadow="0"
+              onClick={clickButton}
+            >
+              완료됨(눌러서 제거)
+            </A.DivTag> : <></>}
+          {props.state == "cancel" ?
+            <A.DivTag
+              $width="100%"
+              $height="50px"
+              $position="absolute"
+              $left="0%"
+              $bottom="0%"
+              $color={theme.color.white}
+              $borderRadius="0px"
+              $fontSize={theme.font.Small1_16}
+              $backgroundColor={theme.color.ktas2_Active}
+              $boxShadow="0"
+              onClick={clickButton}
+            >
+              취소됨(눌러서 제거)
+            </A.DivTag> : <></>}
         </DetailItemContainer>
       </TransferDetailContent>
       <CloseDiv onClick={props.onclick}>&lt;</CloseDiv>
