@@ -28,7 +28,7 @@ public class ExceptionAdvice {
 
     @ExceptionHandler({TransferDuplicateException.class})
     public ResponseEntity<ErrorResponse> duplicateTransfer() {
-        ErrorResponse errorResponse = new ErrorResponse(ErrorCode.TRANSFER_DUPLICATE, "이미 이송 중인 요청입니다.");
+        ErrorResponse errorResponse = new ErrorResponse(ErrorCode.TRANSFER_DUPLICATE, "이미 존재하는 이송 정보입니다.");
         return ResponseEntity.status(HttpStatus.valueOf(ErrorStatus.BAD_REQUEST.getValue())).body(errorResponse);
     }
 }

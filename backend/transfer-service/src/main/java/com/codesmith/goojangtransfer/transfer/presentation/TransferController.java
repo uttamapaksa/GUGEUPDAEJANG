@@ -1,6 +1,7 @@
 package com.codesmith.goojangtransfer.transfer.presentation;
 
 import com.codesmith.goojangtransfer.transfer.application.TransferService;
+import com.codesmith.goojangtransfer.transfer.dto.request.TransferCreateRequest;
 import com.codesmith.goojangtransfer.transfer.dto.response.TransferCreateResponse;
 import com.codesmith.goojangtransfer.transfer.dto.response.TransferStatusChangeResponse;
 import lombok.RequiredArgsConstructor;
@@ -14,8 +15,8 @@ public class TransferController {
     private final TransferService transferService;
 
     @PostMapping
-    public TransferCreateResponse createTransfer(@RequestParam Long callingId) {
-        return transferService.createTransfer(callingId);
+    public TransferCreateResponse createTransfer(@RequestBody TransferCreateRequest transferCreateRequest) {
+        return transferService.createTransfer(transferCreateRequest.getCallingId());
     }
 
     @PutMapping("/{transferId}")
