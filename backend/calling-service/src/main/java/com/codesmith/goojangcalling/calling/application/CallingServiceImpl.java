@@ -10,13 +10,13 @@ import com.codesmith.goojangcalling.calling.persistence.*;
 import com.codesmith.goojangcalling.calling.persistence.domain.*;
 import com.codesmith.goojangcalling.infra.aws.S3Client;
 import com.codesmith.goojangcalling.infra.member.HospitalClient;
+import com.codesmith.goojangcalling.infra.openfeign.MemberServiceClient;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +38,8 @@ public class CallingServiceImpl implements CallingService{
     private final CallingValidator callingValidator;
 
     private final SimpMessagingTemplate simpMessagingTemplate;
+
+    private final MemberServiceClient memberServiceClient;
 
     private final EntityManager em;
 
@@ -63,7 +65,7 @@ public class CallingServiceImpl implements CallingService{
     public List<CallingStatusResponse> addCalling(Long memberId, CallingCreateRequest callingCreateRequest) {
         Occurrence occurrence = occurrenceRepository.findById(callingCreateRequest.getOccurrenceId()).orElseThrow();
 
-        List<HospitalSearchResponse> searchHospitalList = searchHospital(occurrence.getLatitude(), occurrence.getLongitude(), callingCreateRequest.getDistance()).block();
+        List<HospitalSearchResponse> searchHospitalList = searchHospital(occurrence.getLatitude(), occurrence.getLongitude(), callingCreateRequest.getDistance());
 
         List<Calling> callingList = searchHospitalList
                 .stream()
@@ -109,7 +111,7 @@ public class CallingServiceImpl implements CallingService{
 
     @Transactional
     @Override
-    public TransferInfoResponse createTransfer(Long callingId) {
+    public CreateTransferResponse createTransfer(Long callingId) {
         // TODO : 현재 발생한 사고 상태들을 종료됐다고 변경
         callingValidator.validateCalling(callingId);
         Calling selectedCalling = callingRepository.findById(callingId).get();
@@ -149,7 +151,7 @@ public class CallingServiceImpl implements CallingService{
     }
 
     @Override
-    public Mono<List<HospitalSearchResponse>> searchHospital(Double latitude, Double longitude, Double distance) {
-        return hospitalClient.searchHospital(latitude, longitude, distance);
+    public List<HospitalSearchResponse> searchHospital(Double latitude, Double longitude, Double distance) {
+        return memberServiceClient.searchHospital(latitude, longitude, distance);
     }
 }
