@@ -7,6 +7,7 @@ import com.codesmith.goojangmember.member.dto.request.ParamedicJoinRequest;
 import com.codesmith.goojangmember.member.dto.response.CenterListResponse;
 import com.codesmith.goojangmember.member.dto.response.EmailCheckResponse;
 import com.codesmith.goojangmember.member.dto.response.HospitalListResponse;
+import com.codesmith.goojangmember.member.dto.response.MemberInfoResponse;
 import com.codesmith.goojangmember.member.persistence.domain.HospitalDetail;
 import com.codesmith.goojangmember.member.persistence.domain.Member;
 import com.codesmith.goojangmember.member.persistence.domain.ParamedicDetail;
@@ -15,7 +16,7 @@ import org.springframework.web.servlet.function.EntityResponse;
 import java.util.List;
 
 public interface MemberService {
-    Member getMemberInfo(Long memberId);
+    MemberInfoResponse getMemberInfo(Long memberId);
     List<HospitalListResponse> getHospitalList(Double latitude, Double longitude, Double distance);
     HospitalDetail join(HospitalJoinRequest hospitalJoinRequest);
     ParamedicDetail join(ParamedicJoinRequest paramedicJoinRequest);

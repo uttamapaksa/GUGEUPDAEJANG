@@ -10,6 +10,7 @@ import com.codesmith.goojangmember.member.dto.request.ParamedicJoinRequest;
 import com.codesmith.goojangmember.member.dto.response.CenterListResponse;
 import com.codesmith.goojangmember.member.dto.response.EmailCheckResponse;
 import com.codesmith.goojangmember.member.dto.response.HospitalListResponse;
+import com.codesmith.goojangmember.member.dto.response.MemberInfoResponse;
 import com.codesmith.goojangmember.member.persistence.HospitalDetailRepository;
 import com.codesmith.goojangmember.member.persistence.MemberRepository;
 import com.codesmith.goojangmember.member.persistence.ParamedicDetailRepository;
@@ -41,9 +42,10 @@ public class MemberServiceImpl implements MemberService {
     private final TmapClient tmapClient;
 
     @Override
-    public Member getMemberInfo(Long memberId) {
-
-        return null;
+    public MemberInfoResponse getMemberInfo(Long memberId) {
+        memberValidator.validateMemberId(memberId);
+        Member member = memberRepository.findById(memberId).get();
+        return new MemberInfoResponse(member.getId(), member.getEmail(), member.getName(), member.getImageUrl());
     }
 
     @Override
