@@ -1,39 +1,39 @@
-import ParamedicDetail from "../TransferDetail/TransferDetail";
-import ParamedicListItem from "../TransferListItem/TransferListItem";
 import { TransferListContainer } from "./TransferList.style";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { hospitalRequestList, hospitalSelectedParaId } from "../../../../../../recoils/HospitalAtoms";
+import { hospitalSelectedTransferItem, hospitalTransferList } from "../../../../../../recoils/HospitalAtoms";
 import { useEffect } from "react";
-import { ParaRequestItem } from "/src/types/map";
+import { HospitalTransferItem } from "/src/types/map";
+import TransferListItem from "../TransferListItem/TransferListItem";
+import TransferDetail from "../TransferDetail/TransferDetail";
 
 const TransferList = () => {
-    const [paraItem, setParaItem] = useRecoilState(hospitalSelectedParaId);
-    const requestList = useRecoilValue(hospitalRequestList);
+    const [selectedTransferItem, setSelectedTransferItem] = useRecoilState(hospitalSelectedTransferItem);
+    const transferList = useRecoilValue(hospitalTransferList);
 
-    const selectParaDetail = (item: ParaRequestItem | undefined) => {
-        setParaItem(item);
+    const selectParaDetail = (item: HospitalTransferItem | undefined) => {
+        setSelectedTransferItem(item);
     }
 
     useEffect(() => {
-        console.log(requestList)
-      }, [requestList])
+        console.log(transferList)
+    }, [transferList])
 
     return (
         <>
             <TransferListContainer>
-                {requestList !== undefined ?
+                {transferList !== undefined ?
                     <>
-                        {requestList.map((item, index) => (
-                            <ParamedicListItem {...item} key={index}
+                        {transferList.map((item, index) => (
+                            <TransferListItem {...item} key={index}
                                 onclick={() => selectParaDetail(item)}
-                                isSelected={(paraItem !== undefined && paraItem.id == item.id)}
+                                isSelected={(selectedTransferItem !== undefined && selectedTransferItem.id == item.id)}
                             />
                         ))}
                     </> :
                     <></>
                 }
             </TransferListContainer>
-            {paraItem !== undefined ? <ParamedicDetail {...paraItem} onclick={() => selectParaDetail(undefined)}></ParamedicDetail>
+            {selectedTransferItem !== undefined ? <TransferDetail {...selectedTransferItem} onclick={() => selectParaDetail(undefined)}></TransferDetail>
                 :
                 <></>}
         </>

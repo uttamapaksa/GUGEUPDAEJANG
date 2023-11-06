@@ -3,7 +3,10 @@ import { MapContainer } from "./Map.style";
 import ParamedicInfo from "./InfoWindow/ParamedicInfo";
 import HospitalMarker from "./Marker/HospitalMarker";
 import { MapProps } from "/src/types/map";
-import ParamedicMarker from "./Marker/ParamedicMarker";
+import ParamedicMarker from "./Marker/ParamedicRequsetMarker";
+import ParamedicRequestMarker from "./Marker/ParamedicRequsetMarker";
+import ParamedicTransferMarker from "./Marker/ParamedicTransferMarker";
+import ParamedicTransferInfo from "./InfoWindow/ParamedicTransferInfo";
 
 declare global {
     interface Window {
@@ -38,28 +41,9 @@ function Map(props: MapProps) {
     const [map, setMap] = useState<any>();
     const [prevType, setPrevType] = useState<string>("");
 
-    // useEffect(() => {
-    //     if (props.pos !== undefined) {
-    //         const tmp = createMap(props.pos.lat, props.pos.lon);
-    //         console.log("tmp", tmp);
-    //         setMap(tmp);
-    //         setPrevType(props.type);
-    //     }
-    //     else{
-    //         let pos = {
-    //             lat: 37.565128,
-    //             lon: 126.98883
-    //         }
-    //         const tmp = createMap(pos.lat, pos.lon);
-    //         console.log("tmp", tmp);
-    //         setMap(tmp);
-    //         setPrevType("empty");
-    //     }
-    // }, []);
-
-    useEffect(()=>{
-        if(props.pos !== undefined && props.type!=prevType){
-            if(map !== undefined) destroyMap();
+    useEffect(() => {
+        if (props.pos !== undefined && props.type != prevType) {
+            if (map !== undefined) destroyMap();
             console.log("mapchange")
             if (props.pos !== undefined) {
                 const tmp = createMap(props.pos.lat, props.pos.lon);
@@ -67,7 +51,7 @@ function Map(props: MapProps) {
                 setMap(tmp);
                 setPrevType(props.type);
             }
-            else{
+            else {
                 let pos = {
                     lat: 37.565128,
                     lon: 126.98883
@@ -79,9 +63,9 @@ function Map(props: MapProps) {
             }
         }
     }, [prevType]);
-    
-    useEffect(()=>{
-        if(props.pos!==undefined && map!==undefined && props.type!=prevType){
+
+    useEffect(() => {
+        if (props.pos !== undefined && map !== undefined && props.type != prevType) {
             map.setCenter(new Tmapv3.LatLng(props.pos.lat, props.pos.lon));
         }
         console.log("pos", props.pos);
@@ -93,20 +77,26 @@ function Map(props: MapProps) {
             </MapContainer >
             {map !== undefined ?
                 <>
-                    
+
                     {props.type === "guest" ?
                         <><HospitalMarker {...props} map={map} /></> :
                         <></>}
                     {props.type === "paramedic" ?
                         <><HospitalMarker {...props} map={map} /></> :
                         <></>}
-                    {props.type === "req" ?
+                    {props.type === "request" ?
                         <>
-                            <ParamedicMarker {...props} map={map} />
+                            <ParamedicRequestMarker {...props} map={map} />
                             <ParamedicInfo {...props} map={map} />
                         </> :
                         <></>}
-                    
+                    {props.type === "transfer" ?
+                        <>
+                            <ParamedicTransferMarker {...props} map={map} />
+                            <ParamedicTransferInfo {...props} map={map} />
+                        </> :
+                        <></>}
+
                 </> :
                 <></>
             }

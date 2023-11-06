@@ -2,12 +2,15 @@ import { useEffect, useRef, useState } from "react";
 import { ParamedicItemContainer, ParamedicItemContent, ItemRequestAt, ItemParaType, ItemParaInfo, ItemParaTagGroup } from "./ParamedicListItem.style";
 import A from "/src/components/Commons/Atoms";
 import theme from "/src/styles";
-import { HospitalResponseItem } from "/src/types/map";
-import { useSetRecoilState } from "recoil";
-import { hospitalResponse } from "/src/recoils/HospitalAtoms";
+import { HospitalResponseItem, HospitalResponsePostProps, HospitalTransferItem } from "/src/types/map";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { hospitalRequestList, hospitalResponse, hospitalSelectedRequestItem, hospitalTransferList } from "/src/recoils/HospitalAtoms";
 
 const ParamedicListItem = (props: any) => {
-  const setCurResponse = useSetRecoilState(hospitalResponse);
+  const setCurResponse = useSetRecoilState(hospitalResponse); //http post로 수정 예정
+  const [requestList, setRequestList] = useRecoilState(hospitalRequestList);
+  const [transferList, setTransferList] = useRecoilState(hospitalTransferList);
+  const [selectedParaItem, setSelectedParaItem] = useRecoilState(hospitalSelectedRequestItem);
 
   const [scrollMoved, setScrollMoved] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -16,7 +19,8 @@ const ParamedicListItem = (props: any) => {
     console.log(props)
     if (props.isSelected) setScrollMoved(true);
     else setScrollMoved(false);
-  }, [props])
+  }, [props]);
+
   useEffect(() => {
     if (scrollMoved) moveScroll();
   }, [scrollMoved])
@@ -27,15 +31,52 @@ const ParamedicListItem = (props: any) => {
     }
   };
 
-  const clickButton = (res: boolean) => {
-    const response:HospitalResponseItem = {
+  const checkFull = async (res: boolean) => {
+    const postProps: HospitalResponsePostProps = {
       id: props.id,
-      responseAt: new Date().toLocaleDateString(),
       responseType: res,
     }
-    setCurResponse(response)
+    console.log("http post 응답 전송 : ", postProps);
+    // return await axiosPost();
   }
 
+  const clickButton = (res: boolean) => {
+    //병원 응답 http post로 수정 예정
+    // const response: HospitalResponseItem = {
+    //   id: props.id,
+    //   responseAt: new Date().toLocaleDateString(),
+    //   responseType: res,
+    // }
+    // setCurResponse(response)
+    //->
+    checkFull(res);
+
+    if (requestList !== undefined) {
+      let nextList = [];
+      for (let i = 0; i < requestList.length; i++) {
+        if (requestList[i].id !== props.id) {
+          nextList.push(requestList[i]);
+        }
+        else if (res) {
+          let curTransferList: HospitalTransferItem[] = [];
+          if (transferList !== undefined) {
+            curTransferList = [...transferList];
+          }
+          const newTransferItem: HospitalTransferItem = {
+            id: props.id,
+            state: "wait",
+            data: props
+          }
+          curTransferList.push(newTransferItem);
+          setTransferList(curTransferList);
+        }
+        if (selectedParaItem !== undefined && selectedParaItem.id == props.id) {
+          setSelectedParaItem(undefined);
+        }
+      }
+      setRequestList(nextList);
+    }
+  }
 
   return (
     <ParamedicItemContainer ref={scrollRef}>
@@ -69,37 +110,38 @@ const ParamedicListItem = (props: any) => {
             >{item}</A.DivTag>
           ))}
         </ItemParaTagGroup>
-
-        <A.BtnToggle
-          $width="50%"
-          $height="30px"
-          $position="absolute"
-          $left="0%"
-          $bottom="0%"
-          $borderRadius="0px"
-          $color={theme.color.pinkDrak}
-          $fontSize={theme.font.Small1_16}
-          $boxShadow="0 0.2px 0.1px 0px inset"
-          onClick={()=>clickButton(false)}
-        >
-          거절
-        </A.BtnToggle>
-
-        <A.BtnToggle
-          $width="50%"
-          $height="30px"
-          $position="absolute"
-          $right="0%"
-          $bottom="0%"
-          $borderRadius="0px"
-          $color={theme.color.white}
-          $fontSize={theme.font.Small1_16}
-          $backgroundColor={theme.color.pinkDrak}
-          $boxShadow="0 0.2px 0.1px 0px inset" 
-          onClick={()=>clickButton(true)}
+        <div onClick={(e: React.MouseEvent<HTMLElement>) => e.stopPropagation()}>
+          <A.BtnToggle
+            $width="50%"
+            $height="15%"
+            $position="absolute"
+            $left="0%"
+            $bottom="0%"
+            $borderRadius="0px"
+            $color={theme.color.pinkDrak}
+            $fontSize={theme.font.Small1_16}
+            $boxShadow="0 0.2px 0.1px 0px inset"
+            onClick={() => clickButton(false)}
           >
-          승인
-        </A.BtnToggle>
+            거절
+          </A.BtnToggle>
+
+          <A.BtnToggle
+            $width="50%"
+            $height="15%"
+            $position="absolute"
+            $right="0%"
+            $bottom="0%"
+            $borderRadius="0px"
+            $color={theme.color.white}
+            $fontSize={theme.font.Small1_16}
+            $backgroundColor={theme.color.pinkDrak}
+            $boxShadow="0 0.2px 0.1px 0px inset"
+            onClick={() => clickButton(true)}
+          >
+            승인
+          </A.BtnToggle>
+        </div>
       </ParamedicItemContent>
     </ParamedicItemContainer>
   );

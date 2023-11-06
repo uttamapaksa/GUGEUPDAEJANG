@@ -4,17 +4,21 @@ import {
   TypeButton,
   TypeButtonGroup,
 } from "./HospitalMainSidebar.style";
-import { useRecoilState } from "recoil";
-import { hospitalSidebarType } from "../../../../recoils/HospitalAtoms";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { hospitalSelectedRequestItem, hospitalSelectedTransferItem, hospitalSidebarType } from "../../../../recoils/HospitalAtoms";
 import ParamedicList from "./Request/ParamedicList/ParamedicList";
 import TransferList from "./Transfer/TransferList/TransferList";
 // import { useEffect } from "react";
 
 const HospitalMainSidebar = () => {
   const [sidebarType, setSidebarType] = useRecoilState(hospitalSidebarType);
+  const setRequestItem = useSetRecoilState(hospitalSelectedRequestItem);
+  const setTransferItem = useSetRecoilState(hospitalSelectedTransferItem);
 
   const changeSidebarState = (flag: boolean) => {
     setSidebarType(flag);
+    setRequestItem(undefined);
+    setTransferItem(undefined);
   };
 
   // useEffect(() => {
