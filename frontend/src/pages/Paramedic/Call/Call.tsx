@@ -18,11 +18,13 @@ import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognitio
 // 리코일
 import { 
   useRecoilState, 
+  useRecoilValue, 
   useSetRecoilState } from 'recoil';
 import { 
   recordContentFile, 
   recordVoiceFile, 
-  paramedicCallState } from '/src/recoils/ParamedicAtoms';
+  paramedicCallState, 
+  recordCameraFile} from '/src/recoils/ParamedicAtoms';
 import CameraModal from '../../../components/Paramedic/Call/CameraModal/CameraModal';
 
 function Call() {
@@ -31,9 +33,9 @@ function Call() {
   const [cameraing, setCameraing] = useState<boolean>(false);
   const [seconds, setSeconds] = useState<number>(0);
   const [timer, setTimer] = useState<NodeJS.Timeout | null>(null);
-  const setRecordContent = useSetRecoilState(recordContentFile);
+  const [recordContent, setRecordContent] = useRecoilState(recordContentFile);
   const [recordVoice, setRecordVoice] = useRecoilState(recordVoiceFile);
-  // const [recordCamera, setRecordCamera] = useRecoilState(recordCameraFile);
+  const recordCamera = useRecoilValue(recordCameraFile);
 
   const {
     startRecording,
@@ -46,43 +48,35 @@ function Call() {
     listening,
     resetTranscript,
   } = useSpeechRecognition();
-
-  useEffect(() => {
-    setRecordContent(transcript)
-  },[transcript])
-
+  
   const RecordStart = () => {
     setRecording(true);
     resetTranscript()
     SpeechRecognition.startListening({ continuous: true })
     // startRecording()
   };
-
+  
   const RecordStop = async () => {
     setRecording(false);
     SpeechRecognition.stopListening()
     // stopRecording()
   };
-
+  
   const CameraOpen = async () => {
     setCameraing(true)
   };
   const CameraClose = async () => {
     setCameraing(false)
   };
-
-  useEffect (()=>{
-    setRecordVoice(mediaBlobUrl ?? "")
-  },[mediaBlobUrl])
-
+  
   const handleRecordingTimer = () => {
     if (recording) {
       setTimer(
         setInterval(() => {
           setSeconds((prev) => prev + 1);
         }, 1000),
-      );
-    } else {
+        );
+      } else {
       if (timer) {
         clearInterval(timer);
         setSeconds(0);
@@ -99,6 +93,14 @@ function Call() {
     return `${String(minutes).padStart(2, '0')} 
     : ${String(seconds).padStart(2, '0')}`;
   };
+  
+  useEffect(() => {
+    setRecordContent(transcript)
+  },[transcript])
+
+  useEffect (()=>{
+    setRecordVoice(mediaBlobUrl ?? "")
+  },[mediaBlobUrl])
 
   useEffect(() => {
     if (recording || cameraing) {
