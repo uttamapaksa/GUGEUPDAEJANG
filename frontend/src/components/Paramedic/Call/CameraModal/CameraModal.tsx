@@ -43,9 +43,15 @@ function CameraModal({CameraClose} : CallProps) {
     if(videoInput) {videoInput.click()}
   };
 
+  const CameraCloseProtect = (event: React.MouseEvent<HTMLDivElement>) => {
+    event.stopPropagation(); // 이 부분이 중요합니다.
+  };
+
   return (
-    <S.Overlay>
-      <S.Container>
+    <S.Overlay
+      onClick={CameraClose}>
+      <S.Container
+        onClick={CameraCloseProtect}>
         <S.Title>촬영</S.Title>
         <S.IptCamera
           type="file"
