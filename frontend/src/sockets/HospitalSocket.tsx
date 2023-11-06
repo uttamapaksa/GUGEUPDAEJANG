@@ -71,6 +71,7 @@ function HospitalSocket() {
   };
 
   // 메시지 수신
+  // 여기로는 구급대원 요청만 들어옴
   const callingReceiveMessage = (message: any) => {
     // 요청소켓 수신
     // 서버로부터 구급요청 리스트 수신
@@ -104,12 +105,13 @@ function HospitalSocket() {
     }
     else { // 구급대원 확인 응답(서버)
       console.log("응답 타입이 다름")
+
     }
   };
 
+  // 이송소켓 수신
+  // 구급대원으로부터 현재 위치 수신
   const transferReceiveMessage = (message: any) => {
-    // 이송소켓 수신
-    // 구급대원으로부터 현재 위치 수신
     console.log('Received transfer message:', message);
     setTransferMessages((prev) => [...prev, message]);
   };
@@ -119,7 +121,7 @@ function HospitalSocket() {
   const [curHospitalResponse, setCurHospitalResponse] = useRecoilState(hospitalResponse);
   const callingSendMessage = () => {
     // 요청소켓 송신
-    // 구급대원에게 수락/거절 여부 송신
+    // 구급대원에게 수락/거절 여부 송신 -> http통신으로 바뀌어서 지울 예정
     if (callingSocket.current && setCallingMessageToSend) {
       callingSocket.current.publish({
         destination: `/app/${paramedicId}`,
@@ -130,6 +132,7 @@ function HospitalSocket() {
   };
   const transferSendMessage = () => {
     // 이송소켓 송신
+    // 확인 여부 수신도 여기서 하나?
     if (transferSocket.current && setTransferMessageToSend) {
       transferSocket.current.publish({
         destination: `/app/location/${paramedicId}`,

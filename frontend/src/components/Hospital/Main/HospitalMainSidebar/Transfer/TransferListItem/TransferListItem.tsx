@@ -1,12 +1,15 @@
 import { useEffect, useRef, useState } from "react";
-import { TransferListItemContainer, TransferListItemContent, ItemRequestAt, ItemParaType, ItemParaInfo, ItemParaTagGroup } from "./TransferListItem.style";
+import { TransferListItemContainer, TransferListItemContent, ItemRequestAt, ItemParaType, ItemParaTagGroup } from "./TransferListItem.style";
 import A from "/src/components/Commons/Atoms";
 import theme from "/src/styles";
-import { useSetRecoilState } from "recoil";
-import { hospitalResponse } from "/src/recoils/HospitalAtoms";
+import { hospitalTransferList } from "/src/recoils/HospitalAtoms";
+import { timeToString } from "/src/constants/function";
+import { AGEGROUP, GENDER } from "/src/constants/variable";
+import { HospitalTransferItem } from "/src/types/map";
+import { useRecoilState } from "recoil";
 
 const TransferListItem = (props: any) => {
-  const setCurResponse = useSetRecoilState(hospitalResponse);
+  const [transferList, setTransferList] = useRecoilState(hospitalTransferList);
 
   const [scrollMoved, setScrollMoved] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -26,6 +29,13 @@ const TransferListItem = (props: any) => {
     }
   };
 
+  const clickButton = () => {
+    if(transferList!=undefined){
+      let nextTransferList = transferList.filter((item:HospitalTransferItem) => item.id!=props.id);
+      setTransferList(nextTransferList);
+    }
+  };
+
   return (
     <TransferListItemContainer ref={scrollRef}>
       <TransferListItemContent onClick={props.onclick} $isSelected={props.isSelected}>
@@ -40,10 +50,8 @@ const TransferListItem = (props: any) => {
           $fontSize={theme.font.Small5_12}>
           {props.data.ktas}
         </A.DivKtasInfo>
-        <ItemRequestAt>{props.data.duration}</ItemRequestAt>
-        <ItemParaType>{props.data.ageGroup}</ItemParaType>
-        {/* <ItemParaType>{props.data.gender}</ItemParaType> */}
-        <ItemParaInfo>{props.data.description}</ItemParaInfo>
+        <ItemRequestAt>{timeToString(props.data.createdAt)}</ItemRequestAt>
+        <ItemParaType>{AGEGROUP[props.data.ageGroup]} ({GENDER[props.data.gender]})</ItemParaType>
         <ItemParaTagGroup>
           {props.data.tags.map((item: string, index: number) => (
             <A.DivTag
@@ -71,7 +79,8 @@ const TransferListItem = (props: any) => {
             $backgroundColor={theme.color.blue}
             $boxShadow=""
           >
-            {3}분 이내 도착 예정
+            {/* {props.leftTime}분 이내 도착 예정 */}
+             - 분 이내 도착 예정
           </A.DivTag> : <></>}
         {props.state == "wait" ?
           <A.DivTag
@@ -100,6 +109,7 @@ const TransferListItem = (props: any) => {
             $fontSize={theme.font.Small1_16}
             $backgroundColor={theme.color.ktas4_Active}
             $boxShadow="0"
+            onClick={clickButton}
           >
             완료됨
           </A.DivTag> : <></>}
@@ -115,6 +125,7 @@ const TransferListItem = (props: any) => {
             $fontSize={theme.font.Small1_16}
             $backgroundColor={theme.color.ktas2_Active}
             $boxShadow="0"
+            onClick={clickButton}
           >
             취소됨
           </A.DivTag> : <></>}
