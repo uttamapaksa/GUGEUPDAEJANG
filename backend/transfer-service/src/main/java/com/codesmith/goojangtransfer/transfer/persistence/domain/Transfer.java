@@ -16,19 +16,22 @@ public class Transfer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long callingId;
+    private Long memberId;
     @Enumerated(EnumType.STRING)
     private Status status;
     private LocalDateTime arrivedAt;
 
-    public Transfer(Long callingId, Status status, LocalDateTime arrivedAt) {
+    public Transfer(Long callingId, Long memberId, Status status, LocalDateTime arrivedAt) {
         this.callingId = callingId;
+        this.memberId = memberId;
         this.status = status;
         this.arrivedAt = arrivedAt;
     }
 
-    public Transfer(Long id, Long callingId, Status status, LocalDateTime arrivedAt) {
+    public Transfer(Long id, Long callingId, Long memberId, Status status, LocalDateTime arrivedAt) {
         this.id = id;
         this.callingId = callingId;
+        this.memberId = memberId;
         this.status = status;
         this.arrivedAt = arrivedAt;
     }

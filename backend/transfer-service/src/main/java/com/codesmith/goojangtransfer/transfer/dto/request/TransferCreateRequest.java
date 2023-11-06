@@ -11,4 +11,5 @@ import lombok.Setter;
 @AllArgsConstructor
 public class TransferCreateRequest {
     private Long callingId;
+    private Long memberId;
 }
