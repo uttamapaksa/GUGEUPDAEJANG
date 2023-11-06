@@ -18,5 +18,5 @@ public interface HospitalDetailRepository extends JpaRepository<HospitalDetail, 
             )
         ) < :distance""", nativeQuery = true)
     List<HospitalDetail> findHospitalWithinDistance(@Param("latitude") Double latitude, @Param("longitude") Double longitude, @Param("distance") Double distance);
-
+    HospitalDetail findByMemberId(Long memberId);
 }

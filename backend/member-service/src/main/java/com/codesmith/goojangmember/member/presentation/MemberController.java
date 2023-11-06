@@ -54,9 +54,8 @@ public class MemberController {
         return ResponseEntity.ok(memberService.getSafetyCenterList(keyword));
     }
 
-    @GetMapping("/bed/{hospitalId}")
-    public ResponseEntity<BedCountResponse> getBedCount(@PathVariable("hospitalId") String hospitalId) {
-        //TODO: hospitalId -> memberId, memberIdvalidation
-        return ResponseEntity.ok(memberService.getBedCount(hospitalId));
+    @GetMapping("/bed/{memberId}")
+    public ResponseEntity<BedCountResponse> getBedCount(@PathVariable("memberId") Long memberId) {
+        return ResponseEntity.ok(memberService.getBedCount(memberId));
     }
 }

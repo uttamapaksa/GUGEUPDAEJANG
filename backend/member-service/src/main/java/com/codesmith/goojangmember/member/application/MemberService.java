@@ -23,5 +23,5 @@ public interface MemberService {
     ParamedicDetail join(ParamedicJoinRequest paramedicJoinRequest);
     EmailCheckResponse checkEmail(String email);
     List<CenterListResponse> getSafetyCenterList(String keyword);
-    BedCountResponse getBedCount(String hospitalId);
+    BedCountResponse getBedCount(Long memberId);
 }

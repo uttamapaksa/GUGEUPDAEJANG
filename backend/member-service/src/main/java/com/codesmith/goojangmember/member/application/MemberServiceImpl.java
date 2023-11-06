@@ -103,10 +103,13 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public BedCountResponse getBedCount(String hospitalId) {
+    public BedCountResponse getBedCount(Long memberId) {
+        memberValidator.validateMemberId(memberId);
+        memberValidator.validateHospitalId(memberId);
+        HospitalDetail hospitalDetail = hospitalDetailRepository.findByMemberId(memberId);
         HashMap<String, Long> hospitalInfoMap = publicDataClient.getRealTimeERBedInfo();
-        memberValidator.validateBedCount(hospitalInfoMap, hospitalId);
-        return new BedCountResponse(hospitalInfoMap.get(hospitalId));
+        memberValidator.validateBedCount(hospitalInfoMap, hospitalDetail.getId());
+        return new BedCountResponse(hospitalInfoMap.get(hospitalDetail.getId()));
     }
 
     private Member covertToMember(HospitalJoinRequest hospitalJoinRequest) {
