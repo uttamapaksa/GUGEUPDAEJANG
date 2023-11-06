@@ -6,6 +6,7 @@ import com.codesmith.goojangmember.member.dto.request.ParamedicJoinRequest;
 import com.codesmith.goojangmember.member.dto.response.CenterListResponse;
 import com.codesmith.goojangmember.member.dto.response.EmailCheckResponse;
 import com.codesmith.goojangmember.member.dto.response.HospitalListResponse;
+import com.codesmith.goojangmember.member.dto.response.MemberInfoResponse;
 import com.codesmith.goojangmember.member.persistence.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/{memberId}")
-    public ResponseEntity<Member> getMember(@PathVariable("memberId") Long memberId) {
+    public ResponseEntity<MemberInfoResponse> getMember(@PathVariable("memberId") Long memberId) {
         return ResponseEntity.ok(memberService.getMemberInfo(memberId));
     }
 
