@@ -1,22 +1,58 @@
-import { useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { ItemParaType, ItemRequestAt, } from "../ParamedicItem/ParamedicListItem.style";
 import { CloseDiv, DetailItemContainer, ItemElapseMin, ItemAddr, ParamedicDetailContainer, ParamedicDetailContent, DetailItemBetween, ItemLeftTime } from "./ParamedicDetail.style";
 import A from "/src/components/Commons/Atoms";
 import theme from "/src/styles";
-import { hospitalResponse } from "/src/recoils/HospitalAtoms";
-import { HospitalResponseItem } from "/src/types/map";
+import { hospitalRequestList, hospitalResponse, hospitalTransferList } from "/src/recoils/HospitalAtoms";
+import { HospitalResponseItem, HospitalResponsePostProps, HospitalTransferItem } from "/src/types/map";
 
 const ParamedicDetail = (props: any) => {
     const setCurResponse = useSetRecoilState(hospitalResponse);
+    const [requestList, setRequestList] = useRecoilState(hospitalRequestList);
+    const [transferList, setTransferList] = useRecoilState(hospitalTransferList);
 
-    const clickButton = (res: boolean) => {
-        const response:HospitalResponseItem = {
+    const checkFull = async (res: boolean) => {
+        const postProps: HospitalResponsePostProps = {
           id: props.id,
-          responseAt: new Date().toLocaleDateString(),
           responseType: res,
         }
-        setCurResponse(response)
+        console.log("http post 응답 전송 : ", postProps);
+        // return await axiosPost();
       }
+
+
+    const clickButton = (res: boolean) => {
+        // const response: HospitalResponseItem = {
+        //     id: props.id,
+        //     responseAt: new Date().toLocaleDateString(),
+        //     responseType: res,
+        // }
+        // setCurResponse(response)
+        checkFull(res);
+        if (requestList !== undefined) {
+            let nextList = [];
+            for (let i = 0; i < requestList.length; i++) {
+                if (requestList[i].id !== props.id) {
+                    nextList.push(requestList[i]);
+                }
+                else if (res) {
+                    let curTransferList: HospitalTransferItem[] = [];
+                    if (transferList !== undefined) {
+                        curTransferList = [...transferList];
+                    }
+                    const newTransferItem: HospitalTransferItem = {
+                        id: props.id,
+                        state: "wait",
+                        data: props
+                    }
+                    curTransferList.push(newTransferItem);
+                    setTransferList(curTransferList);
+                }
+            }
+            setRequestList(nextList);
+        }
+    }
+
     return (
         <ParamedicDetailContainer>
             <ParamedicDetailContent>
@@ -79,7 +115,7 @@ const ParamedicDetail = (props: any) => {
                         $color={theme.color.pinkDrak}
                         $fontSize={theme.font.Small1_16}
                         $boxShadow="0 0.2px 0.1px 0px inset"
-                        onClick={()=>clickButton(false)}
+                        onClick={() => clickButton(false)}
                     >
                         거절
                     </A.BtnToggle>
@@ -95,8 +131,8 @@ const ParamedicDetail = (props: any) => {
                         $fontSize={theme.font.Small1_16}
                         $backgroundColor={theme.color.pinkDrak}
                         $boxShadow="0 0.2px 0.1px 0px inset"
-                        onClick={()=>clickButton(true)}
-                        >
+                        onClick={() => clickButton(true)}
+                    >
                         승인
                     </A.BtnToggle>
                 </DetailItemContainer>
