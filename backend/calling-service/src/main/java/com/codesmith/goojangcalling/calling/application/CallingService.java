@@ -22,5 +22,7 @@ public interface CallingService {
 
     void changeCallingStatus(Long memberId, StatusChangeMessage changeMessage);
 
-    TransferInfoResponse createTransfer(Long memberId, Long callingId);
+    TransferInfoResponse createTransfer(Long callingId);
+
+    void cancelCallingStatus(Long callingId);
 }
