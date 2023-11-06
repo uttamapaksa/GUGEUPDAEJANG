@@ -3,7 +3,7 @@ import { showWaitState } from '/src/recoils/ParamedicAtoms';
 import * as S from './HospitalItem.style';
 import A from '/src/components/Commons/Atoms';
 import theme from '/src/styles';
-import { CallHospitalType } from '/src/types/paramedic';
+import { CalledHospitalType } from '/src/types/paramedic';
 
 const BTNBGCOLOR: { [key: string]: string } = {
   PENDING: theme.color.white,
@@ -19,7 +19,7 @@ const BTNRADCOLOR: { [key: string]: string } = {
   CANCELED: theme.color.grayDarkest,
 };
 
-function HospitalItem({ hospital, setHospitals }: { key: number; hospital: CallHospitalType; setHospitals: any }) {
+function HospitalItem({ hospital, setHospitals }: { key: number; hospital: CalledHospitalType; setHospitals: any }) {
   const setShowWait = useSetRecoilState(showWaitState);
   const ButtonContent = (status: string) => {
     switch (status) {

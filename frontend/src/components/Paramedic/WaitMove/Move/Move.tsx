@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
-import { isTransportingState, paramedicCallState } from '/src/recoils/ParamedicAtoms';
+import { isTransportingState, paramedicCallState, showWaitState } from '/src/recoils/ParamedicAtoms';
 import * as S from './Move.style';
 import A from '/src/components/Commons/Atoms';
 import theme from '/src/styles';
@@ -10,13 +10,33 @@ import PATH from '/src/constants/path';
 function Move() {
   const [categories, _] = useState<string[]>(['추락', '과다출혈', '과다출혈']);
   const setIsTransporting = useSetRecoilState(isTransportingState);
-  const setCallState = useSetRecoilState(paramedicCallState);
+  const setParamedicCall = useSetRecoilState(paramedicCallState);
+  const setShowWait = useSetRecoilState(showWaitState);
+
   const navigate = useNavigate();
   const finishTransfer = () => {
     setIsTransporting(false);
-    setCallState(null);
+    setShowWait(true);
+    setParamedicCall({
+      id: 0,
+      createdAt: '',
+      occurrenceId: 0,
+      memberId: 0,
+      ktas: 0,
+      ageGroup: '',
+      gender: '',
+      description: '',
+      latitude: 0,
+      longitude: 0,
+      address: '',
+      tags: [''],
+      files: [''],
+      distance: 0,
+      duration: 0,
+    });
     navigate(PATH.Paramedic);
   };
+
   return (
     <>
       <S.HospitalList>
@@ -88,7 +108,7 @@ function Move() {
 
       <A.BtnSubmit
         onClick={finishTransfer}
-        $margin="10vh 0 0 0 "
+        $margin="10vh 0 1vh 0 "
         $borderRadius="1vh"
         $width="90%"
         $height="6vh"

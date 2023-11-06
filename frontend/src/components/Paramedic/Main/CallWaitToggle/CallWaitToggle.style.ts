@@ -8,30 +8,30 @@ export const Container = styled.div`
   height: 45%;
 `;
 
-export const TxtParaState1 = styled.div<{ selected: number }>`
+export const TxtParaState1 = styled.div<{ showwait: number; selected: number }>`
   padding: 0.2vh 0;
   font-size: 3.2vh;
   font-weight: 800;
-  ${({ selected }) =>
-    selected === 0
+  ${({ showwait, selected }) =>
+    showwait
+      ? css`
+          color: ${theme.color.grayMedium};
+        `
+      : selected === 0
       ? css`
           color: ${theme.color.grayDarkest};
         `
-      : selected === 1
-      ? css`
-          color: ${theme.color.white};
-        `
       : css`
-          color: ${theme.color.grayMedium};
+          color: ${theme.color.white};
         `}
 `;
 
-export const TxtParaState5 = styled.div<{ selected: number }>`
+export const TxtParaState5 = styled.div<{ showwait: number }>`
   padding: 0.2vh 0;
   font-size: 3.2vh;
   font-weight: 800;
-  ${({ selected }) =>
-    selected === 2
+  ${({ showwait }) =>
+    showwait
       ? css`
           color: ${theme.color.white};
         `

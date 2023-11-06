@@ -27,7 +27,7 @@ function LoginInput () {
     if (e.target.value.length > MAX_LENGTH) {
       e.target.value = e.target.value.slice(0, MAX_LENGTH);
     }
-    console.log(email)
+    // console.log(email)
     setEmail(e.target.value.split(" ").join(""));
   };
 
@@ -35,7 +35,7 @@ function LoginInput () {
     if (e.target.value.length > MAX_LENGTH) {
       e.target.value = e.target.value.slice(0, MAX_LENGTH);
     }
-    console.log(password)
+    // console.log(password)
     setPassword(e.target.value.split(" ").join(""));
   };
 

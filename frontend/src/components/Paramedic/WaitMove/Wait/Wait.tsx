@@ -1,8 +1,8 @@
 import * as S from './Wait.style';
 import M from '/src/components/Commons/Molecules';
-import { CallHospitalType } from '/src/types/paramedic';
+import { CalledHospitalType } from '/src/types/paramedic';
 
-function Wait({ hospitals, setHospitals }: { hospitals: CallHospitalType[], setHospitals: any }) {
+function Wait({ hospitals, setHospitals }: { hospitals: CalledHospitalType[], setHospitals: any }) {
   return (
     <>
       <S.HospitalList>
