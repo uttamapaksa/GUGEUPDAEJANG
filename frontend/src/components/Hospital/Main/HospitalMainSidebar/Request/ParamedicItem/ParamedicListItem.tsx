@@ -2,12 +2,14 @@ import { useEffect, useRef, useState } from "react";
 import { ParamedicItemContainer, ParamedicItemContent, ItemRequestAt, ItemParaType, ItemParaInfo, ItemParaTagGroup } from "./ParamedicListItem.style";
 import A from "/src/components/Commons/Atoms";
 import theme from "/src/styles";
-import { HospitalResponseItem, HospitalResponsePostProps, HospitalTransferItem } from "/src/types/map";
+import { HospitalResponsePostProps, HospitalTransferItem } from "/src/types/map";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { hospitalRequestList, hospitalResponse, hospitalSelectedRequestItem, hospitalTransferList } from "/src/recoils/HospitalAtoms";
+import { AGEGROUP, GENDER } from "/src/constants/variable";
+import { timeToString } from "/src/constants/function";
 
 const ParamedicListItem = (props: any) => {
-  const setCurResponse = useSetRecoilState(hospitalResponse); //http post로 수정 예정
+  // const setCurResponse = useSetRecoilState(hospitalResponse); //http post로 수정 예정
   const [requestList, setRequestList] = useRecoilState(hospitalRequestList);
   const [transferList, setTransferList] = useRecoilState(hospitalTransferList);
   const [selectedParaItem, setSelectedParaItem] = useRecoilState(hospitalSelectedRequestItem);
@@ -38,6 +40,7 @@ const ParamedicListItem = (props: any) => {
     }
     console.log("http post 응답 전송 : ", postProps);
     // return await axiosPost();
+    //만약 post의 response data가 isFull이면 hospitalRequestList를 빈 배열로 만들기
   }
 
   const clickButton = (res: boolean) => {
@@ -92,8 +95,8 @@ const ParamedicListItem = (props: any) => {
           $fontSize={theme.font.Small5_12}>
           {props.ktas}
         </A.DivKtasInfo>
-        <ItemRequestAt>{props.duration}</ItemRequestAt>
-        <ItemParaType>{props.ageGroup}</ItemParaType>
+        <ItemRequestAt>{timeToString(props.createdAt)}</ItemRequestAt>
+        <ItemParaType>{AGEGROUP[props.ageGroup]} ({GENDER[props.gender]})</ItemParaType>
         {/* <ItemParaType>{props.gender}</ItemParaType> */}
         <ItemParaInfo>{props.description}</ItemParaInfo>
         <ItemParaTagGroup>
