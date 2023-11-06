@@ -1,7 +1,7 @@
 package com.codesmith.goojangcalling.calling.application;
 
 import com.codesmith.goojangcalling.calling.dto.message.CallingCreateMessage;
-import com.codesmith.goojangcalling.calling.dto.message.CallingTerminateMessage;
+import com.codesmith.goojangcalling.calling.dto.message.CallingStatusMessage;
 import com.codesmith.goojangcalling.calling.dto.message.StatusChangeMessage;
 import com.codesmith.goojangcalling.calling.dto.request.CallingCreateRequest;
 import com.codesmith.goojangcalling.calling.dto.request.OccurrenceCreateRequest;
@@ -109,14 +109,14 @@ public class CallingServiceImpl implements CallingService{
 
     @Transactional
     @Override
-    public TransferInfoResponse createTransfer(Long memberId, Long callingId) {
+    public TransferInfoResponse createTransfer(Long callingId) {
         // TODO : 현재 발생한 사고 상태들을 종료됐다고 변경
         callingValidator.validateCalling(callingId);
         Calling selectedCalling = callingRepository.findById(callingId).get();
         callingValidator.validateApprovedCalling(selectedCalling);
-        selectedCalling.fixCalling(Status.FIXED);
+        selectedCalling.fixCalling();
 //        simpMessagingTemplate.convertAndSend("/topic/status/" + selectedCalling.getMemberId(), new CallingTerminateMessage(selectedCalling));
-        simpMessagingTemplate.convertAndSend("/topic/status/" + 9999, new CallingTerminateMessage(selectedCalling));
+        simpMessagingTemplate.convertAndSend("/topic/status/" + 9999, new CallingStatusMessage(selectedCalling));
         em.flush();
         em.clear();
         changePendingCalling(selectedCalling);
@@ -124,15 +124,26 @@ public class CallingServiceImpl implements CallingService{
         return null;
     }
 
+    @Transactional
+    @Override
+    public void cancelCallingStatus(Long callingId) {
+        callingValidator.validateCalling(callingId);
+        Calling selectedCalling = callingRepository.findById(callingId).get();
+        callingValidator.validateApprovedOrPendingCalling(selectedCalling);
+        selectedCalling.cancelCalling();
+        //        simpMessagingTemplate.convertAndSend("/topic/status/" + selectedCalling.getMemberId(), new CallingTerminateMessage(selectedCalling));
+        simpMessagingTemplate.convertAndSend("/topic/status/" + 9999, new CallingStatusMessage(selectedCalling));
+    }
+
     private void changePendingCalling(Calling selectedCalling) {
         Occurrence occurrence = selectedCalling.getOccurrence();
         List<Calling> callingList = callingRepository.findAllByOccurrence(occurrence);
         callingList.forEach(o -> {
             if (o.getStatus().equals(Status.PENDING)) {
-                o.terminateCalling(Status.TERMINATED);
+                o.terminateCalling();
 //                simpMessagingTemplate.convertAndSend("/topic/status/" + o.getMemberId(), new CallingTerminateMessage(o));
                 // TODO : 상태들을 변경 후 병원들한테 종료됐다고 전달
-                simpMessagingTemplate.convertAndSend("/topic/status/" + 9999, new CallingTerminateMessage(o));
+                simpMessagingTemplate.convertAndSend("/topic/status/" + 9999, new CallingStatusMessage(o));
             }
         });
     }

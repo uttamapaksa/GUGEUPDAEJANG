@@ -45,8 +45,14 @@ public class CallingController {
 
     // TODO : 추 후에 이송 반환으로 수정
     @PutMapping("/fix/{callingId}")
-    public ResponseEntity<Void> fixCallingAndSendToHospital(@AuthMember MemberInfo memberInfo, @PathVariable Long callingId) {
-        callingService.createTransfer(memberInfo.getId(), callingId);
+    public ResponseEntity<Void> fixCallingAndSendToHospital(@PathVariable Long callingId) {
+        callingService.createTransfer(callingId);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/cancel/{callingId}")
+    public ResponseEntity<Void> cancelCallingAndSendToHospital(@PathVariable Long callingId) {
+        callingService.cancelCallingStatus(callingId);
         return ResponseEntity.ok().build();
     }
 

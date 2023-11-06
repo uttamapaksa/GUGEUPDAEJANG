@@ -41,12 +41,16 @@ public class Calling {
         this.responseTime = LocalDateTime.now();
     }
 
-    public void fixCalling(Status status) {
-        this.status = status;
+    public void fixCalling() {
+        this.status = Status.FIXED;
         this.responseTime = LocalDateTime.now();
     }
 
-    public void terminateCalling(Status status) {
-        this.status = status;
+    public void terminateCalling() {
+        this.status = Status.TERMINATED;
+    }
+
+    public void cancelCalling() {
+        this.status = Status.CANCELED;
     }
 }

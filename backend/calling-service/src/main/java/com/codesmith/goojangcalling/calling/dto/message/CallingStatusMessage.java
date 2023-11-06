@@ -9,11 +9,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class CallingTerminateMessage {
+public class CallingStatusMessage {
     private Long callingId;
     private Status status;
 
-    public CallingTerminateMessage(Calling calling) {
+    public CallingStatusMessage(Calling calling) {
         this.callingId = calling.getId();
         this.status = calling.getStatus();
     }
