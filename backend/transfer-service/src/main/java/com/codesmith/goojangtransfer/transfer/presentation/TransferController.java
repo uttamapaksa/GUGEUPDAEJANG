@@ -1,8 +1,8 @@
 package com.codesmith.goojangtransfer.transfer.presentation;
 
 import com.codesmith.goojangtransfer.transfer.application.TransferService;
-import com.codesmith.goojangtransfer.transfer.dto.response.TransferCompleteResponse;
 import com.codesmith.goojangtransfer.transfer.dto.response.TransferCreateResponse;
+import com.codesmith.goojangtransfer.transfer.dto.response.TransferStatusChangeResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,8 +19,12 @@ public class TransferController {
     }
 
     @PutMapping("/{transferId}")
-    public TransferCompleteResponse completeTransfer(@PathVariable Long transferId) {
+    public TransferStatusChangeResponse completeTransfer(@PathVariable Long transferId) {
         return transferService.completeTransfer(transferId);
     }
 
+    @DeleteMapping("/{transferId}")
+    public TransferStatusChangeResponse cancelTransfer(@PathVariable Long transferId) {
+        return transferService.cancelTransfer(transferId);
+    }
 }

@@ -5,9 +5,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class TransferCompleteResponse {
+public class TransferStatusChangeResponse {
     private boolean success;
-    public TransferCompleteResponse(boolean success) {
+    public TransferStatusChangeResponse(boolean success) {
         this.success = success;
     }
 }
