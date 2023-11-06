@@ -7,6 +7,7 @@ import com.codesmith.goojangmember.infra.publicdata.PublicDataClient;
 import com.codesmith.goojangmember.infra.tmap.TmapClient;
 import com.codesmith.goojangmember.member.dto.request.HospitalJoinRequest;
 import com.codesmith.goojangmember.member.dto.request.ParamedicJoinRequest;
+import com.codesmith.goojangmember.member.dto.response.BedCountResponse;
 import com.codesmith.goojangmember.member.dto.response.CenterListResponse;
 import com.codesmith.goojangmember.member.dto.response.EmailCheckResponse;
 import com.codesmith.goojangmember.member.dto.response.HospitalListResponse;
@@ -99,6 +100,13 @@ public class MemberServiceImpl implements MemberService {
         return safetyCenters.stream()
                 .map(this::convertToCenterListResponse)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public BedCountResponse getBedCount(String hospitalId) {
+        HashMap<String, Long> hospitalInfoMap = publicDataClient.getRealTimeERBedInfo();
+        memberValidator.validateBedCount(hospitalInfoMap, hospitalId);
+        return new BedCountResponse(hospitalInfoMap.get(hospitalId));
     }
 
     private Member covertToMember(HospitalJoinRequest hospitalJoinRequest) {

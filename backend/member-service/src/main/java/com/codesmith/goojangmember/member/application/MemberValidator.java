@@ -3,6 +3,7 @@ package com.codesmith.goojangmember.member.application;
 import com.codesmith.goojangmember.auth.exception.InvalidTokenException;
 import com.codesmith.goojangmember.auth.persistence.RefreshTokenRepository;
 import com.codesmith.goojangmember.member.exception.MemberNotFoundException;
+import com.codesmith.goojangmember.member.exception.NoAvailableBedsException;
 import com.codesmith.goojangmember.member.exception.NoNearByHospitalException;
 import com.codesmith.goojangmember.member.exception.SafetyCenterNotFoundException;
 import com.codesmith.goojangmember.member.persistence.MemberRepository;
@@ -11,6 +12,7 @@ import com.codesmith.goojangmember.member.persistence.domain.HospitalDetail;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Component
@@ -48,6 +50,12 @@ public class MemberValidator {
         if (refreshTokenRepository.existsByRefreshToken(refreshToken)) {
             System.out.println(refreshToken);
             throw new InvalidTokenException("없는 리프레시 토큰");
+        }
+    }
+
+    public void validateBedCount(HashMap<String, Long> hospitalInfoMap, String hospitalId) {
+        if (!hospitalInfoMap.containsKey(hospitalId) || hospitalInfoMap.get(hospitalId) <= 0) {
+            throw new NoAvailableBedsException("응급실 가용 병상이 없음");
         }
     }
 }
