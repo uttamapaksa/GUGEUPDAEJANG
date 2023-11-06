@@ -1,12 +1,11 @@
 package com.codesmith.goojangmember.member.application;
 
 import com.codesmith.goojangmember.auth.application.TokenProvider;
-import com.codesmith.goojangmember.auth.dto.request.AuthLoginRequest;
-import com.codesmith.goojangmember.auth.dto.response.AuthLoginResponse;
 import com.codesmith.goojangmember.infra.publicdata.PublicDataClient;
 import com.codesmith.goojangmember.infra.tmap.TmapClient;
 import com.codesmith.goojangmember.member.dto.request.HospitalJoinRequest;
 import com.codesmith.goojangmember.member.dto.request.ParamedicJoinRequest;
+import com.codesmith.goojangmember.member.dto.response.BedCountResponse;
 import com.codesmith.goojangmember.member.dto.response.CenterListResponse;
 import com.codesmith.goojangmember.member.dto.response.EmailCheckResponse;
 import com.codesmith.goojangmember.member.dto.response.HospitalListResponse;
@@ -53,7 +52,7 @@ public class MemberServiceImpl implements MemberService {
         List<HospitalDetail> hospitalList = hospitalDetailRepository.findHospitalWithinDistance(latitude, longitude, distance);
         memberValidator.validateExistNearByHospital(hospitalList);
 
-        HashMap<String, Long> hospitalInfoMap = publicDataClient.getRealTimeERBedInfo();
+        HashMap<String, Long> hospitalInfoMap = publicDataClient.getRealTimeBedInfo();
         List<HospitalListResponse> hospitalListResponseList = new ArrayList<>();
         for (HospitalDetail hospital : hospitalList) {
             if (hospitalInfoMap.containsKey(hospital.getId()) && hospitalInfoMap.get(hospital.getId()) > 0) {
@@ -99,6 +98,16 @@ public class MemberServiceImpl implements MemberService {
         return safetyCenters.stream()
                 .map(this::convertToCenterListResponse)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public BedCountResponse getBedCount(Long memberId) {
+        memberValidator.validateMemberId(memberId);
+        memberValidator.validateHospitalId(memberId);
+        HospitalDetail hospitalDetail = hospitalDetailRepository.findByMemberId(memberId);
+        HashMap<String, Long> hospitalInfoMap = publicDataClient.getRealTimeBedInfo();
+        memberValidator.validateBedCount(hospitalInfoMap, hospitalDetail.getId());
+        return new BedCountResponse(hospitalInfoMap.get(hospitalDetail.getId()));
     }
 
     private Member covertToMember(HospitalJoinRequest hospitalJoinRequest) {

@@ -3,6 +3,7 @@ package com.codesmith.goojangmember.member.presentation;
 import com.codesmith.goojangmember.member.application.MemberService;
 import com.codesmith.goojangmember.member.dto.request.HospitalJoinRequest;
 import com.codesmith.goojangmember.member.dto.request.ParamedicJoinRequest;
+import com.codesmith.goojangmember.member.dto.response.BedCountResponse;
 import com.codesmith.goojangmember.member.dto.response.CenterListResponse;
 import com.codesmith.goojangmember.member.dto.response.EmailCheckResponse;
 import com.codesmith.goojangmember.member.dto.response.HospitalListResponse;
@@ -53,4 +54,8 @@ public class MemberController {
         return ResponseEntity.ok(memberService.getSafetyCenterList(keyword));
     }
 
+    @GetMapping("/bed/{memberId}")
+    public ResponseEntity<BedCountResponse> getBedCount(@PathVariable("memberId") Long memberId) {
+        return ResponseEntity.ok(memberService.getBedCount(memberId));
+    }
 }

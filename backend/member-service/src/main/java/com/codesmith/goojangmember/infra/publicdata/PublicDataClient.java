@@ -27,7 +27,7 @@ public class PublicDataClient {
     @Autowired
     private final ObjectMapper objectMapper;
 
-    public HashMap<String, Long> getRealTimeERBedInfo() {
+    public HashMap<String, Long> getRealTimeBedInfo() {
         try {
             StringBuilder urlBuilder = new StringBuilder(url);
             urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=" + serviceKey);
