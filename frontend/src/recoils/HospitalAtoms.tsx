@@ -1,6 +1,6 @@
 import { atom } from "recoil";
 import { recoilPersist } from "recoil-persist";
-import { HospitalResponseItem, HospitalTransferItem, ParaRequestItem } from "../types/map";
+import { HospitalTransferItem, ParaRequestItem } from "../types/map";
 
 export const { persistAtom } = recoilPersist();
 
@@ -50,12 +50,6 @@ export const currentPosition = atom<{
   },
 });
 
-
-//병원 응답
-export const hospitalResponse = atom<HospitalResponseItem | undefined>({
-  key: "hospitalResponse",
-  default: undefined,
-});
 
 //----------------------------
 

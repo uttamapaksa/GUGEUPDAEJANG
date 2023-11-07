@@ -11,7 +11,7 @@ function ParamedicTransferInfo(props: any) {
         if (props.map !== undefined && props.paraTransferList !== undefined) {
             let info: any[] = []
             for (var i = 0; i < props.paraTransferList.length; i++) {
-                var lonlat = new Tmapv3.LatLng(props.paraTransferList[i].data.latitude, props.paraTransferList[i].data.longitude);
+                var lonlat = new Tmapv3.LatLng(props.paraTransferList[i].curLat, props.paraTransferList[i].curLon);
                 const infoWindow = new Tmapv3.InfoWindow({
                     position: lonlat = lonlat,
                     offset: new Tmapv3.Point(0, -30),

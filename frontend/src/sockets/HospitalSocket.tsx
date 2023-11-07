@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Client } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { hospitalParmedicRequestList, hospitalResponse } from '../recoils/HospitalAtoms';
+import { hospitalParmedicRequestList } from '../recoils/HospitalAtoms';
 
 const CALLING_SERVER_URL = 'https://k9b204a.p.ssafy.io:64419/calling-websocket';
 const TRANSFER_SERVER_URL = 'https://k9b204a.p.ssafy.io:64413/transfer-websocket';
@@ -13,8 +13,6 @@ const paramedicId = 1;
 // function HospitalSocket({ hospitalId }: HospitalSocketProps) {
 function HospitalSocket() {
   const [requestList, setRequestList] = useRecoilState(hospitalParmedicRequestList);
-  const [callingMessages, setCaliingMessages] = useState<string[]>([]);
-  const [callingMessageToSend, setCallingMessageToSend] = useState<string>('');
   const callingSocket = useRef<Client | null>(null);
 
   const [transferMessages, setTransferMessages] = useState<string[]>([]);
@@ -116,20 +114,6 @@ function HospitalSocket() {
     setTransferMessages((prev) => [...prev, message]);
   };
 
-  // 메시지 송신
-
-  const [curHospitalResponse, setCurHospitalResponse] = useRecoilState(hospitalResponse);
-  const callingSendMessage = () => {
-    // 요청소켓 송신
-    // 구급대원에게 수락/거절 여부 송신 -> http통신으로 바뀌어서 지울 예정
-    if (callingSocket.current && setCallingMessageToSend) {
-      callingSocket.current.publish({
-        destination: `/app/${paramedicId}`,
-        body: JSON.stringify(curHospitalResponse),
-      });
-      setCallingMessageToSend('');
-    }
-  };
   const transferSendMessage = () => {
     // 이송소켓 송신
     // 확인 여부 수신도 여기서 하나?
@@ -154,14 +138,6 @@ function HospitalSocket() {
       }
     };
   }, [hospitalId]);
-
-  useEffect(() => {
-    if (curHospitalResponse !== undefined) {
-      callingSendMessage()
-      console.log(curHospitalResponse)
-      setCurHospitalResponse(undefined)
-    }
-  }, [curHospitalResponse])
 
   return (
     <>

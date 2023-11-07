@@ -6,7 +6,7 @@ export interface Position {
 export interface HospitalItem {
   id: number;
   pos: Position;
-  response?: boolean; //구급대원용 wait | accept | refuse
+  response?: string; //구급대원용 wait | accept | refuse
 }
 
 export interface MapProps {
@@ -62,15 +62,9 @@ export interface ParaRequestItem {
 
 //병원 응답 http post
 export interface HospitalResponsePostProps {
-  id: number;
-  responseType: boolean; //true:수락, false:거절
-}
-
-// 구급대원 응답(서버)
-export interface HospitalResponseItem {
-  id: number;
-  responseAt: string;
-  responseType: boolean; //true:수락, false:거절
+  callingId: number;
+  status: string; //APPROVED:수락, REJECTED:거절
+  reason: string;
 }
 
 // 실시간 위치 + 구급대원 정보 (프론트에서 관리하는 객체)

@@ -26,7 +26,7 @@ function Main() {
     if (responese !== undefined && curMemberInfo.role==="HOSPITAL") {
       setCurPos({ lat: responese.data.latitude, lon: responese.data.longitude });
       const curHospitalInfo:HosJoinProps = {
-        hospitalId: curMemberInfo.memberId, //id 는 number로 사용
+        hospitalId: curMemberInfo.memberId.toString(), //id 는 number로 사용
         email: "",
         password: "",
         name: responese.data.name,
