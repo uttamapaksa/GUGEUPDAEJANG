@@ -1,5 +1,5 @@
 import { atom } from "recoil";
-import { HosJoinProps, ParaJoinProps } from "../types/auth";
+import { HosJoinProps, ParaJoinProps, memberInfo } from "../types/auth";
 
 export const paramedicInfoState = atom<ParaJoinProps>({
   key: 'paramedicInfoState',
@@ -25,7 +25,15 @@ export const hospitalInfoState = atom<HosJoinProps>({
     telephone1: "",
     telephone2: "",
     address: "",
-    latitude: 12.345678,
-    longitude: -98.765432
+    latitude: 0,
+    longitude: 0
   }
 });
+
+export const memberInfoState = atom<memberInfo>({
+  key : 'memberInfoState',
+  default: {
+    role: "",
+    memberId: 0
+  }
+})
