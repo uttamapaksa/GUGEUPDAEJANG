@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Getter
 public class HospitalInfoResponse {
+    private String name;
     private String telephone1;
     private String telephone2;
     private String address;

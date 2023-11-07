@@ -46,8 +46,9 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public HospitalInfoResponse getHospitalInfo(Long memberId) {
         memberValidator.validateMemberId(memberId);
+        Member member = memberRepository.findById(memberId).get();
         HospitalDetail hospitalDetail = hospitalDetailRepository.findByMemberId(memberId);
-        return convertToHospitalInfoResponse(hospitalDetail);
+        return convertToHospitalInfoResponse(member.getName(), hospitalDetail);
     }
 
     @Override
@@ -153,12 +154,12 @@ public class MemberServiceImpl implements MemberService {
         return new CenterListResponse(id, region, name, address, telephone);
     }
 
-    private HospitalInfoResponse convertToHospitalInfoResponse(HospitalDetail hospitalDetail) {
+    private HospitalInfoResponse convertToHospitalInfoResponse(String name, HospitalDetail hospitalDetail) {
         String telephone1 = hospitalDetail.getTelephone1();
         String telephone2 = hospitalDetail.getTelephone2();
         String address = hospitalDetail.getAddress();
         Double latitude = hospitalDetail.getLatitude();
         Double longitude = hospitalDetail.getLongitude();
-        return new HospitalInfoResponse(telephone1, telephone2, address, latitude, longitude);
+        return new HospitalInfoResponse(name, telephone1, telephone2, address, latitude, longitude);
     }
 }
