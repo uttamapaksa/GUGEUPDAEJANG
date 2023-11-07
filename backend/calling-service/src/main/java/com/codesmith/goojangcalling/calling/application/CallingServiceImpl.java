@@ -5,13 +5,13 @@ import com.codesmith.goojangcalling.calling.dto.message.CallingStatusMessage;
 import com.codesmith.goojangcalling.calling.dto.message.StatusChangeMessage;
 import com.codesmith.goojangcalling.calling.dto.request.CallingCreateRequest;
 import com.codesmith.goojangcalling.calling.dto.request.OccurrenceCreateRequest;
+import com.codesmith.goojangcalling.calling.dto.request.CreateTransferRequest;
 import com.codesmith.goojangcalling.calling.dto.response.*;
 import com.codesmith.goojangcalling.calling.persistence.*;
 import com.codesmith.goojangcalling.calling.persistence.domain.*;
 import com.codesmith.goojangcalling.infra.aws.S3Client;
-import com.codesmith.goojangcalling.infra.member.HospitalClient;
 import com.codesmith.goojangcalling.infra.openfeign.MemberServiceClient;
-import jakarta.persistence.EntityManager;
+import com.codesmith.goojangcalling.infra.openfeign.TransferServiceClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
@@ -32,7 +32,6 @@ public class CallingServiceImpl implements CallingService{
     private final CallingRepository callingRepository;
     private final TagRepository tagRepository;
 
-    private final HospitalClient hospitalClient;
     private final S3Client s3Client;
 
     private final CallingValidator callingValidator;
@@ -40,8 +39,7 @@ public class CallingServiceImpl implements CallingService{
     private final SimpMessagingTemplate simpMessagingTemplate;
 
     private final MemberServiceClient memberServiceClient;
-
-    private final EntityManager em;
+    private final TransferServiceClient transferServiceClient;
 
     @Override
     public OccurrenceCreateResponse addOccurrence(Long memberId, OccurrenceCreateRequest occurrenceCreateRequest) {
@@ -112,18 +110,17 @@ public class CallingServiceImpl implements CallingService{
     @Transactional
     @Override
     public CreateTransferResponse createTransfer(Long callingId) {
-        // TODO : 현재 발생한 사고 상태들을 종료됐다고 변경
         callingValidator.validateCalling(callingId);
         Calling selectedCalling = callingRepository.findById(callingId).get();
         callingValidator.validateApprovedCalling(selectedCalling);
         selectedCalling.fixCalling();
 //        simpMessagingTemplate.convertAndSend("/topic/status/" + selectedCalling.getMemberId(), new CallingTerminateMessage(selectedCalling));
         simpMessagingTemplate.convertAndSend("/topic/status/" + 9999, new CallingStatusMessage(selectedCalling));
-        em.flush();
-        em.clear();
         changePendingCalling(selectedCalling);
-        // TODO : 수락한 요청을 토대로 이송 만들기 (이송 서비스에 내놓으라고 요청)
-        return null;
+        MemberInfoResponse hospital = memberServiceClient.getMember(selectedCalling.getMemberId());
+        CreateTransferResponse transfer = transferServiceClient.createTransfer(new CreateTransferRequest(selectedCalling));
+        transfer.setInfo(selectedCalling.getOccurrence(), hospital.getName(), hospital.getId());
+        return transfer;
     }
 
     @Transactional
@@ -141,10 +138,9 @@ public class CallingServiceImpl implements CallingService{
         Occurrence occurrence = selectedCalling.getOccurrence();
         List<Calling> callingList = callingRepository.findAllByOccurrence(occurrence);
         callingList.forEach(o -> {
-            if (o.getStatus().equals(Status.PENDING)) {
+            if (o.getStatus().equals(Status.PENDING) && o.getId() != selectedCalling.getId()) {
                 o.terminateCalling();
 //                simpMessagingTemplate.convertAndSend("/topic/status/" + o.getMemberId(), new CallingTerminateMessage(o));
-                // TODO : 상태들을 변경 후 병원들한테 종료됐다고 전달
                 simpMessagingTemplate.convertAndSend("/topic/status/" + 9999, new CallingStatusMessage(o));
             }
         });
