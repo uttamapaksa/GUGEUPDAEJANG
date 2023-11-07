@@ -52,7 +52,7 @@ public class ExceptionAdvice {
 
     @ExceptionHandler({OccurrenceNotFoundException.class})
     public ResponseEntity<ErrorResponse> invalidOccurrence() {
-        ErrorResponse errorResponse = new ErrorResponse(ErrorCode.INVALID_OCCURRENCE, "유효하지 않는 사고입니다.");
+        ErrorResponse errorResponse = new ErrorResponse(ErrorCode.INVALID_OCCURRENCE, "유효하지 않은 사고입니다.");
         return ResponseEntity.status(HttpStatusCode.valueOf(ErrorStatus.INVALID_REQUEST.getValue())).body(errorResponse);
     }
 }
