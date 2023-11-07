@@ -1,4 +1,4 @@
-package com.codesmith.goojangcalling.calling.dto.message;
+package com.codesmith.goojangcalling.calling.dto.request;
 
 import com.codesmith.goojangcalling.calling.persistence.domain.Status;
 import lombok.AllArgsConstructor;
@@ -10,8 +10,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class StatusChangeMessage {
-    private Long memberId;
+public class CallingStatusChangeRequest {
     private Long callingId;
     private Status status;
     private String reason;
