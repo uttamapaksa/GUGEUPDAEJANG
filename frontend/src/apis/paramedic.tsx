@@ -1,13 +1,56 @@
-import { privateApi, publicApi } from './';
+import { privateApi } from './';
 
-
-// 이송 요청 + 병원 리스트 받기
-export const getHospitalList = async (latitude: number | null, longitude: number | null, distance: number) => {
+// 태그들 조회
+export const getTags = async () => {
   try {
-    const res = await privateApi.get(`/member/hospital?latitude=${latitude}&longitude=${longitude}&distance=${distance}`);
-    console.log('getHospitalList then', res.data)
+    const res = await privateApi.get(`/calling/tag`);
+    console.log('getTags then', res.data)
     return res.data;
   } catch (err) {
-    console.log('getHospitalList catch', err);
+    console.log('getTags catch', err);
+  }
+};
+
+// 태그 추가
+export const addTag = async (data: any) => {
+  try {
+    const res = await privateApi.post(`/calling/tag`, data);
+    console.log('addTag then', res.data)
+    return res.data;
+  } catch (err) {
+    console.log('addTag catch', err);
+  }
+};
+
+// 태그 식제
+export const deleteTag = async (tagId: number) => {
+  try {
+    const res = await privateApi.delete(`/calling/tag/${tagId}`,);
+    console.log('deleteTag then', res.data)
+    return res.data;
+  } catch (err) {
+    console.log('deleteTag catch', err);
+  }
+};
+
+// 사고 저장
+export const addCalling = async (data: any) => {
+  try {
+    const res = await privateApi.post(`/calling`, data);
+    console.log('addCalling then', res.data)
+    return res.data;
+  } catch (err) {
+    console.log('addCalling catch', err);
+  }
+};
+
+// 병원들 조회
+export const getHospitals = async (tagId: number) => {
+  try {
+    const res = await privateApi.delete(`/calling/tag/${tagId}`,);
+    console.log('deleteTag then', res.data)
+    return res.data;
+  } catch (err) {
+    console.log('deleteTag catch', err);
   }
 };

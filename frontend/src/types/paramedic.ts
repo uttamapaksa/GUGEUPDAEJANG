@@ -24,19 +24,19 @@ export interface CalledHospitalType {
 }
 
 export interface CallStateType {
-  id?: number;
-  createdAt?: string;
-  occurrenceId?: number;
-  memberId?: number;
-  ktas?: number;
-  ageGroup?: string;
-  gender?: string;
-  description?: string;
-  latitude?: number;
-  longitude?: number;
-  address?: string;
-  tags?: string[]; // 이 부분은 예시로 string 배열로 설정했습니다. 실제 사용하는 타입에 맞게 수정해야 합니다.
-  files?: string[];
-  distance?: number;
-  duration?: number;
+  id: number;
+  createdAt: string;
+  occurrenceId: number;
+  memberId: number;
+  ktas: number;
+  ageGroup: string;
+  gender: string;
+  description: string;
+  latitude: number;
+  longitude: number;
+  address: string;
+  tags: string[]; // 이 부분은 예시로 string 배열로 설정했습니다. 실제 사용하는 타입에 맞게 수정해야 합니다.
+  files: string[];
+  distance: number;
+  duration: number;
 }

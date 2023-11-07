@@ -23,10 +23,14 @@ export const showWaitState = atom({
   default: true,
 });
 
-export const categoriesState = atom<string[]>({
-  key: 'categoriesState',
-  default: ['의식 없음', '추락', '과다출혈', '심정지 이력', '정신 질환 이력'],
-  effects_UNSTABLE: [persistAtom],
+interface TagType {
+  id: number;
+  name: string;
+}
+
+export const tagsState = atom<TagType[]>({
+  key: 'tagsState',
+  default: [],
 });
 
 export const paramedicCallState = atom<CallStateType>({
@@ -43,8 +47,8 @@ export const paramedicCallState = atom<CallStateType>({
     latitude: 0,
     longitude: 0,
     address: '',
-    tags: [''],
-    files: [''],
+    tags: [],
+    files: [],
     distance: 0,
     duration: 0,
   },
@@ -61,3 +65,9 @@ export const isTransportingState = atom({
   default: false,
   // effects_UNSTABLE: [persistAtom],
 });
+
+export const callingTimeState = atom<string>({
+  key: 'callingTimeState',
+  default: '',
+});
+
