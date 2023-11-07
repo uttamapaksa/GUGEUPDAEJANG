@@ -1,13 +1,11 @@
 package com.codesmith.goojangmember.member.presentation;
 
+import com.codesmith.goojangmember.global.passport.dto.MemberInfo;
+import com.codesmith.goojangmember.global.passport.presentation.AuthMember;
 import com.codesmith.goojangmember.member.application.MemberService;
 import com.codesmith.goojangmember.member.dto.request.HospitalJoinRequest;
 import com.codesmith.goojangmember.member.dto.request.ParamedicJoinRequest;
-import com.codesmith.goojangmember.member.dto.response.BedCountResponse;
-import com.codesmith.goojangmember.member.dto.response.CenterListResponse;
-import com.codesmith.goojangmember.member.dto.response.EmailCheckResponse;
-import com.codesmith.goojangmember.member.dto.response.HospitalListResponse;
-import com.codesmith.goojangmember.member.dto.response.MemberInfoResponse;
+import com.codesmith.goojangmember.member.dto.response.*;
 import com.codesmith.goojangmember.member.persistence.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +23,11 @@ public class MemberController {
     @GetMapping("/{memberId}")
     public ResponseEntity<MemberInfoResponse> getMember(@PathVariable("memberId") Long memberId) {
         return ResponseEntity.ok(memberService.getMemberInfo(memberId));
+    }
+
+    @GetMapping("/my-hospital")
+    public ResponseEntity<HospitalInfoResponse> getHospitalMember(@AuthMember MemberInfo memberInfo) {
+        return ResponseEntity.ok(memberService.getHospitalInfo(memberInfo.getId()));
     }
 
     @GetMapping("/hospital")
