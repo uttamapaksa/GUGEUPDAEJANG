@@ -5,18 +5,18 @@ import com.codesmith.goojangcalling.calling.dto.message.CallingStatusMessage;
 import com.codesmith.goojangcalling.calling.dto.message.StatusChangeMessage;
 import com.codesmith.goojangcalling.calling.dto.request.CallingCreateRequest;
 import com.codesmith.goojangcalling.calling.dto.request.OccurrenceCreateRequest;
+import com.codesmith.goojangcalling.calling.dto.request.CreateTransferRequest;
 import com.codesmith.goojangcalling.calling.dto.response.*;
 import com.codesmith.goojangcalling.calling.persistence.*;
 import com.codesmith.goojangcalling.calling.persistence.domain.*;
 import com.codesmith.goojangcalling.infra.aws.S3Client;
-import com.codesmith.goojangcalling.infra.member.HospitalClient;
-import jakarta.persistence.EntityManager;
+import com.codesmith.goojangcalling.infra.openfeign.MemberServiceClient;
+import com.codesmith.goojangcalling.infra.openfeign.TransferServiceClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,14 +32,14 @@ public class CallingServiceImpl implements CallingService{
     private final CallingRepository callingRepository;
     private final TagRepository tagRepository;
 
-    private final HospitalClient hospitalClient;
     private final S3Client s3Client;
 
     private final CallingValidator callingValidator;
 
     private final SimpMessagingTemplate simpMessagingTemplate;
 
-    private final EntityManager em;
+    private final MemberServiceClient memberServiceClient;
+    private final TransferServiceClient transferServiceClient;
 
     @Override
     public OccurrenceCreateResponse addOccurrence(Long memberId, OccurrenceCreateRequest occurrenceCreateRequest) {
@@ -63,7 +63,7 @@ public class CallingServiceImpl implements CallingService{
     public List<CallingStatusResponse> addCalling(Long memberId, CallingCreateRequest callingCreateRequest) {
         Occurrence occurrence = occurrenceRepository.findById(callingCreateRequest.getOccurrenceId()).orElseThrow();
 
-        List<HospitalSearchResponse> searchHospitalList = searchHospital(occurrence.getLatitude(), occurrence.getLongitude(), callingCreateRequest.getDistance()).block();
+        List<HospitalSearchResponse> searchHospitalList = searchHospital(occurrence.getLatitude(), occurrence.getLongitude(), callingCreateRequest.getDistance());
 
         List<Calling> callingList = searchHospitalList
                 .stream()
@@ -109,19 +109,18 @@ public class CallingServiceImpl implements CallingService{
 
     @Transactional
     @Override
-    public TransferInfoResponse createTransfer(Long callingId) {
-        // TODO : 현재 발생한 사고 상태들을 종료됐다고 변경
+    public TransferCreateResponse createTransfer(Long callingId) {
         callingValidator.validateCalling(callingId);
         Calling selectedCalling = callingRepository.findById(callingId).get();
         callingValidator.validateApprovedCalling(selectedCalling);
         selectedCalling.fixCalling();
 //        simpMessagingTemplate.convertAndSend("/topic/status/" + selectedCalling.getMemberId(), new CallingTerminateMessage(selectedCalling));
         simpMessagingTemplate.convertAndSend("/topic/status/" + 9999, new CallingStatusMessage(selectedCalling));
-        em.flush();
-        em.clear();
         changePendingCalling(selectedCalling);
-        // TODO : 수락한 요청을 토대로 이송 만들기 (이송 서비스에 내놓으라고 요청)
-        return null;
+        MemberInfoResponse hospital = memberServiceClient.getMember(selectedCalling.getMemberId());
+        TransferCreateResponse transfer = transferServiceClient.createTransfer(new CreateTransferRequest(selectedCalling));
+        transfer.setInfo(selectedCalling.getOccurrence(), hospital.getName(), hospital.getId());
+        return transfer;
     }
 
     @Transactional
@@ -139,17 +138,16 @@ public class CallingServiceImpl implements CallingService{
         Occurrence occurrence = selectedCalling.getOccurrence();
         List<Calling> callingList = callingRepository.findAllByOccurrence(occurrence);
         callingList.forEach(o -> {
-            if (o.getStatus().equals(Status.PENDING)) {
+            if (o.getStatus().equals(Status.PENDING) && o.getId() != selectedCalling.getId()) {
                 o.terminateCalling();
 //                simpMessagingTemplate.convertAndSend("/topic/status/" + o.getMemberId(), new CallingTerminateMessage(o));
-                // TODO : 상태들을 변경 후 병원들한테 종료됐다고 전달
                 simpMessagingTemplate.convertAndSend("/topic/status/" + 9999, new CallingStatusMessage(o));
             }
         });
     }
 
     @Override
-    public Mono<List<HospitalSearchResponse>> searchHospital(Double latitude, Double longitude, Double distance) {
-        return hospitalClient.searchHospital(latitude, longitude, distance);
+    public List<HospitalSearchResponse> searchHospital(Double latitude, Double longitude, Double distance) {
+        return memberServiceClient.searchHospital(latitude, longitude, distance);
     }
 }

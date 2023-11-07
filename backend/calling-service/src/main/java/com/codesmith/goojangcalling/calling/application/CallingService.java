@@ -5,14 +5,13 @@ import com.codesmith.goojangcalling.calling.dto.request.CallingCreateRequest;
 import com.codesmith.goojangcalling.calling.dto.request.OccurrenceCreateRequest;
 import com.codesmith.goojangcalling.calling.dto.response.*;
 import org.springframework.web.multipart.MultipartFile;
-import reactor.core.publisher.Mono;
 
 import java.util.List;
 
 public interface CallingService {
     OccurrenceCreateResponse addOccurrence (Long memberId, OccurrenceCreateRequest occurrenceCreateRequest);
 
-    Mono<List<HospitalSearchResponse>> searchHospital(Double latitude, Double longitude, Double distance);
+    List<HospitalSearchResponse> searchHospital(Double latitude, Double longitude, Double distance);
 
     List<CallingStatusResponse> addCalling(Long memberId, CallingCreateRequest callingCreateRequest);
 
@@ -22,7 +21,7 @@ public interface CallingService {
 
     void changeCallingStatus(Long memberId, StatusChangeMessage changeMessage);
 
-    TransferInfoResponse createTransfer(Long callingId);
+    TransferCreateResponse createTransfer(Long callingId);
 
     void cancelCallingStatus(Long callingId);
 }

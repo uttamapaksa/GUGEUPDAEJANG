@@ -2,13 +2,10 @@ package com.codesmith.goojangcalling.calling.presentation;
 
 import com.codesmith.goojangcalling.calling.application.CallingService;
 import com.codesmith.goojangcalling.calling.application.MemberTagService;
-import com.codesmith.goojangcalling.calling.dto.request.AddMemberTagRequest;
+import com.codesmith.goojangcalling.calling.dto.request.MemberTagCreateRequest;
 import com.codesmith.goojangcalling.calling.dto.request.CallingCreateRequest;
 import com.codesmith.goojangcalling.calling.dto.request.OccurrenceCreateRequest;
-import com.codesmith.goojangcalling.calling.dto.response.OccurrenceCreateResponse;
-import com.codesmith.goojangcalling.calling.dto.response.CallingStatusResponse;
-import com.codesmith.goojangcalling.calling.dto.response.FileUploadResponse;
-import com.codesmith.goojangcalling.calling.dto.response.MemberTagResponse;
+import com.codesmith.goojangcalling.calling.dto.response.*;
 import com.codesmith.goojangcalling.global.passport.MemberInfo;
 import com.codesmith.goojangcalling.global.passport.presentation.AuthMember;
 import lombok.RequiredArgsConstructor;
@@ -45,9 +42,8 @@ public class CallingController {
 
     // TODO : 추 후에 이송 반환으로 수정
     @PutMapping("/fix/{callingId}")
-    public ResponseEntity<Void> fixCallingAndSendToHospital(@PathVariable Long callingId) {
-        callingService.createTransfer(callingId);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<TransferCreateResponse> fixCallingAndSendToHospital(@PathVariable Long callingId) {
+        return ResponseEntity.ok(callingService.createTransfer(callingId));
     }
 
     @PutMapping("/cancel/{callingId}")
@@ -62,8 +58,8 @@ public class CallingController {
     }
 
     @PostMapping("/tag")
-    public ResponseEntity<MemberTagResponse> addMemberTag(@AuthMember MemberInfo memberInfo, @RequestBody AddMemberTagRequest addMemberTagRequest) {
-        return ResponseEntity.ok(memberTagService.addMemberTag(memberInfo.getId(), addMemberTagRequest.getTagName()));
+    public ResponseEntity<MemberTagResponse> addMemberTag(@AuthMember MemberInfo memberInfo, @RequestBody MemberTagCreateRequest memberTagCreateRequest) {
+        return ResponseEntity.ok(memberTagService.addMemberTag(memberInfo.getId(), memberTagCreateRequest.getTagName()));
     }
 
     @DeleteMapping("/tag/{tagId}")

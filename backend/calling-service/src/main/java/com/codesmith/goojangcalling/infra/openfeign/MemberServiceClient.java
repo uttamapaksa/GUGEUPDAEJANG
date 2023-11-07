@@ -1,9 +1,11 @@
 package com.codesmith.goojangcalling.infra.openfeign;
 
 import com.codesmith.goojangcalling.calling.dto.response.HospitalSearchResponse;
+import com.codesmith.goojangcalling.calling.dto.response.MemberInfoResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -11,5 +13,11 @@ import java.util.List;
 public interface MemberServiceClient {
 
     @GetMapping("/member/hospital")
-    List<HospitalSearchResponse> getPassport(@RequestBody String str);
+    List<HospitalSearchResponse> searchHospital(
+            @RequestParam("latitude") Double latitude,
+            @RequestParam("longitude") Double longitude,
+            @RequestParam("distance") Double distance);
+
+    @GetMapping("/member/{memberId}")
+    MemberInfoResponse getMember(@PathVariable("memberId") Long memberId);
 }
