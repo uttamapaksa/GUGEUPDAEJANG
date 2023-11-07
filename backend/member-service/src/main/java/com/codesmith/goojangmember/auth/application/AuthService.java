@@ -42,7 +42,7 @@ public class AuthService {
         String refreshToken = tokenProvider.generateRefreshToken(member.getEmail());
         refreshTokenRepository.save(new RefreshToken(refreshToken, member.getEmail()));
 
-        return new AuthLoginResponse(accessToken, refreshToken, member.getRole().name());
+        return new AuthLoginResponse(accessToken, refreshToken, member.getRole().name(), member.getId());
     }
 
     public PassportCreateResponse createPassport(PassportCreateRequest passportCreateRequest) {

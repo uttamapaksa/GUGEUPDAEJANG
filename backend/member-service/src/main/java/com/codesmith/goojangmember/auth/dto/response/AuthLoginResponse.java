@@ -11,4 +11,5 @@ public class AuthLoginResponse {
     private String accessToken;
     private String refreshToken;
     private String role;
+    private Long memberId;
 }
