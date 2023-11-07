@@ -3,7 +3,9 @@ package com.codesmith.goojangcalling.calling.application;
 import com.codesmith.goojangcalling.calling.exception.CallingNotFoundException;
 import com.codesmith.goojangcalling.calling.exception.CallingStatusNotApprovedException;
 import com.codesmith.goojangcalling.calling.exception.IrrevocableStatusException;
+import com.codesmith.goojangcalling.calling.exception.OccurrenceNotFoundException;
 import com.codesmith.goojangcalling.calling.persistence.CallingRepository;
+import com.codesmith.goojangcalling.calling.persistence.OccurrenceRepository;
 import com.codesmith.goojangcalling.calling.persistence.domain.Calling;
 import com.codesmith.goojangcalling.calling.persistence.domain.Status;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class CallingValidator {
     private final CallingRepository callingRepository;
+    private final OccurrenceRepository occurrenceRepository;
 
     public void validateCalling(Long callingId) {
         if (!callingRepository.existsById(callingId)) {
@@ -29,6 +32,12 @@ public class CallingValidator {
     public void validateApprovedOrPendingCalling(Calling calling) {
         if (!calling.getStatus().equals(Status.APPROVED) && !calling.getStatus().equals(Status.PENDING)) {
             throw new IrrevocableStatusException("해당 요청은 취소할 수 없습니다.");
+        }
+    }
+
+    public void validateOccurrence(Long occurrenceId) {
+        if (!occurrenceRepository.existsById(occurrenceId)) {
+            throw new OccurrenceNotFoundException("유효하지 않는 사고입니다.");
         }
     }
 }

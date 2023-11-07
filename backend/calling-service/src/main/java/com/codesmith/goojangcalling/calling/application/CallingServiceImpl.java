@@ -2,7 +2,7 @@ package com.codesmith.goojangcalling.calling.application;
 
 import com.codesmith.goojangcalling.calling.dto.message.CallingCreateMessage;
 import com.codesmith.goojangcalling.calling.dto.message.CallingStatusMessage;
-import com.codesmith.goojangcalling.calling.dto.message.StatusChangeMessage;
+import com.codesmith.goojangcalling.calling.dto.request.CallingStatusChangeRequest;
 import com.codesmith.goojangcalling.calling.dto.request.CallingCreateRequest;
 import com.codesmith.goojangcalling.calling.dto.request.OccurrenceCreateRequest;
 import com.codesmith.goojangcalling.calling.dto.request.CreateTransferRequest;
@@ -61,7 +61,8 @@ public class CallingServiceImpl implements CallingService{
     }
 
     public List<CallingStatusResponse> addCalling(Long memberId, CallingCreateRequest callingCreateRequest) {
-        Occurrence occurrence = occurrenceRepository.findById(callingCreateRequest.getOccurrenceId()).orElseThrow();
+        callingValidator.validateOccurrence(callingCreateRequest.getOccurrenceId());
+        Occurrence occurrence = occurrenceRepository.findById(callingCreateRequest.getOccurrenceId()).get();
 
         List<HospitalSearchResponse> searchHospitalList = searchHospital(occurrence.getLatitude(), occurrence.getLongitude(), callingCreateRequest.getDistance());
 
@@ -76,8 +77,6 @@ public class CallingServiceImpl implements CallingService{
         for (int i=0; i< savedCallingList.size(); i++) {
             callingStatusResponseList.add(new CallingStatusResponse(savedCallingList.get(i), searchHospitalList.get(i)));
         }
-        // 병원 리스트 반환
-        simpMessagingTemplate.convertAndSend("/topic/" + memberId, callingStatusResponseList);
         return callingStatusResponseList;
     }
 
@@ -101,10 +100,33 @@ public class CallingServiceImpl implements CallingService{
 
     @Transactional
     @Override
-    public void changeCallingStatus(Long memberId, StatusChangeMessage changeMessage) {
-        callingValidator.validateCalling(changeMessage.getCallingId());
-        Calling calling = callingRepository.findById(changeMessage.getCallingId()).get();
-        calling.updateCalling(changeMessage.getStatus(), changeMessage.getReason());
+    public HospitalStatusResponse changeCallingStatus(CallingStatusChangeRequest callingStatusChangeRequest) {
+        Calling calling = updateCallingStatus(callingStatusChangeRequest);
+
+        sendToParamedic(callingStatusChangeRequest, calling);
+
+        return getHospitalStatusResponse(calling);
+    }
+
+    private HospitalStatusResponse getHospitalStatusResponse(Calling calling) {
+        BedCountResponse bedCount = memberServiceClient.getBedCount(calling.getMemberId());
+        List<TransferListResponse> transferByMemberInTransferring = transferServiceClient.getTransferByMemberInTransferring(calling.getMemberId());
+        if (bedCount.getBedCount() - transferByMemberInTransferring.size() > 0) {
+            return new HospitalStatusResponse(false);
+        }
+        return new HospitalStatusResponse(true);
+    }
+
+    private void sendToParamedic(CallingStatusChangeRequest callingStatusChangeRequest, Calling calling) {
+        Long memberId = calling.getOccurrence().getMemberId();
+        simpMessagingTemplate.convertAndSend("/topic/status/" + memberId, callingStatusChangeRequest);
+    }
+
+    private Calling updateCallingStatus(CallingStatusChangeRequest callingStatusChangeRequest) {
+        callingValidator.validateCalling(callingStatusChangeRequest.getCallingId());
+        Calling calling = callingRepository.findById(callingStatusChangeRequest.getCallingId()).get();
+        calling.updateCalling(callingStatusChangeRequest.getStatus(), callingStatusChangeRequest.getReason());
+        return calling;
     }
 
     @Transactional

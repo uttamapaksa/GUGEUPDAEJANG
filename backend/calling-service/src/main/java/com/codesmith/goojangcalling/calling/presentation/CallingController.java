@@ -2,6 +2,7 @@ package com.codesmith.goojangcalling.calling.presentation;
 
 import com.codesmith.goojangcalling.calling.application.CallingService;
 import com.codesmith.goojangcalling.calling.application.MemberTagService;
+import com.codesmith.goojangcalling.calling.dto.request.CallingStatusChangeRequest;
 import com.codesmith.goojangcalling.calling.dto.request.MemberTagCreateRequest;
 import com.codesmith.goojangcalling.calling.dto.request.CallingCreateRequest;
 import com.codesmith.goojangcalling.calling.dto.request.OccurrenceCreateRequest;
@@ -34,13 +35,12 @@ public class CallingController {
     }
 
     @PostMapping("/hospital")
-    public ResponseEntity<Void> addCallingAndSendToHospital(@AuthMember MemberInfo memberInfo, @RequestBody CallingCreateRequest callingCreateRequest) {
+    public ResponseEntity<List<CallingStatusResponse>> addCallingAndSendToHospital(@AuthMember MemberInfo memberInfo, @RequestBody CallingCreateRequest callingCreateRequest) {
         List<CallingStatusResponse> callingStatusResponses = callingService.addCalling(memberInfo.getId(), callingCreateRequest);
         callingService.createCallingMessage(callingStatusResponses, callingCreateRequest.getOccurrenceId());
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(callingStatusResponses);
     }
 
-    // TODO : 추 후에 이송 반환으로 수정
     @PutMapping("/fix/{callingId}")
     public ResponseEntity<TransferCreateResponse> fixCallingAndSendToHospital(@PathVariable Long callingId) {
         return ResponseEntity.ok(callingService.createTransfer(callingId));
@@ -50,6 +50,10 @@ public class CallingController {
     public ResponseEntity<Void> cancelCallingAndSendToHospital(@PathVariable Long callingId) {
         callingService.cancelCallingStatus(callingId);
         return ResponseEntity.ok().build();
+    }
+    @PutMapping("/status")
+    public ResponseEntity<HospitalStatusResponse> changeCallingStatus(@RequestBody CallingStatusChangeRequest callingStatusChangeRequest) {
+        return ResponseEntity.ok(callingService.changeCallingStatus(callingStatusChangeRequest));
     }
 
     @GetMapping("/tag")

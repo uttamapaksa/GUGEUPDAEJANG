@@ -1,6 +1,6 @@
 package com.codesmith.goojangcalling.calling.application;
 
-import com.codesmith.goojangcalling.calling.dto.message.StatusChangeMessage;
+import com.codesmith.goojangcalling.calling.dto.request.CallingStatusChangeRequest;
 import com.codesmith.goojangcalling.calling.dto.request.CallingCreateRequest;
 import com.codesmith.goojangcalling.calling.dto.request.OccurrenceCreateRequest;
 import com.codesmith.goojangcalling.calling.dto.response.*;
@@ -19,7 +19,7 @@ public interface CallingService {
 
     List<FileUploadResponse> fileUpload(List<MultipartFile> files);
 
-    void changeCallingStatus(Long memberId, StatusChangeMessage changeMessage);
+    HospitalStatusResponse changeCallingStatus(CallingStatusChangeRequest changeMessage);
 
     TransferCreateResponse createTransfer(Long callingId);
 

@@ -5,6 +5,7 @@ import com.codesmith.goojangcalling.global.error.dto.ErrorCode;
 import com.codesmith.goojangcalling.global.error.dto.ErrorStatus;
 import com.codesmith.goojangcalling.infra.aws.exception.FileUploadFailedException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import com.codesmith.goojangcalling.global.error.dto.ErrorResponse;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -47,5 +48,11 @@ public class ExceptionAdvice {
     public ResponseEntity<ErrorResponse> invalidCallingStatus() {
         ErrorResponse errorResponse = new ErrorResponse(ErrorCode.INVALID_CALLING_STATUS, "잘못된 요청 상태입니다.");
         return ResponseEntity.status(HttpStatus.valueOf(ErrorStatus.INVALID_REQUEST.getValue())).body(errorResponse);
+    }
+
+    @ExceptionHandler({OccurrenceNotFoundException.class})
+    public ResponseEntity<ErrorResponse> invalidOccurrence() {
+        ErrorResponse errorResponse = new ErrorResponse(ErrorCode.INVALID_OCCURRENCE, "유효하지 않은 사고입니다.");
+        return ResponseEntity.status(HttpStatusCode.valueOf(ErrorStatus.INVALID_REQUEST.getValue())).body(errorResponse);
     }
 }
