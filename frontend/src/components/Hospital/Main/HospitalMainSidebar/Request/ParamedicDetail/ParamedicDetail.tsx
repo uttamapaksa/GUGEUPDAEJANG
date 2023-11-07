@@ -5,6 +5,8 @@ import A from "/src/components/Commons/Atoms";
 import theme from "/src/styles";
 import { hospitalRequestList, hospitalResponse, hospitalTransferList } from "/src/recoils/HospitalAtoms";
 import { HospitalResponseItem, HospitalResponsePostProps, HospitalTransferItem } from "/src/types/map";
+import { timeToString } from "/src/constants/function";
+import { AGEGROUP, GENDER } from "/src/constants/variable";
 
 const ParamedicDetail = (props: any) => {
     const setCurResponse = useSetRecoilState(hospitalResponse);
@@ -68,10 +70,10 @@ const ParamedicDetail = (props: any) => {
                         $fontSize={theme.font.Small5_12}>
                         {props.ktas}
                     </A.DivKtasInfo>
-                    <ItemRequestAt>-</ItemRequestAt>
+                    <ItemRequestAt>{timeToString(props.createdAt)}</ItemRequestAt>
                     <DetailItemBetween>
-                        <ItemParaType>{props.ageGroup} {props.gender}</ItemParaType>
-                        <ItemElapseMin>요청 대기 -분 경과</ItemElapseMin>
+                        <ItemParaType>{AGEGROUP[props.ageGroup]} ({GENDER[props.gender]})</ItemParaType>
+                        <ItemElapseMin>요청 대기 {props.duration}분 경과</ItemElapseMin>
                     </DetailItemBetween>
 
                     <div style={{ width: "90%", margin: "0 auto" }}>

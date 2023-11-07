@@ -14,13 +14,17 @@ import A from "/src/components/Commons/Atoms";
 import theme from "/src/styles";
 import { hospitalTransferList } from "/src/recoils/HospitalAtoms";
 import { HospitalTransferItem } from "/src/types/map";
+import { timeToString } from "/src/constants/function";
+import { AGEGROUP, GENDER } from "/src/constants/variable";
 
 const TransferDetail = (props: any) => {
   const [transferList, setTransferList] = useRecoilState(hospitalTransferList);
 
   const clickButton = () => {
-    if(transferList!=undefined){
-      let nextTransferList = transferList.filter((item:HospitalTransferItem) => item.id!=props.id);
+    if (transferList != undefined) {
+      let nextTransferList = transferList.filter(
+        (item: HospitalTransferItem) => item.id != props.id
+      );
       setTransferList(nextTransferList);
     }
   };
@@ -40,12 +44,12 @@ const TransferDetail = (props: any) => {
           >
             {props.data.ktas}
           </A.DivKtasInfo>
-          <ItemRequestAt>-</ItemRequestAt>
+          <ItemRequestAt>{timeToString(props.data.createdAt)}</ItemRequestAt>
           <DetailItemBetween>
             <ItemParaType>
-              {props.data.ageGroup} {props.data.gender}
+              {AGEGROUP[props.data.ageGroup]} ({GENDER[props.data.gender]})
             </ItemParaType>
-            <ItemElapseMin>요청 대기 -분 경과</ItemElapseMin>
+            <ItemElapseMin>요청 대기 {props.data.duration}분 경과</ItemElapseMin>
           </DetailItemBetween>
 
           <div style={{ width: "90%", margin: "0 auto" }}>
@@ -76,11 +80,11 @@ const TransferDetail = (props: any) => {
           <ItemAddr>{props.data.description}</ItemAddr>
           <ItemAddr>{props.data.address}</ItemAddr>
           <DetailItemBetween>
-            <ItemElapseMin>{props.data.distance} km</ItemElapseMin>
-            <ItemLeftTime>{props.data.duration}분 이내 도착 가능</ItemLeftTime>
+            <ItemElapseMin>{props.leftDist} km</ItemElapseMin>
+            <ItemLeftTime>{props.leftTime}분 이내 도착 가능</ItemLeftTime>
           </DetailItemBetween>
 
-          {props.state == "transfer" ?
+          {props.state == "transfer" ? (
             <A.DivTag
               $width="100%"
               $height="50px"
@@ -93,9 +97,12 @@ const TransferDetail = (props: any) => {
               $backgroundColor={theme.color.blue}
               $boxShadow=""
             >
-              {3}분 이내 도착 예정
-            </A.DivTag> : <></>}
-          {props.state == "wait" ?
+              {props.leftTime}분 이내 도착 가능
+            </A.DivTag>
+          ) : (
+            <></>
+          )}
+          {props.state == "wait" ? (
             <A.DivTag
               $width="100%"
               $height="50px"
@@ -109,8 +116,11 @@ const TransferDetail = (props: any) => {
               $boxShadow="0"
             >
               대기중
-            </A.DivTag> : <></>}
-          {props.state == "complete" ?
+            </A.DivTag>
+          ) : (
+            <></>
+          )}
+          {props.state == "complete" ? (
             <A.DivTag
               $width="100%"
               $height="50px"
@@ -125,8 +135,11 @@ const TransferDetail = (props: any) => {
               onClick={clickButton}
             >
               완료됨(눌러서 제거)
-            </A.DivTag> : <></>}
-          {props.state == "cancel" ?
+            </A.DivTag>
+          ) : (
+            <></>
+          )}
+          {props.state == "cancel" ? (
             <A.DivTag
               $width="100%"
               $height="50px"
@@ -141,7 +154,10 @@ const TransferDetail = (props: any) => {
               onClick={clickButton}
             >
               취소됨(눌러서 제거)
-            </A.DivTag> : <></>}
+            </A.DivTag>
+          ) : (
+            <></>
+          )}
         </DetailItemContainer>
       </TransferDetailContent>
       <CloseDiv onClick={props.onclick}>&lt;</CloseDiv>
