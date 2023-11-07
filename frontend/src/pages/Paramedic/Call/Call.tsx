@@ -12,6 +12,7 @@ import { recordContentFile, recordVoiceFile, recordCameraFile } from '/src/recoi
 import CameraModal from '../../../components/Paramedic/Call/CameraModal/CameraModal';
 
 function Call() {
+  const [callState, setCallState] = useRecoilState(paramedicCallState);
   const [recording, setRecording] = useState<boolean>(false);
   const [cameraing, setCameraing] = useState<boolean>(false);
   const [seconds, setSeconds] = useState<number>(0);

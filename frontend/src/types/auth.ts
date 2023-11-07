@@ -43,7 +43,7 @@ export interface ParaJoinProps {
 }
 
 export interface HosJoinProps {
-  hospitalId: string,
+  hospitalId: number,
   email: string,
   password: string,
   name: string,

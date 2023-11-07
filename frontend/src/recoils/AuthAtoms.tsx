@@ -1,6 +1,10 @@
 import { atom } from "recoil";
+import { recoilPersist } from 'recoil-persist';
+export const { persistAtom } = recoilPersist();
 import { HosJoinProps, ParaJoinProps, memberInfo } from "../types/auth";
 
+
+//구급대원 회원가입을 위한 정보
 export const paramedicInfoState = atom<ParaJoinProps>({
   key: 'paramedicInfoState',
   default: {
@@ -13,10 +17,11 @@ export const paramedicInfoState = atom<ParaJoinProps>({
   }
 });
 
+//신규 병원 등록(회원가입)을 위한 정보
 export const hospitalInfoState = atom<HosJoinProps>({
   key: 'hospitalInfoState',
   default: {
-    hospitalId: "",
+    hospitalId: 0,
     email: "",
     password: "",
     name: "Hospital Name",
@@ -27,9 +32,11 @@ export const hospitalInfoState = atom<HosJoinProps>({
     address: "",
     latitude: 0,
     longitude: 0
-  }
+  },
+  effects_UNSTABLE: [persistAtom],
 });
 
+//로그인 시 반환값
 export const memberInfoState = atom<memberInfo>({
   key : 'memberInfoState',
   default: {
