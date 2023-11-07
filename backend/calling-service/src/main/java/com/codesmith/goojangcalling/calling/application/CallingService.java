@@ -13,7 +13,7 @@ public interface CallingService {
 
     List<HospitalSearchResponse> searchHospital(Double latitude, Double longitude, Double distance);
 
-    List<CallingStatusResponse> addCalling(Long memberId, CallingCreateRequest callingCreateRequest);
+    List<CallingStatusResponse> createCalling(Long memberId, CallingCreateRequest callingCreateRequest);
 
     void createCallingMessage(List<CallingStatusResponse> callingStatusResponseList, Long occurrenceId);
 

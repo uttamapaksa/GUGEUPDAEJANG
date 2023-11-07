@@ -60,7 +60,7 @@ public class CallingServiceImpl implements CallingService{
         return new OccurrenceCreateResponse(savedOccurrence);
     }
 
-    public List<CallingStatusResponse> addCalling(Long memberId, CallingCreateRequest callingCreateRequest) {
+    public List<CallingStatusResponse> createCalling(Long memberId, CallingCreateRequest callingCreateRequest) {
         callingValidator.validateOccurrence(callingCreateRequest.getOccurrenceId());
         Occurrence occurrence = occurrenceRepository.findById(callingCreateRequest.getOccurrenceId()).get();
 
