@@ -106,7 +106,7 @@ public class CallingServiceImpl implements CallingService{
         calling.updateCalling(callingStatusChangeRequest.getStatus(), callingStatusChangeRequest.getReason());
         Long memberId = calling.getOccurrence().getMemberId();
         simpMessagingTemplate.convertAndSend("/topic/status/" + memberId, callingStatusChangeRequest);
-        BedCountResponse bedCount = memberServiceClient.getBedCount(calling.getId());
+        BedCountResponse bedCount = memberServiceClient.getBedCount(calling.getMemberId());
         List<TransferListResponse> transferByMemberInTransferring = transferServiceClient.getTransferByMemberInTransferring(calling.getMemberId());
         if (bedCount.getBedCount() - transferByMemberInTransferring.size() > 0) {
             return new HospitalStatusResponse(false);
