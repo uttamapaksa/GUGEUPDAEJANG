@@ -230,7 +230,7 @@ function Category({ callState, setCallState }: { callState: CallStateType; setCa
           추가
         </A.BtnSubmit>
         <A.BtnSubmit
-          onClick={goToWaitMove}
+          onClick={()=>goToWaitMove(hospitals)}
           $margin="10vh 0 0 0 "
           $borderRadius="1vh"
           $width="100%"
