@@ -50,7 +50,7 @@ public class TransferServiceImpl implements TransferService {
 
     @Override
     public List<TransferListResponse> getTransferByMember(Long memberId) {
-        List<Transfer> transfers = transferRepository.findByMemberId(memberId);
+        List<Transfer> transfers = transferRepository.findByMemberIdAndStatus(memberId, Status.TRANSFERRING);
 
         return transfers.stream()
                 .map(transfer -> new TransferListResponse(
