@@ -52,7 +52,7 @@ public class CallingController {
         return ResponseEntity.ok().build();
     }
     @PutMapping("/status")
-    public ResponseEntity<HospitalStatusResponse> rejectCallingAndSendToParamedic(@RequestBody CallingStatusChangeRequest callingStatusChangeRequest) {
+    public ResponseEntity<HospitalStatusResponse> changeCallingStatus(@RequestBody CallingStatusChangeRequest callingStatusChangeRequest) {
         return ResponseEntity.ok(callingService.changeCallingStatus(callingStatusChangeRequest));
     }
 
