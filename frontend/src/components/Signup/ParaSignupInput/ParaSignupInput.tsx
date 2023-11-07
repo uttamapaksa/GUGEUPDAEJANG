@@ -1,16 +1,17 @@
-import { useState, ChangeEvent } from "react"
-import { CheckEmailProps, ParaSignupInputProps } from "/src/types/auth";
+import { useState, useEffect, ChangeEvent } from "react"
+import { ParaSignupInputProps } from "/src/types/auth";
 import { useNavigate } from 'react-router-dom';
 import * as S from './ParaSignupInput.style';
 import A from '/src/components/Commons/Atoms';
 import theme from '/src/styles';
 import PATH from '/src/constants/path';
-import { useRecoilState } from "recoil";
-import { paramedicInfoState } from "/src/recoils/AuthAtoms";
 import { getCheckEmail, postParaJoin } from "/src/apis/auth";
 
+import { useRecoilState } from "recoil";
+import { centerState, paramedicInfoState } from "/src/recoils/AuthAtoms";
+
 function ParaSignupInput ({setIsOpen, setIsHosSearch}: ParaSignupInputProps) {
-  const [center, setCenter] = useState<string>("");
+  const [center, setCenter] = useRecoilState(centerState);
   const [email, setEmail] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -25,7 +26,6 @@ function ParaSignupInput ({setIsOpen, setIsHosSearch}: ParaSignupInputProps) {
     if (e.target.value.length > MAX_LENGTH) {
       e.target.value = e.target.value.slice(0, MAX_LENGTH);
     }
-    console.log(center)
     setCenter(e.target.value.split(" ").join(""));
   };
 
@@ -33,7 +33,6 @@ function ParaSignupInput ({setIsOpen, setIsHosSearch}: ParaSignupInputProps) {
     if (e.target.value.length > MAX_LENGTH) {
       e.target.value = e.target.value.slice(0, MAX_LENGTH);
     }
-    console.log(email)
     setEmail(e.target.value.split(" ").join(""));
     setParamedicInfo(prev => ({ ...prev, email: e.target.value.split(" ").join("") }));
   };
@@ -42,7 +41,6 @@ function ParaSignupInput ({setIsOpen, setIsHosSearch}: ParaSignupInputProps) {
     if (e.target.value.length > MAX_LENGTH) {
       e.target.value = e.target.value.slice(0, MAX_LENGTH);
     }
-    console.log(name)
     setName(e.target.value.split(" ").join(""));
     setParamedicInfo(prev => ({ ...prev, name: e.target.value.split(" ").join("") }));
   };
@@ -51,7 +49,6 @@ function ParaSignupInput ({setIsOpen, setIsHosSearch}: ParaSignupInputProps) {
     if (e.target.value.length > MAX_LENGTH) {
       e.target.value = e.target.value.slice(0, MAX_LENGTH);
     }
-    console.log(password)
     setPassword(e.target.value.split(" ").join(""));
     setParamedicInfo(prev => ({ ...prev, password: e.target.value.split(" ").join("") }));
   };
@@ -60,9 +57,7 @@ function ParaSignupInput ({setIsOpen, setIsHosSearch}: ParaSignupInputProps) {
     if (e.target.value.length > MAX_LENGTH) {
       e.target.value = e.target.value.slice(0, MAX_LENGTH);
     }    
-    console.log(repassword)
     setRepassword(e.target.value.split(" ").join(""));
-    console.log(paramedicInfo)
   };
 
   const axiosParaJoin = async ():Promise<void> => {
@@ -94,6 +89,7 @@ function ParaSignupInput ({setIsOpen, setIsHosSearch}: ParaSignupInputProps) {
           $width='70%'
           $height='100%'
           placeholder='안전센터'
+          value={center}
           onChange={handleCenter}/>
           
         <A.BtnSubmit
@@ -112,6 +108,7 @@ function ParaSignupInput ({setIsOpen, setIsHosSearch}: ParaSignupInputProps) {
           $width='100%'
           $height='100%'
           placeholder='이름'
+          value={name}
           onChange={handleName}/>
       </S.Row1>
 
@@ -121,6 +118,7 @@ function ParaSignupInput ({setIsOpen, setIsHosSearch}: ParaSignupInputProps) {
           $width='100%'
           $height='100%'
           placeholder='비밀번호'
+          value={password}
           onChange={handlePassword}/>
       </S.Row1>
 
@@ -130,6 +128,7 @@ function ParaSignupInput ({setIsOpen, setIsHosSearch}: ParaSignupInputProps) {
           $width='100%'
           $height='100%'
           placeholder='비밀번호 확인'
+          value={repassword}
           onChange={handleRePassword}/>
       </S.Row1>
 
@@ -139,6 +138,7 @@ function ParaSignupInput ({setIsOpen, setIsHosSearch}: ParaSignupInputProps) {
           $width='70%'
           $height='100%'
           placeholder='이메일'
+          value={email}
           onChange={handleEmail}/>
           
         <A.BtnSubmit

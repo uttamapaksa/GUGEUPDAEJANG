@@ -44,6 +44,7 @@ export const Listitem = styled.div`
   height: 22%;
   padding: 1.5% 2% 0%;
   border-bottom: 0.3vh solid #e9e9e9;
+  cursor: pointer;
   &:hover {
     background-color: ${theme.color.grayLight};
   }

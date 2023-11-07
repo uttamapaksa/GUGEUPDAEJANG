@@ -29,7 +29,6 @@ function HosSignupInput ({setIsOpen, setIsHosSearch}: HosSignupInputProps) {
     if (e.target.value.length > MAX_LENGTH) {
       e.target.value = e.target.value.slice(0, MAX_LENGTH);
     }
-    console.log(address)
     setAddress(e.target.value.split(" ").join(""));
     setHospitalInfo(prev => ({ ...prev, address: e.target.value.split(" ").join("") }));
   };
@@ -38,7 +37,6 @@ function HosSignupInput ({setIsOpen, setIsHosSearch}: HosSignupInputProps) {
     if (e.target.value.length > MAX_LENGTH) {
       e.target.value = e.target.value.slice(0, MAX_LENGTH);
     }
-    console.log(hospitalName)
     setHospitalName(e.target.value.split(" ").join(""));
   };
 
@@ -46,7 +44,6 @@ function HosSignupInput ({setIsOpen, setIsHosSearch}: HosSignupInputProps) {
     if (e.target.value.length > MAX_LENGTH) {
       e.target.value = e.target.value.slice(0, MAX_LENGTH);
     }
-    console.log(email)
     setEmail(e.target.value.split(" ").join(""));
     setHospitalInfo(prev => ({ ...prev, email: e.target.value.split(" ").join("") }));
   };
@@ -55,7 +52,6 @@ function HosSignupInput ({setIsOpen, setIsHosSearch}: HosSignupInputProps) {
     if (e.target.value.length > MAX_LENGTH) {
       e.target.value = e.target.value.slice(0, MAX_LENGTH);
     }
-    console.log(password)
     setPassword(e.target.value.split(" ").join(""));
     setHospitalInfo(prev => ({ ...prev, password: e.target.value.split(" ").join("") }));
   };
@@ -64,7 +60,6 @@ function HosSignupInput ({setIsOpen, setIsHosSearch}: HosSignupInputProps) {
     if (e.target.value.length > MAX_LENGTH) {
       e.target.value = e.target.value.slice(0, MAX_LENGTH);
     }
-    console.log(repassword)
     setRepassword(e.target.value.split(" ").join(""));
   };
 
@@ -72,7 +67,6 @@ function HosSignupInput ({setIsOpen, setIsHosSearch}: HosSignupInputProps) {
     if (e.target.value.length > MAX_LENGTH) {
       e.target.value = e.target.value.slice(0, MAX_LENGTH);
     }
-    console.log(phone1)
     setPhone1(e.target.value.split(" ").join(""));
     setHospitalInfo(prev => ({ ...prev, phone1: e.target.value.split(" ").join("") }));
   };
@@ -81,7 +75,6 @@ function HosSignupInput ({setIsOpen, setIsHosSearch}: HosSignupInputProps) {
     if (e.target.value.length > MAX_LENGTH) {
       e.target.value = e.target.value.slice(0, MAX_LENGTH);
     }
-    console.log(phone2)
     setPhone2(e.target.value.split(" ").join(""));
     setHospitalInfo(prev => ({ ...prev, phone2: e.target.value.split(" ").join("") }));
   };
@@ -115,6 +108,7 @@ function HosSignupInput ({setIsOpen, setIsHosSearch}: HosSignupInputProps) {
           $width='70%'
           $height='100%'
           placeholder='주소'
+          value={address}
           onChange={handleAddress}/>
           
         <A.BtnSubmit
@@ -133,6 +127,7 @@ function HosSignupInput ({setIsOpen, setIsHosSearch}: HosSignupInputProps) {
           $width='100%'
           $height='100%'
           placeholder='병원이름'
+          value={hospitalName}
           onChange={handleHospitalName}/>
       </S.Row1>
 
@@ -142,6 +137,7 @@ function HosSignupInput ({setIsOpen, setIsHosSearch}: HosSignupInputProps) {
           $width='70%'
           $height='100%'
           placeholder='이메일'
+          value={email}
           onChange={handleEmail}/>
           
         <A.BtnSubmit
@@ -160,6 +156,7 @@ function HosSignupInput ({setIsOpen, setIsHosSearch}: HosSignupInputProps) {
           $width='100%'
           $height='100%'
           placeholder='비밀번호'
+          value={password}
           onChange={handlePassword}/>
       </S.Row1>
 
@@ -169,6 +166,7 @@ function HosSignupInput ({setIsOpen, setIsHosSearch}: HosSignupInputProps) {
           $width='100%'
           $height='100%'
           placeholder='비밀번호 확인'
+          value={repassword}
           onChange={handleRePassword}/>
       </S.Row1>
 
@@ -178,6 +176,7 @@ function HosSignupInput ({setIsOpen, setIsHosSearch}: HosSignupInputProps) {
           $width='100%'
           $height='100%'
           placeholder='전화번호1'
+          value={phone1}
           onChange={handlePhone1}/>
       </S.Row1>
 
@@ -187,6 +186,7 @@ function HosSignupInput ({setIsOpen, setIsHosSearch}: HosSignupInputProps) {
           $width='100%'
           $height='100%'
           placeholder='전화번호2'
+          value={phone2}
           onChange={handlePhone2}/>
       </S.Row1>
 

@@ -59,7 +59,6 @@ export const postHosJoin = async (info: HosJoinProps) => {
 
 // 이메일 중복체크
 export const getCheckEmail = async (info: string) => {
-  console.log(info)
   try{
     const response = await publicApi.get("/member/check-email", {
       params:{ email: info }
@@ -68,5 +67,18 @@ export const getCheckEmail = async (info: string) => {
   }
     catch (error) {
     console.log('getCheckEmail 실패', error);
+  }
+}
+
+// 구급센터 목록조회
+export const getParaCenterList = async (info: string) => {
+  try{
+    const response = await publicApi.get("/member/center", {
+      params:{ keyword: info }
+    })
+    return response.data
+  }
+  catch (error) {
+    console.log('getParaCenterList 실패', error);
   }
 }
