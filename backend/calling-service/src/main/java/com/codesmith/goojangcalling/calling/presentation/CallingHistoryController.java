@@ -4,6 +4,7 @@ import com.codesmith.goojangcalling.calling.application.CallingService;
 import com.codesmith.goojangcalling.calling.application.MemberTagService;
 import com.codesmith.goojangcalling.calling.dto.request.AddMemberTagRequest;
 import com.codesmith.goojangcalling.calling.dto.request.CallingCreateRequest;
+import com.codesmith.goojangcalling.calling.dto.request.CallingHistoryRequest;
 import com.codesmith.goojangcalling.calling.dto.request.OccurrenceCreateRequest;
 import com.codesmith.goojangcalling.calling.dto.response.*;
 import com.codesmith.goojangcalling.global.passport.MemberInfo;
@@ -25,8 +26,9 @@ public class CallingHistoryController {
     private final CallingService callingService;
 
     @GetMapping("/history")
-    public ResponseEntity<List<HistoryListResponse>> historyList() {
+    public ResponseEntity<List<HistoryListResponse>> historyList(@RequestParam CallingHistoryRequest callingHistoryRequest) {
         System.out.println("========================================== in history");
+        System.out.println(callingHistoryRequest);
         return ResponseEntity.ok(generateDummyData());
     }
 
