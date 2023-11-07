@@ -105,6 +105,10 @@ public class CallingServiceImpl implements CallingService{
 
         sendToParamedic(callingStatusChangeRequest, calling);
 
+        return getHospitalStatusResponse(calling);
+    }
+
+    private HospitalStatusResponse getHospitalStatusResponse(Calling calling) {
         BedCountResponse bedCount = memberServiceClient.getBedCount(calling.getMemberId());
         List<TransferListResponse> transferByMemberInTransferring = transferServiceClient.getTransferByMemberInTransferring(calling.getMemberId());
         if (bedCount.getBedCount() - transferByMemberInTransferring.size() > 0) {
