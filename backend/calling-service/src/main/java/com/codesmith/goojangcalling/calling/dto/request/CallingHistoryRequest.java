@@ -18,6 +18,6 @@ public class CallingHistoryRequest {
 
 /*
 
-~/calling/history?skip=0&limit=10&sortInfo=undefined&groupBy=undefined&filterValue=[{"name":"id","type":"string","operator":"contains","value":""},{"name":"ageGroup","type":"select","operator":"eq","value":""},{"name":"gender","type":"select","operator":"eq","value":""},{"name":"tags","type":"string","operator":"contains","value":""},{"name":"address","type":"string","operator":"contains","value":""},{"name":"callingTime","type":"date","operator":"inrange","value":""},{"name":"replyTime","type":"date","operator":"inrange","value":""},{"name":"ktas","type":"select","operator":"eq","value":""}]
+~/calling/history?skip=0&limit=10&sortInfo={"dir":1,"id":"address","name":"address","columnName":"address"}&groupBy=undefined&filterValue=[{"name":"id","type":"string","operator":"contains","value":""},{"name":"ageGroup","type":"select","operator":"eq","value":""},{"name":"gender","type":"select","operator":"eq","value":""},{"name":"tags","type":"string","operator":"contains","value":""},{"name":"address","type":"string","operator":"contains","value":""},{"name":"callingTime","type":"date","operator":"inrange","value":""},{"name":"replyTime","type":"date","operator":"inrange","value":""},{"name":"ktas","type":"select","operator":"eq","value":""}]
 
  */

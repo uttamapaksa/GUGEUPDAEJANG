@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-class FilterCondition {
+class FilterValue {
     private String name;
     private String type;
     private String operator;
