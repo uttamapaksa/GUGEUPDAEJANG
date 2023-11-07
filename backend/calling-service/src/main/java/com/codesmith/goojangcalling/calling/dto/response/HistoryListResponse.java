@@ -9,7 +9,11 @@ import lombok.NoArgsConstructor;
 @Getter
 public class HistoryListResponse {
     private Long id;
-    private String firstName;
-    private String lastName;
-    private String email;
+    private String ageGroup;
+    private String gender;
+    private String tags;
+    private String address;
+    private String callingTime;
+    private String replyTime;
+    private String ktas;
 }

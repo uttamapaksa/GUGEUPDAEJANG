@@ -1,0 +1,23 @@
+package com.codesmith.goojangcalling.calling.dto.request;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+public class CallingHistoryRequest {
+    private int skip;
+    private int limit;
+    private String sortInfo;
+    private String groupBy;
+    private String filterValue;
+}
+
+/*
+
+~/calling/history?skip=0&limit=10&sortInfo=undefined&groupBy=undefined&filterValue=[{"name":"id","type":"string","operator":"contains","value":""},{"name":"ageGroup","type":"select","operator":"eq","value":""},{"name":"gender","type":"select","operator":"eq","value":""},{"name":"tags","type":"string","operator":"contains","value":""},{"name":"address","type":"string","operator":"contains","value":""},{"name":"callingTime","type":"date","operator":"inrange","value":""},{"name":"replyTime","type":"date","operator":"inrange","value":""},{"name":"ktas","type":"select","operator":"eq","value":""}]
+
+ */

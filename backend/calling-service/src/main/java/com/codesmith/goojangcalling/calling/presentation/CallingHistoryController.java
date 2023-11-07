@@ -27,23 +27,17 @@ public class CallingHistoryController {
     @GetMapping("/history")
     public ResponseEntity<List<HistoryListResponse>> historyList() {
         System.out.println("========================================== in history");
-        return ResponseEntity.ok(createSampleList());
+        return ResponseEntity.ok(generateDummyData());
     }
 
-    public static List<HistoryListResponse> createSampleList() {
-        List<HistoryListResponse> list = new ArrayList<>();
+    public static List<HistoryListResponse> generateDummyData() {
+        List<HistoryListResponse> dummyDataList = new ArrayList<>();
 
-        list.add(new HistoryListResponse(1L, "영희", "김", "younghee.kim@example.com"));
-        list.add(new HistoryListResponse(2L, "철수", "이", "cheolsu.lee@example.com"));
-        list.add(new HistoryListResponse(3L, "민준", "박", "minjun.park@example.com"));
-        list.add(new HistoryListResponse(4L, "지아", "최", "jia.choi@example.com"));
-        list.add(new HistoryListResponse(5L, "수민", "정", "sumin.jung@example.com"));
-        list.add(new HistoryListResponse(6L, "하은", "강", "haeun.kang@example.com"));
-        list.add(new HistoryListResponse(7L, "재현", "조", "jaehyun.jo@example.com"));
-        list.add(new HistoryListResponse(8L, "서영", "윤", "seoyoung.yoon@example.com"));
-        list.add(new HistoryListResponse(9L, "준서", "임", "junseo.lim@example.com"));
-        list.add(new HistoryListResponse(10L, "유진", "오", "yujin.oh@example.com"));
+        for (int i = 1; i <= 5; i++) {
+            HistoryListResponse dummyData = new HistoryListResponse((long) i, "AgeGroup" + i, "Gender" + i, "Tags" + i, "Address" + i, "CallingTime" + i, "ReplyTime" + i, "Ktas" + i);
+            dummyDataList.add(dummyData);
+        }
 
-        return list;
+        return dummyDataList;
     }
 }
