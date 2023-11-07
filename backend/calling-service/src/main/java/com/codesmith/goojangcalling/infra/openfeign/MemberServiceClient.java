@@ -1,5 +1,6 @@
 package com.codesmith.goojangcalling.infra.openfeign;
 
+import com.codesmith.goojangcalling.calling.dto.response.BedCountResponse;
 import com.codesmith.goojangcalling.calling.dto.response.HospitalSearchResponse;
 import com.codesmith.goojangcalling.calling.dto.response.MemberInfoResponse;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -20,4 +21,7 @@ public interface MemberServiceClient {
 
     @GetMapping("/member/{memberId}")
     MemberInfoResponse getMember(@PathVariable("memberId") Long memberId);
+
+    @GetMapping("/member/bed/{memberId}")
+    BedCountResponse getBedCount(@PathVariable("memberId") Long memberId);
 }
