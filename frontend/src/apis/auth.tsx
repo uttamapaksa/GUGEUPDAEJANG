@@ -15,7 +15,7 @@ export const postLogin = async (info: LoginProps) => {
         localStorage.setItem('access_token', accessToken);
         localStorage.setItem('refresh_token', refreshToken);
     }
-    return response.data.role 
+    return response.data 
   }
     catch (error) {
       console.log('postLogin 실패', error);

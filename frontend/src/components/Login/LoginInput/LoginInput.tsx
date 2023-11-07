@@ -9,10 +9,13 @@ import theme from '/src/styles';
 import PATH from '/src/constants/path';
 import { deleteLogout, postLogin } from "/src/apis/auth";
 import { LoginProps } from "/src/types/auth";
+import { useRecoilState } from "recoil";
+import { memberInfoState } from "/src/recoils/AuthAtoms";
 
 function LoginInput () {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [memberInfo, setMemberIngo] =useRecoilState(memberInfoState)
   const MAX_LENGTH = 50;
 
   const navigate = useNavigate()
@@ -43,8 +46,9 @@ function LoginInput () {
     }
     try {
       const response = await postLogin(info)
-      if (response === "PARAMEDIC") {goParamedic()}
-      else if (response === "HOSPITAL") {goHospital()}
+      setMemberIngo(response)
+      if (response.role === "PARAMEDIC") {goParamedic()}
+      else if (response.role === "HOSPITAL") {goHospital()}
     }
     catch(error) {
       console.log(error)

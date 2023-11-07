@@ -1,3 +1,8 @@
+export interface memberInfo {
+  role:string;
+  memberId: number;
+}
+
 export interface LoginProps {
   email: string;
   password: string;
