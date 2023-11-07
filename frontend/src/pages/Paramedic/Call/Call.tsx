@@ -7,20 +7,11 @@ import { useReactMediaRecorder } from 'react-media-recorder';
 import 'regenerator-runtime/runtime';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 // 리코일
-import { 
-  useRecoilState, 
-  useRecoilValue, 
-  useSetRecoilState } from 'recoil';
-import { 
-  recordContentFile, 
-  recordVoiceFile, 
-  paramedicCallState, 
-  recordCameraFile} from '/src/recoils/ParamedicAtoms';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { recordContentFile, recordVoiceFile, recordCameraFile } from '/src/recoils/ParamedicAtoms';
 import CameraModal from '../../../components/Paramedic/Call/CameraModal/CameraModal';
 
 function Call() {
-  const [callState, setCallState] = useRecoilState(paramedicCallState);
-  const recordContent = useRecoilValue(recordContentFile);
   const [recording, setRecording] = useState<boolean>(false);
   const [cameraing, setCameraing] = useState<boolean>(false);
   const [seconds, setSeconds] = useState<number>(0);
@@ -29,46 +20,38 @@ function Call() {
   const [recordVoice, setRecordVoice] = useRecoilState(recordVoiceFile);
   const recordCamera = useRecoilValue(recordCameraFile);
 
-  const {
-    startRecording,
-    stopRecording,
-    mediaBlobUrl,
-  } = useReactMediaRecorder({ audio: true });
-  
-  const {
-    transcript,
-    listening,
-    resetTranscript,
-  } = useSpeechRecognition();
-  
+  const { startRecording, stopRecording, mediaBlobUrl } = useReactMediaRecorder({ audio: true });
+
+  const { transcript, listening, resetTranscript } = useSpeechRecognition();
+
   const RecordStart = () => {
     setRecording(true);
-    resetTranscript()
-    SpeechRecognition.startListening({ continuous: true })
+    resetTranscript();
+    SpeechRecognition.startListening({ continuous: true });
     // startRecording()
   };
-  
+
   const RecordStop = async () => {
     setRecording(false);
-    SpeechRecognition.stopListening()
+    SpeechRecognition.stopListening();
     // stopRecording()
   };
-  
+
   const CameraOpen = async () => {
-    setCameraing(true)
+    setCameraing(true);
   };
   const CameraClose = async () => {
-    setCameraing(false)
+    setCameraing(false);
   };
-  
+
   const handleRecordingTimer = () => {
     if (recording) {
       setTimer(
         setInterval(() => {
           setSeconds((prev) => prev + 1);
         }, 1000),
-        );
-      } else {
+      );
+    } else {
       if (timer) {
         clearInterval(timer);
         setSeconds(0);
@@ -85,14 +68,14 @@ function Call() {
     return `${String(minutes).padStart(2, '0')} 
     : ${String(seconds).padStart(2, '0')}`;
   };
-  
-  useEffect(() => {
-    setRecordContent(transcript)
-  },[transcript])
 
-  useEffect (()=>{
-    setRecordVoice(mediaBlobUrl ?? "")
-  },[mediaBlobUrl])
+  useEffect(() => {
+    setRecordContent(transcript);
+  }, [transcript]);
+
+  useEffect(() => {
+    setRecordVoice(mediaBlobUrl ?? '');
+  }, [mediaBlobUrl]);
 
   useEffect(() => {
     if (recording || cameraing) {
@@ -109,17 +92,13 @@ function Call() {
       <S.ContentBox>
         <M.ParamedicHeader />
         <S.Blank />
-        <Ktas callState={callState} setCallState={setCallState} />
+        <Ktas />
         <S.Blank />
-        <Information callState={callState} setCallState={setCallState} />
+        <Information />
         <S.Blank />
-        <Status 
-          RecordStart={RecordStart}
-          CameraOpen={CameraOpen} />
+        <Status RecordStart={RecordStart} CameraOpen={CameraOpen} />
 
-        {cameraing ? (
-          <CameraModal
-            CameraClose={CameraClose}/> ) : (<></>)}
+        {cameraing ? <CameraModal CameraClose={CameraClose} /> : <></>}
         {/* {recording ? (
           <RecordModal 
             RecordStop={RecordStop} 
@@ -132,7 +111,8 @@ function Call() {
           style={{
             width: '300px',
             height: '50px',
-          }}></audio>
+          }}
+        ></audio>
         <div>
           <button onClick={startRecording}>임시녹음시작</button>
           <button onClick={stopRecording}>임시녹음종료</button>
@@ -140,7 +120,7 @@ function Call() {
         <p>Microphone: {listening ? 'on' : 'off'}</p>
 
         <S.Blank />
-        <Category callState={callState} setCallState={setCallState} />
+        <Category />
         <S.Blank />
       </S.ContentBox>
     </S.Container>

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSetRecoilState } from 'recoil';
-import { isTransportingState, paramedicCallState, showWaitState } from '/src/recoils/ParamedicAtoms';
+import { useSetRecoilState, useResetRecoilState } from 'recoil';
+import { isTransportingState, occurrenceState, showWaitState } from '/src/recoils/ParamedicAtoms';
 import * as S from './Move.style';
 import A from '/src/components/Commons/Atoms';
 import theme from '/src/styles';
@@ -10,30 +10,14 @@ import PATH from '/src/constants/path';
 function Move() {
   const [categories, _] = useState<string[]>(['추락', '과다출혈', '과다출혈']);
   const setIsTransporting = useSetRecoilState(isTransportingState);
-  const setParamedicCall = useSetRecoilState(paramedicCallState);
+  const resetOccurrence = useResetRecoilState(occurrenceState);
   const setShowWait = useSetRecoilState(showWaitState);
 
   const navigate = useNavigate();
   const finishTransfer = () => {
     setIsTransporting(false);
     setShowWait(true);
-    setParamedicCall({
-      id: 0,
-      createdAt: '',
-      occurrenceId: 0,
-      memberId: 0,
-      ktas: 0,
-      ageGroup: '',
-      gender: '',
-      description: '',
-      latitude: 0,
-      longitude: 0,
-      address: '',
-      tags: [''],
-      files: [''],
-      distance: 0,
-      duration: 0,
-    });
+    resetOccurrence();
     navigate(PATH.Paramedic);
   };
 

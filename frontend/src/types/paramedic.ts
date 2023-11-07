@@ -7,36 +7,54 @@ export interface CallProps {
 }
 
 export interface CalledHospitalType {
-  id?: number;
-  hospitalId?: string;
-  name?: string;
-  address?: string;
-  telephone1?: string;
-  telephone2?: string;
-  latitude?: number;
-  longitude?: number;
-  bedCount?: number;
-  distance?: number;
-  time?: number;
-  callingTime?: string;
-  status?: string;
-  reason?: string;
+  id: number;
+  hospitalId: string;
+  name: string;
+  address: string;
+  telephone1: string;
+  telephone2: string;
+  latitude: number;
+  longitude: number;
+  bedCount: number;
+  distance: number;
+  time: number;
+  callingTime: string;
+  status: string;
+  reason: string;
 }
 
-export interface CallStateType {
+export interface TagType {
   id: number;
-  createdAt: string;
-  occurrenceId: number;
-  memberId: number;
-  ktas: number;
+  name: string;
+}
+
+export interface FileType {
+  filePath: string;
+  contentType: string;
+  size: number;
+}
+
+export interface OccurrenceType {
+  ktas: string;
   ageGroup: string;
   gender: string;
-  description: string;
+  symptom: string;
   latitude: number;
   longitude: number;
   address: string;
-  tags: string[]; // 이 부분은 예시로 string 배열로 설정했습니다. 실제 사용하는 타입에 맞게 수정해야 합니다.
-  files: string[];
+  tags: TagType[];
+  files: FileType[];
+}
+
+export interface HospitalListType {
+  callingId: number;
+  callingTime: number[];
+  status: 'PENDING' | 'APPROVED' | 'REJECTED' | 'CANCELED';
+  memberId: number;
+  hospitalName: string;
+  telephone: string;
+  latitude: number;
+  longitude: number;
   distance: number;
   duration: number;
 }

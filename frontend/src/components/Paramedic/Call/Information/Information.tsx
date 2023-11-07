@@ -1,14 +1,39 @@
+import { useRecoilState } from 'recoil';
+import { occurrenceState } from '/src/recoils/ParamedicAtoms';
 import * as S from './Information.style';
 import A from '/src/components/Commons/Atoms';
-import { CallStateType } from '/src/types/paramedic';
 
-function Information({ callState, setCallState }: { callState: CallStateType; setCallState: any }) {
-  const ageGroups = ['영유아', '아동', '청소년', '청년', '중장년', '노인'];
-  const genders = ['남', '여'];
-  const selectedGroup = callState.ageGroup;
-  const selectedGender = callState.gender;
-  const clickGroup = (ageGroup: string, gender: string) => {
-    setCallState((prev: any) => ({
+interface AgeGroupMapping {
+  [key: string]: string;
+}
+interface GenderMapping {
+  [key: string]: string;
+}
+
+const ageGroupMapping: AgeGroupMapping = {
+  영유아: 'INFANT',
+  아동: 'CHILD',
+  청소년: 'ADOLESCENT',
+  청년: 'YOUTH',
+  중장년: 'MIDDLE',
+  노인: 'SENIOR',
+};
+const genderMapping: GenderMapping = {
+  남: 'MALE',
+  여: 'FEMALE',
+};
+
+const ageGroups = ['영유아', '아동', '청소년', '청년', '중장년', '노인'];
+const genders = ['남', '여'];
+
+function Information() {
+  const [occurence, setOccurence] = useRecoilState(occurrenceState);
+  const selectedAgeGroup = occurence.ageGroup;
+  const selectedGender = occurence.gender;
+
+  const selectInformation = (ageGroup: string, gender: string) => {
+    console.log(occurence);
+    setOccurence((prev) => ({
       ...prev,
       ageGroup,
       gender,
@@ -29,8 +54,8 @@ function Information({ callState, setCallState }: { callState: CallStateType; se
               $height="9.8vh"
               $margin="0 0 1.3vh 0"
               $fontSize="1.9vh"
-              onClick={() => clickGroup(ageGroup, gender)}
-              $IsClick={selectedGroup === ageGroup && selectedGender === gender ? true : false}
+              $IsClick={selectedAgeGroup === ageGroup && selectedGender === gender ? true : false}
+              onClick={() => selectInformation(ageGroupMapping[ageGroup], genderMapping[gender])}
             >
               {ageGroup}
               <br />({gender})
