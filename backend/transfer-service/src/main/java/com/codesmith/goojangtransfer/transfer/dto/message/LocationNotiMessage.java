@@ -9,6 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class LocationNotiMessage {
     private Long transferId;
+    private String status;
     private Double longitude;
     private Double latitude;
+    private String address;
+    private Integer time;
+    private Double distance;
 }
