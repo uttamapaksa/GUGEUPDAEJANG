@@ -109,7 +109,7 @@ public class CallingServiceImpl implements CallingService{
 
     @Transactional
     @Override
-    public CreateTransferResponse createTransfer(Long callingId) {
+    public TransferCreateResponse createTransfer(Long callingId) {
         callingValidator.validateCalling(callingId);
         Calling selectedCalling = callingRepository.findById(callingId).get();
         callingValidator.validateApprovedCalling(selectedCalling);
@@ -118,7 +118,7 @@ public class CallingServiceImpl implements CallingService{
         simpMessagingTemplate.convertAndSend("/topic/status/" + 9999, new CallingStatusMessage(selectedCalling));
         changePendingCalling(selectedCalling);
         MemberInfoResponse hospital = memberServiceClient.getMember(selectedCalling.getMemberId());
-        CreateTransferResponse transfer = transferServiceClient.createTransfer(new CreateTransferRequest(selectedCalling));
+        TransferCreateResponse transfer = transferServiceClient.createTransfer(new CreateTransferRequest(selectedCalling));
         transfer.setInfo(selectedCalling.getOccurrence(), hospital.getName(), hospital.getId());
         return transfer;
     }

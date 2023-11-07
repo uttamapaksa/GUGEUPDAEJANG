@@ -9,6 +9,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AddMemberTagRequest {
+public class MemberTagCreateRequest {
     private String tagName;
 }

@@ -2,7 +2,7 @@ package com.codesmith.goojangcalling.calling.presentation;
 
 import com.codesmith.goojangcalling.calling.application.CallingService;
 import com.codesmith.goojangcalling.calling.application.MemberTagService;
-import com.codesmith.goojangcalling.calling.dto.request.AddMemberTagRequest;
+import com.codesmith.goojangcalling.calling.dto.request.MemberTagCreateRequest;
 import com.codesmith.goojangcalling.calling.dto.request.CallingCreateRequest;
 import com.codesmith.goojangcalling.calling.dto.request.OccurrenceCreateRequest;
 import com.codesmith.goojangcalling.calling.dto.response.*;
@@ -42,7 +42,7 @@ public class CallingController {
 
     // TODO : 추 후에 이송 반환으로 수정
     @PutMapping("/fix/{callingId}")
-    public ResponseEntity<CreateTransferResponse> fixCallingAndSendToHospital(@PathVariable Long callingId) {
+    public ResponseEntity<TransferCreateResponse> fixCallingAndSendToHospital(@PathVariable Long callingId) {
         return ResponseEntity.ok(callingService.createTransfer(callingId));
     }
 
@@ -58,8 +58,8 @@ public class CallingController {
     }
 
     @PostMapping("/tag")
-    public ResponseEntity<MemberTagResponse> addMemberTag(@AuthMember MemberInfo memberInfo, @RequestBody AddMemberTagRequest addMemberTagRequest) {
-        return ResponseEntity.ok(memberTagService.addMemberTag(memberInfo.getId(), addMemberTagRequest.getTagName()));
+    public ResponseEntity<MemberTagResponse> addMemberTag(@AuthMember MemberInfo memberInfo, @RequestBody MemberTagCreateRequest memberTagCreateRequest) {
+        return ResponseEntity.ok(memberTagService.addMemberTag(memberInfo.getId(), memberTagCreateRequest.getTagName()));
     }
 
     @DeleteMapping("/tag/{tagId}")

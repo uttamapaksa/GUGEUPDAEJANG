@@ -1,7 +1,7 @@
 package com.codesmith.goojangcalling.infra.openfeign;
 
 import com.codesmith.goojangcalling.calling.dto.request.CreateTransferRequest;
-import com.codesmith.goojangcalling.calling.dto.response.CreateTransferResponse;
+import com.codesmith.goojangcalling.calling.dto.response.TransferCreateResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,5 +10,5 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface TransferServiceClient {
 
     @PostMapping("/transfer")
-    CreateTransferResponse createTransfer(@RequestBody CreateTransferRequest createTransferRequest);
+    TransferCreateResponse createTransfer(@RequestBody CreateTransferRequest createTransferRequest);
 }

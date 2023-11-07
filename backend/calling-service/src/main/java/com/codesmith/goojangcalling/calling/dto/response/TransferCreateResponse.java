@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateTransferResponse {
+public class TransferCreateResponse {
     private Long transferId;
     private Long memberId;
     private String name;
