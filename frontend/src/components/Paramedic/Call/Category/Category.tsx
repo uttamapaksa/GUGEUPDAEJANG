@@ -1,48 +1,186 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { CallStateType } from '/src/types/paramedic';
+import { tagsState, calledHospitalsState } from '/src/recoils/ParamedicAtoms';
+import { currentPosition } from '/src/recoils/HospitalAtoms';
+import { addTag, getTags, deleteTag, getHospitals, addCalling } from '/src/apis/paramedic';
 import * as S from './Category.style';
 import A from '/src/components/Commons/Atoms';
 import theme from '/src/styles';
 import PATH from '/src/constants/path';
 
-function Category() {
-  const [options, setOptions] = useState<string[]>(['의식 없음', '추락', '과다출혈', '심정지 이력', '정신 질환 이력']);
+function Category({ callState, setCallState }: { callState: CallStateType; setCallState: any }) {
+  const [options, setOptions] = useRecoilState(tagsState);
   const [newOption, setNewOption] = useState<string>('');
-  const [selectedIndices, setSelectedIndices] = useState<number[]>([]);
+  const selected: any = callState.tags;
   const [edit, setEdit] = useState<boolean>(false);
-  const optionClick = (index: number) => {
-    if (selectedIndices.includes(index)) {
-      setSelectedIndices(selectedIndices.filter((i) => i !== index));
-    } else {
-      setSelectedIndices([...selectedIndices, index]);
-    }
+  const currPosition = useRecoilValue(currentPosition);
+  const [hospitals, setHospitals] = useRecoilState(calledHospitalsState);
+
+  const getOptions = () => {
+    getTags().then((res) => {
+      if (res) {
+        const result = res.map((item: any) => item.tag);
+        setOptions(result);
+      }
+    });
   };
+
   const addOption = () => {
     if (newOption.trim() === '') return;
-    setOptions((prev) => [...prev, newOption]);
-    setNewOption('');
+    if (options.some((option) => option.name === newOption)) {
+      alert('이미 있는 분류입니다.');
+      return;
+    }
+    const data: any = { tagName: newOption };
+    addTag(data).then((res: any) => {
+      if (res) {
+        setOptions((prev) => [...prev, res.tag]);
+        setNewOption('');
+      }
+    });
   };
-  const deleteOption = (index: number) => {
-    setOptions((curr) => curr.filter((_, i) => i !== index));
+
+  const deleteOption = (tagId: number) => {
+    deleteTag(tagId).then((res) => {
+      if (res) {
+        setCallState((prev: any) => ({ ...prev, tags: prev.tags.filter((tag: any) => tag.id !== tagId) }));
+        setOptions(options.filter((tag) => tag.id !== tagId));
+      }
+    });
   };
+
+  const selectOption = (option: any) => {
+    if (selected.includes(option)) {
+      setCallState((prev: any) => ({ ...prev, tags: prev.tags.filter((tag: any) => tag !== option) }));
+    } else {
+      setCallState((prev: any) => ({ ...prev, tags: [...prev.tags, option] }));
+    }
+  };
+
+  interface KtasMapping {
+    [key: number]: string; // 'number' 타입의 키를 사용하고, 값은 'string'입니다.
+  }
+  
+  interface AgeGroupMapping {
+    [key: string]: string; // 'string' 타입의 키를 사용하고, 값은 'string'입니다.
+  }
+  
+  interface GenderMapping {
+    [key: string]: string; // 'string' 타입의 키를 사용하고, 값은 'string'입니다.
+  }
+
+  const dataKtas: KtasMapping = {
+    1: 'KTAS1',
+    2: 'KTAS2',
+    3: 'KTAS3',
+    4: 'KTAS4',
+    5: 'KTAS5',
+  };
+
+  const dataAgeGroup: AgeGroupMapping = {
+    영유아: 'INFANT',
+    아동: 'CHILD',
+    청소년: 'ADOLESCENT',
+    청년: 'YOUTH',
+    중장년: 'MIDDLE',
+    노인: 'SENIOR',
+  };
+
+  const dataGender: GenderMapping = {
+    남: 'MALE',
+    여: 'FEMALE',
+  };
+
   const navigate = useNavigate();
   const goToWaitMove = () => {
-    navigate(PATH.ParamedicWaitMove);
+    const data = {
+      ktas: dataKtas[callState.ktas],
+      ageGroup: dataAgeGroup[callState.ageGroup],
+      gender: dataGender[callState.gender],
+      symptom: '',
+      latitude: currPosition.lat,
+      longitude: currPosition.lon,
+      address: '한밭대',
+      tags: callState.tags,
+      files: [],
+    };
+    addCalling(data).then((res) => {
+      const occurrenceId = res.occurrenceId
+      getHospitals(occurrenceId).then((res)=> {
+        console.log(res)
+      })
+    });
+    // getHospitals(currPosition.lat, currPosition.lon, 10).then((newHospitals) => {
+    //   if (newHospitals) {
+    //     const updatedHospitals = updateHospitalsList(hospitals, newHospitals);
+    //     setHospitals(updatedHospitals);
+    //     navigate(PATH.ParamedicWaitMove);
+    //   }
+    // });
   };
+
+  // const updateHospitalsList = (hospitals: any, newHospitals: any) => {
+  //   const filteredHospitals = hospitals.filter(
+  //     (hospital: any) => !newHospitals.some((newHospital: any) => hospital.hospitalId === newHospital.hospitalId),
+  //   );
+  //   const updatedHospitals = filteredHospitals.concat(newHospitals);
+  //   updatedHospitals.sort((a: any, b: any) => a.time - b.time);
+  //   return updatedHospitals;
+  // };
+
+  // const goToWaitMove = () => {
+  //   console.log(callState);
+  // const body = {
+  //   ktas: dataKtas[callState.ktas],
+  //   ageGroup: dataAgeGroup[callState.ageGroup],
+  //   gender: dataGender[callState.gender],
+  //   symptom: '',
+  //   latitude: currPosition.lat,
+  //   longitude: currPosition.lon,
+  //   address: '한밭대',
+  //   tags: [
+  //     {
+  //       id: 40,
+  //       name: '교통사고',
+  //     },
+  //     {
+  //       id: 41,
+  //       name: '과다출혈',
+  //     },
+  //   ],
+  //   files: [],
+  // };
+  // };
+
+  //   getHospitals(currPosition.lat, currPosition.lon, 10).then((newHospitals) => {
+  //     if (newHospitals) {
+  //       const updatedHospitals = updateHospitalsList(hospitals, newHospitals);
+  //       setHospitals(updatedHospitals);
+  //       navigate(PATH.ParamedicWaitMove);
+  //     }
+  //   });
+  // };
+
+  useEffect(() => {
+    getOptions();
+  }, []);
+
+  useEffect(() => {
+    console.log(callState);
+  });
+
   return (
     <S.Category>
-      <A.TxtParamedicTitle
-        $justifyContent='space-between'
-      >
+      <A.TxtParamedicTitle $justifyContent="space-between">
         주요 분류
-        <S.BtnEdit onClick={()=>setEdit(!edit)}>
-          {edit ? '수정완료' : '수정하기'}
-        </S.BtnEdit>
+        <S.BtnEdit onClick={() => setEdit(!edit)}>{edit ? '삭제완료' : '삭제하기'}</S.BtnEdit>
       </A.TxtParamedicTitle>
       <S.Col9>
-        {options.map((option: string, index: number) => (
+        {options.map((tag: any) => (
           <A.BtnToggle
-            key={index}
+            key={tag.id}
             $position="relative"
             $border={`0.3vh solid ${theme.color.grayDarkest}`}
             $borderRadius="1.5vh"
@@ -51,17 +189,19 @@ function Category() {
             $width="auto"
             $height="4.5vh"
             $fontSize="2vh"
-            $IsClick={selectedIndices.includes(index) ? true : false}
-            onClick={() => optionClick(index)}
+            $IsClick={selected.some((option: any) => option.id === tag.id) ? true : false}
+            onClick={() => selectOption(tag)}
           >
-            {edit && 
-            <A.ImgDeleteCategory
-            onClick={() => deleteOption(index)}
-            $position="absolute" 
-            $top="-2vh" 
-            $right="0vh" 
-            $width="4vh" />}
-            {option}
+            {edit && (
+              <A.ImgDeleteCategory
+                onClick={() => deleteOption(tag.id)}
+                $position="absolute"
+                $top="-2vh"
+                $right="0vh"
+                $width="4vh"
+              />
+            )}
+            {tag.name}
           </A.BtnToggle>
         ))}
       </S.Col9>
@@ -90,7 +230,7 @@ function Category() {
           추가
         </A.BtnSubmit>
         <A.BtnSubmit
-          onClick={goToWaitMove}
+          onClick={()=>goToWaitMove(hospitals)}
           $margin="10vh 0 0 0 "
           $borderRadius="1vh"
           $width="100%"
@@ -100,6 +240,7 @@ function Category() {
         >
           이송 요청
         </A.BtnSubmit>
+        
       </S.Col9>
     </S.Category>
   );

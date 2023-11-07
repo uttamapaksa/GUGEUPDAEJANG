@@ -1,10 +1,10 @@
-import { useState } from 'react';
 import * as S from './Ktas.style';
 import A from '/src/components/Commons/Atoms';
+import { CallStateType } from '/src/types/paramedic';
 
-function Ktas(setCallState: any) {
+function Ktas({ callState, setCallState }: { callState: CallStateType, setCallState: any }) {
   const ktasOptions: number[] = [1, 2, 3, 4, 5];
-  const [ktasOption, setktasOption] = useState<number | null>(null);
+  const selectedKtas = callState.ktas;
   const ktasDescriptions = [
     null,
     '즉각적인 처치가 필요하며 생명이나 사지를 위협하는(또는 악화 가능성이 높은) 상태',
@@ -14,10 +14,9 @@ function Ktas(setCallState: any) {
     '긴급하지만 응급은 아닌 상태, 만성적인 문제로 인한 것이거나, 악화의 가능성이 낮은 상태',
   ];
   const clickKtas = (ktas: number) => {
-    setktasOption(ktas);
     setCallState((prev: any) => ({
       ...prev,
-      ktas: `${ktas}`,
+      ktas: ktas,
     }));
   };
 
@@ -29,7 +28,7 @@ function Ktas(setCallState: any) {
           <A.BtnKtas
             key={ktas}
             $ktas={`ktas${ktas}` as 'ktas1' | 'ktas2' | 'ktas3' | 'ktas4' | 'ktas5'}
-            $IsClick={ktasOption === ktas}
+            $IsClick={selectedKtas === ktas}
             onClick={() => clickKtas(ktas)}
           >
             {`KTAS${ktas}`}
@@ -37,10 +36,12 @@ function Ktas(setCallState: any) {
         ))}
       </S.BtnKtas>
       <S.TxtKtas>
-        <span>
-          <strong>{ktasOption && `KTAS${ktasOption} : `}</strong>
-          {ktasOption && ktasDescriptions[ktasOption]}
-        </span>
+        {selectedKtas ? (
+          <span>
+            <strong>{`KTAS${selectedKtas} : `}</strong>
+            {ktasDescriptions[selectedKtas]}
+          </span>
+        ) : null}
       </S.TxtKtas>
     </S.Ktas>
   );

@@ -1,20 +1,11 @@
 import { useState, useEffect } from 'react';
 import * as S from './Call.style';
 import M from '/src/components/Commons/Molecules';
-import { 
-  Ktas, 
-  Information, 
-  Status, 
-  Category, 
-  RecordModal } from '/src/components/Paramedic/Call';
-
-import "regenerator-runtime/runtime";
-import { useReactMediaRecorder } from "react-media-recorder";
-import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition'
-
+import { Ktas, Information, Status, Category, RecordModal } from '/src/components/Paramedic/Call';
 // import SoundToText from '/src/components/libraries/STT/SoundToText';
-// import AnnyangSTT from '/src/components/libraries/STT/AnnyangSTT';
-
+import { useReactMediaRecorder } from 'react-media-recorder';
+import 'regenerator-runtime/runtime';
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 // 리코일
 import { 
   useRecoilState, 
@@ -28,7 +19,8 @@ import {
 import CameraModal from '../../../components/Paramedic/Call/CameraModal/CameraModal';
 
 function Call() {
-  const setCallState = useSetRecoilState(paramedicCallState);
+  const [callState, setCallState] = useRecoilState(paramedicCallState);
+  const recordContent = useRecoilValue(recordContentFile);
   const [recording, setRecording] = useState<boolean>(false);
   const [cameraing, setCameraing] = useState<boolean>(false);
   const [seconds, setSeconds] = useState<number>(0);
@@ -117,9 +109,9 @@ function Call() {
       <S.ContentBox>
         <M.ParamedicHeader />
         <S.Blank />
-        <Ktas setCallState={setCallState} />
+        <Ktas callState={callState} setCallState={setCallState} />
         <S.Blank />
-        <Information setCallState={setCallState} />
+        <Information callState={callState} setCallState={setCallState} />
         <S.Blank />
         <Status 
           RecordStart={RecordStart}
@@ -148,7 +140,7 @@ function Call() {
         <p>Microphone: {listening ? 'on' : 'off'}</p>
 
         <S.Blank />
-        <Category />
+        <Category callState={callState} setCallState={setCallState} />
         <S.Blank />
       </S.ContentBox>
     </S.Container>

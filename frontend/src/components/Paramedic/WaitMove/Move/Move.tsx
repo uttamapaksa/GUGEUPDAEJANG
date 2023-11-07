@@ -1,10 +1,41 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
+import { isTransportingState, paramedicCallState, showWaitState } from '/src/recoils/ParamedicAtoms';
 import * as S from './Move.style';
 import A from '/src/components/Commons/Atoms';
 import theme from '/src/styles';
+import PATH from '/src/constants/path';
 
 function Move() {
   const [categories, _] = useState<string[]>(['추락', '과다출혈', '과다출혈']);
+  const setIsTransporting = useSetRecoilState(isTransportingState);
+  const setParamedicCall = useSetRecoilState(paramedicCallState);
+  const setShowWait = useSetRecoilState(showWaitState);
+
+  const navigate = useNavigate();
+  const finishTransfer = () => {
+    setIsTransporting(false);
+    setShowWait(true);
+    setParamedicCall({
+      id: 0,
+      createdAt: '',
+      occurrenceId: 0,
+      memberId: 0,
+      ktas: 0,
+      ageGroup: '',
+      gender: '',
+      description: '',
+      latitude: 0,
+      longitude: 0,
+      address: '',
+      tags: [''],
+      files: [''],
+      distance: 0,
+      duration: 0,
+    });
+    navigate(PATH.Paramedic);
+  };
 
   return (
     <>
@@ -24,7 +55,7 @@ function Move() {
             $color={theme.color.white}
             $boxShadow="0 0 2vh 0.4vh rgba(0, 0, 0, 0.2)"
             $backgroundColor={theme.color.grayDarkest}
-            $borderRadius='1vh'
+            $borderRadius="1vh"
           >
             청소년 (여)
           </A.DivTag>
@@ -55,8 +86,8 @@ function Move() {
           $fontSize="2.3vh"
           $color={theme.color.grayDarkest}
           $border={`0.25vh solid ${theme.color.grayDarkest}`}
-          $borderRadius='2vh'
-          >
+          $borderRadius="2vh"
+        >
           <A.ImgRecordVideoBlack $width="4vh" />
           영상 통화
           <A.ImgArrowBlackRight $width="1.2vh" />
@@ -67,13 +98,25 @@ function Move() {
           $fontSize="2.3vh"
           $color={theme.color.grayDarkest}
           $border={`0.25vh solid ${theme.color.grayDarkest}`}
-          $borderRadius='2vh'
+          $borderRadius="2vh"
         >
           <A.ImgRecordVoiceBlack $width="2.4vh" />
           음성 통화
           <A.ImgArrowBlackRight $width="1.2vh" />
         </A.BtnMediaRecord>
       </S.Calling>
+
+      <A.BtnSubmit
+        onClick={finishTransfer}
+        $margin="10vh 0 1vh 0 "
+        $borderRadius="1vh"
+        $width="90%"
+        $height="6vh"
+        $backgroundColor={theme.color.fontPink1}
+        $fontSize="2.5vh"
+      >
+        이송 완료
+      </A.BtnSubmit>
     </>
   );
 }
