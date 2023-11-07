@@ -1,7 +1,7 @@
 import { atom } from 'recoil';
 import { recoilPersist } from 'recoil-persist';
-export const { persistAtom } = recoilPersist();
-import { CalledHospitalType, CallStateType } from '../types/paramedic';
+import { CalledHospitalType, OccurrenceType, HospitalListType, TagType } from '../types/paramedic';
+const { persistAtom } = recoilPersist();
 
 export const recordVoiceFile = atom<string>({
   key: 'recordVoiceFile',
@@ -14,8 +14,8 @@ export const recordCameraFile = atom<string>({
 });
 
 export const recordContentFile = atom<string>({
-  key: "recordContentFile",
-  default: "",
+  key: 'recordContentFile',
+  default: '',
 });
 
 export const showWaitState = atom({
@@ -23,36 +23,30 @@ export const showWaitState = atom({
   default: true,
 });
 
-interface TagType {
-  id: number;
-  name: string;
-}
-
 export const tagsState = atom<TagType[]>({
   key: 'tagsState',
   default: [],
+  effects_UNSTABLE: [persistAtom],
 });
 
-export const paramedicCallState = atom<CallStateType>({
-  key: 'paramedicCallState',
+export const occurrenceState = atom<OccurrenceType>({
+  key: 'occurrenceState',
   default: {
-    id: 0,
-    createdAt: '',
-    occurrenceId: 0,
-    memberId: 0,
-    ktas: 0,
+    ktas: '',
     ageGroup: '',
     gender: '',
-    description: '',
+    symptom: '',
     latitude: 0,
     longitude: 0,
     address: '',
     tags: [],
     files: [],
-    distance: 0,
-    duration: 0,
   },
-  // effects_UNSTABLE: [persistAtom],
+});
+
+export const HospitalListState = atom<HospitalListType[]>({
+  key: 'HospitalListState',
+  default: [],
 });
 
 export const calledHospitalsState = atom<CalledHospitalType[]>({
@@ -63,11 +57,9 @@ export const calledHospitalsState = atom<CalledHospitalType[]>({
 export const isTransportingState = atom({
   key: 'isTransportingState',
   default: false,
-  // effects_UNSTABLE: [persistAtom],
 });
 
 export const callingTimeState = atom<string>({
   key: 'callingTimeState',
   default: '',
 });
-

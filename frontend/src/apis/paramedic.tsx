@@ -45,12 +45,12 @@ export const addCalling = async (data: any) => {
 };
 
 // 병원들 조회
-export const getHospitals = async (tagId: number) => {
+export const getHospitals = async (data: any) => {
   try {
-    const res = await privateApi.delete(`/calling/tag/${tagId}`,);
-    console.log('deleteTag then', res.data)
+    const res = await privateApi.post(`/calling/hospital`, data);
+    console.log('getHospitals then', res.data)
     return res.data;
   } catch (err) {
-    console.log('deleteTag catch', err);
+    console.log('getHospitals catch', err);
   }
 };
