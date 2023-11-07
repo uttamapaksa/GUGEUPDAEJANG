@@ -18,5 +18,5 @@ public interface TransferServiceClient {
     TransferCreateResponse createTransfer(@RequestBody CreateTransferRequest createTransferRequest);
 
     @GetMapping("/transfer/member/{memberId}")
-    List<TransferListResponse> getTransferByMemberInTransferring(@PathVariable Long memberId);
+    List<TransferListResponse> getTransferByMemberInTransferring(@PathVariable("memberId") Long memberId);
 }
