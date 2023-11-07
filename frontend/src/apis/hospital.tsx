@@ -15,6 +15,7 @@ export const getMyHospital = async () => {
 
 // 병원 회원가입
 export const putHospitalResponse = async (postProps: HospitalResponsePostProps) => {
+  console.log("putHospitalResponse", postProps)
   try {
     const response = await privateApi.put("calling/status", postProps);
     return response

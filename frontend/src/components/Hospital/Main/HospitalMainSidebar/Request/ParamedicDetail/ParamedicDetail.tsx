@@ -1,59 +1,87 @@
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import { ItemParaType, ItemRequestAt, } from "../ParamedicItem/ParamedicListItem.style";
 import { CloseDiv, DetailItemContainer, ItemElapseMin, ItemAddr, ParamedicDetailContainer, ParamedicDetailContent, DetailItemBetween, ItemLeftTime } from "./ParamedicDetail.style";
 import A from "/src/components/Commons/Atoms";
 import theme from "/src/styles";
-import { hospitalParmedicRequestList, hospitalResponse, hospitalParmedicTransferList } from "/src/recoils/HospitalAtoms";
+import { hospitalParmedicRequestList, hospitalParmedicTransferList } from "/src/recoils/HospitalAtoms";
 import { HospitalResponsePostProps, HospitalTransferItem } from "/src/types/map";
 import { timeToString } from "/src/constants/function";
 import { AGEGROUP, GENDER } from "/src/constants/variable";
+import { putHospitalResponse } from "/src/apis/hospital";
 
 const ParamedicDetail = (props: any) => {
-    const setCurResponse = useSetRecoilState(hospitalResponse);
     const [requestList, setRequestList] = useRecoilState(hospitalParmedicRequestList);
     const [transferList, setTransferList] = useRecoilState(hospitalParmedicTransferList);
 
     const checkFull = async (res: boolean) => {
-        const postProps: HospitalResponsePostProps = {
-          id: props.id,
-          responseType: res,
-        }
-        console.log("http post 응답 전송 : ", postProps);
-        // return await axiosPost();
-      }
-
-
-    const clickButton = (res: boolean) => {
-        // const response: HospitalResponseItem = {
-        //     id: props.id,
-        //     responseAt: new Date().toLocaleDateString(),
-        //     responseType: res,
-        // }
-        // setCurResponse(response)
-        checkFull(res);
-        if (requestList !== undefined) {
-            let nextList = [];
-            for (let i = 0; i < requestList.length; i++) {
-                if (requestList[i].id !== props.id) {
-                    nextList.push(requestList[i]);
-                }
-                else if (res) {
-                    let curTransferList: HospitalTransferItem[] = [];
-                    if (transferList !== undefined) {
-                        curTransferList = [...transferList];
-                    }
-                    const newTransferItem: HospitalTransferItem = {
-                        id: props.id,
-                        state: "wait",
-                        data: props
-                    }
-                    curTransferList.push(newTransferItem);
-                    setTransferList(curTransferList);
-                }
+        if (!res) {
+          let inputReason = prompt('사유를 입력하세요', '');
+          if (inputReason != null) {
+            const postProps: HospitalResponsePostProps = {
+              callingId: props.id,
+              status: "REJECTED",
+              reason: inputReason
             }
-            setRequestList(nextList);
+            return await putHospitalResponse(postProps);
+          }
+          else {
+            const postProps: HospitalResponsePostProps = {
+              callingId: props.id,
+              status: "REJECTED",
+              reason: "사유 없음"
+            }
+            return await putHospitalResponse(postProps);
+          }
         }
-    }
+        else {
+          const postProps: HospitalResponsePostProps = {
+            callingId: props.id,
+            status: "APPROVED",
+            reason: ""
+          }
+          return await putHospitalResponse(postProps);
+        }
+      }
+    
+      const clickButton = async (res: boolean) => {
+        const response = await checkFull(res);
+        console.log("response", response);
+        if (response === undefined) {
+          alert("HospitalResponse 실패");
+          return;
+        }
+        else if (response.data.isFull) {
+          setRequestList([]);
+          return;
+        }
+    
+        if (requestList !== undefined) {
+          let nextList = [];
+          for (let i = 0; i < requestList.length; i++) {
+            if (requestList[i].id !== props.id) {
+              nextList.push(requestList[i]);
+            }
+            else if (res) {
+              let curTransferList: HospitalTransferItem[] = [];
+              if (transferList !== undefined) {
+                curTransferList = [...transferList];
+              }
+              const newTransferItem: HospitalTransferItem = {
+                id: props.id,
+                state: "wait",
+                data: props
+              }
+              curTransferList.push(newTransferItem);
+              setTransferList(curTransferList);
+            }
+            if (selectedParaItem !== undefined && selectedParaItem.id == props.id) {
+              setSelectedParaItem(undefined);
+            }
+          }
+          setRequestList(nextList);
+        }
+      }
+    
 
     return (
         <ParamedicDetailContainer>

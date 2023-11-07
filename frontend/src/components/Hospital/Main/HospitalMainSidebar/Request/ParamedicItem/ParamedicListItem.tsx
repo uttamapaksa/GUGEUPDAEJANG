@@ -62,23 +62,11 @@ const ParamedicListItem = (props: any) => {
       }
       return await putHospitalResponse(postProps);
     }
-
-    // return await axiosPost();
-    //만약 post의 response data가 isFull이면 hospitalRequestList를 빈 배열로 만들기
   }
 
-
   const clickButton = async (res: boolean) => {
-    //병원 응답 http post로 수정 예정
-    // const response: HospitalResponseItem = {
-    //   id: props.id,
-    //   responseAt: new Date().toLocaleDateString(),
-    //   responseType: res,
-    // }
-    // setCurResponse(response)
-    //->
     const response = await checkFull(res);
-    console.log(response);
+    console.log("response", response);
     if (response === undefined) {
       alert("HospitalResponse 실패");
       return;
