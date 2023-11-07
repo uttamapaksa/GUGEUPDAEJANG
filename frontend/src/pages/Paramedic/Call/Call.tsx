@@ -148,7 +148,7 @@ function Call() {
         <p>Microphone: {listening ? 'on' : 'off'}</p>
 
         <S.Blank />
-        <Category />
+        <Category setCallState={setCallState} />
         <S.Blank />
       </S.ContentBox>
     </S.Container>

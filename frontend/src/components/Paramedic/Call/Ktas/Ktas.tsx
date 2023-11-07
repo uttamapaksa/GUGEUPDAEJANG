@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useRecoilState } from 'recoil';
+import { ktasState } from '/src/recoils/ParamedicAtoms';
 import * as S from './Ktas.style';
 import A from '/src/components/Commons/Atoms';
 
 function Ktas(setCallState: any) {
   const ktasOptions: number[] = [1, 2, 3, 4, 5];
-  const [ktasOption, setktasOption] = useState<number | null>(null);
+  const [ktasOption, setKtasOption] = useRecoilState(ktasState);
   const ktasDescriptions = [
     null,
     '즉각적인 처치가 필요하며 생명이나 사지를 위협하는(또는 악화 가능성이 높은) 상태',
@@ -14,7 +15,7 @@ function Ktas(setCallState: any) {
     '긴급하지만 응급은 아닌 상태, 만성적인 문제로 인한 것이거나, 악화의 가능성이 낮은 상태',
   ];
   const clickKtas = (ktas: number) => {
-    setktasOption(ktas);
+    setKtasOption(ktas);
     setCallState((prev: any) => ({
       ...prev,
       ktas: `${ktas}`,
@@ -32,7 +33,7 @@ function Ktas(setCallState: any) {
             $IsClick={ktasOption === ktas}
             onClick={() => clickKtas(ktas)}
           >
-            {`KTAS${ktas}`}
+            { ktas && `KTAS${ktas}`}
           </A.BtnKtas>
         ))}
       </S.BtnKtas>
