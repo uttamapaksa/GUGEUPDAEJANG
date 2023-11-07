@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { Tmapv3 } from "../Map";
+import { Tmapv3 } from "../../Map";
 import { useRecoilState } from "recoil";
-import { hospitalSelectedTransferItem } from "../../../../recoils/HospitalAtoms";
+import { hospitalSelectedTransferItem } from "../../../../../recoils/HospitalAtoms";
 import { ParamedicTransferMarkerContainer } from "./ParamedicTransferMarker.style";
 
 function ParamedicTransferMarker(props: any) {
@@ -21,7 +21,7 @@ function ParamedicTransferMarker(props: any) {
                     map: props.map,
                     // color: positions[i].color,
                     iconSize: size,
-                    // icon: props.paraTransferList[i].type,
+                    icon: "/src/assets/hospital/map-marker-ambulance.png",
                     // label: title //Marker의 라벨.
                 })
                 marker.name = props.paraTransferList[i].id

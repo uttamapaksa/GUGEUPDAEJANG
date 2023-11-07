@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Client } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { hospitalRequestList, hospitalResponse } from '../recoils/HospitalAtoms';
+import { hospitalParmedicRequestList, hospitalResponse } from '../recoils/HospitalAtoms';
 
 const CALLING_SERVER_URL = 'https://k9b204a.p.ssafy.io:64419/calling-websocket';
 const TRANSFER_SERVER_URL = 'https://k9b204a.p.ssafy.io:64413/transfer-websocket';
@@ -12,7 +12,7 @@ const paramedicId = 1;
 
 // function HospitalSocket({ hospitalId }: HospitalSocketProps) {
 function HospitalSocket() {
-  const [requestList, setRequestList] = useRecoilState(hospitalRequestList);
+  const [requestList, setRequestList] = useRecoilState(hospitalParmedicRequestList);
   const [callingMessages, setCaliingMessages] = useState<string[]>([]);
   const [callingMessageToSend, setCallingMessageToSend] = useState<string>('');
   const callingSocket = useRef<Client | null>(null);

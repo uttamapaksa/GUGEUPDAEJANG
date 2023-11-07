@@ -31,7 +31,7 @@ export const hospitalSelectedRequestItem = atom<ParaRequestItem | undefined>({
 
 
 //병원 요청 리스트
-export const hospitalRequestList = atom<ParaRequestItem[] | undefined>({
+export const hospitalParmedicRequestList = atom<ParaRequestItem[] | undefined>({
   key: "hospitalRequestList",
   default: undefined,
   effects_UNSTABLE: [persistAtom],
@@ -68,7 +68,7 @@ export const hospitalSelectedTransferItem = atom<HospitalTransferItem | undefine
 
 
 //병원 이송 리스트
-export const hospitalTransferList = atom<HospitalTransferItem[] | undefined>({
+export const hospitalParmedicTransferList = atom<HospitalTransferItem[] | undefined>({
   key: "hospitalTransferList",
   default: undefined,
   effects_UNSTABLE: [persistAtom],
