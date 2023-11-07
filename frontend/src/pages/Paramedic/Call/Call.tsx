@@ -126,10 +126,10 @@ function Call() {
         {cameraing ? (
           <CameraModal
             CameraClose={CameraClose}/> ) : (<></>)}
-        {recording ? (
+        {/* {recording ? (
           <RecordModal 
             RecordStop={RecordStop} 
-            time={formatTime(seconds)} /> ) : (<></>)}
+            time={formatTime(seconds)} /> ) : (<></>)} */}
 
         {/* 임시 태그 삭제할 예정 */}
         <audio
