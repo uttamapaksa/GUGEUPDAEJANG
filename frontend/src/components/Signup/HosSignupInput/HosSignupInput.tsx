@@ -5,7 +5,7 @@ import * as S from './HosSignupInput.style';
 import A from '/src/components/Commons/Atoms';
 import theme from '/src/styles';
 import PATH from '/src/constants/path';
-import { postHosJoin } from "/src/apis/auth";
+import { getCheckEmail, postHosJoin } from "/src/apis/auth";
 import { hospitalInfoState } from "/src/recoils/AuthAtoms";
 import { useRecoilState } from "recoil";
 
@@ -97,6 +97,15 @@ function HosSignupInput ({setIsOpen, setIsHosSearch}: HosSignupInputProps) {
     }
   }
 
+  const axiosCheckEmail = async ():Promise<void> => {
+    try {
+      const response = await getCheckEmail(email)
+      console.log(response.alreadyExists)
+    }
+    catch(error) {
+      console.log(error)
+    }
+  }
 
   return(
     <S.Container>
@@ -141,7 +150,8 @@ function HosSignupInput ({setIsOpen, setIsHosSearch}: HosSignupInputProps) {
           $height='100%'
           $fontSize='2vh'
           $borderRadius='1vh'
-          $backgroundColor={theme.color.grayDarkest}>인증</A.BtnSubmit>
+          $backgroundColor={theme.color.grayDarkest}
+          onClick={() => {axiosCheckEmail()}}>인증</A.BtnSubmit>
       </S.Row1>
 
       <S.Row1>

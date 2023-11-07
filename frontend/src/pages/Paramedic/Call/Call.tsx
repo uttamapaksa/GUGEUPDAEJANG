@@ -139,7 +139,7 @@ function Call() {
         <Status RecordStart={RecordStart} CameraOpen={CameraOpen} />
 
         {cameraing ? <CameraModal CameraClose={CameraClose} /> : <></>}
-        {/* {recording ? (
+        {recording ? (
           <RecordModal 
             RecordStop={RecordStop} 
             time={formatTime(seconds)} /> ) : (<></>)}

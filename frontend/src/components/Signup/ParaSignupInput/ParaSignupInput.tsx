@@ -1,5 +1,5 @@
 import { useState, ChangeEvent } from "react"
-import { ParaSignupInputProps } from "/src/types/auth";
+import { CheckEmailProps, ParaSignupInputProps } from "/src/types/auth";
 import { useNavigate } from 'react-router-dom';
 import * as S from './ParaSignupInput.style';
 import A from '/src/components/Commons/Atoms';
@@ -7,7 +7,7 @@ import theme from '/src/styles';
 import PATH from '/src/constants/path';
 import { useRecoilState } from "recoil";
 import { paramedicInfoState } from "/src/recoils/AuthAtoms";
-import { postParaJoin } from "/src/apis/auth";
+import { getCheckEmail, postParaJoin } from "/src/apis/auth";
 
 function ParaSignupInput ({setIsOpen, setIsHosSearch}: ParaSignupInputProps) {
   const [center, setCenter] = useState<string>("");
@@ -76,6 +76,16 @@ function ParaSignupInput ({setIsOpen, setIsHosSearch}: ParaSignupInputProps) {
     }
   }
 
+  const axiosCheckEmail = async ():Promise<void> => {
+    try {
+      const response = await getCheckEmail(email)
+      console.log(response.alreadyExists)
+    }
+    catch(error) {
+      console.log(error)
+    }
+  }
+
   return(
     <S.Container>
       <S.Row1>
@@ -137,7 +147,8 @@ function ParaSignupInput ({setIsOpen, setIsHosSearch}: ParaSignupInputProps) {
           $height='100%'
           $fontSize='2vh'
           $borderRadius='1vh'
-          $backgroundColor={theme.color.grayDarkest}>인증</A.BtnSubmit>
+          $backgroundColor={theme.color.grayDarkest}
+          onClick={()=>axiosCheckEmail()}>인증</A.BtnSubmit>
       </S.Row1>
 
       <S.Row1>
