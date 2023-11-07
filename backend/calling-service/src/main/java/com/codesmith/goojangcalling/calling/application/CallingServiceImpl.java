@@ -101,11 +101,10 @@ public class CallingServiceImpl implements CallingService{
     @Transactional
     @Override
     public HospitalStatusResponse changeCallingStatus(CallingStatusChangeRequest callingStatusChangeRequest) {
-        callingValidator.validateCalling(callingStatusChangeRequest.getCallingId());
-        Calling calling = callingRepository.findById(callingStatusChangeRequest.getCallingId()).get();
-        calling.updateCalling(callingStatusChangeRequest.getStatus(), callingStatusChangeRequest.getReason());
-        Long memberId = calling.getOccurrence().getMemberId();
-        simpMessagingTemplate.convertAndSend("/topic/status/" + memberId, callingStatusChangeRequest);
+        Calling calling = updateCallingStatus(callingStatusChangeRequest);
+
+        sendToParamedic(callingStatusChangeRequest, calling);
+
         BedCountResponse bedCount = memberServiceClient.getBedCount(calling.getMemberId());
         List<TransferListResponse> transferByMemberInTransferring = transferServiceClient.getTransferByMemberInTransferring(calling.getMemberId());
         if (bedCount.getBedCount() - transferByMemberInTransferring.size() > 0) {
@@ -113,6 +112,19 @@ public class CallingServiceImpl implements CallingService{
         }
         return new HospitalStatusResponse(true);
     }
+
+    private void sendToParamedic(CallingStatusChangeRequest callingStatusChangeRequest, Calling calling) {
+        Long memberId = calling.getOccurrence().getMemberId();
+        simpMessagingTemplate.convertAndSend("/topic/status/" + memberId, callingStatusChangeRequest);
+    }
+
+    private Calling updateCallingStatus(CallingStatusChangeRequest callingStatusChangeRequest) {
+        callingValidator.validateCalling(callingStatusChangeRequest.getCallingId());
+        Calling calling = callingRepository.findById(callingStatusChangeRequest.getCallingId()).get();
+        calling.updateCalling(callingStatusChangeRequest.getStatus(), callingStatusChangeRequest.getReason());
+        return calling;
+    }
+
     @Transactional
     @Override
     public TransferCreateResponse createTransfer(Long callingId) {
