@@ -56,19 +56,19 @@ export const ItemNumber = styled.div`
 `;
 
 export const ItemDist = styled.div`
+  /* border: 3px solid purple; */
   display: flex;
   justify-content: center;
   align-items: center;
-  /* border: 3px solid purple; */
   width: 15%;
   height: 5vh;
 `;
 
 export const ItemTime = styled.div`
+  /* border: 3px solid purple; */
   display: flex;
   justify-content: center;
   align-items: center;
-  /* border: 3px solid purple;s */
   width: 15%;
   height: 5vh;
 `;

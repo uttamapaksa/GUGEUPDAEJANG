@@ -1,4 +1,4 @@
-import { privateApi } from './';
+import { privateApi, publicApi } from './';
 
 // 태그들 조회
 export const getTags = async () => {
@@ -35,6 +35,7 @@ export const deleteTag = async (tagId: number) => {
 
 // 사고 저장
 export const addCalling = async (data: any) => {
+  console.log('data', data)
   try {
     const res = await privateApi.post(`/calling`, data);
     console.log('addCalling then', res.data)
@@ -52,5 +53,27 @@ export const getHospitals = async (data: any) => {
     return res.data;
   } catch (err) {
     console.log('getHospitals catch', err);
+  }
+};
+
+// 요청 취소
+export const cancelCalling = async (callingId: number) => {
+  try {
+    const res = await publicApi.put(`/calling/cancel/${callingId}`);
+    console.log('cancelCalling then', res.data)
+    return res.data;
+  } catch (err) {
+    console.log('cancelCalling catch', err);
+  }
+};
+
+// 요청 확정
+export const fixCalling = async (callingId: number) => {
+  try {
+    const res = await publicApi.put(`/calling/fix/${callingId}`);
+    console.log('fixCalling then', res.data)
+    return res.data;
+  } catch (err) {
+    console.log('fixCalling catch', err);
   }
 };

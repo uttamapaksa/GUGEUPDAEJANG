@@ -1,9 +1,10 @@
 import { useSetRecoilState } from 'recoil';
-import { showWaitState } from '/src/recoils/ParamedicAtoms';
+import { HospitalListType } from '/src/types/paramedic';
+import { showWaitState, fixedCallingState } from '/src/recoils/ParamedicAtoms';
 import * as S from './HospitalItem.style';
 import A from '/src/components/Commons/Atoms';
 import theme from '/src/styles';
-import { CalledHospitalType } from '/src/types/paramedic';
+import { cancelCalling, fixCalling } from '/src/apis/paramedic';
 
 const BTNBGCOLOR: { [key: string]: string } = {
   PENDING: theme.color.white,
@@ -19,30 +20,38 @@ const BTNRADCOLOR: { [key: string]: string } = {
   CANCELED: theme.color.grayDarkest,
 };
 
-function HospitalItem({ hospital, setHospitals }: { key: number; hospital: CalledHospitalType; setHospitals: any }) {
+const BTNCONTENT: { [key: string]: string } = {
+  PENDING: '요청 취소',
+  APPROVED: '이송 확정',
+  REJECTED: '거절됨',
+  CANCELED: '취소됨',
+};
+
+function HospitalItem({ hospital, setHospitals }: { key: number; hospital: HospitalListType; setHospitals: any }) {
   const setShowWait = useSetRecoilState(showWaitState);
-  const ButtonContent = (status: string) => {
+  const setFixedCalling = useSetRecoilState(fixedCallingState);
+
+  const clickItem = (callingId: number, status: string) => {
     switch (status) {
       case 'APPROVED':
-        return '이송 확정';
-      case 'REJECTED':
-        return '거절됨';
-      case 'CANCELED':
-        return '취소됨';
-      default:
-        return '요청 취소';
-    }
-  };
-  const clickItem = (id: number, status: string) => {
-    switch (status) {
-      case 'APPROVED':
-        return setShowWait(false);
+        fixCalling(callingId).then((fixedData) => {
+          if (fixedData) {
+            setFixedCalling(fixedData);
+            setShowWait(false);
+          }
+        })
+        return
+        
       case 'PENDING':
-        setHospitals((currentHospitals: any) =>
-          currentHospitals.map((hospital: any) =>
-            hospital.id === id ? { ...hospital, status: 'CANCELED' } : hospital,
-          ),
-        );
+        cancelCalling(callingId).then((res) => {
+          if (res) {
+            setHospitals((currHospitals: HospitalListType[]) =>
+            currHospitals.map((currHospital) =>
+            currHospital.callingId === callingId ? { ...currHospital, status: 'CANCELED' } : currHospital,
+            ),
+            );
+          }
+        });
         return;
       default:
         return;
@@ -52,25 +61,25 @@ function HospitalItem({ hospital, setHospitals }: { key: number; hospital: Calle
   return (
     <S.HospitalItem>
       <S.LeftSection>
-        <S.Title>{hospital.hospitalId}</S.Title>
+        <S.Title>{hospital.hospitalName}</S.Title>
         <S.Number>
           <A.ImgCellphoneGray
             // $width="2.6vw"
             $height="65%"
             $margin="0 1.8vh 0 0"
           />
-          {hospital.telephone1}
+          {hospital.telephone}
         </S.Number>
         <S.Dist>{hospital.distance.toFixed(1)}km</S.Dist>
-        <S.Time>{hospital.time}분</S.Time>
+        <S.Time>{hospital.duration}분</S.Time>
       </S.LeftSection>
 
       <S.RightSection>
         <S.CallTime>
-          {hospital.callingTime.slice(11, 13)}시 {hospital.callingTime.slice(14, 16)}분에 요청
+          {hospital.callingTime[3]}시 {hospital.callingTime[4]}분에 요청
         </S.CallTime>
         <A.BtnToggle
-          onClick={() => clickItem(hospital.id, hospital.status)}
+          onClick={() => clickItem(hospital.callingId, hospital.status)}
           $width="90%"
           $height="8vh"
           $fontSize="2.2vh"
@@ -79,7 +88,7 @@ function HospitalItem({ hospital, setHospitals }: { key: number; hospital: Calle
           $color={hospital.status === 'PENDING' ? theme.color.pinkLight : theme.color.white}
           $border={`0.25vh solid ${BTNRADCOLOR[hospital.status]}`}
         >
-          {ButtonContent(hospital.status)}
+          {BTNCONTENT[hospital.status]}
         </A.BtnToggle>
       </S.RightSection>
     </S.HospitalItem>
