@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { Tmapv3 } from "../Map";
+import { Tmapv3 } from "../../Map";
 import { ParamedicRequestMarkerContainer } from "./ParamedicRequsetMarker.style";
 import { useRecoilState } from "recoil";
-import { hospitalSelectedRequestItem } from "../../../../recoils/HospitalAtoms";
+import { hospitalSelectedRequestItem } from "../../../../../recoils/HospitalAtoms";
 
 function ParamedicRequestMarker(props: any) {
     const [paraRequestMarkers, setParaRequestMarkers] = useState<any[]>([]);
@@ -19,7 +19,7 @@ function ParamedicRequestMarker(props: any) {
                     position: lonlat,
                     draggable: true,
                     map: props.map,
-                    // color: positions[i].color,
+                    color: "#F66457",
                     iconSize: size,
                     // icon: props.paraRequestList[i].type,
                     // label: title //Marker의 라벨.

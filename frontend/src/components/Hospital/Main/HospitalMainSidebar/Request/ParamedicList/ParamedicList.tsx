@@ -2,13 +2,13 @@ import ParamedicDetail from "../ParamedicDetail/ParamedicDetail";
 import ParamedicListItem from "../ParamedicItem/ParamedicListItem";
 import { ParamedicListContainer } from "./ParamedicList.style";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { hospitalRequestList, hospitalSelectedRequestItem } from "../../../../../../recoils/HospitalAtoms";
+import { hospitalParmedicRequestList, hospitalSelectedRequestItem } from "../../../../../../recoils/HospitalAtoms";
 import { useEffect } from "react";
 import { ParaRequestItem } from "/src/types/map";
 
 const ParamedicList = () => {
     const [paraItem, setParaItem] = useRecoilState(hospitalSelectedRequestItem);
-    const requestList = useRecoilValue(hospitalRequestList);
+    const requestList = useRecoilValue(hospitalParmedicRequestList);
 
     const selectParaDetail = (item: ParaRequestItem | undefined) => {
         setParaItem(item);

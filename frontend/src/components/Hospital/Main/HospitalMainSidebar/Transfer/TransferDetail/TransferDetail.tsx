@@ -12,13 +12,13 @@ import {
 } from "./TransferDetail.style";
 import A from "/src/components/Commons/Atoms";
 import theme from "/src/styles";
-import { hospitalTransferList } from "/src/recoils/HospitalAtoms";
+import { hospitalParmedicTransferList } from "/src/recoils/HospitalAtoms";
 import { HospitalTransferItem } from "/src/types/map";
 import { timeToString } from "/src/constants/function";
 import { AGEGROUP, GENDER } from "/src/constants/variable";
 
 const TransferDetail = (props: any) => {
-  const [transferList, setTransferList] = useRecoilState(hospitalTransferList);
+  const [transferList, setTransferList] = useRecoilState(hospitalParmedicTransferList);
 
   const clickButton = () => {
     if (transferList != undefined) {

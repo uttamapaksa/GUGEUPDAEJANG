@@ -3,38 +3,18 @@ export interface Position {
   lon: number;
 }
 
-//수정 예정
 export interface HospitalItem {
   id: number;
-  name: string;
   pos: Position;
-  phone: string;
-  requestTime: string;
-  remainBed: number;
-  response?: boolean;
-}
-
-export interface ParamedicItem {
-  id: number;
-  addr: string;
-  pos: Position;
-  ktas: string;
-  elapseMin: number;
-  leftTime: number;
-  dist: number;
-  paraType: string;
-  paraTag: string[];
-  paraInfo: string;
-  requestAt?: string;
+  response?: boolean; //구급대원용 wait | accept | refuse
 }
 
 export interface MapProps {
-  type: string;
-  pos?: Position;
+  type: string; // guest | paramedic | request | transfer
+  pos?: Position; // { lat: number; lon: number; }
   hosList?: HospitalItem[];
-  paraRequestList?: ParaRequestItem[];
-  paraTransferList?: HospitalTransferItem[];
-
+  paraRequestList?: ParaRequestItem[]; //병원 요청용
+  paraTransferList?: HospitalTransferItem[]; //병원 이송용
 }
 
 export interface GuestMapProps {
@@ -45,6 +25,21 @@ export interface GuestMapProps {
 // "ktas": "KTAS1",   // KTAS1, KTAS2, KTAS3, KTAS4, KTAS5
 // "ageGroup": "INFANT",   // INFANT, CHILD, ADOLESCENT, YOUTH, MIDDLE, SENIOR
 // "gender": "MALE",    // MALE, FEMALE
+
+// //구급대원 데이터
+// export interface ParamedicItem {
+//   id: number;
+//   addr: string;
+//   pos: Position;
+//   ktas: string;
+//   elapseMin: number;
+//   leftTime: number;
+//   dist: number;
+//   paraType: string;
+//   paraTag: string[];
+//   paraInfo: string;
+//   requestAt?: string;
+// }
 
 //구급대원 요청(서버)
 export interface ParaRequestItem {

@@ -2,14 +2,14 @@ import { useEffect, useRef, useState } from "react";
 import { TransferListItemContainer, TransferListItemContent, ItemRequestAt, ItemParaType, ItemParaTagGroup } from "./TransferListItem.style";
 import A from "/src/components/Commons/Atoms";
 import theme from "/src/styles";
-import { hospitalTransferList } from "/src/recoils/HospitalAtoms";
+import { hospitalParmedicTransferList } from "/src/recoils/HospitalAtoms";
 import { timeToString } from "/src/constants/function";
 import { AGEGROUP, GENDER } from "/src/constants/variable";
 import { HospitalTransferItem } from "/src/types/map";
 import { useRecoilState } from "recoil";
 
 const TransferListItem = (props: any) => {
-  const [transferList, setTransferList] = useRecoilState(hospitalTransferList);
+  const [transferList, setTransferList] = useRecoilState(hospitalParmedicTransferList);
 
   const [scrollMoved, setScrollMoved] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);

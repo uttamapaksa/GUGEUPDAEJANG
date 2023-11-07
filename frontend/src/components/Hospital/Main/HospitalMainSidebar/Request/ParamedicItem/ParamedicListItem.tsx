@@ -3,15 +3,15 @@ import { ParamedicItemContainer, ParamedicItemContent, ItemRequestAt, ItemParaTy
 import A from "/src/components/Commons/Atoms";
 import theme from "/src/styles";
 import { HospitalResponsePostProps, HospitalTransferItem } from "/src/types/map";
-import { useRecoilState, useSetRecoilState } from "recoil";
-import { hospitalRequestList, hospitalResponse, hospitalSelectedRequestItem, hospitalTransferList } from "/src/recoils/HospitalAtoms";
+import { useRecoilState } from "recoil";
+import { hospitalParmedicRequestList, hospitalSelectedRequestItem, hospitalParmedicTransferList } from "/src/recoils/HospitalAtoms";
 import { AGEGROUP, GENDER } from "/src/constants/variable";
 import { timeToString } from "/src/constants/function";
 
 const ParamedicListItem = (props: any) => {
   // const setCurResponse = useSetRecoilState(hospitalResponse); //http post로 수정 예정
-  const [requestList, setRequestList] = useRecoilState(hospitalRequestList);
-  const [transferList, setTransferList] = useRecoilState(hospitalTransferList);
+  const [requestList, setRequestList] = useRecoilState(hospitalParmedicRequestList);
+  const [transferList, setTransferList] = useRecoilState(hospitalParmedicTransferList);
   const [selectedParaItem, setSelectedParaItem] = useRecoilState(hospitalSelectedRequestItem);
 
   const [scrollMoved, setScrollMoved] = useState(false);
