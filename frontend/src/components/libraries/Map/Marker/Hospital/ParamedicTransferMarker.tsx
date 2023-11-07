@@ -12,7 +12,7 @@ function ParamedicTransferMarker(props: any) {
         if (props.map !== undefined && props.paraTransferList !== undefined) {
             let next: any[] = []
             for (var i = 0; i < props.paraTransferList.length; i++) {
-                var lonlat = new Tmapv3.LatLng(props.paraTransferList[i].data.latitude, props.paraTransferList[i].data.longitude);
+                var lonlat = new Tmapv3.LatLng(props.paraTransferList[i].curLat, props.paraTransferList[i].curLon);
                 // var title = props.paraTransferList[i].name;
                 const size = new Tmapv3.Size(30, 30);
                 const marker = new Tmapv3.Marker({

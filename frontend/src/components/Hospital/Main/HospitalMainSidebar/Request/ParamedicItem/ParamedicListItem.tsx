@@ -7,6 +7,7 @@ import { useRecoilState } from "recoil";
 import { hospitalParmedicRequestList, hospitalSelectedRequestItem, hospitalParmedicTransferList } from "/src/recoils/HospitalAtoms";
 import { AGEGROUP, GENDER } from "/src/constants/variable";
 import { timeToString } from "/src/constants/function";
+import { putHospitalResponse } from "/src/apis/hospital";
 
 const ParamedicListItem = (props: any) => {
   // const setCurResponse = useSetRecoilState(hospitalResponse); //http post로 수정 예정
@@ -34,16 +35,40 @@ const ParamedicListItem = (props: any) => {
   };
 
   const checkFull = async (res: boolean) => {
-    const postProps: HospitalResponsePostProps = {
-      id: props.id,
-      responseType: res,
+    if (!res) {
+      let inputReason = prompt('사유를 입력하세요', '');
+      if (inputReason != null) {
+        const postProps: HospitalResponsePostProps = {
+          callingId: props.id,
+          status: "REJECTED",
+          reason: inputReason
+        }
+        return await putHospitalResponse(postProps);
+      }
+      else {
+        const postProps: HospitalResponsePostProps = {
+          callingId: props.id,
+          status: "REJECTED",
+          reason: "사유 없음"
+        }
+        return await putHospitalResponse(postProps);
+      }
     }
-    console.log("http post 응답 전송 : ", postProps);
+    else {
+      const postProps: HospitalResponsePostProps = {
+        callingId: props.id,
+        status: "APPROVED",
+        reason: ""
+      }
+      return await putHospitalResponse(postProps);
+    }
+
     // return await axiosPost();
     //만약 post의 response data가 isFull이면 hospitalRequestList를 빈 배열로 만들기
   }
 
-  const clickButton = (res: boolean) => {
+
+  const clickButton = async (res: boolean) => {
     //병원 응답 http post로 수정 예정
     // const response: HospitalResponseItem = {
     //   id: props.id,
@@ -52,7 +77,16 @@ const ParamedicListItem = (props: any) => {
     // }
     // setCurResponse(response)
     //->
-    checkFull(res);
+    const response = await checkFull(res);
+    console.log(response);
+    if (response === undefined) {
+      alert("HospitalResponse 실패");
+      return;
+    }
+    else if (response.data.isFull) {
+      setRequestList([]);
+      return;
+    }
 
     if (requestList !== undefined) {
       let nextList = [];
