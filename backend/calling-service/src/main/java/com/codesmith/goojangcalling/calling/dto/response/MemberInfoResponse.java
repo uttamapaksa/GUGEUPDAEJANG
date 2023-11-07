@@ -9,7 +9,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class TransferInfoResponse {
-    private Long transferId;
+public class MemberInfoResponse {
+    private Long id;
+    private String email;
     private String name;
+    private String imageUrl;
 }
