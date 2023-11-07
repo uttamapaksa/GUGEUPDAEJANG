@@ -3,10 +3,11 @@ import { MapContainer } from "./Map.style";
 import ParamedicInfo from "./InfoWindow/ParamedicInfo";
 import HospitalMarker from "./Marker/HospitalMarker";
 import { MapProps } from "/src/types/map";
-import ParamedicMarker from "./Marker/ParamedicRequsetMarker";
-import ParamedicRequestMarker from "./Marker/ParamedicRequsetMarker";
-import ParamedicTransferMarker from "./Marker/ParamedicTransferMarker";
+import ParamedicMarker from "./Marker/Hospital/ParamedicRequsetMarker";
+import ParamedicRequestMarker from "./Marker/Hospital/ParamedicRequsetMarker";
+import ParamedicTransferMarker from "./Marker/Hospital/ParamedicTransferMarker";
 import ParamedicTransferInfo from "./InfoWindow/ParamedicTransferInfo";
+import MyHospitalMarker from "./Marker/Hospital/MyHospitalMarker";
 
 declare global {
     interface Window {
@@ -59,7 +60,7 @@ function Map(props: MapProps) {
                 const tmp = createMap(pos.lat, pos.lon);
                 console.log("tmp", tmp);
                 setMap(tmp);
-                setPrevType("empty");
+                setPrevType(props.type);
             }
         }
     }, [prevType]);
@@ -88,12 +89,14 @@ function Map(props: MapProps) {
                         <>
                             <ParamedicRequestMarker {...props} map={map} />
                             <ParamedicInfo {...props} map={map} />
+                            <MyHospitalMarker {...props} map={map} />
                         </> :
                         <></>}
                     {props.type === "transfer" ?
                         <>
                             <ParamedicTransferMarker {...props} map={map} />
                             <ParamedicTransferInfo {...props} map={map} />
+                            <MyHospitalMarker {...props} map={map} />
                         </> :
                         <></>}
 

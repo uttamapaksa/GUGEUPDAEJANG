@@ -3,18 +3,19 @@ import { MapContainer } from "./HospitalMap.styls";
 import Map from "/src/components/libraries/Map/Map";
 import { MapProps } from "/src/types/map";
 import { useRecoilValue } from "recoil";
-import { currentPosition, hospitalRequestList, hospitalSidebarType, hospitalTransferList } from "/src/recoils/HospitalAtoms";
+import { currentPosition, hospitalParmedicRequestList, hospitalSidebarType, hospitalParmedicTransferList } from "/src/recoils/HospitalAtoms";
 
 const HospitalMap = () => {
   const curPos = useRecoilValue(currentPosition);
-  const requestList = useRecoilValue(hospitalRequestList);
-  const transferList = useRecoilValue(hospitalTransferList);
+  const requestList = useRecoilValue(hospitalParmedicRequestList);
+  const transferList = useRecoilValue(hospitalParmedicTransferList);
 
   const isRequest = useRecoilValue(hospitalSidebarType);
 
   const [hospitalMapProps, setHospitalMapProps] = useState<MapProps | undefined>(undefined);
 
   useEffect(() => {
+    console.log("!!!", curPos)
     if(curPos.lat != null && curPos.lon != null){
       if(isRequest){
         const newProps: MapProps = {
