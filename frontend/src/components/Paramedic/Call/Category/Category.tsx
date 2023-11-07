@@ -90,7 +90,7 @@ function Category() {
   useEffect(() => {
     getOptions();
   }, []);
-
+  
   return (
     <S.Category>
       <A.TxtParamedicTitle $justifyContent="space-between">

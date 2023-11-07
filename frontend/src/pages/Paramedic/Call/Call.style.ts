@@ -30,3 +30,7 @@ export const Div = styled.div`
   width: 100%;
   height: 40px;
 `
+
+export const Upload = styled.button`
+  
+`
