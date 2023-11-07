@@ -22,9 +22,11 @@ function Main() {
   const geolocation = useGeolocation();
 
   const setCurrentPos = async () => {
+    setCurPos({ lat: 37.565128, lon: 126.98883 });
+
     const responese = await getMyHospital();
     if (responese !== undefined && curMemberInfo.role==="HOSPITAL") {
-      setCurPos({ lat: responese.data.latitude, lon: responese.data.longitude });
+      // setCurPos({ lat: responese.data.latitude, lon: responese.data.longitude });
       const curHospitalInfo:HosJoinProps = {
         hospitalId: curMemberInfo.memberId.toString(), //id 는 number로 사용
         email: "",

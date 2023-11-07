@@ -15,6 +15,7 @@ export const HeaderHospitalLogo = styled.div`
   display: flex;
   text-align: center;
   justify-content: center;
+  align-items: center;
   height: 70%;
   top: 50%;
   right: 1%;

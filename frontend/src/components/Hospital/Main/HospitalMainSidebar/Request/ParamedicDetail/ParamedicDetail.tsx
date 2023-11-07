@@ -3,7 +3,7 @@ import { ItemParaType, ItemRequestAt, } from "../ParamedicItem/ParamedicListItem
 import { CloseDiv, DetailItemContainer, ItemElapseMin, ItemAddr, ParamedicDetailContainer, ParamedicDetailContent, DetailItemBetween, ItemLeftTime } from "./ParamedicDetail.style";
 import A from "/src/components/Commons/Atoms";
 import theme from "/src/styles";
-import { hospitalParmedicRequestList, hospitalParmedicTransferList } from "/src/recoils/HospitalAtoms";
+import { hospitalParmedicRequestList, hospitalParmedicTransferList, hospitalSelectedRequestItem } from "/src/recoils/HospitalAtoms";
 import { HospitalResponsePostProps, HospitalTransferItem } from "/src/types/map";
 import { timeToString } from "/src/constants/function";
 import { AGEGROUP, GENDER } from "/src/constants/variable";
@@ -12,6 +12,7 @@ import { putHospitalResponse } from "/src/apis/hospital";
 const ParamedicDetail = (props: any) => {
     const [requestList, setRequestList] = useRecoilState(hospitalParmedicRequestList);
     const [transferList, setTransferList] = useRecoilState(hospitalParmedicTransferList);
+    const [selectedParaItem, setSelectedParaItem] = useRecoilState(hospitalSelectedRequestItem);
 
     const checkFull = async (res: boolean) => {
         if (!res) {

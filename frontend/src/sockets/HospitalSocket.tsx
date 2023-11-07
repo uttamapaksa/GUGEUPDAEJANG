@@ -4,14 +4,18 @@ import { Client } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { hospitalParmedicRequestList } from '../recoils/HospitalAtoms';
+import { hospitalInfoState } from '../recoils/AuthAtoms';
 
 const CALLING_SERVER_URL = 'https://k9b204a.p.ssafy.io:64419/calling-websocket';
 const TRANSFER_SERVER_URL = 'https://k9b204a.p.ssafy.io:64413/transfer-websocket';
-const hospitalId = 9999;
-const paramedicId = 1;
+let hospitalId = 9999;
+// const paramedicId = 1;
 
 // function HospitalSocket({ hospitalId }: HospitalSocketProps) {
 function HospitalSocket() {
+  // const setHospitalInfo = useRecoilValue(hospitalInfoState);
+  // hospitalId = parseInt(setHospitalInfo.hospitalId);
+
   const [requestList, setRequestList] = useRecoilState(hospitalParmedicRequestList);
   const callingSocket = useRef<Client | null>(null);
 
@@ -114,17 +118,17 @@ function HospitalSocket() {
     setTransferMessages((prev) => [...prev, message]);
   };
 
-  const transferSendMessage = () => {
-    // 이송소켓 송신
-    // 확인 여부 수신도 여기서 하나?
-    if (transferSocket.current && setTransferMessageToSend) {
-      transferSocket.current.publish({
-        destination: `/app/location/${paramedicId}`,
-        body: JSON.stringify({ name: '테스트이름', longitude: 35.123, latitude: 127.123 }),
-      });
-      setTransferMessageToSend('');
-    }
-  };
+  // const transferSendMessage = () => {
+  //   // 이송소켓 송신
+  //   // 확인 여부 수신도 여기서 하나?
+  //   if (transferSocket.current && setTransferMessageToSend) {
+  //     transferSocket.current.publish({
+  //       destination: `/app/location/${paramedicId}`,
+  //       body: JSON.stringify({ name: '테스트이름', longitude: 35.123, latitude: 127.123 }),
+  //     });
+  //     setTransferMessageToSend('');
+  //   }
+  // };
 
   useEffect(() => {
     connectSocket();

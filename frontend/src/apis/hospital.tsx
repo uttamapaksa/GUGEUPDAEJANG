@@ -1,7 +1,7 @@
 import { privateApi } from ".";
 import { HospitalResponsePostProps } from "../types/map";
 
-// 병원 회원가입
+// 병원 정보 가져오기
 export const getMyHospital = async () => {
   try {
     const response = await privateApi.get("/member/my-hospital");
@@ -12,12 +12,11 @@ export const getMyHospital = async () => {
   }
 }
 
-
-// 병원 회원가입
+// 병원 응답
 export const putHospitalResponse = async (postProps: HospitalResponsePostProps) => {
   console.log("putHospitalResponse", postProps)
   try {
-    const response = await privateApi.put("calling/status", postProps);
+    const response = await privateApi.put("/calling/status", postProps);
     return response
   }
   catch (error) {
