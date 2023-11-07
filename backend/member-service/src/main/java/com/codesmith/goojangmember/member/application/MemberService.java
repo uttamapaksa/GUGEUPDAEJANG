@@ -4,11 +4,7 @@ import com.codesmith.goojangmember.auth.dto.request.AuthLoginRequest;
 import com.codesmith.goojangmember.auth.dto.response.AuthLoginResponse;
 import com.codesmith.goojangmember.member.dto.request.HospitalJoinRequest;
 import com.codesmith.goojangmember.member.dto.request.ParamedicJoinRequest;
-import com.codesmith.goojangmember.member.dto.response.BedCountResponse;
-import com.codesmith.goojangmember.member.dto.response.CenterListResponse;
-import com.codesmith.goojangmember.member.dto.response.EmailCheckResponse;
-import com.codesmith.goojangmember.member.dto.response.HospitalListResponse;
-import com.codesmith.goojangmember.member.dto.response.MemberInfoResponse;
+import com.codesmith.goojangmember.member.dto.response.*;
 import com.codesmith.goojangmember.member.persistence.domain.HospitalDetail;
 import com.codesmith.goojangmember.member.persistence.domain.Member;
 import com.codesmith.goojangmember.member.persistence.domain.ParamedicDetail;
@@ -24,4 +20,6 @@ public interface MemberService {
     EmailCheckResponse checkEmail(String email);
     List<CenterListResponse> getSafetyCenterList(String keyword);
     BedCountResponse getBedCount(Long memberId);
+
+    HospitalInfoResponse getHospitalInfo(Long memberId);
 }

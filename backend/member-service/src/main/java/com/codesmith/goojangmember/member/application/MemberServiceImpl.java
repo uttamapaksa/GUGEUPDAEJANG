@@ -5,11 +5,7 @@ import com.codesmith.goojangmember.infra.publicdata.PublicDataClient;
 import com.codesmith.goojangmember.infra.tmap.TmapClient;
 import com.codesmith.goojangmember.member.dto.request.HospitalJoinRequest;
 import com.codesmith.goojangmember.member.dto.request.ParamedicJoinRequest;
-import com.codesmith.goojangmember.member.dto.response.BedCountResponse;
-import com.codesmith.goojangmember.member.dto.response.CenterListResponse;
-import com.codesmith.goojangmember.member.dto.response.EmailCheckResponse;
-import com.codesmith.goojangmember.member.dto.response.HospitalListResponse;
-import com.codesmith.goojangmember.member.dto.response.MemberInfoResponse;
+import com.codesmith.goojangmember.member.dto.response.*;
 import com.codesmith.goojangmember.member.persistence.HospitalDetailRepository;
 import com.codesmith.goojangmember.member.persistence.MemberRepository;
 import com.codesmith.goojangmember.member.persistence.ParamedicDetailRepository;
@@ -45,6 +41,13 @@ public class MemberServiceImpl implements MemberService {
         memberValidator.validateMemberId(memberId);
         Member member = memberRepository.findById(memberId).get();
         return new MemberInfoResponse(member.getId(), member.getEmail(), member.getName(), member.getImageUrl());
+    }
+
+    @Override
+    public HospitalInfoResponse getHospitalInfo(Long memberId) {
+        memberValidator.validateMemberId(memberId);
+        HospitalDetail hospitalDetail = hospitalDetailRepository.findByMemberId(memberId);
+        return convertToHospitalInfoResponse(hospitalDetail);
     }
 
     @Override
@@ -141,12 +144,21 @@ public class MemberServiceImpl implements MemberService {
         return new HospitalDetail(id, member, telephone1, telephone2, address, latitude, longitude);
     }
 
-    public CenterListResponse convertToCenterListResponse(SafetyCenter safetyCenter) {
+    private CenterListResponse convertToCenterListResponse(SafetyCenter safetyCenter) {
         Long id = safetyCenter.getId();
         String region = safetyCenter.getRegion();
         String name = safetyCenter.getName();
         String address = safetyCenter.getAddress();
         String telephone = safetyCenter.getTelephone();
         return new CenterListResponse(id, region, name, address, telephone);
+    }
+
+    private HospitalInfoResponse convertToHospitalInfoResponse(HospitalDetail hospitalDetail) {
+        String telephone1 = hospitalDetail.getTelephone1();
+        String telephone2 = hospitalDetail.getTelephone2();
+        String address = hospitalDetail.getAddress();
+        Double latitude = hospitalDetail.getLatitude();
+        Double longitude = hospitalDetail.getLongitude();
+        return new HospitalInfoResponse(telephone1, telephone2, address, latitude, longitude);
     }
 }
