@@ -1,6 +1,7 @@
 import {
   useState, 
-  ChangeEvent} from "react"
+  ChangeEvent,
+  useEffect} from "react"
 import { useNavigate } from 'react-router-dom';
 
 import * as S from './LoginInput.style'
@@ -9,13 +10,15 @@ import theme from '/src/styles';
 import PATH from '/src/constants/path';
 import { deleteLogout, postLogin } from "/src/apis/auth";
 import { LoginProps } from "/src/types/auth";
-import { useSetRecoilState } from "recoil";
-import { memberInfoState } from "/src/recoils/AuthAtoms";
+import { useResetRecoilState, useSetRecoilState } from "recoil";
+import { hospitalInfoState, memberInfoState } from "/src/recoils/AuthAtoms";
 
 function LoginInput () {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const setMemberInfo =useSetRecoilState(memberInfoState)
+  const resetHospitalInfoState = useResetRecoilState(hospitalInfoState)
+  const setMemberInfo = useSetRecoilState(memberInfoState)
+
   const MAX_LENGTH = 50;
 
   const navigate = useNavigate()
@@ -46,7 +49,10 @@ function LoginInput () {
       const response = await postLogin(info)
       setMemberInfo(response)
       if (response.role === "PARAMEDIC") {goParamedic()}
-      else if (response.role === "HOSPITAL") {goHospital()}
+      else if (response.role === "HOSPITAL") {
+        resetHospitalInfoState()
+        goHospital()
+      }
     }
     catch(error) {
       console.log(error)
