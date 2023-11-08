@@ -55,4 +55,10 @@ public class ExceptionAdvice {
         ErrorResponse errorResponse = new ErrorResponse(ErrorCode.INVALID_OCCURRENCE, "유효하지 않은 사고입니다.");
         return ResponseEntity.status(HttpStatusCode.valueOf(ErrorStatus.INVALID_REQUEST.getValue())).body(errorResponse);
     }
+
+    @ExceptionHandler({DuplicateCallingException.class})
+    public ResponseEntity<ErrorResponse> duplicateCalling() {
+        ErrorResponse errorResponse = new ErrorResponse(ErrorCode.DUPLICATE_CALLING, "중복된 요청입니다.");
+        return ResponseEntity.status(HttpStatus.valueOf(ErrorStatus.INVALID_REQUEST.getValue())).body(errorResponse);
+    }
 }

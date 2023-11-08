@@ -68,6 +68,7 @@ public class CallingServiceImpl implements CallingService{
         }
 
         Occurrence occurrence = getOccurrence(callingCreateRequest.getOccurrenceId());
+        callingValidator.validatePendingCalling(occurrence);
 
         List<HospitalSearchResponse> searchHospitalList = searchHospital(occurrence.getLatitude(),
                 occurrence.getLongitude(), callingCreateRequest.getDistance(), null);

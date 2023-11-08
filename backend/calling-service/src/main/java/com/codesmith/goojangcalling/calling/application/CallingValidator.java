@@ -1,12 +1,10 @@
 package com.codesmith.goojangcalling.calling.application;
 
-import com.codesmith.goojangcalling.calling.exception.CallingNotFoundException;
-import com.codesmith.goojangcalling.calling.exception.CallingStatusNotApprovedException;
-import com.codesmith.goojangcalling.calling.exception.IrrevocableStatusException;
-import com.codesmith.goojangcalling.calling.exception.OccurrenceNotFoundException;
+import com.codesmith.goojangcalling.calling.exception.*;
 import com.codesmith.goojangcalling.calling.persistence.CallingRepository;
 import com.codesmith.goojangcalling.calling.persistence.OccurrenceRepository;
 import com.codesmith.goojangcalling.calling.persistence.domain.Calling;
+import com.codesmith.goojangcalling.calling.persistence.domain.Occurrence;
 import com.codesmith.goojangcalling.calling.persistence.domain.Status;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -38,6 +36,12 @@ public class CallingValidator {
     public void validateOccurrence(Long occurrenceId) {
         if (!occurrenceRepository.existsById(occurrenceId)) {
             throw new OccurrenceNotFoundException("유효하지 않는 사고입니다.");
+        }
+    }
+
+    public void validatePendingCalling(Occurrence occurrence) {
+        if (callingRepository.existsByOccurrenceAndStatus(occurrence, Status.PENDING)) {
+            throw new DuplicateCallingException("중복된 요청입니다.");
         }
     }
 }
