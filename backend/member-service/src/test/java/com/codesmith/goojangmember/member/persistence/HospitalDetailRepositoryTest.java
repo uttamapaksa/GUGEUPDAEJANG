@@ -23,8 +23,9 @@ public class HospitalDetailRepositoryTest {
         Double latitude = 37.5665;
         Double longitude = 126.9780;
         Double distance = 5.0;
+        List<Long> ids = List.of(1L, 2L, 3L);
 
-        List<HospitalDetail> hospitalList = hospitalDetailRepository.findHospitalWithinDistance(latitude, longitude, distance);
+        List<HospitalDetail> hospitalList = hospitalDetailRepository.findHospitalWithinDistance(latitude, longitude, distance, ids);
 
         Assertions.assertNotNull(hospitalList);
     }

@@ -74,6 +74,7 @@ class MemberControllerTest {
                         .param("latitude", "40.7128")
                         .param("longitude", "74.0060")
                         .param("distance", "10")
+                        .param("ids", "1,2,3")
                 )
                 .andExpect(status().isOk());
     }
