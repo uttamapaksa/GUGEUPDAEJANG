@@ -44,7 +44,7 @@ public class HistoryServiceImpl implements HistoryService {
     }
 
     private SortInfo getSortInfo(String sortStr) {
-        if (sortStr.equals("undefined") || sortStr.equals("null")) return null;
+        if (sortStr == null || sortStr.equals("undefined") || sortStr.equals("null")) return null;
         SortInfo sortInfo = null;
         try {
             sortInfo = objectMapper.readValue(sortStr, SortInfo.class);
