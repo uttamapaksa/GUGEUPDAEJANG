@@ -75,8 +75,6 @@ function HospitalItem({ hospital, setHospitals }: { key: number; hospital: Hospi
       </S.LeftSection>
 
       <S.RightSection>
-
-        
         {/* 구급대원용 버튼 */}
         <S.CallTime>
           {hospital.callingTime[3]}시 {hospital.callingTime[4]}분에 요청

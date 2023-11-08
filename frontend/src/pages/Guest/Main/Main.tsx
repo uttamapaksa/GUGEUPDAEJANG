@@ -10,60 +10,60 @@ import Spinner from '/src/components/libraries/Spinner/Spinner';
 
 const dummyHospitals = [
   {
-    hospitalId: "연세대학교의과대학강남세브란스병원",
+    hospitalName: "연세대학교의과대학강남세브란스병원",
     distance: 5.5,
-    telephone1: "02-1234-5678",
-    time: 8,
+    telephone: "02-1234-5678",
+    duration: 8,
     bedCount: 10,
     callingTime: "2023-11-08T14:20:00Z",
     id: 2,
     status: "PENDING",
   },
   {
-    hospitalId: "연세대학교의과대학강남세브란스병원",
+    hospitalName: "연세대학교의과대학강남세브란스병원",
     distance: 7.2,
-    telephone1: "02-8765-4321",
-    time: 12,
+    telephone: "02-8765-4321",
+    duration: 12,
     bedCount: 5,
     callingTime: "2023-11-08T15:45:00Z",
     id: 3,
     status: "REJECTED",
   },
   {
-    hospitalId: "연세대학교의과대학강남세브란스병원",
+    hospitalName: "연세대학교의과대학강남세브란스병원",
     distance: 9.8,
-    telephone1: "02-5566-7788",
-    time: 15,
+    telephone: "02-5566-7788",
+    duration: 15,
     bedCount: 8,
     callingTime: "2023-11-08T16:30:00Z",
     id: 4,
     status: "APPROVED",
   },
   {
-    hospitalId: "연세대학교의과대학강남세브란스병원",
+    hospitalName: "연세대학교의과대학강남세브란스병원",
     distance: 9.8,
-    telephone1: "02-5566-7788",
-    time: 15,
+    telephone: "02-5566-7788",
+    duration: 15,
     bedCount: 8,
     callingTime: "2023-11-08T16:30:00Z",
     id: 4,
     status: "APPROVED",
   },
   {
-    hospitalId: "연세대학교의과대학강남세브란스병원",
+    hospitalName: "연세대학교의과대학강남세브란스병원",
     distance: 9.8,
-    telephone1: "02-5566-7788",
-    time: 15,
+    telephone: "02-5566-7788",
+    duration: 15,
     bedCount: 8,
     callingTime: "2023-11-08T16:30:00Z",
     id: 4,
     status: "APPROVED",
   },  
   {
-    hospitalId: "연세대학교의과대학강남세브란스병원",
+    hospitalName: "연세대학교의과대학강남세브란스병원",
     distance: 9.8,
-    telephone1: "02-5566-7788",
-    time: 15,
+    telephone: "02-5566-7788",
+    duration: 15,
     bedCount: 8,
     callingTime: "2023-11-08T16:30:00Z",
     id: 4,
@@ -74,7 +74,7 @@ const dummyHospitals = [
 function Main() {
   const [mapProps, setMapProps] = useState<MapProps>();
   const [searching, setSearching] = useState<boolean>(false)
-  const [hospitals, setHospitals] = useRecoilState(calledHospitalsState);
+  const [hospitals, setHospitals] = useRecoilState(HospitalListState);
 
   const searchToggle = () => {
     setSearching(!searching)
