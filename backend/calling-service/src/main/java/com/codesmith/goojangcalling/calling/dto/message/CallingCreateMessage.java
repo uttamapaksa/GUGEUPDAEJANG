@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -14,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 public class CallingCreateMessage {
     private Long id;
-    private LocalDateTime createdAt;
+    private String createdAt;
 
     private Long occurrenceId;
     private Long memberId;
@@ -34,7 +33,7 @@ public class CallingCreateMessage {
 
     public CallingCreateMessage(Occurrence occurrence, CallingStatusResponse callingStatusResponse, List<String> tags, List<String> files) {
         this.id = callingStatusResponse.getCallingId();
-        this.createdAt = callingStatusResponse.getCallingTime();
+        this.createdAt = callingStatusResponse.getCallingTime().toString();
         this.occurrenceId = occurrence.getId();
         this.memberId = occurrence.getMemberId();
         this.ktas = occurrence.getKtas();

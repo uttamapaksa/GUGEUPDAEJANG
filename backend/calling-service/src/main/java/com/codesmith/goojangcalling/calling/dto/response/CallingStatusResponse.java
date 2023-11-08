@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class CallingStatusResponse {
     private Long callingId;
-    private LocalDateTime callingTime;
+    private String callingTime;
     private Status status;
     private String reason;
 
@@ -27,7 +27,7 @@ public class CallingStatusResponse {
 
     public CallingStatusResponse(Calling calling, HospitalSearchResponse hospitalSearchResponse) {
         this.callingId = calling.getId();
-        this.callingTime = calling.getCreatedAt();
+        this.callingTime = calling.getCreatedAt().toString();
         this.status = calling.getStatus();
         this.reason = calling.getReason();
         this.memberId = hospitalSearchResponse.getId();
