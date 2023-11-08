@@ -59,7 +59,7 @@ function Category() {
   };
 
   const selectOption = (option: TagType) => {
-    if (selected.includes(option)) {
+    if (selected.some((tag) => tag.id === option.id)) {
       setOccurence((prev) => ({ ...prev, tags: prev.tags.filter((tag) => tag !== option) }));
     } else {
       setOccurence((prev) => ({ ...prev, tags: [...prev.tags, option] }));
@@ -97,7 +97,7 @@ function Category() {
   useEffect(() => {
     getOptions();
   }, []);
-  
+
   return (
     <S.Category>
       <A.TxtParamedicTitle $justifyContent="space-between">
@@ -116,7 +116,7 @@ function Category() {
             $width="auto"
             $height="4.5vh"
             $fontSize="2vh"
-            $IsClick={selected.some((tag) => tag.id === option.id) ? true : false}
+            $IsClick={selected.some((tag) => tag.id === option.id)}
             onClick={() => selectOption(option)}
           >
             {edit && (

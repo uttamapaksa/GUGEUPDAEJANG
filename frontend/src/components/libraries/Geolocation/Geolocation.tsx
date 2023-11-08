@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { currentPosition } from '/src/recoils/HospitalAtoms';
 import useGeolocation from 'react-hook-geolocation';
 
@@ -9,7 +9,7 @@ function Geolocation() {
   const geolocation = useGeolocation({
     enableHighAccuracy: true, 
     timeout: 3000,
-    maximumAge: 0,
+    maximumAge: 1000,
   });
 
   const setCurrentPos = () => {
