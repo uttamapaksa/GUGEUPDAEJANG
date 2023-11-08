@@ -3,6 +3,7 @@ package com.codesmith.goojangmember.member.application;
 import com.codesmith.goojangmember.auth.dto.request.AuthLoginRequest;
 import com.codesmith.goojangmember.auth.dto.response.AuthLoginResponse;
 import com.codesmith.goojangmember.member.dto.request.HospitalJoinRequest;
+import com.codesmith.goojangmember.member.dto.request.HospitalListRequest;
 import com.codesmith.goojangmember.member.dto.request.ParamedicJoinRequest;
 import com.codesmith.goojangmember.member.dto.response.*;
 import com.codesmith.goojangmember.member.persistence.domain.HospitalDetail;
@@ -14,7 +15,7 @@ import java.util.List;
 
 public interface MemberService {
     MemberInfoResponse getMemberInfo(Long memberId);
-    List<HospitalListResponse> getHospitalList(Double latitude, Double longitude, Double distance);
+    List<HospitalListResponse> getHospitalList(HospitalListRequest hospitalListRequest);
     HospitalDetail join(HospitalJoinRequest hospitalJoinRequest);
     ParamedicDetail join(ParamedicJoinRequest paramedicJoinRequest);
     EmailCheckResponse checkEmail(String email);

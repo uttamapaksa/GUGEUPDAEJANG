@@ -4,6 +4,7 @@ import com.codesmith.goojangmember.auth.application.TokenProvider;
 import com.codesmith.goojangmember.infra.publicdata.PublicDataClient;
 import com.codesmith.goojangmember.infra.tmap.TmapClient;
 import com.codesmith.goojangmember.member.dto.request.HospitalJoinRequest;
+import com.codesmith.goojangmember.member.dto.request.HospitalListRequest;
 import com.codesmith.goojangmember.member.dto.request.ParamedicJoinRequest;
 import com.codesmith.goojangmember.member.dto.response.*;
 import com.codesmith.goojangmember.member.persistence.HospitalDetailRepository;
@@ -52,19 +53,17 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public List<HospitalListResponse> getHospitalList(Double latitude, Double longitude, Double distance) {
-        List<HospitalDetail> hospitalList = hospitalDetailRepository.findHospitalWithinDistance(latitude, longitude, distance);
-        memberValidator.validateExistNearByHospital(hospitalList);
+    public List<HospitalListResponse> getHospitalList(HospitalListRequest hospitalListRequest) {
+        List<HospitalDetail> hospitalList = hospitalDetailRepository.findHospitalWithinDistance(hospitalListRequest.getLatitude(), hospitalListRequest.getLongitude(), hospitalListRequest.getDistance(), hospitalListRequest.getIds());
 
-        HashMap<String, Long> hospitalInfoMap = publicDataClient.getRealTimeBedInfo();
+        HashMap<String, Long> hospitalInfo = publicDataClient.getRealTimeBedInfo();
         List<HospitalListResponse> hospitalListResponseList = new ArrayList<>();
         for (HospitalDetail hospital : hospitalList) {
-            if (hospitalInfoMap.containsKey(hospital.getId()) && hospitalInfoMap.get(hospital.getId()) > 0) {
-                HashMap<String, Long> tmapInfo = tmapClient.getPathInfo(longitude, latitude, hospital.getLongitude(), hospital.getLatitude());
-                hospitalListResponseList.add(new HospitalListResponse(hospital, hospitalInfoMap.get(hospital.getId()), tmapInfo.get("distance")/1000.0, (tmapInfo.get("time")+59)/60));
+            if (hospitalInfo.containsKey(hospital.getId()) && hospitalInfo.get(hospital.getId()) > 0) {
+                HashMap<String, Long> tmapInfo = tmapClient.getPathInfo(hospitalListRequest.getLongitude(), hospitalListRequest.getLatitude(), hospital.getLongitude(), hospital.getLatitude());
+                hospitalListResponseList.add(new HospitalListResponse(hospital, hospitalInfo.get(hospital.getId()), tmapInfo.get("distance")/1000.0, (tmapInfo.get("time")+59)/60));
             }
         }
-        hospitalListResponseList.sort(Comparator.comparing(HospitalListResponse::getTime));
         return hospitalListResponseList;
     }
 
