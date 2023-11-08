@@ -54,8 +54,8 @@ function Map(props: MapProps) {
             }
             else {
                 let pos = {
-                    lat: 37.565128,
-                    lon: 126.98883
+                    lat: 36.4469365928189,
+                    lon: 127.43940812262
                 }
                 const tmp = createMap(pos.lat, pos.lon);
                 console.log("tmp", tmp);
@@ -64,6 +64,7 @@ function Map(props: MapProps) {
             }
         }
     }, [prevType]);
+
 
     useEffect(() => {
         if (props.pos !== undefined && map !== undefined && props.type != prevType) {
@@ -78,7 +79,6 @@ function Map(props: MapProps) {
             </MapContainer >
             {map !== undefined ?
                 <>
-
                     {props.type === "guest" ?
                         <><HospitalMarker {...props} map={map} /></> :
                         <></>}
@@ -87,16 +87,16 @@ function Map(props: MapProps) {
                         <></>}
                     {props.type === "request" ?
                         <>
+                            <MyHospitalMarker {...props} map={map} />
                             <ParamedicRequestMarker {...props} map={map} />
                             <ParamedicInfo {...props} map={map} />
-                            <MyHospitalMarker {...props} map={map} />
                         </> :
                         <></>}
                     {props.type === "transfer" ?
                         <>
+                            <MyHospitalMarker {...props} map={map} />
                             <ParamedicTransferMarker {...props} map={map} />
                             <ParamedicTransferInfo {...props} map={map} />
-                            <MyHospitalMarker {...props} map={map} />
                         </> :
                         <></>}
 

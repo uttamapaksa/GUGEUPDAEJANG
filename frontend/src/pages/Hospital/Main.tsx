@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
-import useGeolocation from "react-hook-geolocation";
+import { useEffect } from "react";
 import HopsitalHeader from "/src/components/Hospital/HospitalHeader/HopsitalHeader";
 import HopsitalSidebar from "/src/components/Hospital/HospitalSidebar/HopsitalSidebar";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { currentPosition, hospitalComponentType } from "../../recoils/HospitalAtoms";
+import { useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from "recoil";
+import { currentPosition, hospitalComponentType, hospitalParmedicRequestList, hospitalParmedicTransferList } from "../../recoils/HospitalAtoms";
 import HospitalMain from "/src/components/Hospital/Main/HospitalMain";
 import { ComponentContainer, Container } from "./Main.style";
 import HospitalSocket from "/src/sockets/HospitalSocket";
@@ -16,19 +15,24 @@ import { HosJoinProps } from "/src/types/auth";
 function Main() {
   const componentType = useRecoilValue(hospitalComponentType);
   const setCurPos = useSetRecoilState(currentPosition);
-  const setHospitalInfo = useSetRecoilState(hospitalInfoState);
+  const [hospitalInfo, setHospitalInfo] = useRecoilState(hospitalInfoState);
   const curMemberInfo = useRecoilValue(memberInfoState);
+  const requestList = useRecoilValue(hospitalParmedicRequestList);
+  const transferList = useRecoilValue(hospitalParmedicTransferList);
 
-  const geolocation = useGeolocation();
+  // const geolocation = useGeolocation();
 
   const setCurrentPos = async () => {
-    setCurPos({ lat: 37.565128, lon: 126.98883 });
+    // setCurPos({ lat: 36.4469365928189, lon: 127.43940812262 });
 
     const responese = await getMyHospital();
-    if (responese !== undefined && curMemberInfo.role==="HOSPITAL") {
-      // setCurPos({ lat: responese.data.latitude, lon: responese.data.longitude });
-      const curHospitalInfo:HosJoinProps = {
-        hospitalId: curMemberInfo.memberId.toString(), //id 는 number로 사용
+    console.log("`````hospitalInfo", hospitalInfo)
+    if ((hospitalInfo.hospitalId===0 || hospitalInfo === undefined) && responese !== undefined && curMemberInfo.role === "HOSPITAL") {
+      if(requestList!==undefined) useResetRecoilState(hospitalParmedicRequestList);
+      if(transferList!==undefined) useResetRecoilState(hospitalParmedicTransferList);
+      setCurPos({ lat: responese.data.latitude, lon: responese.data.longitude });
+      const curHospitalInfo: HosJoinProps = {
+        hospitalId: curMemberInfo.memberId, //id 는 number로 사용
         email: "",
         password: "",
         name: responese.data.name,
@@ -48,7 +52,7 @@ function Main() {
     setCurrentPos();
   }, [])
 
-  return !geolocation.error ? (
+  return (
     <Container>
       <HospitalSocket />
       <HopsitalHeader />
@@ -71,8 +75,6 @@ function Main() {
         )}
       </ComponentContainer>
     </Container>
-  ) : (
-    <p>No geolocation, sorry.</p>
   );
 }
 export default Main;
