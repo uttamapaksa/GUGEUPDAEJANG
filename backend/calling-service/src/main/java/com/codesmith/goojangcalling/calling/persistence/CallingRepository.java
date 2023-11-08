@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface CallingRepository extends JpaRepository<Calling, Long> {
+public interface CallingRepository extends JpaRepository<Calling, Long>, CallingSupportRepository {
     List<Calling> findAllByOccurrence(Occurrence occurrence);
 }
