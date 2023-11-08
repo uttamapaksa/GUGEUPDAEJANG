@@ -95,7 +95,7 @@ function ParamedicSocket() {
   const transferSendMessage = () => {
     if (transferSocket.current) {
       transferSocket.current.publish({
-        destination: `/app/location/${paramedicId}`,
+        destination: `/app/location/${hospitalId}`,
         body: JSON.stringify({ name: '구급대원 이송 소켓 송신', longitude: 35.123, latitude: 127.123 }),
       });
     }
