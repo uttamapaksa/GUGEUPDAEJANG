@@ -15,5 +15,6 @@ public class CallingListResponse {
     private String address;
     private String callingTime;
     private String replyTime;
+    private String status;
     private String ktas;
 }

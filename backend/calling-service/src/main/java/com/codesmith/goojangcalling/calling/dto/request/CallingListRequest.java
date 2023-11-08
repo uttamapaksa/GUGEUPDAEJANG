@@ -7,7 +7,7 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-public class CallingHistoryRequest {
+public class CallingListRequest {
     private int skip;
     private int limit;
     private String sortInfo;
