@@ -69,6 +69,13 @@ export const showWaitState = atom({
 });
 
 // 이송 확정 후 병원과 환자 정보
+export const approvedHospitalId = atom<number>({
+  key: 'approvedHospitalId',
+  default: 0,
+  effects_UNSTABLE: [persistAtom],
+});
+
+// 요청에 응답한 병원 id
 export const fixedCallingState = atom<fixedCallingType>({
   key: 'fixedCallingState',
   default: undefined,

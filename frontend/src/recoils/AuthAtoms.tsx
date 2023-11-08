@@ -42,7 +42,8 @@ export const memberInfoState = atom<memberInfo>({
   default: {
     role: "",
     memberId: 0
-  }
+  },
+  effects_UNSTABLE: [persistAtom],
 })
 
 //구급대원 센터

@@ -1,21 +1,21 @@
 import { useState, useEffect, useRef } from 'react';
-// import { ParamedicSocketProps } from '../types/socket';
+import { useRecoilValue } from 'recoil';
+import { memberInfoState } from '../recoils/AuthAtoms';
 import { Client } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 
 const CALLING_SERVER_URL = 'https://k9b204a.p.ssafy.io:64419/calling-websocket';
 const TRANSFER_SERVER_URL = 'https://k9b204a.p.ssafy.io:64413/transfer-websocket';
-const paramedicId = 1;
-const hospitalId = 2;
+const hospitalId = 9999;
 
 // function ParamedicSocket({ paramedicId }: ParamedicSocketProps) {
 function ParamedicSocket() {
+  const paramedicId = useRecoilValue(memberInfoState).memberId;
   const callingSocket = useRef<Client | null>(null);
   const transferSocket = useRef<Client | null>(null);
 
   // 연결 함수
   const connectSocket = () => {
-
     // 요청 소켓(callingSocket) 연결
     const sockJS1 = new SockJS(CALLING_SERVER_URL);
     const stompClient1 = new Client({
@@ -52,11 +52,13 @@ function ParamedicSocket() {
     if (callingSocket.current) {
       // 요청 소켓
       callingSocket.current.subscribe(`/topic/${paramedicId}`, (message) => {
-        callingReceiveMessage(JSON.parse(message.body));
+        console.log('subscribe callingSocket');
+        callingReceiveMessage(message.body);
       });
       // 요청 변경 소켓
-      callingSocket.current.subscribe(`/topic/status/${paramedicId}/`, (message) => {
-        callingStatusMessage(JSON.parse(message.body));
+      callingSocket.current.subscribe(`/topic/status/${paramedicId}`, (message) => {
+        console.log('subscribe statusSocket');
+        callingStatusMessage(message.body);
       });
     }
   };
@@ -64,7 +66,8 @@ function ParamedicSocket() {
     if (transferSocket.current) {
       // 이송 소켓
       transferSocket.current.subscribe(`/topic/${paramedicId}/location`, (message) => {
-        transferReceiveMessage(JSON.parse(message.body));
+        console.log('subscribe transferSocket');
+        transferReceiveMessage(message.body);
       });
     }
   };
@@ -92,7 +95,7 @@ function ParamedicSocket() {
   const transferSendMessage = () => {
     if (transferSocket.current) {
       transferSocket.current.publish({
-        destination: `/app/location/${hospitalId}`,
+        destination: `/app/location/${paramedicId}`,
         body: JSON.stringify({ name: '구급대원 이송 소켓 송신', longitude: 35.123, latitude: 127.123 }),
       });
     }
@@ -111,7 +114,9 @@ function ParamedicSocket() {
     };
   }, [paramedicId]);
 
-  return <></>;
+  return <>
+    <div onClick={callingSendMessage}>callingSendMessage</div>
+  </>;
 }
 
 export default ParamedicSocket;
