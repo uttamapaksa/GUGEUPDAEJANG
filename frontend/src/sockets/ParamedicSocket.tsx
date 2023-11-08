@@ -75,7 +75,8 @@ function ParamedicSocket() {
     if (transferSocket.current) {
       // 이송 소켓
       transferSocket.current.subscribe(`/topic/${paramedicId}/location`, (message) => {
-        transferReceiveMessage(JSON.parse(message.body));
+        console.log('subscribe transferSocket');
+        transferReceiveMessage(message.body);
       });
     }
   };
@@ -145,7 +146,9 @@ function ParamedicSocket() {
     };
   }, [paramedicId]);
 
-  return <></>;
+  return <>
+    <div onClick={callingSendMessage}>callingSendMessage</div>
+  </>;
 }
 
 export default ParamedicSocket;
