@@ -4,6 +4,7 @@ import com.codesmith.goojangmember.global.passport.dto.MemberInfo;
 import com.codesmith.goojangmember.global.passport.presentation.AuthMember;
 import com.codesmith.goojangmember.member.application.MemberService;
 import com.codesmith.goojangmember.member.dto.request.HospitalJoinRequest;
+import com.codesmith.goojangmember.member.dto.request.HospitalListRequest;
 import com.codesmith.goojangmember.member.dto.request.ParamedicJoinRequest;
 import com.codesmith.goojangmember.member.dto.response.*;
 import com.codesmith.goojangmember.member.persistence.domain.Member;
@@ -31,8 +32,8 @@ public class MemberController {
     }
 
     @GetMapping("/hospital")
-    public ResponseEntity<List<HospitalListResponse>> getHospitalListFromHere(@RequestParam Double latitude, @RequestParam Double longitude, @RequestParam Double distance) {
-        return ResponseEntity.ok(memberService.getHospitalList(latitude, longitude, distance));
+    public ResponseEntity<List<HospitalListResponse>> getHospitalListFromHere(@ModelAttribute HospitalListRequest hospitalListRequest) {
+        return ResponseEntity.ok(memberService.getHospitalList(hospitalListRequest));
     }
 
     @GetMapping("/check-email")
