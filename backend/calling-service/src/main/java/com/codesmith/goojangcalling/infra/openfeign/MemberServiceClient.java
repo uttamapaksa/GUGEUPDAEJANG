@@ -17,7 +17,8 @@ public interface MemberServiceClient {
     List<HospitalSearchResponse> searchHospital(
             @RequestParam("latitude") Double latitude,
             @RequestParam("longitude") Double longitude,
-            @RequestParam("distance") Double distance);
+            @RequestParam("distance") Double distance,
+            @RequestParam("ids") List<Long> ids);
 
     @GetMapping("/member/{memberId}")
     MemberInfoResponse getMember(@PathVariable("memberId") Long memberId);

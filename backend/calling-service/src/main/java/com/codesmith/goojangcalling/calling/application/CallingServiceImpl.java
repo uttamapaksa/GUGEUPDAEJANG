@@ -19,8 +19,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -60,11 +62,15 @@ public class CallingServiceImpl implements CallingService{
         return new OccurrenceCreateResponse(savedOccurrence);
     }
 
-    public List<CallingStatusResponse> addCalling(Long memberId, CallingCreateRequest callingCreateRequest) {
-        callingValidator.validateOccurrence(callingCreateRequest.getOccurrenceId());
-        Occurrence occurrence = occurrenceRepository.findById(callingCreateRequest.getOccurrenceId()).get();
+    public List<CallingStatusResponse> createCalling(Long memberId, CallingCreateRequest callingCreateRequest) {
+        if (callingCreateRequest.getStep() != 1L) {
+            return addCalling(memberId, callingCreateRequest);
+        }
 
-        List<HospitalSearchResponse> searchHospitalList = searchHospital(occurrence.getLatitude(), occurrence.getLongitude(), callingCreateRequest.getDistance());
+        Occurrence occurrence = getOccurrence(callingCreateRequest.getOccurrenceId());
+
+        List<HospitalSearchResponse> searchHospitalList = searchHospital(occurrence.getLatitude(),
+                occurrence.getLongitude(), callingCreateRequest.getDistance(), null);
 
         List<Calling> callingList = searchHospitalList
                 .stream()
@@ -72,11 +78,53 @@ public class CallingServiceImpl implements CallingService{
                 .collect(Collectors.toList());
         List<Calling> savedCallingList = callingRepository.saveAll(callingList);
 
-        List<CallingStatusResponse> callingStatusResponseList = new ArrayList<>();
+        return getCallingStatusResponses(searchHospitalList, savedCallingList);
+    }
 
-        for (int i=0; i< savedCallingList.size(); i++) {
-            callingStatusResponseList.add(new CallingStatusResponse(savedCallingList.get(i), searchHospitalList.get(i)));
+    @Override
+    public List<CallingStatusResponse> addCalling(Long memberId, CallingCreateRequest callingCreateRequest) {
+        Occurrence occurrence = getOccurrence(callingCreateRequest.getOccurrenceId());
+
+        List<Calling> pendingCallingList = new ArrayList<>();
+        List<Long> pendingCallingMemberList = new ArrayList<>();
+        List<Long> excludePendingCallingList = new ArrayList<>();
+        callingRepository.findAllByOccurrence(occurrence)
+                .forEach(o -> {
+                    if (o.getStatus().equals(Status.PENDING)) {
+                        pendingCallingList.add(o);
+                        pendingCallingMemberList.add(o.getMemberId());
+                    }
+                    else {
+                        excludePendingCallingList.add(o.getMemberId());
+                    }
+                });
+        List<HospitalSearchResponse> searchHospitalList = searchHospital(occurrence.getLatitude(),
+                occurrence.getLongitude(), callingCreateRequest.getDistance(), excludePendingCallingList.size() == 0 ? null : excludePendingCallingList);
+        List<Calling> callingList = searchHospitalList.stream()
+                .filter(o -> !pendingCallingMemberList.contains(o.getId()))
+                .map(o -> new Calling(occurrence, o.getId(), Status.PENDING, null, ""))
+                .collect(Collectors.toList());
+        List<Calling> savedCallingList = callingRepository.saveAll(callingList);
+
+        List<Calling> combinedAndSortedCallingList = Stream.concat(savedCallingList.stream(), pendingCallingList.stream())
+                .sorted(Comparator.comparing(Calling::getMemberId))
+                .collect(Collectors.toList());
+
+        return getCallingStatusResponses(searchHospitalList, combinedAndSortedCallingList);
+    }
+
+    private Occurrence getOccurrence(Long occurrenceId) {
+        callingValidator.validateOccurrence(occurrenceId);
+        Occurrence occurrence = occurrenceRepository.findById(occurrenceId).get();
+        return occurrence;
+    }
+
+    private List<CallingStatusResponse> getCallingStatusResponses(List<HospitalSearchResponse> searchHospitalList, List<Calling> callingList) {
+        List<CallingStatusResponse> callingStatusResponseList = new ArrayList<>();
+        for (int i=0; i< callingList.size(); i++) {
+            callingStatusResponseList.add(new CallingStatusResponse(callingList.get(i), searchHospitalList.get(i)));
         }
+        callingStatusResponseList.sort(Comparator.comparing(CallingStatusResponse::getDuration));
         return callingStatusResponseList;
     }
 
@@ -169,7 +217,7 @@ public class CallingServiceImpl implements CallingService{
     }
 
     @Override
-    public List<HospitalSearchResponse> searchHospital(Double latitude, Double longitude, Double distance) {
-        return memberServiceClient.searchHospital(latitude, longitude, distance);
+    public List<HospitalSearchResponse> searchHospital(Double latitude, Double longitude, Double distance, List<Long> ids) {
+        return memberServiceClient.searchHospital(latitude, longitude, distance, ids);
     }
 }

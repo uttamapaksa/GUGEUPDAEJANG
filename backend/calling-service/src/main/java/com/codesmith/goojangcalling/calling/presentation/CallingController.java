@@ -36,11 +36,10 @@ public class CallingController {
 
     @PostMapping("/hospital")
     public ResponseEntity<List<CallingStatusResponse>> addCallingAndSendToHospital(@AuthMember MemberInfo memberInfo, @RequestBody CallingCreateRequest callingCreateRequest) {
-        List<CallingStatusResponse> callingStatusResponses = callingService.addCalling(memberInfo.getId(), callingCreateRequest);
+        List<CallingStatusResponse> callingStatusResponses = callingService.createCalling(memberInfo.getId(), callingCreateRequest);
         callingService.createCallingMessage(callingStatusResponses, callingCreateRequest.getOccurrenceId());
         return ResponseEntity.ok(callingStatusResponses);
     }
-
     @PutMapping("/fix/{callingId}")
     public ResponseEntity<TransferCreateResponse> fixCallingAndSendToHospital(@PathVariable Long callingId) {
         return ResponseEntity.ok(callingService.createTransfer(callingId));

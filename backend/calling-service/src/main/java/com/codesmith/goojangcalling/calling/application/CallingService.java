@@ -11,11 +11,13 @@ import java.util.List;
 public interface CallingService {
     OccurrenceCreateResponse addOccurrence (Long memberId, OccurrenceCreateRequest occurrenceCreateRequest);
 
-    List<HospitalSearchResponse> searchHospital(Double latitude, Double longitude, Double distance);
+    List<HospitalSearchResponse> searchHospital(Double latitude, Double longitude, Double distance, List<Long> ids);
 
-    List<CallingStatusResponse> addCalling(Long memberId, CallingCreateRequest callingCreateRequest);
+    List<CallingStatusResponse> createCalling(Long memberId, CallingCreateRequest callingCreateRequest);
 
     void createCallingMessage(List<CallingStatusResponse> callingStatusResponseList, Long occurrenceId);
+
+    List<CallingStatusResponse> addCalling(Long memberId, CallingCreateRequest callingCreateRequest);
 
     List<FileUploadResponse> fileUpload(List<MultipartFile> files);
 
