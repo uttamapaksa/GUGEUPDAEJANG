@@ -10,17 +10,13 @@ const hospitalId = 2;
 
 // function ParamedicSocket({ paramedicId }: ParamedicSocketProps) {
 function ParamedicSocket() {
-  const [callingMessages, setCaliingMessages] = useState<string[]>([]);
-  const [callingMessageToSend, setCallingMessageToSend] = useState<string>('');
   const callingSocket = useRef<Client | null>(null);
-
-  const [transferMessages, setTransferMessages] = useState<string[]>([]);
-  const [transferMessageToSend, setTransferMessageToSend] = useState<string>('');
   const transferSocket = useRef<Client | null>(null);
 
   // 연결 함수
   const connectSocket = () => {
-    // 요청 소켓 callingSocket
+
+    // 요청 소켓(callingSocket) 연결
     const sockJS1 = new SockJS(CALLING_SERVER_URL);
     const stompClient1 = new Client({
       webSocketFactory: () => sockJS1,
@@ -35,11 +31,11 @@ function ParamedicSocket() {
     stompClient1.activate();
     callingSocket.current = stompClient1; // useRef로 생성한 clientRef에 클라이언트 객체 할당
 
-    // 이송 소켓 transferSocket
+    // 이송 소켓(transferSocket) 연결
     const sockJS2 = new SockJS(TRANSFER_SERVER_URL);
     const stompClient2 = new Client({
       webSocketFactory: () => sockJS2,
-      reconnectDelay: 5 * 1000, // 재연결 딜레이 (5초)
+      reconnectDelay: 5 * 1000,
     });
 
     stompClient2.onConnect = () => {
@@ -48,15 +44,17 @@ function ParamedicSocket() {
     };
 
     stompClient2.activate();
-    transferSocket.current = stompClient2; // useRef로 생성한 clientRef에 클라이언트 객체 할당
+    transferSocket.current = stompClient2;
   };
 
   // 구독 함수
   const subscribeCallingTopic = () => {
     if (callingSocket.current) {
+      // 요청 소켓
       callingSocket.current.subscribe(`/topic/${paramedicId}`, (message) => {
         callingReceiveMessage(JSON.parse(message.body));
       });
+      // 요청 변경 소켓
       callingSocket.current.subscribe(`/topic/status/${paramedicId}/`, (message) => {
         callingStatusMessage(JSON.parse(message.body));
       });
@@ -64,6 +62,7 @@ function ParamedicSocket() {
   };
   const subscribeTransferTopic = () => {
     if (transferSocket.current) {
+      // 이송 소켓
       transferSocket.current.subscribe(`/topic/${paramedicId}/location`, (message) => {
         transferReceiveMessage(JSON.parse(message.body));
       });
@@ -73,33 +72,29 @@ function ParamedicSocket() {
   // 메시지 수신
   const callingReceiveMessage = (message: any) => {
     console.log('Received calling message:', message);
-    setCaliingMessages((prev) => [...prev, message]);
   };
   const callingStatusMessage = (message: any) => {
     console.log('Received Status message:', message);
   };
   const transferReceiveMessage = (message: any) => {
     console.log('Received transfer message:', message);
-    setTransferMessages((prev) => [...prev, message]);
   };
 
   // 메시지 송신
   const callingSendMessage = () => {
-    if (callingSocket.current && setCallingMessageToSend) {
+    if (callingSocket.current) {
       callingSocket.current.publish({
         destination: `/app/${hospitalId}`,
-        body: JSON.stringify({ name: '테스트이름', longitude: 35.123, latitude: 127.123 }),
+        body: JSON.stringify({ name: '구급대원 요청 소켓 송신', longitude: 35.123, latitude: 127.123 }),
       });
-      setCallingMessageToSend('');
     }
   };
   const transferSendMessage = () => {
-    if (transferSocket.current && setTransferMessageToSend) {
+    if (transferSocket.current) {
       transferSocket.current.publish({
         destination: `/app/location/${hospitalId}`,
-        body: JSON.stringify({ name: '테스트이름', longitude: 35.123, latitude: 127.123 }),
+        body: JSON.stringify({ name: '구급대원 이송 소켓 송신', longitude: 35.123, latitude: 127.123 }),
       });
-      setTransferMessageToSend('');
     }
   };
 
@@ -116,30 +111,7 @@ function ParamedicSocket() {
     };
   }, [paramedicId]);
 
-  return (
-    <>
-      <h3>Calling messages for Paramedic {paramedicId}</h3>
-      <ul>
-        {callingMessages.map((message, index) => (
-          <li key={index}>{message}</li>
-        ))}
-      </ul>
-      <div>
-        <input type="text" value={callingMessageToSend} onChange={(e) => setCallingMessageToSend(e.target.value)} />
-        <button onClick={callingSendMessage}>Calling Send Message</button>
-      </div>
-      <h3>Transfer messages for Paramedic {paramedicId}</h3>
-      <ul>
-        {transferMessages.map((message, index) => (
-          <li key={index}>{message}</li>
-        ))}
-      </ul>
-      <div>
-        <input type="text" value={transferMessageToSend} onChange={(e) => setTransferMessageToSend(e.target.value)} />
-        <button onClick={transferSendMessage}>Transfer Send Message</button>
-      </div>
-    </>
-  );
+  return <></>;
 }
 
 export default ParamedicSocket;

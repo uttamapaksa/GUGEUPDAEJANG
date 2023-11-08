@@ -1,23 +1,28 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useSetRecoilState, useRecoilValue } from 'recoil';
 import { addTag, getTags, deleteTag, addCalling, getHospitals } from '/src/apis/paramedic';
-import { tagsState, calledHospitalsState, occurrenceState, HospitalListState } from '/src/recoils/ParamedicAtoms';
 import { TagType } from '/src/types/paramedic';
+import {
+  currentParamedicPageIndexState,
+  recordContentFile,
+  tagsState,
+  occurrenceState,
+  HospitalListState,
+} from '/src/recoils/ParamedicAtoms';
 import { currentPosition } from '/src/recoils/HospitalAtoms';
 import * as S from './Category.style';
 import A from '/src/components/Commons/Atoms';
 import theme from '/src/styles';
-import PATH from '/src/constants/path';
 
 function Category() {
+  const setCurrentPageIndex = useSetRecoilState(currentParamedicPageIndexState);
   const currPosition = useRecoilValue(currentPosition);
   const [occurence, setOccurence] = useRecoilState(occurrenceState);
   const selected = occurence.tags;
   const [options, setOptions] = useRecoilState(tagsState);
   const [newOption, setNewOption] = useState<string>('');
   const [edit, setEdit] = useState<boolean>(false);
-  const navigate = useNavigate();
+  const symptom = useRecoilValue(recordContentFile);
   const [hospitals, setHospitals] = useRecoilState(HospitalListState);
 
   const getOptions = () => {
@@ -66,24 +71,26 @@ function Category() {
       ktas: occurence.ktas,
       ageGroup: occurence.ageGroup,
       gender: occurence.gender,
-      symptom: '',
+      symptom: symptom,
       latitude: currPosition.lat,
       longitude: currPosition.lon,
       address: '한밭대',
-      tags: occurence.tags,
+      tags: selected,
       files: [],
     };
     addCalling(data).then((occurrenceIdData) => {
-      let data = {
-        occurrenceId: occurrenceIdData.occurrenceId,
-        distance: 10.1 // 무조건 실수
-      };
-      console.log(data);
-      getHospitals(data).then((hospitalsData) => {
-        console.log(hospitalsData);
-        setHospitals(hospitalsData);
-        navigate(PATH.ParamedicWaitMove);
-      });
+      if (occurrenceIdData) {
+        let data = {
+          occurrenceId: occurrenceIdData.occurrenceId,
+          distance: 10.1, // 무조건 실수
+        };
+        getHospitals(data).then((hospitalsData) => {
+          if (hospitalsData) {
+            setHospitals(hospitalsData);
+            setCurrentPageIndex(2);
+          }
+        });
+      }
     });
   };
 

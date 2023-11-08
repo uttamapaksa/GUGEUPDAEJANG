@@ -6,25 +6,27 @@ import A from '/src/components/Commons/Atoms';
 interface AgeGroupMapping {
   [key: string]: string;
 }
+
 interface GenderMapping {
   [key: string]: string;
 }
 
 const ageGroupMapping: AgeGroupMapping = {
-  영유아: 'INFANT',
-  아동: 'CHILD',
-  청소년: 'ADOLESCENT',
-  청년: 'YOUTH',
-  중장년: 'MIDDLE',
-  노인: 'SENIOR',
-};
-const genderMapping: GenderMapping = {
-  남: 'MALE',
-  여: 'FEMALE',
+  INFANT: '영유아',
+  CHILD: '아동',
+  ADOLESCENT: '청소년',
+  YOUTH: '청년',
+  MIDDLE: '중장년',
+  SENIOR: '노인',
 };
 
-const ageGroups = ['영유아', '아동', '청소년', '청년', '중장년', '노인'];
-const genders = ['남', '여'];
+const genderMapping: GenderMapping = {
+  MALE: '남',
+  FEMALE: '여',
+};
+
+const ageGroups = ['INFANT', 'CHILD', 'ADOLESCENT', 'YOUTH', 'MIDDLE', 'SENIOR'];
+const genders = ['MALE', 'FEMALE'];
 
 function Information() {
   const [occurence, setOccurence] = useRecoilState(occurrenceState);
@@ -32,7 +34,6 @@ function Information() {
   const selectedGender = occurence.gender;
 
   const selectInformation = (ageGroup: string, gender: string) => {
-    console.log(occurence);
     setOccurence((prev) => ({
       ...prev,
       ageGroup,
@@ -55,10 +56,10 @@ function Information() {
               $margin="0 0 1.3vh 0"
               $fontSize="1.9vh"
               $IsClick={selectedAgeGroup === ageGroup && selectedGender === gender ? true : false}
-              onClick={() => selectInformation(ageGroupMapping[ageGroup], genderMapping[gender])}
+              onClick={() => selectInformation(ageGroup, gender)}
             >
-              {ageGroup}
-              <br />({gender})
+              {ageGroupMapping[ageGroup]}
+              <br />({genderMapping[gender]})
             </A.BtnToggle>
           )),
         )}
