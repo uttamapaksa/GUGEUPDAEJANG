@@ -35,38 +35,36 @@ privateApi.interceptors.request.use((config) => {
 });
 
 export async function postRefreshToken() {
-  const headers = {
-    'Authorization-refresh': 'Bearer ' + localStorage.getItem('refresh_token'),
+  const info = {
+    'refreshToken' : localStorage.getItem('refresh_token'),
   };
-  return await publicApi.post('/auth/refresh', null, { headers });
+  return await publicApi.post('/auth/refresh', info);
 }
 
-privateApi.interceptors.response.use((response) => {
+privateApi.interceptors.response.use(
+  (response) => {
     return response;
   },
   async (error) => {
     const { config } = error;
-
-    if (error.response.status === 403) {
-      if (error.response.data.message === '유효하지 않은 토큰') {
-        const originRequest = config;
+    const originRequest = config;
+    if (error.message === "Network Error") {
         try {
           const response = await postRefreshToken();
-          const newAccessToken = response.headers['authorization'];
+          const newAccessToken = response.data.accessToken;
+          const newRefreshToken = response.data.refreshToken;
+  
+          localStorage.setItem('access_token',newAccessToken);
+          localStorage.setItem('refresh_token',newRefreshToken);
+  
+          axios.defaults.headers.common['Authorization'] = `Bearer ${newAccessToken}`;
+          originRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
 
-          localStorage.setItem('access_token',response.headers['authorization']);
-          localStorage.setItem('refresh_token',response.headers['authorization-refresh']);
-
-          axios.defaults.headers.common.Authorization = `Bearer ${newAccessToken}`;
-          originRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-            
           return axios(originRequest);
-        } 
-        catch {
+        } catch {
           localStorage.removeItem('access_token');
           localStorage.removeItem('refresh_token');
           window.location.href = ("/");
-        }
       }
     }
     return Promise.reject(error);
