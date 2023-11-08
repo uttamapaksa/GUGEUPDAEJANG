@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { ParamedicItemContainer, ParamedicItemContent, ItemRequestAt, ItemParaType, ItemParaInfo, ItemParaTagGroup } from "./ParamedicListItem.style";
 import A from "/src/components/Commons/Atoms";
 import theme from "/src/styles";
-import { HospitalResponsePostProps, HospitalTransferItem } from "/src/types/map";
+import { HospitalResponsePostProps, HospitalTransferItem, ParaRequestItem } from "/src/types/map";
 import { useRecoilState } from "recoil";
 import { hospitalParmedicRequestList, hospitalSelectedRequestItem, hospitalParmedicTransferList } from "/src/recoils/HospitalAtoms";
 import { AGEGROUP, GENDER } from "/src/constants/variable";
@@ -77,29 +77,26 @@ const ParamedicListItem = (props: any) => {
     }
 
     if (requestList !== undefined) {
-      let nextList = [];
-      for (let i = 0; i < requestList.length; i++) {
-        if (requestList[i].id !== props.id) {
-          nextList.push(requestList[i]);
+      if (res) {
+        const newTransferItem: HospitalTransferItem = {
+          id: props.id,
+          state: "wait",
+          data: props
         }
-        else if (res) {
-          let curTransferList: HospitalTransferItem[] = [];
-          if (transferList !== undefined) {
-            curTransferList = [...transferList];
-          }
-          const newTransferItem: HospitalTransferItem = {
-            id: props.id,
-            state: "wait",
-            data: props
-          }
-          curTransferList.push(newTransferItem);
-          setTransferList(curTransferList);
+        if (transferList !== undefined) {
+          setTransferList([...transferList, newTransferItem]);
         }
-        if (selectedParaItem !== undefined && selectedParaItem.id == props.id) {
-          setSelectedParaItem(undefined);
+        else {
+          setTransferList([newTransferItem]);
         }
       }
-      setRequestList(nextList);
+
+      let nextRequestList = requestList.filter((item: ParaRequestItem) => item.id != props.id);
+      setRequestList(nextRequestList);
+
+      if (selectedParaItem !== undefined && selectedParaItem.id == props.id) {
+        setSelectedParaItem(undefined);
+      }
     }
   }
 
