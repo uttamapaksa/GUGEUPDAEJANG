@@ -9,13 +9,13 @@ import theme from '/src/styles';
 import PATH from '/src/constants/path';
 import { deleteLogout, postLogin } from "/src/apis/auth";
 import { LoginProps } from "/src/types/auth";
-import { useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { memberInfoState } from "/src/recoils/AuthAtoms";
 
 function LoginInput () {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [memberInfo, setMemberIngo] =useRecoilState(memberInfoState)
+  const setMemberInfo =useSetRecoilState(memberInfoState)
   const MAX_LENGTH = 50;
 
   const navigate = useNavigate()
@@ -27,7 +27,6 @@ function LoginInput () {
     if (e.target.value.length > MAX_LENGTH) {
       e.target.value = e.target.value.slice(0, MAX_LENGTH);
     }
-    // console.log(email)
     setEmail(e.target.value.split(" ").join(""));
   };
 
@@ -35,7 +34,6 @@ function LoginInput () {
     if (e.target.value.length > MAX_LENGTH) {
       e.target.value = e.target.value.slice(0, MAX_LENGTH);
     }
-    // console.log(password)
     setPassword(e.target.value.split(" ").join(""));
   };
 
@@ -46,7 +44,7 @@ function LoginInput () {
     }
     try {
       const response = await postLogin(info)
-      setMemberIngo(response)
+      setMemberInfo(response)
       if (response.role === "PARAMEDIC") {goParamedic()}
       else if (response.role === "HOSPITAL") {goHospital()}
     }
@@ -77,6 +75,7 @@ function LoginInput () {
           $width='70%'
           $height='100%'
           placeholder='이메일'
+          value={email}
           onChange={handleEmail}/>
       </S.Row1>
 
@@ -86,6 +85,7 @@ function LoginInput () {
           $width='70%'
           $height='100%'
           placeholder='비밀번호'
+          value={password}
           onChange={handlePassword}/>
 
         <A.BtnSubmit

@@ -75,6 +75,7 @@ function HospitalItem({ hospital, setHospitals }: { key: number; hospital: Hospi
       </S.LeftSection>
 
       <S.RightSection>
+        {/* 구급대원용 버튼 */}
         <S.CallTime>
           {hospital.callingTime[3]}시 {hospital.callingTime[4]}분에 요청
         </S.CallTime>
@@ -90,6 +91,21 @@ function HospitalItem({ hospital, setHospitals }: { key: number; hospital: Hospi
         >
           {BTNCONTENT[hospital.status]}
         </A.BtnToggle>
+
+        {/* 일반사용자용 버튼 */}
+        {/* <A.BtnSubmit
+          $flexDirection='column'
+          $justifyContent='space-between'
+          $padding='1.2vh 0vh 1vh 0vh'
+          $height='7.5vh'
+          $width='92%'
+          $color='white'
+          $borderRadius='1.3vh'
+          $backgroundColor={theme.color.pinkLight}>
+          <S.HosRoomText>응급실 가용 병상</S.HosRoomText>
+          <S.HosRoonCount>{hospital.bedCount}</S.HosRoonCount>
+        </A.BtnSubmit> */}
+
       </S.RightSection>
     </S.HospitalItem>
   );

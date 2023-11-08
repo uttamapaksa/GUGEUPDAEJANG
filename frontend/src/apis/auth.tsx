@@ -1,5 +1,6 @@
 import { privateApi, publicApi } from "./";
 import { 
+  CheckEmailProps,
   HosJoinProps,
   LoginProps, 
   ParaJoinProps } from "../types/auth";
@@ -53,5 +54,31 @@ export const postHosJoin = async (info: HosJoinProps) => {
   }
     catch (error) {
     console.log('postHosJoin 실패', error);
+  }
+}
+
+// 이메일 중복체크
+export const getCheckEmail = async (info: string) => {
+  try{
+    const response = await publicApi.get("/member/check-email", {
+      params:{ email: info }
+    })
+    return response.data
+  }
+    catch (error) {
+    console.log('getCheckEmail 실패', error);
+  }
+}
+
+// 구급센터 목록조회
+export const getParaCenterList = async (info: string) => {
+  try{
+    const response = await publicApi.get("/member/center", {
+      params:{ keyword: info }
+    })
+    return response.data
+  }
+  catch (error) {
+    console.log('getParaCenterList 실패', error);
   }
 }

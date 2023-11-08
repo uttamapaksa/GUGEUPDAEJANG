@@ -24,8 +24,9 @@ export interface ParaSignupInputProps {
 }
 
 export interface SearchListProps {
-  results: string[][];
+  searchList: string[][];
   isHosSearch: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export interface SearchModalProps {
@@ -54,4 +55,12 @@ export interface HosJoinProps {
   address: string,
   latitude : number,
   longitude : number
+}
+
+export interface SearchItemProps{
+  id: number,
+  region: string,
+  name: string,
+  address: string,
+  telephone: string
 }
