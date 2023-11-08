@@ -2,7 +2,7 @@ import Login from '../pages/Login/Login';
 import Signup from '../pages/Signup/Signup';
 import Hospital from '../pages/Hospital/Main';
 import HospitalSocket from '../sockets/HospitalSocket';
-import Paramedic from '../pages/Paramedic';
+import Paramedic from '../pages/Paramedic/Index';
 import ParamedicSocket from '../sockets/ParamedicSocket';
 import Guest from '../pages/Guest/Main/Main'
 
