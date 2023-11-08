@@ -14,14 +14,12 @@ import {
 import { 
   recordContentFile, 
   recordVoiceFile, 
-  paramedicCallState, 
   recordImageFile,
   recordVideoFile} from '/src/recoils/ParamedicAtoms';
 import CameraModal from '../../../components/Paramedic/Call/CameraModal/CameraModal';
 import { postVoiceUpload } from '/src/apis/paramedic';
 
 function Call() {
-  const [callState, setCallState] = useRecoilState(paramedicCallState);
   const [recording, setRecording] = useState<boolean>(false);
   const [cameraing, setCameraing] = useState<boolean>(false);
   const [seconds, setSeconds] = useState<number>(0);
