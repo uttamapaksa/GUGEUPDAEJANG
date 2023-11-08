@@ -12,5 +12,5 @@ import lombok.Setter;
 public class CallingCreateRequest {
     private Long occurrenceId;
     private Double distance;
-    private Long count;
+    private Long step;
 }
