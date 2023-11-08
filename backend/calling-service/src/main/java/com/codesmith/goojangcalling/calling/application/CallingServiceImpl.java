@@ -136,7 +136,6 @@ public class CallingServiceImpl implements CallingService{
         callingStatusResponseList.forEach(o -> {
             CallingCreateMessage callingCreateMessage = new CallingCreateMessage(occurrence, o, occurrenceTagList, occurrenceFileList);
             // 병원들에게 요청 전달
-//            simpMessagingTemplate.convertAndSend("/topic/" + 9999, callingCreateMessage);
             simpMessagingTemplate.convertAndSend("/topic/" + o.getMemberId(), callingCreateMessage);
         });
     }
@@ -185,7 +184,6 @@ public class CallingServiceImpl implements CallingService{
         callingValidator.validateApprovedCalling(selectedCalling);
         selectedCalling.fixCalling();
         simpMessagingTemplate.convertAndSend("/topic/status/" + selectedCalling.getMemberId(), new CallingStatusMessage(selectedCalling));
-//        simpMessagingTemplate.convertAndSend("/topic/status/" + 9999, new CallingStatusMessage(selectedCalling));
         changePendingCalling(selectedCalling);
         MemberInfoResponse hospital = memberServiceClient.getMember(selectedCalling.getMemberId());
         TransferCreateResponse transfer = transferServiceClient.createTransfer(new CreateTransferRequest(selectedCalling));
@@ -201,7 +199,6 @@ public class CallingServiceImpl implements CallingService{
         callingValidator.validateApprovedOrPendingCalling(selectedCalling);
         selectedCalling.cancelCalling();
                 simpMessagingTemplate.convertAndSend("/topic/status/" + selectedCalling.getMemberId(), new CallingStatusMessage(selectedCalling));
-//        simpMessagingTemplate.convertAndSend("/topic/status/" + 9999, new CallingStatusMessage(selectedCalling));
     }
 
     private void changePendingCalling(Calling selectedCalling) {
@@ -211,7 +208,6 @@ public class CallingServiceImpl implements CallingService{
             if (o.getStatus().equals(Status.PENDING) && o.getId() != selectedCalling.getId()) {
                 o.terminateCalling();
                 simpMessagingTemplate.convertAndSend("/topic/status/" + o.getMemberId(), new CallingStatusMessage(o));
-//                simpMessagingTemplate.convertAndSend("/topic/status/" + 9999, new CallingStatusMessage(o));
             }
         });
     }
