@@ -52,7 +52,7 @@ function Category() {
   const deleteOption = (tagId: number) => {
     deleteTag(tagId).then((success) => {
       if (success) {
-        setOccurence((prev) => ({ ...prev, tags: prev.tags.filter((tag) => tag.id !== tagId) }));
+        setOccurence((prev) => ({ ...prev, tags: selected.filter((tag) => tag.id !== tagId) }));
         setOptions(options.filter((option) => option.id !== tagId));
       }
     });
@@ -60,9 +60,9 @@ function Category() {
 
   const selectOption = (option: TagType) => {
     if (selected.some((tag) => tag.id === option.id)) {
-      setOccurence((prev) => ({ ...prev, tags: prev.tags.filter((tag) => tag !== option) }));
+      setOccurence((prev) => ({ ...prev, tags: selected.filter((tag) => tag.id !== option.id) }));
     } else {
-      setOccurence((prev) => ({ ...prev, tags: [...prev.tags, option] }));
+      setOccurence((prev) => ({ ...prev, tags: [...selected, option] }));
     }
   };
 

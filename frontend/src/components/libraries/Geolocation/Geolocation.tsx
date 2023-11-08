@@ -9,7 +9,7 @@ function Geolocation() {
   const geolocation = useGeolocation({
     enableHighAccuracy: true, 
     timeout: 3000,
-    maximumAge: 1000,
+    maximumAge: 2000,
   });
 
   const setCurrentPos = () => {
