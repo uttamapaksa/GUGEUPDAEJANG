@@ -4,7 +4,6 @@ import { currentPosition } from '/src/recoils/HospitalAtoms';
 import useGeolocation from 'react-hook-geolocation';
 
 function Geolocation() {
-  // const setCurPos = useSetRecoilState(currentPosition);
   const [curPos, setCurPos] = useRecoilState(currentPosition)
   const geolocation = useGeolocation({
     enableHighAccuracy: true, 
