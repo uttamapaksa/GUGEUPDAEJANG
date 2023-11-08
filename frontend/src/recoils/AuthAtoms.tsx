@@ -42,5 +42,6 @@ export const memberInfoState = atom<memberInfo>({
   default: {
     role: "",
     memberId: 0
-  }
+  },
+  effects_UNSTABLE: [persistAtom],
 })
