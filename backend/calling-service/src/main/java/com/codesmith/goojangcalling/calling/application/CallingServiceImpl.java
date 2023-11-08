@@ -67,7 +67,7 @@ public class CallingServiceImpl implements CallingService{
             return addCalling(memberId, callingCreateRequest);
         }
 
-        Occurrence occurrence = getOccurrence(callingCreateRequest);
+        Occurrence occurrence = getOccurrence(callingCreateRequest.getOccurrenceId());
 
         List<HospitalSearchResponse> searchHospitalList = searchHospital(occurrence.getLatitude(),
                 occurrence.getLongitude(), callingCreateRequest.getDistance(), null);
@@ -83,7 +83,7 @@ public class CallingServiceImpl implements CallingService{
 
     @Override
     public List<CallingStatusResponse> addCalling(Long memberId, CallingCreateRequest callingCreateRequest) {
-        Occurrence occurrence = getOccurrence(callingCreateRequest);
+        Occurrence occurrence = getOccurrence(callingCreateRequest.getOccurrenceId());
 
         List<Calling> pendingCallingList = new ArrayList<>();
         List<Long> pendingCallingMemberList = new ArrayList<>();
@@ -113,9 +113,9 @@ public class CallingServiceImpl implements CallingService{
         return getCallingStatusResponses(searchHospitalList, combinedAndSortedCallingList);
     }
 
-    private Occurrence getOccurrence(CallingCreateRequest callingCreateRequest) {
-        callingValidator.validateOccurrence(callingCreateRequest.getOccurrenceId());
-        Occurrence occurrence = occurrenceRepository.findById(callingCreateRequest.getOccurrenceId()).get();
+    private Occurrence getOccurrence(Long occurrenceId) {
+        callingValidator.validateOccurrence(occurrenceId);
+        Occurrence occurrence = occurrenceRepository.findById(occurrenceId).get();
         return occurrence;
     }
 
