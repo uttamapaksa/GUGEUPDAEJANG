@@ -93,10 +93,17 @@ export const Move2 = styled.div`
 
 export const Calling = styled.div`
   /* border: 3px solid green; */
-  margin: 4vh auto;
+  margin: 3vh auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 87%;
+  width: 85%;
   height: 8vh;
+`;
+
+export const CancelOrConfirm = styled.div`
+  margin: 5vh 0 1vh 0;
+  display: flex;
+  justify-content: space-between ;
+  width: 85%;
 `;

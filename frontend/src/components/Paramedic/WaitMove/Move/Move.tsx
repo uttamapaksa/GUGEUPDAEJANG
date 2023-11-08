@@ -1,23 +1,58 @@
-import { useState } from 'react';
-import { useSetRecoilState, useResetRecoilState, useRecoilState } from 'recoil';
-import { currentParamedicPageIndexState, isTransportingState, occurrenceState, showWaitState, fixedCallingState } from '/src/recoils/ParamedicAtoms';
+import { useRecoilValue, useResetRecoilState } from 'recoil';
+import {
+  currentParamedicPageIndexState,
+  isTransferringState,
+  occurrenceState,
+  callingStepState,
+  showWaitState,
+  fixedCallingState,
+  transferHospitalIdState,
+} from '/src/recoils/ParamedicAtoms';
 import * as S from './Move.style';
 import A from '/src/components/Commons/Atoms';
 import theme from '/src/styles';
+import { finishTransfer } from '/src/apis/paramedic';
+
+interface GroupMapping {
+  [key: string]: string;
+}
+const ageGroupMapping: GroupMapping = {
+  INFANT: '영유아',
+  CHILD: '아동',
+  ADOLESCENT: '청소년',
+  YOUTH: '청년',
+  MIDDLE: '중장년',
+  SENIOR: '노인',
+};
+const genderMapping: GroupMapping = {
+  MALE: '남',
+  FEMALE: '여',
+};
 
 function Move() {
-  const resetCurrentPageIndex = useResetRecoilState(currentParamedicPageIndexState);
-  const [categories, _] = useState<string[]>(['추락', '과다출혈', '과다출혈']);
-  const setIsTransporting = useSetRecoilState(isTransportingState);
-  const [occurrence, setOccurrence] = useRecoilState(occurrenceState)
-  const resetOccurrence = useResetRecoilState(occurrenceState);
-  const resetShowWait = useResetRecoilState(showWaitState);
+  const occurrence = useRecoilValue(occurrenceState);
+  const fixedCalling = useRecoilValue(fixedCallingState);
 
-  const finishTransfer = () => {
-    setIsTransporting(false);
-    resetShowWait();
-    resetOccurrence();
-    resetCurrentPageIndex();
+  const resetStep = useResetRecoilState(callingStepState);
+  const resetShowWait = useResetRecoilState(showWaitState);
+  const resetOccurrence = useResetRecoilState(occurrenceState);
+  const resetTransferring = useResetRecoilState(isTransferringState);
+  const resetFixedCalling = useResetRecoilState(fixedCallingState);
+  const resetCurrentPageIndex = useResetRecoilState(currentParamedicPageIndexState);
+  const resetTransferHospitalId = useResetRecoilState(transferHospitalIdState);
+
+  const completeTransfer = () => {
+    finishTransfer(fixedCalling.transferId).then((success) => {
+      if (success) {
+        resetStep();
+        resetShowWait();
+        resetOccurrence();
+        resetFixedCalling();
+        resetTransferring();
+        resetCurrentPageIndex();
+        resetTransferHospitalId();
+      }
+    });
   };
 
   return (
@@ -25,7 +60,7 @@ function Move() {
       <S.HospitalList>
         <S.TotalInformation>
           <S.ItemTitle>
-            하나병원
+            {fixedCalling.name}
             <S.ItemCallTimeBig>35분 후 도착 예정</S.ItemCallTimeBig>
           </S.ItemTitle>
 
@@ -40,12 +75,12 @@ function Move() {
             $backgroundColor={theme.color.grayDarkest}
             $borderRadius="1vh"
           >
-            청소년 (여)
+            {`${ageGroupMapping[fixedCalling.ageGroup]} (${genderMapping[fixedCalling.gender]})`}
           </A.DivTag>
           <S.Move1>주요 분류</S.Move1>
-          {categories.map((val, idx) => (
+          {occurrence.tags.map((tag) => (
             <A.DivTag
-              key={idx}
+              key={tag.id}
               $margin="1vh"
               $padding="0 1.5vh"
               $width="auto"
@@ -54,17 +89,17 @@ function Move() {
               $boxShadow="0 0 1vh 0.2vh rgba(0, 0, 0, 0.2)"
               $borderRadius="1vh"
             >
-              {val}
+              {tag.name}
             </A.DivTag>
           ))}
           <S.Move1>환자 상태</S.Move1>
-          <S.Move2>지금 대교 사고 10대 여성 머리 출혈 환자 발생하였습니다. 심정지 이력이 있는 환자입니다.</S.Move2>
+          <S.Move2>{fixedCalling.description}</S.Move2>
         </S.TotalInformation>
       </S.HospitalList>
 
       <S.Calling>
         <A.BtnMediaRecord
-          $width="25vh"
+          $width="47%"
           $height="7vh"
           $fontSize="2.3vh"
           $color={theme.color.grayDarkest}
@@ -76,7 +111,7 @@ function Move() {
           <A.ImgArrowBlackRight $width="1.2vh" />
         </A.BtnMediaRecord>
         <A.BtnMediaRecord
-          $width="25vh"
+          $width="47%"
           $height="7vh"
           $fontSize="2.3vh"
           $color={theme.color.grayDarkest}
@@ -89,17 +124,31 @@ function Move() {
         </A.BtnMediaRecord>
       </S.Calling>
 
-      <A.BtnSubmit
-        onClick={finishTransfer}
-        $margin="10vh 0 1vh 0 "
-        $borderRadius="1vh"
-        $width="90%"
-        $height="6vh"
-        $backgroundColor={theme.color.fontPink1}
-        $fontSize="2.5vh"
-      >
-        이송 완료
-      </A.BtnSubmit>
+      <S.CancelOrConfirm>
+        <A.BtnSubmit
+          onClick={completeTransfer}
+          $borderRadius="1vh"
+          $width="47%"
+          $height="6vh"
+          $border={`0.2vh solid ${theme.color.fontPink1}`}
+          $color={theme.color.fontPink1}
+          $fontSize="2.5vh"
+        >
+          이송 취소
+        </A.BtnSubmit>
+
+        <A.BtnSubmit
+          onClick={completeTransfer}
+          $borderRadius="1vh"
+          $width="47%"
+          $height="6vh"
+          $border={`0.2vh solid ${theme.color.fontPink1}`}
+          $backgroundColor={theme.color.fontPink1}
+          $fontSize="2.5vh"
+        >
+          이송 완료
+        </A.BtnSubmit>
+      </S.CancelOrConfirm>
     </>
   );
 }

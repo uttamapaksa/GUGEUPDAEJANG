@@ -1,18 +1,29 @@
-import { useState, useEffect, useRef } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useEffect, useRef } from 'react';
+import { useRecoilValue, useRecoilState } from 'recoil';
 import { memberInfoState } from '../recoils/AuthAtoms';
+import {
+  HospitalListState,
+  isTransferringState,
+  fixedCallingState,
+  transferHospitalIdState,
+} from '/src/recoils/ParamedicAtoms';
+import { currentPosition } from '../recoils/HospitalAtoms';
+import { HospitalTransferParaItem } from '../types/map';
 import { Client } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 
 const CALLING_SERVER_URL = 'https://k9b204a.p.ssafy.io:64419/calling-websocket';
 const TRANSFER_SERVER_URL = 'https://k9b204a.p.ssafy.io:64413/transfer-websocket';
-const hospitalId = 9999;
 
-// function ParamedicSocket({ paramedicId }: ParamedicSocketProps) {
 function ParamedicSocket() {
   const paramedicId = useRecoilValue(memberInfoState).memberId;
+  const hospitalId = useRecoilValue(transferHospitalIdState);
+  const transferring = useRecoilValue(isTransferringState);
+  const fixedCalling = useRecoilValue(fixedCallingState);
+  const position = useRecoilValue(currentPosition);
   const callingSocket = useRef<Client | null>(null);
   const transferSocket = useRef<Client | null>(null);
+  const [hospitals, setHospitals] = useRecoilState(HospitalListState);
 
   // 연결 함수
   const connectSocket = () => {
@@ -52,13 +63,11 @@ function ParamedicSocket() {
     if (callingSocket.current) {
       // 요청 소켓
       callingSocket.current.subscribe(`/topic/${paramedicId}`, (message) => {
-        console.log('subscribe callingSocket');
-        callingReceiveMessage(message.body);
+        callingReceiveMessage(JSON.parse(message.body));
       });
       // 요청 변경 소켓
       callingSocket.current.subscribe(`/topic/status/${paramedicId}`, (message) => {
-        console.log('subscribe statusSocket');
-        callingStatusMessage(message.body);
+        callingStatusMessage(JSON.parse(message.body));
       });
     }
   };
@@ -66,8 +75,7 @@ function ParamedicSocket() {
     if (transferSocket.current) {
       // 이송 소켓
       transferSocket.current.subscribe(`/topic/${paramedicId}/location`, (message) => {
-        console.log('subscribe transferSocket');
-        transferReceiveMessage(message.body);
+        transferReceiveMessage(JSON.parse(message.body));
       });
     }
   };
@@ -78,6 +86,11 @@ function ParamedicSocket() {
   };
   const callingStatusMessage = (message: any) => {
     console.log('Received Status message:', message);
+    setHospitals((currHospitals) =>
+      currHospitals.map((currHospital) =>
+        currHospital.callingId === message.callingId ? { ...currHospital, status: message.status } : currHospital,
+      ),
+    );
   };
   const transferReceiveMessage = (message: any) => {
     console.log('Received transfer message:', message);
@@ -92,14 +105,32 @@ function ParamedicSocket() {
       });
     }
   };
-  const transferSendMessage = () => {
+  const transferSendMessage = (data: HospitalTransferParaItem) => {
     if (transferSocket.current) {
       transferSocket.current.publish({
         destination: `/app/location/${hospitalId}`,
-        body: JSON.stringify({ name: '구급대원 이송 소켓 송신', longitude: 35.123, latitude: 127.123 }),
+        body: JSON.stringify(data),
       });
     }
   };
+
+  let data: HospitalTransferParaItem;
+  useEffect(() => {
+    if (!transferring) return;
+    data = {
+      id: fixedCalling && fixedCalling.transferId,
+      state: 'transfer', // transfer, complete, cancel, wait
+      curLat: position.lat || 36.4469365928189,
+      curLon: position.lon || 127.43940812262,
+      curAddr: '김준섭 자택',
+      leftTime: 10,
+      leftDist: 10,
+    };
+    const interval = setInterval(() => transferSendMessage(data), 2000);
+    return (() => {
+      clearInterval(interval)
+    })
+  }, [transferring]);
 
   useEffect(() => {
     connectSocket();
@@ -114,9 +145,7 @@ function ParamedicSocket() {
     };
   }, [paramedicId]);
 
-  return <>
-    <div onClick={callingSendMessage}>callingSendMessage</div>
-  </>;
+  return <></>;
 }
 
 export default ParamedicSocket;

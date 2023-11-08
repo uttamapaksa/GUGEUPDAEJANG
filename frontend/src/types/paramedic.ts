@@ -45,7 +45,7 @@ export interface HospitalListType {
 export interface fixedCallingType {
   transferId: number;
   name: string;
-  gender: "MALE" | "FEMALE" | undefined;
-  ageGroup: "INFANT" | "CHILD" | "ADOLESCENT" | "YOUTH" | "MIDDLE" | "SENIOR";
+  gender: 'MALE' | 'FEMALE';
+  ageGroup: 'INFANT' | 'CHILD' | 'ADOLESCENT' | 'YOUTH' | 'MIDDLE' | 'SENIOR';
   description: string;
 }

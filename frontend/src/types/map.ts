@@ -85,7 +85,7 @@ export interface HospitalTransferParaItem {
   state: string; // transfer, complete, cancel, wait
   curLat: number;
   curLon: number;
-  curAddr: number;
+  curAddr: string;
   leftTime: number;
   leftDist: number;
 }
