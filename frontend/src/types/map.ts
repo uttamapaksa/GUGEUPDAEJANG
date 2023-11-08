@@ -63,8 +63,13 @@ export interface ParaRequestItem {
 //병원 응답 http post
 export interface HospitalResponsePostProps {
   callingId: number;
-  status: string; //APPROVED:수락, REJECTED:거절
+  status: string; //APPROVED:수락, REJECTED:거절, 
   reason: string;
+}
+//구급대원 상태
+export interface ParamedicStatusProps {
+  callingId: number;
+  status: string; //PENDING, TERMINATED, FIXED, CANCELED
 }
 
 // 실시간 위치 + 구급대원 정보 (프론트에서 관리하는 객체)
@@ -73,7 +78,7 @@ export interface HospitalTransferItem {
   state: string; // transfer, complete, cancel, wait
   curLat?: number;
   curLon?: number;
-  curAddr?: number;
+  curAddr?: string;
   leftTime?: number;
   leftDist?: number;
   data: ParaRequestItem;
