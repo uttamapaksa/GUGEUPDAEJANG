@@ -3,15 +3,10 @@ import { occurrenceState } from '/src/recoils/ParamedicAtoms';
 import * as S from './Information.style';
 import A from '/src/components/Commons/Atoms';
 
-interface AgeGroupMapping {
+interface GroupMapping {
   [key: string]: string;
 }
-
-interface GenderMapping {
-  [key: string]: string;
-}
-
-const ageGroupMapping: AgeGroupMapping = {
+const ageGroupMapping: GroupMapping = {
   INFANT: '영유아',
   CHILD: '아동',
   ADOLESCENT: '청소년',
@@ -19,8 +14,7 @@ const ageGroupMapping: AgeGroupMapping = {
   MIDDLE: '중장년',
   SENIOR: '노인',
 };
-
-const genderMapping: GenderMapping = {
+const genderMapping: GroupMapping = {
   MALE: '남',
   FEMALE: '여',
 };

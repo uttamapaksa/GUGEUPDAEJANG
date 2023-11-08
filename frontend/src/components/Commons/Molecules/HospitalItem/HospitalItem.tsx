@@ -1,6 +1,11 @@
 import { useSetRecoilState } from 'recoil';
 import { HospitalListType } from '/src/types/paramedic';
-import { showWaitState, fixedCallingState } from '/src/recoils/ParamedicAtoms';
+import {
+  showWaitState,
+  fixedCallingState,
+  transferHospitalIdState,
+  isTransferringState,
+} from '/src/recoils/ParamedicAtoms';
 import * as S from './HospitalItem.style';
 import A from '/src/components/Commons/Atoms';
 import theme from '/src/styles';
@@ -28,8 +33,10 @@ const BTNCONTENT: { [key: string]: string } = {
 };
 
 function HospitalItem({ hospital, setHospitals }: { key: number; hospital: HospitalListType; setHospitals: any }) {
+  const setTransferHospitalId = useSetRecoilState(transferHospitalIdState);
   const setShowWait = useSetRecoilState(showWaitState);
   const setFixedCalling = useSetRecoilState(fixedCallingState);
+  const setIsTransferring = useSetRecoilState(isTransferringState);
 
   const clickItem = (callingId: number, status: string) => {
     switch (status) {
@@ -38,22 +45,21 @@ function HospitalItem({ hospital, setHospitals }: { key: number; hospital: Hospi
           if (fixedData) {
             setFixedCalling(fixedData);
             setShowWait(false);
-          }
-        })
-        return
-        
-      case 'PENDING':
-        cancelCalling(callingId).then((res) => {
-          if (res) {
-            setHospitals((currHospitals: HospitalListType[]) =>
-            currHospitals.map((currHospital) =>
-            currHospital.callingId === callingId ? { ...currHospital, status: 'CANCELED' } : currHospital,
-            ),
-            );
+            setIsTransferring(true);
+            setTransferHospitalId(fixedData.memberId);
           }
         });
         return;
-      default:
+      case 'PENDING':
+        cancelCalling(callingId).then((success) => {
+          if (success) {
+            setHospitals((currHospitals: HospitalListType[]) =>
+              currHospitals.map((currHospital) =>
+                currHospital.callingId === callingId ? { ...currHospital, status: 'CANCELED' } : currHospital,
+              ),
+            );
+          }
+        });
         return;
     }
   };

@@ -80,7 +80,7 @@ const StyledButton = styled.button<ButtonProps>`
 `
 
 export const BtnSubmit = styled(StyledButton)`
-  color: ${theme.color.white};
+  color: ${(props) => props.$color || theme.color.white};
   font-size: ${(props) => props.$fontSize ? 
   `${props.$fontSize}` : `${theme.font.Medium3_23};`};
   font-weight: 600;

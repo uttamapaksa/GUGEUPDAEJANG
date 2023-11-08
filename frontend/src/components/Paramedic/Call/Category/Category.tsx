@@ -7,6 +7,7 @@ import {
   recordContentFile,
   tagsState,
   occurrenceState,
+  callingStepState,
   HospitalListState,
 } from '/src/recoils/ParamedicAtoms';
 import { currentPosition } from '/src/recoils/HospitalAtoms';
@@ -23,7 +24,8 @@ function Category() {
   const [newOption, setNewOption] = useState<string>('');
   const [edit, setEdit] = useState<boolean>(false);
   const symptom = useRecoilValue(recordContentFile);
-  const [hospitals, setHospitals] = useRecoilState(HospitalListState);
+  const [step, setStep] = useRecoilState(callingStepState);
+  const setHospitals = useSetRecoilState(HospitalListState);
 
   const getOptions = () => {
     getTags().then((tagsData) => {
@@ -50,6 +52,7 @@ function Category() {
   };
 
   const deleteOption = (tagId: number) => {
+    console.log(111)
     deleteTag(tagId).then((success) => {
       if (success) {
         setOccurence((prev) => ({ ...prev, tags: selected.filter((tag) => tag.id !== tagId) }));
@@ -72,8 +75,10 @@ function Category() {
       ageGroup: occurence.ageGroup,
       gender: occurence.gender,
       symptom: symptom,
-      latitude: currPosition.lat,
-      longitude: currPosition.lon,
+      // latitude: currPosition.lat,
+      // longitude: currPosition.lon,
+      latitude: 36.4469365928189,
+      longitude: 127.43940812262,
       address: '한밭대',
       tags: selected,
       files: [],
@@ -83,8 +88,11 @@ function Category() {
         let data = {
           occurrenceId: occurrenceIdData.occurrenceId,
           distance: 10.1, // 무조건 실수
+          step: step + 1,
         };
+        console.log(data)
         getHospitals(data).then((hospitalsData) => {
+          setStep(step + 1);
           if (hospitalsData) {
             setHospitals(hospitalsData);
             setCurrentPageIndex(2);

@@ -1,27 +1,25 @@
-import { UploadFileApi, privateApi, publicApi } from './';
+import { UploadFileApi, privateApi } from './';
 
-// 사진, 동영상 파일 업로드 
+// 사진, 동영상 파일 업로드
 export const postCameraUpload = async (info: File[]) => {
   const data = new FormData();
-  data.append('files', info[0])
+  data.append('files', info[0]);
   try {
-    const res = await UploadFileApi.post(`/calling/upload`,data);
-    console.log('postFileUpload', res.data[0].filePath)
+    const res = await UploadFileApi.post(`/calling/upload`, data);
+    console.log('postFileUpload', res.data[0].filePath);
     return res.data[0].filePath;
-  } 
-  catch (err) {
+  } catch (err) {
     console.log('postFileUpload 실패', err);
   }
 };
 
-// 음성 파일 업로드 
-export const postVoiceUpload = async (info:FormData) => {
+// 음성 파일 업로드
+export const postVoiceUpload = async (info: FormData) => {
   try {
-    const res = await UploadFileApi.post(`/calling/upload`,info);
-    console.log('postFileUpload', res.data[0].filePath)
+    const res = await UploadFileApi.post(`/calling/upload`, info);
+    console.log('postFileUpload', res.data[0].filePath);
     return res.data[0].filePath;
-  } 
-  catch (err) {
+  } catch (err) {
     console.log('postFileUpload 실패', err);
   }
 };
@@ -30,7 +28,7 @@ export const postVoiceUpload = async (info:FormData) => {
 export const getTags = async () => {
   try {
     const res = await privateApi.get(`/calling/tag`);
-    console.log('getTags then', res.data)
+    console.log('getTags then', res.data);
     return res.data;
   } catch (err) {
     console.log('getTags catch', err);
@@ -41,7 +39,7 @@ export const getTags = async () => {
 export const addTag = async (data: any) => {
   try {
     const res = await privateApi.post(`/calling/tag`, data);
-    console.log('addTag then', res.data)
+    console.log('addTag then', res.data);
     return res.data;
   } catch (err) {
     console.log('addTag catch', err);
@@ -51,9 +49,9 @@ export const addTag = async (data: any) => {
 // 태그 식제
 export const deleteTag = async (tagId: number) => {
   try {
-    const res = await privateApi.delete(`/calling/tag/${tagId}`,);
-    console.log('deleteTag then', res.data)
-    return res.data;
+    const res = await privateApi.delete(`/calling/tag/${tagId}`);
+    console.log('deleteTag then', res.status);
+    return true;
   } catch (err) {
     console.log('deleteTag catch', err);
   }
@@ -61,10 +59,10 @@ export const deleteTag = async (tagId: number) => {
 
 // 사고 저장
 export const addCalling = async (data: any) => {
-  console.log('data', data)
+  console.log('data', data);
   try {
     const res = await privateApi.post(`/calling`, data);
-    console.log('addCalling then', res.data)
+    console.log('addCalling then', res.data);
     return res.data;
   } catch (err) {
     console.log('addCalling catch', err);
@@ -75,7 +73,7 @@ export const addCalling = async (data: any) => {
 export const getHospitals = async (data: any) => {
   try {
     const res = await privateApi.post(`/calling/hospital`, data);
-    console.log('getHospitals then', res.data)
+    console.log('getHospitals then', res.data);
     return res.data;
   } catch (err) {
     console.log('getHospitals catch', err);
@@ -85,9 +83,9 @@ export const getHospitals = async (data: any) => {
 // 요청 취소
 export const cancelCalling = async (callingId: number) => {
   try {
-    const res = await publicApi.put(`/calling/cancel/${callingId}`);
-    console.log('cancelCalling then', res.data)
-    return res.data;
+    const res = await privateApi.put(`/calling/cancel/${callingId}`);
+    console.log('cancelCalling then', res.status);
+    return true;
   } catch (err) {
     console.log('cancelCalling catch', err);
   }
@@ -96,9 +94,20 @@ export const cancelCalling = async (callingId: number) => {
 // 요청 확정
 export const fixCalling = async (callingId: number) => {
   try {
-    const res = await publicApi.put(`/calling/fix/${callingId}`);
-    console.log('fixCalling then', res.data)
+    const res = await privateApi.put(`/calling/fix/${callingId}`);
+    console.log('fixCalling then', res.data);
     return res.data;
+  } catch (err) {
+    console.log('fixCalling catch', err);
+  }
+};
+
+// 이송 완료
+export const finishTransfer = async (transferId: number) => {
+  try {
+    const res = await privateApi.put(`/transfer/${transferId}`);
+    console.log('fixCalling then', res);
+    return true
   } catch (err) {
     console.log('fixCalling catch', err);
   }
