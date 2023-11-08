@@ -19,6 +19,15 @@ export const privateApi: AxiosInstance = axios.create({
   },
 });
 
+export const UploadFileApi: AxiosInstance = axios.create({
+  baseURL: BASE_URL,
+  headers: {
+    'Access-Control-Allow-Origin': '*',
+    'Content-Type': 'multipart/form-data',
+    Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+  },
+});
+
 privateApi.interceptors.request.use((config) => {
   const token = localStorage.getItem('access_token');
   config.headers.Authorization = 'Bearer ' + token;

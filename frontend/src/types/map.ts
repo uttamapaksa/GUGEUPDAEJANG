@@ -89,3 +89,10 @@ export interface HospitalTransferParaItem {
   leftTime: number;
   leftDist: number;
 }
+
+// 일반사용자 선택된 병원
+export interface GuestSelectedItem {
+  hospitalId: number;
+  latitude : number;
+  longitude : number;
+}

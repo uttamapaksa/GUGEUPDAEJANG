@@ -1,44 +1,65 @@
 import React from 'react';
 import * as S from './CameraModal.style'
-import { CallProps } from '/src/types/paramedic';
+
+// 리코일
 import { useSetRecoilState } from 'recoil';
-import { recordCameraFile } from '/src/recoils/ParamedicAtoms';
+import { 
+  recordImageFile, 
+  recordVideoFile } from '/src/recoils/ParamedicAtoms';
+
+// API
+import { postCameraUpload } from '/src/apis/paramedic';
+
+// 타입
+import { CallProps } from '/src/types/paramedic';
 
 function CameraModal({CameraClose} : CallProps) {
-  const setRecordCamera = useSetRecoilState(recordCameraFile);
+  const setRecordImage = useSetRecoilState(recordImageFile);
+  const setRecordVideo = useSetRecoilState(recordVideoFile);
 
+  // 사진 or 동영상 촬영
   const handleCapture = (event: React.ChangeEvent<HTMLInputElement>) => {
     CameraClose?.()
-    const fileReader = new FileReader();
-    const file = event.target.files && event.target.files[0];
-    if (file) {fileReader.readAsDataURL(file);}
-    fileReader.onloadend = () => {
-      if (fileReader.result) {
-        const base64Data = fileReader.result as string;
-        const byteString = atob(base64Data.split(',')[1]);
-        const arrayBuffer = new ArrayBuffer(byteString.length);
-        const intArray = new Uint8Array(arrayBuffer);
+    const file = event.target.files? Array.from(event.target.files):[]
+    console.log("file",file)
+    const type = file[0].type.split('/')[0]
 
-        for (let i = 0; i < byteString.length; i++) {
-          intArray[i] = byteString.charCodeAt(i);
-        }
-
-        const blob = new Blob([intArray], { type: 'image/jpeg' });
-        const blobUrl = URL.createObjectURL(blob);
-        console.log("recordCamera 리코일 값 : ",blobUrl)
-        setRecordCamera(blobUrl);
-      }
-    };
+    if (type === "image") { axiosImageUpload(file) }
+    else if (type === "video") { axiosVideoUpload(file) }
   };
 
+  // 사진파일 업로드 
+  const axiosImageUpload = async (file:File[]):Promise<void> => {
+    try {
+      const response = await postCameraUpload(file)
+      setRecordImage(response)
+    }
+    catch(error) {
+      console.log(error)
+    }
+  }
+
+  // 동영상파일 업로드
+  const axiosVideoUpload = async (file:File[]):Promise<void> => {
+    try {
+      const response = await postCameraUpload(file)
+      setRecordVideo(response)
+    }
+    catch(error) {
+      console.log(error)
+    }
+  }
+
+  // 사진 카메라 버튼
   const handleCameraClick = () => {
-    setRecordCamera("")
+    setRecordImage("")
     const fileInput = document.getElementById('fileInput');
     if(fileInput) {fileInput.click()}
   };
   
+  // 동영상 카메라 버튼
   const handleVideoClick = () => {
-    setRecordCamera("")
+    setRecordVideo("")
     const videoInput = document.getElementById('videoInput');
     if(videoInput) {videoInput.click()}
   };

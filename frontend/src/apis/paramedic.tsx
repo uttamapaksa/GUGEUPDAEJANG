@@ -1,4 +1,4 @@
-import { privateApi } from './';
+import { UploadFileApi, privateApi } from './';
 
 // 태그들 조회
 export const getTags = async () => {
@@ -52,5 +52,31 @@ export const getHospitals = async (data: any) => {
     return res.data;
   } catch (err) {
     console.log('getHospitals catch', err);
+  }
+};
+
+// 사진, 동영상 파일 업로드 
+export const postCameraUpload = async (info: File[]) => {
+  const data = new FormData();
+  data.append('files', info[0])
+  try {
+    const res = await UploadFileApi.post(`/calling/upload`,data);
+    console.log('postFileUpload', res.data[0].filePath)
+    return res.data[0].filePath;
+  } 
+  catch (err) {
+    console.log('postFileUpload 실패', err);
+  }
+};
+
+// 음성 파일 업로드 
+export const postVoiceUpload = async (info:FormData) => {
+  try {
+    const res = await UploadFileApi.post(`/calling/upload`,info);
+    console.log('postFileUpload', res.data[0].filePath)
+    return res.data[0].filePath;
+  } 
+  catch (err) {
+    console.log('postFileUpload 실패', err);
   }
 };

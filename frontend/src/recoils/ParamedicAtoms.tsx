@@ -8,8 +8,13 @@ export const recordVoiceFile = atom<string>({
   default: '',
 });
 
-export const recordCameraFile = atom<string>({
-  key: 'recordCameraFile',
+export const recordImageFile = atom<string>({
+  key: 'recordImageFile',
+  default: '',
+});
+
+export const recordVideoFile = atom<string>({
+  key: 'recordVideoFile',
   default: '',
 });
 
