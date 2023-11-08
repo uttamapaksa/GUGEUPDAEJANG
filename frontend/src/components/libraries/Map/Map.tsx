@@ -3,7 +3,6 @@ import { MapContainer } from "./Map.style";
 import ParamedicInfo from "./InfoWindow/ParamedicInfo";
 import HospitalMarker from "./Marker/HospitalMarker";
 import { MapProps } from "/src/types/map";
-import ParamedicMarker from "./Marker/Hospital/ParamedicRequsetMarker";
 import ParamedicRequestMarker from "./Marker/Hospital/ParamedicRequsetMarker";
 import ParamedicTransferMarker from "./Marker/Hospital/ParamedicTransferMarker";
 import ParamedicTransferInfo from "./InfoWindow/ParamedicTransferInfo";
@@ -43,12 +42,12 @@ function Map(props: MapProps) {
     const [prevType, setPrevType] = useState<string>("");
 
     useEffect(() => {
+        console.log("지도 prevType", prevType, props);
         if (props.pos !== undefined && props.type != prevType) {
             if (map !== undefined) destroyMap();
             console.log("mapchange")
             if (props.pos !== undefined) {
                 const tmp = createMap(props.pos.lat, props.pos.lon);
-                console.log("tmp", tmp);
                 setMap(tmp);
                 setPrevType(props.type);
             }
@@ -58,7 +57,6 @@ function Map(props: MapProps) {
                     lon: 127.43940812262
                 }
                 const tmp = createMap(pos.lat, pos.lon);
-                console.log("tmp", tmp);
                 setMap(tmp);
                 setPrevType(props.type);
             }
@@ -70,7 +68,7 @@ function Map(props: MapProps) {
         if (props.pos !== undefined && map !== undefined && props.type != prevType) {
             map.setCenter(new Tmapv3.LatLng(props.pos.lat, props.pos.lon));
         }
-        console.log("pos", props.pos);
+        console.log("MapPos", props.pos);
     }, [props]);
 
     return (

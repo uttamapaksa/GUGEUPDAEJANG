@@ -1,9 +1,22 @@
 import { useRecoilState } from "recoil";
-import { ItemParaType, ItemRequestAt, } from "../ParamedicItem/ParamedicListItem.style";
-import { CloseDiv, DetailItemContainer, ItemElapseMin, ItemAddr, ParamedicDetailContainer, ParamedicDetailContent, DetailItemBetween, ItemLeftTime } from "./ParamedicDetail.style";
+import { ItemParaType, ItemRequestAt } from "../ParamedicItem/ParamedicListItem.style";
+import {
+  CloseDiv,
+  DetailItemContainer,
+  ItemElapseMin,
+  ItemAddr,
+  ParamedicDetailContainer,
+  ParamedicDetailContent,
+  DetailItemBetween,
+  ItemLeftTime,
+} from "./ParamedicDetail.style";
 import A from "/src/components/Commons/Atoms";
 import theme from "/src/styles";
-import { hospitalParmedicRequestList, hospitalParmedicTransferList, hospitalSelectedRequestItem } from "/src/recoils/HospitalAtoms";
+import {
+  hospitalParmedicRequestList,
+  hospitalParmedicTransferList,
+  hospitalSelectedRequestItem,
+} from "/src/recoils/HospitalAtoms";
 import { HospitalResponsePostProps, HospitalTransferItem, ParaRequestItem } from "/src/types/map";
 import { timeToString } from "/src/constants/function";
 import { AGEGROUP, GENDER } from "/src/constants/variable";
@@ -16,70 +29,67 @@ const ParamedicDetail = (props: any) => {
 
   const checkFull = async (res: boolean) => {
     if (!res) {
-      let inputReason = prompt('사유를 입력하세요', '');
+      let inputReason = prompt("사유를 입력하세요", "");
       if (inputReason != null) {
         const postProps: HospitalResponsePostProps = {
           callingId: props.id,
           status: "REJECTED",
-          reason: inputReason
-        }
+          reason: inputReason,
+        };
         return await putHospitalResponse(postProps);
-      }
-      else {
+      } else {
         const postProps: HospitalResponsePostProps = {
           callingId: props.id,
           status: "REJECTED",
-          reason: "사유 없음"
-        }
+          reason: "사유 없음",
+        };
         return await putHospitalResponse(postProps);
       }
-    }
-    else {
+    } else {
       const postProps: HospitalResponsePostProps = {
         callingId: props.id,
         status: "APPROVED",
-        reason: ""
-      }
+        reason: "",
+      };
       return await putHospitalResponse(postProps);
     }
-  }
+  };
 
   const clickButton = async (res: boolean) => {
     const response = await checkFull(res);
-    console.log("response", response);
+    console.log("clickButton response", response);
     if (response === undefined) {
       alert("HospitalResponse 실패");
       return;
-    }
-    else if (response.data.isFull) {
+    } else if (response.data.isFull) {
+      alert("HospitalResponse isFull");
       setRequestList([]);
       return;
-    }
-
-    if (requestList !== undefined) {
+    } else if (requestList !== undefined) {
       if (res) {
         const newTransferItem: HospitalTransferItem = {
           id: props.id,
           state: "wait",
-          data: props
-        }
+          data: props,
+        };
         if (transferList !== undefined) {
           setTransferList([...transferList, newTransferItem]);
-        }
-        else {
+        } else {
           setTransferList([newTransferItem]);
         }
+        console.log("transferList 들어간다!!!!!!!!!!", transferList, newTransferItem);
       }
 
+      console.log("transferList 들어갔나?????????", transferList);
       let nextRequestList = requestList.filter((item: ParaRequestItem) => item.id != props.id);
       setRequestList(nextRequestList);
 
+      console.log("requestList 빠진다!!!!!!!!!!", nextRequestList);
       if (selectedParaItem !== undefined && selectedParaItem.id == props.id) {
         setSelectedParaItem(undefined);
       }
     }
-  }
-
+  };
 
   return (
     <ParamedicDetailContainer>
@@ -93,12 +103,15 @@ const ParamedicDetail = (props: any) => {
             $width="50px"
             $height="25px"
             $borderRadius="0px 0px 0px 10px"
-            $fontSize={theme.font.Small5_12}>
+            $fontSize={theme.font.Small5_12}
+          >
             {props.ktas}
           </A.DivKtasInfo>
           <ItemRequestAt>{timeToString(props.createdAt)}</ItemRequestAt>
           <DetailItemBetween>
-            <ItemParaType>{AGEGROUP[props.ageGroup]} ({GENDER[props.gender]})</ItemParaType>
+            <ItemParaType>
+              {AGEGROUP[props.ageGroup]} ({GENDER[props.gender]})
+            </ItemParaType>
             <ItemElapseMin>요청 대기 {props.duration}분 경과</ItemElapseMin>
           </DetailItemBetween>
 
@@ -113,7 +126,9 @@ const ParamedicDetail = (props: any) => {
                 $textAlign="center"
                 $padding="2px"
                 $fontSize={theme.font.Small5_12}
-              >{item}</A.DivTag>
+              >
+                {item}
+              </A.DivTag>
             ))}
           </div>
 
@@ -131,7 +146,6 @@ const ParamedicDetail = (props: any) => {
             <ItemElapseMin>{props.distance} km</ItemElapseMin>
             <ItemLeftTime>{props.duration}분 이내 도착 가능</ItemLeftTime>
           </DetailItemBetween>
-
 
           <A.BtnToggle
             $width="50%"
@@ -171,7 +185,6 @@ const ParamedicDetail = (props: any) => {
 };
 
 export default ParamedicDetail;
-
 
 // id: number,
 // addr: string,

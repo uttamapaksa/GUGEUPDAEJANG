@@ -1,14 +1,22 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from "react";
 // import { HospitalSocketProps } from '../types/socket';
-import { Client } from '@stomp/stompjs';
-import SockJS from 'sockjs-client';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { hospitalParmedicRequestList, hospitalParmedicTransferList } from '../recoils/HospitalAtoms';
-import { hospitalInfoState } from '../recoils/AuthAtoms';
-import { HospitalTransferParaItem, ParaRequestItem, ParamedicStatusProps } from '../types/map';
+import { Client } from "@stomp/stompjs";
+import SockJS from "sockjs-client";
+import { useRecoilState, useRecoilValue } from "recoil";
+import {
+  hospitalParmedicRequestList,
+  hospitalParmedicTransferList,
+} from "../recoils/HospitalAtoms";
+import { hospitalInfoState } from "../recoils/AuthAtoms";
+import {
+  HospitalTransferItem,
+  HospitalTransferParaItem,
+  ParaRequestItem,
+  ParamedicStatusProps,
+} from "../types/map";
 
-const CALLING_SERVER_URL = 'https://k9b204a.p.ssafy.io:64419/calling-websocket';
-const TRANSFER_SERVER_URL = 'https://k9b204a.p.ssafy.io:64413/transfer-websocket';
+const CALLING_SERVER_URL = "https://k9b204a.p.ssafy.io:64419/calling-websocket";
+const TRANSFER_SERVER_URL = "https://k9b204a.p.ssafy.io:64413/transfer-websocket";
 // let hospitalId = 9999;
 // const paramedicId = 1;
 
@@ -40,7 +48,7 @@ function HospitalSocket() {
     });
 
     stompClient1.onConnect = () => {
-      console.log('Connected to the Calling socket server.');
+      console.log("Connected to the Calling socket server.");
       subscribeCallingTopic();
     };
 
@@ -55,7 +63,7 @@ function HospitalSocket() {
     });
 
     stompClient2.onConnect = () => {
-      console.log('Connected to the Transfer socket server.');
+      console.log("Connected to the Transfer socket server.");
       subscribeTransferTopic();
     };
 
@@ -70,13 +78,12 @@ function HospitalSocket() {
     });
 
     stompClient3.onConnect = () => {
-      console.log('Connected to the Transfer socket server.');
+      console.log("Connected to the Transfer socket server.");
       subscribeStatusTopic();
     };
 
     stompClient3.activate();
     statusSocket.current = stompClient3; // useRef로 생성한 clientRef에 클라이언트 객체 할당
-
   };
 
   // 구독 함수
@@ -106,11 +113,11 @@ function HospitalSocket() {
 
   // 구급대원 요청 수신
   const callingReceiveMessage = (message: any) => {
-    console.log('Received calling message:', message);
-    const item:ParaRequestItem = JSON.parse(message);
+    console.log("Received calling message:", message);
+    const item: ParaRequestItem = JSON.parse(message);
     console.log("-------------callingReceiveMessage----------");
     console.log(item);
-    console.log(requestList)
+    console.log(requestList);
     let nextList = [];
     if (requestList !== undefined) {
       let flag = true;
@@ -118,72 +125,63 @@ function HospitalSocket() {
         if (requestList[i].id === item.id) {
           nextList.push(item);
           flag = false;
-        }
-        else {
+        } else {
           nextList.push(requestList[i]);
         }
       }
       if (flag) nextList.push(item);
-    }
-    else {
+    } else {
       nextList.push(item);
     }
-    console.log(nextList)
+    console.log(nextList);
     setRequestList(nextList);
   };
 
   // 구급대원 요청 상태 수신
   const statusReceiveMessage = (message: any) => {
-    console.log('Received status message:', message);
-    const item:ParamedicStatusProps = JSON.parse(message);
+    console.log("Received status message:", message);
+    const item: ParamedicStatusProps = JSON.parse(message);
     console.log("-------------statusReceiveMessage----------");
     console.log(item);
-    console.log(requestList)
-    if(item.status==="TERMINATED" || item.status==="CANCELED"){
-      let nextList = [];
+    console.log(requestList);
+    if (item.status === "TERMINATED" || item.status === "CANCELED") {
       if (requestList !== undefined) {
-        for (let i = 0; i < requestList.length; i++) {
-          if (requestList[i].id !== item.callingId) {
-            nextList.push(requestList[i]);
-          }
-        }
+        let nextRequestList = requestList.filter((tmp: ParaRequestItem) => tmp.id != item.callingId);
+        setRequestList(nextRequestList);
       }
-      console.log(nextList)
-      setRequestList(nextList);
     }
   };
 
   // 이송소켓 수신
   // 구급대원으로부터 현재 위치 수신
   const transferReceiveMessage = (message: any) => {
-    console.log('Received transfer message:', message);
-    const item:HospitalTransferParaItem = JSON.parse(message);
-    console.log("-------------transferReceiveMessage----------");
-    console.log(item);
-    console.log(transferList)
+    console.log("Received transfer message:", message);
+    const item: HospitalTransferParaItem = JSON.parse(message);
+    console.log("@@@-transfer-Receive-----------transferReceiveMessage----------");
+    console.log(transferList);
 
     let nextList = [];
     if (transferList !== undefined) {
       for (let i = 0; i < transferList.length; i++) {
         if (transferList[i].id === item.id) {
-          const curItme = {
-            id:transferList[i].id,
-            state:item.state,
-            curLat:item.curLat,
-            curLon:item.curLon,
-            curAddr:item.curAddr,
-            leftTime:item.leftTime,
-            leftDist:item.leftDist,
-            data:transferList[i].data
-          }
+          const curItme: HospitalTransferItem = {
+            id: transferList[i].id,
+            state: item.state,
+            curLat: item.curLat,
+            curLon: item.curLon,
+            curAddr: item.curAddr,
+            leftTime: item.leftTime,
+            leftDist: item.leftDist,
+            data: transferList[i].data,
+          };
+          console.log(curItme);
           nextList.push(curItme);
-        }
-        else {
+        } else {
           nextList.push(transferList[i]);
         }
       }
     }
-    console.log(nextList)
+    console.log(nextList);
     setTransferList(nextList);
   };
 
@@ -203,10 +201,7 @@ function HospitalSocket() {
     };
   }, [hospitalId]);
 
-  return (
-    <>
-    </>
-  );
+  return <></>;
 }
 
 export default HospitalSocket;
