@@ -3,22 +3,20 @@ package com.codesmith.goojangcalling.calling.persistence;
 import com.codesmith.goojangcalling.calling.dto.FilterValue;
 import com.codesmith.goojangcalling.calling.dto.SortInfo;
 import com.codesmith.goojangcalling.calling.persistence.domain.CallingItem;
-import com.codesmith.goojangcalling.calling.persistence.domain.QCalling;
-import com.codesmith.goojangcalling.calling.persistence.domain.QTag;
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.Tuple;
+import com.querydsl.core.types.ExpressionUtils;
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.*;
 import com.querydsl.jpa.JPAExpressions;
-import com.querydsl.jpa.impl.JPAQuery;
+import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import io.micrometer.common.util.StringUtils;
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.codesmith.goojangcalling.calling.persistence.domain.QCalling.calling;
 import static com.codesmith.goojangcalling.calling.persistence.domain.QOccurrence.occurrence;
@@ -44,15 +42,18 @@ public class CallingSupportRepositoryImpl implements CallingSupportRepository {
 
         List<CallingItem> result = queryFactory
                 .select(Projections.constructor(CallingItem.class, calling.id, calling.occurrence.ageGroup, calling.occurrence.gender,
-                        JPAExpressions.select(tagsConcatenated)
-                                .from(occurrenceTag)
-                                .join(occurrenceTag.occurrence, occurrence)
-                                .join(occurrenceTag.tag, tag)
-                                .where(occurrenceTag.occurrence.eq(calling.occurrence))
-                                .groupBy(occurrenceTag.occurrence.id),
+                                ExpressionUtils.as(JPAExpressions
+                                        .select(tagsConcatenated)
+                                        .from(occurrenceTag)
+                                        .join(occurrenceTag.occurrence, occurrence)
+                                        .join(occurrenceTag.tag, tag)
+                                        .where(occurrenceTag.occurrence.eq(calling.occurrence))
+                                        .groupBy(occurrenceTag.occurrence.id), "tagStr"),
                         calling.occurrence.address, calling.createdAt, calling.responseTime, calling.status, calling.occurrence.ktas))
                 .from(calling)
                 .leftJoin(calling.occurrence, occurrence)
+//                .where(getBuildFilterPredicate(filterValues))
+                .orderBy(getOrderByExpression(sortInfo))
                 .offset(skip)
                 .limit(limit)
                 .fetch();
@@ -60,7 +61,41 @@ public class CallingSupportRepositoryImpl implements CallingSupportRepository {
         return result;
     }
 
-    public static BooleanBuilder buildFilterPredicate(FilterValue[] filterValues) {
+    @Override
+    public Long countCallingByOptions(FilterValue[] filterValues) {
+        return (long) queryFactory
+                .select(calling.count())
+                .from(calling)
+                .leftJoin(calling.occurrence, occurrence)
+                .where(getBuildFilterPredicate(filterValues))
+                .fetch()
+                .size();
+    }
+
+    private OrderSpecifier getOrderByExpression(SortInfo sortInfo) {
+        if (sortInfo == null) {
+            return new OrderSpecifier(Order.DESC, new PathBuilder(CallingItem.class, "calling").get("id"));
+        }
+
+        if (sortInfo.getColumnName().equals("tags")) {
+            StringPath stringPath = Expressions.stringPath("tagStr");
+            return sortInfo.getDir() == 1? stringPath.asc() : stringPath.desc();
+        }
+
+        Order dir = sortInfo.getDir() == 1 ? Order.ASC : Order.DESC;
+        String variable = sortInfo.getColumnName().equals("id") || sortInfo.getColumnName().equals("callingTime")
+                            || sortInfo.getColumnName().equals("replyTime") ||sortInfo.getColumnName().equals("status") ? "calling" : "calling.occurrence";
+        PathBuilder orderByExpression = new PathBuilder(CallingItem.class, variable);
+        String columnName = sortInfo.getColumnName();
+        columnName = columnName.equals("callingTime")? "createdAt" : columnName;
+        columnName = columnName.equals("replyTime")? "responseTime" : columnName;
+
+        return new OrderSpecifier(dir, orderByExpression.get(columnName));
+    }
+
+
+
+    public static BooleanBuilder getBuildFilterPredicate(FilterValue[] filterValues) {
         BooleanBuilder predicate = new BooleanBuilder();
 
         /*

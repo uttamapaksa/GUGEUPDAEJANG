@@ -25,7 +25,7 @@ public class HistoryServiceImpl implements HistoryService {
         SortInfo sortInfo = getSortInfo(callingHistoryRequest.getSortInfo());
         FilterValue[] filterValues = getFilterValues(callingHistoryRequest.getFilterValue());
 
-        Long totalCount = 31L;
+        Long totalCount = callingRepository.countCallingByOptions(filterValues);
         List<CallingItem> callings = callingRepository.findAllCallingByOptions(callingHistoryRequest.getSkip(), callingHistoryRequest.getLimit(), sortInfo, filterValues);
         return new CallingListResponse(convertToCallingListResponse(callings), totalCount);
     }
