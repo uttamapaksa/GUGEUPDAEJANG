@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @ToString
-//@AllArgsConstructor
+@AllArgsConstructor
 public class CallingItem {
     private Long id;
     private AgeGroup ageGroup;
