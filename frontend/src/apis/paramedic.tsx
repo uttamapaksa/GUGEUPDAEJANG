@@ -1,4 +1,30 @@
-import { UploadFileApi, privateApi } from './';
+import { UploadFileApi, privateApi, publicApi } from './';
+
+// 사진, 동영상 파일 업로드 
+export const postCameraUpload = async (info: File[]) => {
+  const data = new FormData();
+  data.append('files', info[0])
+  try {
+    const res = await UploadFileApi.post(`/calling/upload`,data);
+    console.log('postFileUpload', res.data[0].filePath)
+    return res.data[0].filePath;
+  } 
+  catch (err) {
+    console.log('postFileUpload 실패', err);
+  }
+};
+
+// 음성 파일 업로드 
+export const postVoiceUpload = async (info:FormData) => {
+  try {
+    const res = await UploadFileApi.post(`/calling/upload`,info);
+    console.log('postFileUpload', res.data[0].filePath)
+    return res.data[0].filePath;
+  } 
+  catch (err) {
+    console.log('postFileUpload 실패', err);
+  }
+};
 
 // 태그들 조회
 export const getTags = async () => {
@@ -35,6 +61,7 @@ export const deleteTag = async (tagId: number) => {
 
 // 사고 저장
 export const addCalling = async (data: any) => {
+  console.log('data', data)
   try {
     const res = await privateApi.post(`/calling`, data);
     console.log('addCalling then', res.data)
@@ -55,28 +82,24 @@ export const getHospitals = async (data: any) => {
   }
 };
 
-// 사진, 동영상 파일 업로드 
-export const postCameraUpload = async (info: File[]) => {
-  const data = new FormData();
-  data.append('files', info[0])
+// 요청 취소
+export const cancelCalling = async (callingId: number) => {
   try {
-    const res = await UploadFileApi.post(`/calling/upload`,data);
-    console.log('postFileUpload', res.data[0].filePath)
-    return res.data[0].filePath;
-  } 
-  catch (err) {
-    console.log('postFileUpload 실패', err);
+    const res = await publicApi.put(`/calling/cancel/${callingId}`);
+    console.log('cancelCalling then', res.data)
+    return res.data;
+  } catch (err) {
+    console.log('cancelCalling catch', err);
   }
 };
 
-// 음성 파일 업로드 
-export const postVoiceUpload = async (info:FormData) => {
+// 요청 확정
+export const fixCalling = async (callingId: number) => {
   try {
-    const res = await UploadFileApi.post(`/calling/upload`,info);
-    console.log('postFileUpload', res.data[0].filePath)
-    return res.data[0].filePath;
-  } 
-  catch (err) {
-    console.log('postFileUpload 실패', err);
+    const res = await publicApi.put(`/calling/fix/${callingId}`);
+    console.log('fixCalling then', res.data)
+    return res.data;
+  } catch (err) {
+    console.log('fixCalling catch', err);
   }
 };

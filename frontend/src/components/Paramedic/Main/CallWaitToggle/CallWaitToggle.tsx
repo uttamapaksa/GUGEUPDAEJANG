@@ -1,29 +1,27 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
-import { showWaitState } from '/src/recoils/ParamedicAtoms';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { currentParamedicPageIndexState, showWaitState } from '/src/recoils/ParamedicAtoms';
 import * as S from './CallWaitToggle.style';
 import A from '/src/components/Commons/Atoms';
-import PATH from '/src/constants/path';
 
 function CallWaitToggle() {
+  const setCurrentPageIndex = useSetRecoilState(currentParamedicPageIndexState);
   const showwait = !useRecoilValue(showWaitState);
   const [selected, setSelected] = useState(0);
   const isSelected = (num: number) => {
     if (selected === num) return true;
     return false;
   };
-  const navigate = useNavigate();
   const goToCall = () => {
     if (showwait) return;
     setSelected(1);
     setTimeout(() => {
-      navigate(PATH.ParamedicCall);
+      setCurrentPageIndex(1)
     }, 200);
   };
   const goTMove = () => {
     if (!showwait) return;
-    navigate(PATH.ParamedicWaitMove);
+    setCurrentPageIndex(2)
   };
 
   return (

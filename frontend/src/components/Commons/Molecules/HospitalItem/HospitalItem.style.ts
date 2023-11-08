@@ -24,7 +24,6 @@ export const HospitalItem = styled.div`
 export const LeftSection = styled.div`
   /* border: 1px solid red; */
   display: flex;
-  justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
   width: 70%;
@@ -79,11 +78,11 @@ export const Number = styled.div`
 
 export const Dist = styled.div`
   /* border: 3px solid purple; */
-  margin-left: 5%;
+  margin-left: auto;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 18%;
+  width: 20%;
   height: 5vh;
   color: ${theme.color.pinkLight};
 
@@ -97,7 +96,7 @@ export const Time = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 19%;
+  width: 20%;
   height: 5vh;
   color: ${theme.color.pinkLight};
 

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { calledHospitalsState } from '/src/recoils/ParamedicAtoms';
+import { HospitalListState } from '/src/recoils/ParamedicAtoms';
 import * as S from './Main.style';
 import M from '/src/components/Commons/Molecules';
 import A from '/src/components/Commons/Atoms';
@@ -10,7 +10,7 @@ import Spinner from '/src/components/libraries/Spinner/Spinner';
 
 function Main() {
   const [mapProps, setMapProps] = useState<MapProps>();
-  const [hospitals, setHospitals] = useRecoilState(calledHospitalsState);
+  const [hospitals, setHospitals] = useRecoilState(HospitalListState);
 
   return (
     <S.Container>

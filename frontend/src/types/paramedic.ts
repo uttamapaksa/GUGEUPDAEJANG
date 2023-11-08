@@ -6,23 +6,6 @@ export interface CallProps {
   time?: string;
 }
 
-export interface CalledHospitalType {
-  id: number;
-  hospitalId: string;
-  name: string;
-  address: string;
-  telephone1: string;
-  telephone2: string;
-  latitude: number;
-  longitude: number;
-  bedCount: number;
-  distance: number;
-  time: number;
-  callingTime: string;
-  status: string;
-  reason: string;
-}
-
 export interface TagType {
   id: number;
   name: string;
@@ -57,4 +40,12 @@ export interface HospitalListType {
   longitude: number;
   distance: number;
   duration: number;
+}
+
+export interface fixedCallingType {
+  transferId: number;
+  name: string;
+  gender: "MALE" | "FEMALE" | undefined;
+  ageGroup: "INFANT" | "CHILD" | "ADOLESCENT" | "YOUTH" | "MIDDLE" | "SENIOR";
+  description: string;
 }

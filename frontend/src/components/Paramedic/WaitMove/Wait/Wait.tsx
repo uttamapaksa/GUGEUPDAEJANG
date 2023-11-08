@@ -1,13 +1,16 @@
+import { useRecoilState } from 'recoil';
+import { HospitalListState } from '/src/recoils/ParamedicAtoms';
 import * as S from './Wait.style';
 import M from '/src/components/Commons/Molecules';
-import { CalledHospitalType } from '/src/types/paramedic';
 
-function Wait({ hospitals, setHospitals }: { hospitals: CalledHospitalType[], setHospitals: any }) {
+function Wait() {
+  const [hospitals, setHospitals] = useRecoilState(HospitalListState);
+
   return (
     <>
       <S.HospitalList>
         <S.ListTitle>수락된 요청</S.ListTitle>
-        {hospitals
+        {hospitals && hospitals
           .filter((hospital) => hospital.status === 'APPROVED')
           .map((hospital, index) => (
             <M.HospitalItem key={index} hospital={hospital} setHospitals={setHospitals} />
@@ -16,7 +19,7 @@ function Wait({ hospitals, setHospitals }: { hospitals: CalledHospitalType[], se
 
       <S.HospitalList>
         <S.ListTitle>보낸 요청</S.ListTitle>
-        {hospitals
+        {hospitals && hospitals
           .filter((hospital) => hospital.status !== 'APPROVED')
           .map((hospital, index) => (
             <M.HospitalItem key={index} hospital={hospital} setHospitals={setHospitals} />
