@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class HistoryListResponse {
+public class CallingListResponse {
     private Long id;
     private String ageGroup;
     private String gender;

@@ -2,9 +2,7 @@ package com.codesmith.goojangcalling.calling.persistence;
 
 import com.codesmith.goojangcalling.calling.dto.FilterValue;
 import com.codesmith.goojangcalling.calling.dto.SortInfo;
-import com.codesmith.goojangcalling.calling.dto.response.HistoryListResponse;
 import com.codesmith.goojangcalling.calling.persistence.domain.CallingItem;
-import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
