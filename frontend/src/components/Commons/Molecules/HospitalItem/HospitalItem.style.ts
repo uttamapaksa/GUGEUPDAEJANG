@@ -127,4 +127,11 @@ export const CallTimeBig = styled.div`
   font-size: 2vh;
 `;
 
+export const HosRoomText = styled.div`
+  font-size: 1.3vh;
+`
+
+export const HosRoonCount = styled.div`
+  font-size: 2.5vh;
+`
 
