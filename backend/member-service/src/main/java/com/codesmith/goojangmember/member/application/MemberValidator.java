@@ -38,12 +38,6 @@ public class MemberValidator {
         }
     }
 
-    public void validateExistNearByHospital(List<HospitalDetail> hospitalList) {
-        if (hospitalList.isEmpty()) {
-            throw new NoNearByHospitalException("주변에 갈 수 있는 병원이 없음");
-        }
-    }
-
     public void existsByRefreshToken(String refreshToken) {
         if (refreshTokenRepository.existsByRefreshToken(refreshToken)) {
             System.out.println(refreshToken);
