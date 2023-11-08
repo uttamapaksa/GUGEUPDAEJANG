@@ -31,6 +31,7 @@ const TransferListItem = (props: any) => {
 
   const clickButton = () => {
     if(transferList!=undefined){
+      console.log("clickButton", transferList)
       let nextTransferList = transferList.filter((item:HospitalTransferItem) => item.id!=props.id);
       setTransferList(nextTransferList);
     }

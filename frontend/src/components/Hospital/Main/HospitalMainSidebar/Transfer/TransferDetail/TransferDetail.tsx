@@ -22,10 +22,10 @@ const TransferDetail = (props: any) => {
 
   const clickButton = () => {
     if (transferList != undefined) {
-      let nextTransferList = transferList.filter(
-        (item: HospitalTransferItem) => item.id != props.id
-      );
+      console.log("clickButton", transferList)
+      let nextTransferList = transferList.filter((item: HospitalTransferItem) => item.id != props.id);
       setTransferList(nextTransferList);
+      props.onclick();
     }
   };
   return (

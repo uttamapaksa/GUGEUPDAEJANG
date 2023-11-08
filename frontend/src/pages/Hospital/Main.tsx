@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import HopsitalHeader from "/src/components/Hospital/HospitalHeader/HopsitalHeader";
 import HopsitalSidebar from "/src/components/Hospital/HospitalSidebar/HopsitalSidebar";
-import { useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from "recoil";
-import { currentPosition, hospitalComponentType, hospitalParmedicRequestList, hospitalParmedicTransferList } from "../../recoils/HospitalAtoms";
+import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
+import { hospitalComponentType, hospitalParmedicRequestList, hospitalParmedicTransferList } from "../../recoils/HospitalAtoms";
 import HospitalMain from "/src/components/Hospital/Main/HospitalMain";
 import { ComponentContainer, Container } from "./Main.style";
 import HospitalSocket from "/src/sockets/HospitalSocket";
@@ -14,7 +14,7 @@ import { HosJoinProps } from "/src/types/auth";
 
 function Main() {
   const componentType = useRecoilValue(hospitalComponentType);
-  const setCurPos = useSetRecoilState(currentPosition);
+  // const setCurPos = useSetRecoilState(currentPosition);
   const [hospitalInfo, setHospitalInfo] = useRecoilState(hospitalInfoState);
   const curMemberInfo = useRecoilValue(memberInfoState);
   const requestList = useRecoilValue(hospitalParmedicRequestList);
@@ -30,7 +30,7 @@ function Main() {
     if ((hospitalInfo.hospitalId===0 || hospitalInfo === undefined) && responese !== undefined && curMemberInfo.role === "HOSPITAL") {
       if(requestList!==undefined) useResetRecoilState(hospitalParmedicRequestList);
       if(transferList!==undefined) useResetRecoilState(hospitalParmedicTransferList);
-      setCurPos({ lat: responese.data.latitude, lon: responese.data.longitude });
+      // setCurPos({ lat: responese.data.latitude, lon: responese.data.longitude });
       const curHospitalInfo: HosJoinProps = {
         hospitalId: curMemberInfo.memberId, //id 는 number로 사용
         email: "",
