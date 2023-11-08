@@ -17,8 +17,8 @@ function Main() {
   // const setCurPos = useSetRecoilState(currentPosition);
   const [hospitalInfo, setHospitalInfo] = useRecoilState(hospitalInfoState);
   const curMemberInfo = useRecoilValue(memberInfoState);
-  const requestList = useRecoilValue(hospitalParmedicRequestList);
-  const transferList = useRecoilValue(hospitalParmedicTransferList);
+  const [requestList, setRequestList] = useRecoilState(hospitalParmedicRequestList);
+  const [transferList, setTransferList] = useRecoilState(hospitalParmedicTransferList);
 
   // const geolocation = useGeolocation();
 
@@ -28,8 +28,8 @@ function Main() {
     const responese = await getMyHospital();
     console.log("`````hospitalInfo", hospitalInfo)
     if ((hospitalInfo.hospitalId===0 || hospitalInfo === undefined) && responese !== undefined && curMemberInfo.role === "HOSPITAL") {
-      if(requestList!==undefined) useResetRecoilState(hospitalParmedicRequestList);
-      if(transferList!==undefined) useResetRecoilState(hospitalParmedicTransferList);
+      if(requestList!==undefined) setRequestList([]);
+      if(transferList!==undefined) setTransferList([]);
       // setCurPos({ lat: responese.data.latitude, lon: responese.data.longitude });
       const curHospitalInfo: HosJoinProps = {
         hospitalId: curMemberInfo.memberId, //id 는 number로 사용

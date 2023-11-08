@@ -75,7 +75,7 @@ const ParamedicListItem = (props: any) => {
 
   const clickButton = async (res: boolean) => {
     const response = await checkFull(res);
-    console.log("clickButton response", response);
+    console.log("clickButton response", response, transferList);
     if (response === undefined) {
       alert("HospitalResponse 실패");
       return;

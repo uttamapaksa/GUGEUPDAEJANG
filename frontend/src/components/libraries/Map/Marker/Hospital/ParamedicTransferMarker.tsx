@@ -38,7 +38,7 @@ function ParamedicTransferMarker(props: any) {
     }, [props]);
     useEffect(() => {
         if (paraTransferItem !== undefined)
-            props.map.setCenter(new Tmapv3.LatLng(paraTransferItem.data.latitude, paraTransferItem.data.longitude));
+            props.map.setCenter(new Tmapv3.LatLng(paraTransferItem.curLat, paraTransferItem.curLon));
     }, [paraTransferItem]);
 
     return (

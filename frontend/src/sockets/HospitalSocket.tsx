@@ -78,7 +78,7 @@ function HospitalSocket() {
     });
 
     stompClient3.onConnect = () => {
-      console.log("Connected to the Transfer socket server.");
+      console.log("Connected to the Calling socket server.");
       subscribeStatusTopic();
     };
 
@@ -146,7 +146,9 @@ function HospitalSocket() {
     console.log(requestList);
     if (item.status === "TERMINATED" || item.status === "CANCELED") {
       if (requestList !== undefined) {
-        let nextRequestList = requestList.filter((tmp: ParaRequestItem) => tmp.id != item.callingId);
+        let nextRequestList = requestList.filter(
+          (tmp: ParaRequestItem) => tmp.id != item.callingId
+        );
         setRequestList(nextRequestList);
       }
     }
@@ -184,6 +186,10 @@ function HospitalSocket() {
     console.log(nextList);
     setTransferList(nextList);
   };
+
+  useEffect(() => {
+    console.log("transferList in socket", transferList);
+  }, [transferList]);
 
   useEffect(() => {
     connectSocket();

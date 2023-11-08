@@ -6,6 +6,7 @@ export const timeToString = (date: Date) => {
 
 export const deleteMarker = () => {
   const parent = document.querySelector('#map_div > div > div');
+  console.log(console.log("deleteMarker"));
   console.log(parent);
   if (parent != null) {
     while (parent.children.length > 3) {

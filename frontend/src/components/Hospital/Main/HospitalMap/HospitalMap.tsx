@@ -18,7 +18,6 @@ const HospitalMap = () => {
 
   useEffect(() => {
     console.log("ㄴnewProps: MapPropsㄱ")
-    console.log("request", hospitalInfo)
     if(hospitalInfo.latitude != 0 && hospitalInfo.longitude != 0){
       if(isRequest){
         const newProps: MapProps = {
@@ -41,7 +40,7 @@ const HospitalMap = () => {
       
     }
     
-  }, [requestList, hospitalInfo, isRequest]);
+  }, [requestList, transferList, hospitalInfo, isRequest]);
 
   return (
     <MapContainer>

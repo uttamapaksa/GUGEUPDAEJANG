@@ -11,7 +11,7 @@ function ParamedicTransferInfo(props: any) {
             for (var i = 0; i < props.paraTransferList.length; i++) {
                 var lonlat = new Tmapv3.LatLng(props.paraTransferList[i].curLat, props.paraTransferList[i].curLon);
                 const infoWindow = new Tmapv3.InfoWindow({
-                    position: lonlat = lonlat,
+                    position: lonlat,
                     offset: new Tmapv3.Point(0, -30),
                     content: renderToString(
                         <InfoContents
@@ -32,6 +32,7 @@ function ParamedicTransferInfo(props: any) {
     }
     useEffect(() => {
         if (props.map !== undefined && props.paraTransferList !== undefined) {
+            console.log("~~~~~~~~~~~~updateInfo", props)
             updateInfo();
         }
     }, [props]);

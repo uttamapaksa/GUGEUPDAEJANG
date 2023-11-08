@@ -32,8 +32,8 @@ function ParamedicRequestMarker(props: any) {
     }
 
     useEffect(() => {
-        console.log("~~~~~~~~~~~~", props)
         if (props.map !== undefined && props.paraRequestList !== undefined) {
+            console.log("~~~~~~~~~~~~updateMarker", props)
             updateMarker();
         }
     }, [props]);

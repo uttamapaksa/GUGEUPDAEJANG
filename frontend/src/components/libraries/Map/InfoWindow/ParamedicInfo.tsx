@@ -12,7 +12,7 @@ function ParamedicInfo(props: any) {
             for (var i = 0; i < props.paraRequestList.length; i++) {
                 var lonlat = new Tmapv3.LatLng(props.paraRequestList[i].latitude, props.paraRequestList[i].longitude);
                 const infoWindow = new Tmapv3.InfoWindow({
-                    position: lonlat = lonlat,
+                    position: lonlat,
                     offset: new Tmapv3.Point(0, -30),
                     content: renderToString(
                         <InfoContents
@@ -33,6 +33,7 @@ function ParamedicInfo(props: any) {
     }
     useEffect(() => {
         if (props.map !== undefined && props.paraRequestList !== undefined) {
+            console.log("~~~~~~~~~~~~updateInfo", props)
             updateInfo();
         }
     }, [props]);

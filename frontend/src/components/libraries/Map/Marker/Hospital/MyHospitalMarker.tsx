@@ -19,7 +19,7 @@ function MyHospitalMarker(props: any) {
         })
     }, []);
     useEffect(() => {
-        if (props.map !== undefined && (props.paraTransferList !== undefined || props.paraRequestList !== undefined)) {
+        if (props.map !== undefined) {
             deleteMarker();
         }
     }, [props]);
