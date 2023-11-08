@@ -63,7 +63,7 @@ public class CallingServiceImpl implements CallingService{
     }
 
     public List<CallingStatusResponse> createCalling(Long memberId, CallingCreateRequest callingCreateRequest) {
-        if (callingCreateRequest.getCount() != 1L) {
+        if (callingCreateRequest.getStep() != 1L) {
             return addCalling(memberId, callingCreateRequest);
         }
 
