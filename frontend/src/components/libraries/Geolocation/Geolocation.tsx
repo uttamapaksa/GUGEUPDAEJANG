@@ -6,7 +6,11 @@ import useGeolocation from 'react-hook-geolocation';
 function Geolocation() {
   // const setCurPos = useSetRecoilState(currentPosition);
   const [curPos, setCurPos] = useRecoilState(currentPosition)
-  const geolocation = useGeolocation();
+  const geolocation = useGeolocation({
+    enableHighAccuracy: true, 
+    timeout: 3000,
+    maximumAge: 0,
+  });
 
   const setCurrentPos = () => {
     if (geolocation !== undefined) {
