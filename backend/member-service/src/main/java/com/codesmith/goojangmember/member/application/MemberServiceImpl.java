@@ -18,7 +18,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -50,6 +49,22 @@ public class MemberServiceImpl implements MemberService {
         Member member = memberRepository.findById(memberId).get();
         HospitalDetail hospitalDetail = hospitalDetailRepository.findByMemberId(memberId);
         return convertToHospitalInfoResponse(member.getName(), hospitalDetail);
+    }
+
+    @Override
+    public MySafetyCenterInfoResponse getMySafetyCenterInfo(Long memberId) {
+        memberValidator.validateMemberId(memberId);
+        memberValidator.validateParamedicRole(memberId);
+        ParamedicDetail paramedicDetail = paramedicDetailRepository.findByMemberId(memberId);
+
+        SafetyCenter safetyCenter = paramedicDetail.getSafetyCenter();
+
+        List<ParamedicDetail> paramedicDetails = paramedicDetailRepository.findAllBySafetyCenterId(safetyCenter.getId());
+        List<SafetyCenterMemberResponse> centerMembers = paramedicDetails.stream()
+                .map(SafetyCenterMemberResponse::new)
+                .toList();
+
+        return new MySafetyCenterInfoResponse(centerMembers, safetyCenter);
     }
 
     @Override
@@ -106,7 +121,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public BedCountResponse getBedCount(Long memberId) {
         memberValidator.validateMemberId(memberId);
-        memberValidator.validateHospitalId(memberId);
+        memberValidator.validateHospitalRole(memberId);
         HospitalDetail hospitalDetail = hospitalDetailRepository.findByMemberId(memberId);
         HashMap<String, Long> hospitalInfoMap = publicDataClient.getRealTimeBedInfo();
         memberValidator.validateBedCount(hospitalInfoMap, hospitalDetail.getId());

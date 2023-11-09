@@ -5,13 +5,11 @@ import com.codesmith.goojangmember.auth.persistence.RefreshTokenRepository;
 import com.codesmith.goojangmember.member.exception.*;
 import com.codesmith.goojangmember.member.persistence.MemberRepository;
 import com.codesmith.goojangmember.member.persistence.SafetyCenterRepository;
-import com.codesmith.goojangmember.member.persistence.domain.HospitalDetail;
 import com.codesmith.goojangmember.member.persistence.domain.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
-import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -51,9 +49,15 @@ public class MemberValidator {
         }
     }
 
-    public void validateHospitalId(Long memberId) {
+    public void validateHospitalRole(Long memberId) {
         if (memberRepository.findById(memberId).get().getRole() != Role.HOSPITAL) {
             throw new NotHospitalMemberException("병원 사용자가 아님");
+        }
+    }
+
+    public void validateParamedicRole(Long memberId) {
+        if (memberRepository.findById(memberId).get().getRole() != Role.PARAMEDIC) {
+            throw new NotParamedicMemberException("구급대원 사용자가 아님");
         }
     }
 }
