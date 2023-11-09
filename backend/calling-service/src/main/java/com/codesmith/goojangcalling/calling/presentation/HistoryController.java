@@ -23,14 +23,4 @@ public class HistoryController {
         return ResponseEntity.ok(historyService.getCallingList(memberInfo.getId(), callingHistoryRequest));
     }
 
-    private static List<CallingItemResponse> generateDummyData() {
-        List<CallingItemResponse> dummyDataList = new ArrayList<>();
-
-        for (int i = 1; i <= 5; i++) {
-            CallingItemResponse dummyData = new CallingItemResponse((long) i, "AgeGroup" + i, "Gender" + i, "Tags" + i, "Address" + i, "CallingTime" + i, "ReplyTime" + i, "REJECTED", "Ktas" + i);
-            dummyDataList.add(dummyData);
-        }
-
-        return dummyDataList;
-    }
 }
