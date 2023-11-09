@@ -1,10 +1,9 @@
 import { useSetRecoilState } from 'recoil';
 import { HospitalListType } from '/src/types/paramedic';
 import {
-  showWaitState,
   fixedCallingState,
-  transferHospitalIdState,
   isTransferringState,
+  transferHospitalIdState,
 } from '/src/recoils/ParamedicAtoms';
 import * as S from './HospitalItem.style';
 import A from '/src/components/Commons/Atoms';
@@ -33,10 +32,9 @@ const BTNCONTENT: { [key: string]: string } = {
 };
 
 function HospitalItem({ hospital, setHospitals }: { key: number; hospital: HospitalListType; setHospitals: any }) {
-  const setTransferHospitalId = useSetRecoilState(transferHospitalIdState);
-  const setShowWait = useSetRecoilState(showWaitState);
   const setFixedCalling = useSetRecoilState(fixedCallingState);
   const setIsTransferring = useSetRecoilState(isTransferringState);
+  const setTransferHospitalId = useSetRecoilState(transferHospitalIdState);
 
   const clickItem = (callingId: number, status: string) => {
     switch (status) {
@@ -44,7 +42,6 @@ function HospitalItem({ hospital, setHospitals }: { key: number; hospital: Hospi
         fixCalling(callingId).then((fixedData) => {
           if (fixedData) {
             setFixedCalling(fixedData);
-            setShowWait(false);
             setIsTransferring(true);
             setTransferHospitalId(fixedData.memberId);
           }
@@ -83,7 +80,7 @@ function HospitalItem({ hospital, setHospitals }: { key: number; hospital: Hospi
       <S.RightSection>
         {/* 구급대원용 버튼 */}
         <S.CallTime>
-          {hospital.callingTime[3]}시 {hospital.callingTime[4]}분에 요청
+          {hospital.callingTime.slice(11, 13)}시 {hospital.callingTime.slice(14, 16)}분에 요청
         </S.CallTime>
         <A.BtnToggle
           onClick={() => clickItem(hospital.callingId, hospital.status)}

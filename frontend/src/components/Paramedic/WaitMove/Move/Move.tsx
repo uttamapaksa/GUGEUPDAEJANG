@@ -1,10 +1,9 @@
 import { useRecoilValue, useResetRecoilState } from 'recoil';
 import {
   currentParamedicPageIndexState,
-  isTransferringState,
   occurrenceState,
   callingStepState,
-  showWaitState,
+  isTransferringState,
   fixedCallingState,
   transferHospitalIdState,
 } from '/src/recoils/ParamedicAtoms';
@@ -34,10 +33,9 @@ function Move() {
   const fixedCalling = useRecoilValue(fixedCallingState);
 
   const resetStep = useResetRecoilState(callingStepState);
-  const resetShowWait = useResetRecoilState(showWaitState);
   const resetOccurrence = useResetRecoilState(occurrenceState);
-  const resetTransferring = useResetRecoilState(isTransferringState);
   const resetFixedCalling = useResetRecoilState(fixedCallingState);
+  const resetIsTransferring = useResetRecoilState(isTransferringState);
   const resetCurrentPageIndex = useResetRecoilState(currentParamedicPageIndexState);
   const resetTransferHospitalId = useResetRecoilState(transferHospitalIdState);
 
@@ -45,10 +43,9 @@ function Move() {
     finishTransfer(fixedCalling.transferId).then((success) => {
       if (success) {
         resetStep();
-        resetShowWait();
         resetOccurrence();
         resetFixedCalling();
-        resetTransferring();
+        resetIsTransferring();
         resetCurrentPageIndex();
         resetTransferHospitalId();
       }

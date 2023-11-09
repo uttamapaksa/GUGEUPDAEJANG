@@ -3,7 +3,7 @@ import { recoilPersist } from 'recoil-persist';
 import { TagType, OccurrenceType, HospitalListType, fixedCallingType } from '../types/paramedic';
 const { persistAtom } = recoilPersist();
 
-// 구급대원 메인(0), 요청(1), 대기(2), 이송(3), 기록(4), 통계(5) 페이지
+// 구급대원 메인(0), 요청(1), 대기 및 이송(2), 기록(3), 통계(4) 페이지
 export const currentParamedicPageIndexState = atom<number>({
   key: 'currentParamedicPageIndexState',
   default: 0,
@@ -68,21 +68,28 @@ export const HospitalListState = atom<HospitalListType[]>({
   effects_UNSTABLE: [persistAtom],
 });
 
-// 요청화면 / 이송화면 플래그
-export const showWaitState = atom({
-  key: 'showWaitState',
-  default: true,
+// 요청 중 / 이송 중 플래그
+export const isTransferringState = atom({
+  key: 'isTransferringState',
+  default: false,
+  effects_UNSTABLE: [persistAtom],
+});
+
+// 이송 중 취소 플래그
+export const isCompletedState = atom({
+  key: 'isCompletedState',
+  default: false,
+  effects_UNSTABLE: [persistAtom],
+});
+
+// 이송 후 완료 플래그
+export const isCanceledState = atom({
+  key: 'isCanceledState',
+  default: false,
   effects_UNSTABLE: [persistAtom],
 });
 
 // 이송 확정 후 병원과 환자 정보
-export const approvedHospitalId = atom<number>({
-  key: 'approvedHospitalId',
-  default: 0,
-  effects_UNSTABLE: [persistAtom],
-});
-
-// 요청에 응답한 병원 id
 export const fixedCallingState = atom<fixedCallingType>({
   key: 'fixedCallingState',
   default: undefined,
@@ -93,12 +100,5 @@ export const fixedCallingState = atom<fixedCallingType>({
 export const transferHospitalIdState = atom<number>({
   key: 'transferHospitalIdState',
   default: undefined,
-  effects_UNSTABLE: [persistAtom],
-});
-
-// 이송중인지 여부
-export const isTransferringState = atom({
-  key: 'isTransferringState',
-  default: false,
   effects_UNSTABLE: [persistAtom],
 });

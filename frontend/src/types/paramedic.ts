@@ -31,7 +31,7 @@ export interface OccurrenceType {
 
 export interface HospitalListType {
   callingId: number;
-  callingTime: number[];
+  callingTime: string;
   status: 'PENDING' | 'APPROVED' | 'REJECTED' | 'CANCELED';
   memberId: number;
   hospitalName: string;

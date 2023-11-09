@@ -4,6 +4,8 @@ import { memberInfoState } from '../recoils/AuthAtoms';
 import {
   HospitalListState,
   isTransferringState,
+  isCanceledState,
+  isCompletedState,
   fixedCallingState,
   transferHospitalIdState,
 } from '/src/recoils/ParamedicAtoms';
@@ -18,12 +20,16 @@ const TRANSFER_SERVER_URL = 'https://k9b204a.p.ssafy.io:64413/transfer-websocket
 function ParamedicSocket() {
   const paramedicId = useRecoilValue(memberInfoState).memberId;
   const hospitalId = useRecoilValue(transferHospitalIdState);
-  const transferring = useRecoilValue(isTransferringState);
+
+  const isTransferring = useRecoilValue(isTransferringState);
+  const [isCanceled, setIsCanceled] = useRecoilState(isCanceledState);
+  const [isCompleted, setIsCompleted] = useRecoilState(isCompletedState);
+  
   const fixedCalling = useRecoilValue(fixedCallingState);
   const position = useRecoilValue(currentPosition);
+  const [_, setHospitals] = useRecoilState(HospitalListState);
   const callingSocket = useRef<Client | null>(null);
   const transferSocket = useRef<Client | null>(null);
-  const [hospitals, setHospitals] = useRecoilState(HospitalListState);
 
   // 연결 함수
   const connectSocket = () => {
@@ -97,15 +103,16 @@ function ParamedicSocket() {
     console.log('Received transfer message:', message);
   };
 
-  // 메시지 송신
-  const callingSendMessage = () => {
-    if (callingSocket.current) {
-      callingSocket.current.publish({
-        destination: `/app/${hospitalId}`,
-        body: JSON.stringify({ name: '구급대원 요청 소켓 송신', longitude: 35.123, latitude: 127.123 }),
-      });
-    }
-  };
+  // // 메시지 송신
+  // const callingSendMessage = () => {
+  //   if (callingSocket.current) {
+  //     callingSocket.current.publish({
+  //       destination: `/app/${hospitalId}`,
+  //       body: JSON.stringify({ name: '구급대원 요청 소켓 송신', longitude: 35.123, latitude: 127.123 }),
+  //     });
+  //   }
+  // };
+
   const transferSendMessage = (data: HospitalTransferParaItem) => {
     if (transferSocket.current) {
       transferSocket.current.publish({
@@ -117,7 +124,7 @@ function ParamedicSocket() {
 
   let data: HospitalTransferParaItem;
   useEffect(() => {
-    if (!transferring) return;
+    if (!isTransferring) return;
     data = {
       id: fixedCalling && fixedCalling.transferId,
       state: 'transfer', // transfer, complete, cancel, wait
@@ -128,10 +135,40 @@ function ParamedicSocket() {
       leftDist: 10,
     };
     const interval = setInterval(() => transferSendMessage(data), 2000);
-    return (() => {
-      clearInterval(interval)
-    })
-  }, [transferring]);
+    return () => {
+      clearInterval(interval);
+    };
+  }, [isTransferring]);
+
+  useEffect(() => {
+    if (!isCanceled) return;
+    data = {
+      id: fixedCalling && fixedCalling.transferId,
+      state: 'cancel', // transfer, complete, cancel, wait
+      curLat: position.lat || 36.4469365928189,
+      curLon: position.lon || 127.43940812262,
+      curAddr: '김준섭 자택',
+      leftTime: 10,
+      leftDist: 10,
+    };
+    transferSendMessage(data);
+    setIsCanceled(false)
+  }, [isCanceled]);
+
+  useEffect(() => {
+    if (!isCompleted) return;
+    data = {
+      id: fixedCalling && fixedCalling.transferId,
+      state: 'complete',
+      curLat: position.lat || 36.4469365928189,
+      curLon: position.lon || 127.43940812262,
+      curAddr: '김준섭 자택',
+      leftTime: 10,
+      leftDist: 10,
+    };
+    transferSendMessage(data);
+    setIsCompleted(false)
+  }, [isCompleted]);
 
   useEffect(() => {
     connectSocket();
@@ -146,9 +183,7 @@ function ParamedicSocket() {
     };
   }, [paramedicId]);
 
-  return <>
-    <div onClick={callingSendMessage}>callingSendMessage</div>
-  </>;
+  return <></>;
 }
 
 export default ParamedicSocket;
