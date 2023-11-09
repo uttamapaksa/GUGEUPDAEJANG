@@ -27,6 +27,9 @@ ext {
 }
 
 dependencies {
+	implementation(platform('com.google.cloud:libraries-bom:26.10.0'))
+	implementation("com.google.cloud:google-cloud-speech")
+
 	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
 	annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"
 	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
