@@ -3,7 +3,7 @@ import { deleteMarker } from "/src/constants/function";
 import { Tmapv3 } from "../../Map";
 
 function ParamedicTransferMapItem(props: any) {
-  const [count, setCount] = useState(2);
+  const [count, setCount] = useState(3);
 
   function getRP() {
     var s_latlng = new Tmapv3.LatLng(props.pos.lat, props.pos.lon);
@@ -20,30 +20,32 @@ function ParamedicTransferMapItem(props: any) {
 
     // TData 객체의 경로요청 함수
     tData.getRoutePlanJson(s_latlng, e_latlng, optionObj, {
-      onComplete: (responseData:any) => onComplete(responseData),
+      onComplete: (responseData: any) => onComplete(responseData),
       onProgress: onProgress,
-      onError: onError
+      onError: onError,
     });
   }
 
-  const onComplete = (responseData:any) => {
+  const onComplete = (responseData: any) => {
     console.log(responseData);
 
     var jsonObject = new Tmapv3.extension.GeoJSON();
-    var jsonForm = jsonObject.rpTrafficRead(responseData);
-    //교통정보 표출시 생성되는 LineColor 입니다.
-    var trafficColors = {
-      // 사용자가 임의로 색상을 설정할 수 있습니다.
-      // 교통정보 옵션 - 라인색상
-      trafficDefaultColor: "#000000", //교통 정보가 없을 때
-      trafficType1Color: "#009900", //원할
-      trafficType2Color: "#7A8E0A", //서행
-      trafficType3Color: "#8E8111", //정체
-      trafficType4Color: "#FF0000", //정체
-    };
-    jsonObject.drawRouteByTraffic(props.map, jsonForm, trafficColors);
-    props.map.setCenter(new Tmapv3.LatLng(props.pos.lat, props.pos.lon));
-    props.map.setZoom(13);
+    if (jsonObject !== undefined) {
+      var jsonForm = jsonObject.rpTrafficRead(responseData);
+      //교통정보 표출시 생성되는 LineColor 입니다.
+      var trafficColors = {
+        // 사용자가 임의로 색상을 설정할 수 있습니다.
+        // 교통정보 옵션 - 라인색상
+        trafficDefaultColor: "#000000", //교통 정보가 없을 때
+        trafficType1Color: "#009900", //원할
+        trafficType2Color: "#7A8E0A", //서행
+        trafficType3Color: "#8E8111", //정체
+        trafficType4Color: "#FF0000", //정체
+      };
+      jsonObject.drawRouteByTraffic(props.map, jsonForm, trafficColors);
+      // props.map.setCenter(new Tmapv3.LatLng(props.pos.lat, props.pos.lon));
+      props.map.setZoom(13);
+    }
   };
 
   function onProgress() {}
@@ -58,7 +60,7 @@ function ParamedicTransferMapItem(props: any) {
     }, 1000);
 
     if (count === 0) {
-      setCount(2);
+      setCount(3);
       if (props.map !== undefined) {
         deleteMarker(2);
         // var lonlat = new Tmapv3.LatLng(props.pos.lat, props.pos.lon);
