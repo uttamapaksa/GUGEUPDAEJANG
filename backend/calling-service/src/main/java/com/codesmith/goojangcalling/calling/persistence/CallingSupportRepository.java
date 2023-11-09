@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface CallingSupportRepository {
     List<CallingItem> findAllCallingByOptions(Long memberId, int skip, int limit, SortInfo sortInfo, FilterValue[] filterValues);
-    Long countCallingByOptions(FilterValue[] filterValues);
+    Long countCallingByOptions(Long memberId, FilterValue[] filterValues);
 }

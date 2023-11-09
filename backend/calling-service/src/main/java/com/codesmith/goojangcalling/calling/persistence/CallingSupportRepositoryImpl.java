@@ -16,6 +16,7 @@ import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.codesmith.goojangcalling.calling.persistence.domain.QCalling.calling;
@@ -74,7 +75,7 @@ public class CallingSupportRepositoryImpl implements CallingSupportRepository {
 
     private OrderSpecifier getOrderByExpression(SortInfo sortInfo) {
         if (sortInfo == null) {
-            return new OrderSpecifier(Order.DESC, new PathBuilder(CallingItem.class, "calling").get("id"));
+            return new OrderSpecifier(Order.DESC, new PathBuilder<>(CallingItem.class, "calling").get("id"));
         }
 
         if (sortInfo.getColumnName().equals("tags")) {
@@ -83,19 +84,15 @@ public class CallingSupportRepositoryImpl implements CallingSupportRepository {
         }
 
         Order dir = sortInfo.getDir() == 1 ? Order.ASC : Order.DESC;
-        String variable = sortInfo.getColumnName().equals("id") || sortInfo.getColumnName().equals("callingTime")
-                            || sortInfo.getColumnName().equals("replyTime") ||sortInfo.getColumnName().equals("status") ? "calling" : "calling.occurrence";
-        PathBuilder orderByExpression = new PathBuilder(CallingItem.class, variable);
-        String columnName = sortInfo.getColumnName();
-        columnName = columnName.equals("callingTime")? "createdAt" : columnName;
-        columnName = columnName.equals("replyTime")? "responseTime" : columnName;
+        PathBuilder<CallingItem> orderByExpression = getPath(sortInfo.getColumnName());
+        String columnName = getColumnName(sortInfo.getColumnName());
 
         return new OrderSpecifier(dir, orderByExpression.get(columnName));
     }
 
 
 
-    public static BooleanBuilder getBuildFilterPredicate(Long memberId, FilterValue[] filterValues) {
+    private BooleanBuilder getBuildFilterPredicate(Long memberId, FilterValue[] filterValues) {
         BooleanBuilder predicate = new BooleanBuilder();
         predicate.and(calling.memberId.eq(memberId));
 
@@ -112,21 +109,34 @@ public class CallingSupportRepositoryImpl implements CallingSupportRepository {
 
         for (FilterValue filterValue : filterValues) {
             if (filterValue.getValue().equals("")) continue;
+            PathBuilder<CallingItem> path = getPath(filterValue.getName());
+            String columnName = getColumnName(filterValue.getName());
+            StringPath field = path.getString(columnName);
+            DateTimePath<LocalDateTime> dateField = path.getDateTime(columnName, LocalDateTime.class);
 
             if (filterValue.getType().equals("string")) {
-
+                predicate.and(field.contains(filterValue.getValue()));
                 continue;
             }
 
             if (filterValue.getType().equals("select")) {
-
+                predicate.and(field.eq(filterValue.getValue()));
                 continue;
             }
-
-
-
         }
 
         return predicate;
+    }
+
+    private PathBuilder<CallingItem> getPath(String fieldName) {
+        String variable = fieldName.equals("id") || fieldName.equals("callingTime")
+                || fieldName.equals("replyTime") || fieldName.equals("status") ? "calling" : "calling.occurrence";
+        return new PathBuilder<>(CallingItem.class, variable);
+    }
+
+    private String getColumnName(String fieldName) {
+        if (fieldName.equals("callingTime")) return "createdAt";
+        if (fieldName.equals("replyTime")) return "responseTime";
+        return fieldName;
     }
 }
