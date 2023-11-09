@@ -7,7 +7,6 @@ import com.codesmith.goojangmember.member.dto.request.HospitalJoinRequest;
 import com.codesmith.goojangmember.member.dto.request.HospitalListRequest;
 import com.codesmith.goojangmember.member.dto.request.ParamedicJoinRequest;
 import com.codesmith.goojangmember.member.dto.response.*;
-import com.codesmith.goojangmember.member.persistence.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -61,5 +60,11 @@ public class MemberController {
     @GetMapping("/bed/{memberId}")
     public ResponseEntity<BedCountResponse> getBedCount(@PathVariable("memberId") Long memberId) {
         return ResponseEntity.ok(memberService.getBedCount(memberId));
+    }
+
+
+    @GetMapping("/my-safety-center")
+    public ResponseEntity<MySafetyCenterInfoResponse> getMySafetyCenter(@AuthMember MemberInfo memberInfo) {
+        return ResponseEntity.ok(memberService.getMySafetyCenterInfo(memberInfo.getId()));
     }
 }
