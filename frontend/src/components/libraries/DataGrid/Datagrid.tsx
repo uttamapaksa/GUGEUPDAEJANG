@@ -33,7 +33,7 @@ const status = [{ id: 'APPROVED', label: '승인' }, { id: 'REJECTED', label: '�
 const ktas = [{ id: 'KTAS1', label: 'KTAS1' }, { id: 'KTAS2', label: 'KTAS2' }, { id: 'KTAS3', label: 'KTAS3' }, { id: 'KTAS4', label: 'KTAS4' }, { id: 'KTAS5', label: 'KTAS5' }]
 
 const defaultFilterValue = [
-  { name: 'id', type: 'string', operator: 'contains', value: '' },
+  { name: 'id', type: 'number', operator: 'eq', value: '' },
   { name: 'ageGroup', type: 'select', operator: 'eq', value: '' },
   { name: 'gender', type: 'select', operator: 'eq', value: '' },
   { name: 'tags', type: 'string', operator: 'contains', value: '' },
@@ -51,12 +51,12 @@ const columns = [
   { name: 'tags', header: '주요 분류', defaultFlex: 1 },
   { name: 'address', header: '주소', defaultFlex: 3 },
   {
-    name: 'callingTime', header: '요청 시간', type: 'date', defaultFlex: 2, dateFormat: 'YYYY/MM/DD HH:mm A', filterEditor: DateFilter,
+    name: 'callingTime', header: '요청 시간', type: 'date', defaultFlex: 2, dateFormat: 'YYYY/MM/DD HH:mm', filterEditor: DateFilter,
     filterEditorProps: (_props: any, { index }: { index: number }) => { return { placeholder: index == 0 ? '시작' : '끝' } },
     render: ({ value, cellProps: { dateFormat } }: { value: any, cellProps: any }) => moment(value).format(dateFormat),
   },
   {
-    name: 'replyTime', header: '응답 시간', type: 'date', defaultFlex: 2, dateFormat: 'YYYY/MM/DD HH:mm A', filterEditor: DateFilter,
+    name: 'replyTime', header: '응답 시간', type: 'date', defaultFlex: 2, dateFormat: 'YYYY/MM/DD HH:mm', filterEditor: DateFilter,
     filterEditorProps: (_props: any, { index }: { index: number }) => { return { placeholder: index == 0 ? '시작' : '끝' } },
     render: ({ value, cellProps: { dateFormat } }: { value: any, cellProps: any }) => moment(value).format(dateFormat),
   },
@@ -68,12 +68,9 @@ const loadData = async ({ skip, limit, sortInfo, groupBy, filterValue }: any) =>
   const encodedSortInfo = encodeURIComponent(JSON.stringify(sortInfo));
   const encodedFilterValue = encodeURIComponent(JSON.stringify(filterValue));
   const uri = "/calling?skip=" + skip + "&limit=" + limit + "&sortInfo=" + encodedSortInfo + "&groupBy=" + JSON.stringify(groupBy) + "&filterValue=" + encodedFilterValue;
-  console.log("==========================");
-  console.log(JSON.stringify(filterValue));
-  console.log("==========================");
   const response = await getHistoryList(uri);
 
-  return Promise.resolve({data:response?.data, count:21});
+  return Promise.resolve({data:response?.data.callings, count:response?.data.totalCount});
 }
 
 const DataGrid = () => {

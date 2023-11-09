@@ -1,7 +1,7 @@
 import { privateApi } from ".";
 
 export const getHistoryList = async (getParam: string) => {
-    console.log("getHistoryList : " + getParam)
+    // console.log("getHistoryList : " + getParam)
     try {
       const response = await privateApi.get(getParam);
       return response
