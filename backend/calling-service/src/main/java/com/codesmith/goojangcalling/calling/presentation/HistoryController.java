@@ -8,6 +8,7 @@ import com.codesmith.goojangcalling.global.passport.presentation.AuthMember;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,4 +24,8 @@ public class HistoryController {
         return ResponseEntity.ok(historyService.getCallingList(memberInfo.getId(), callingHistoryRequest));
     }
 
+    @PostMapping
+    public ResponseEntity<MediaTextResponse> mediaToText(@RequestParam("file") MultipartFile file) {
+        return ResponseEntity.ok(historyService.getTextByFile(file));
+    }
 }

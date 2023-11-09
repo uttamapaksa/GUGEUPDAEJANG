@@ -5,11 +5,13 @@ import com.codesmith.goojangcalling.calling.dto.SortInfo;
 import com.codesmith.goojangcalling.calling.dto.request.CallingListRequest;
 import com.codesmith.goojangcalling.calling.dto.response.CallingItemResponse;
 import com.codesmith.goojangcalling.calling.dto.response.CallingListResponse;
+import com.codesmith.goojangcalling.calling.dto.response.MediaTextResponse;
 import com.codesmith.goojangcalling.calling.persistence.CallingRepository;
 import com.codesmith.goojangcalling.calling.persistence.domain.CallingItem;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -29,6 +31,11 @@ public class HistoryServiceImpl implements HistoryService {
         Long totalCount = callingRepository.countCallingByOptions(memberId, filterValues);
         List<CallingItem> callings = callingRepository.findAllCallingByOptions(memberId, callingHistoryRequest.getSkip(), callingHistoryRequest.getLimit(), sortInfo, filterValues);
         return new CallingListResponse(convertToCallingListResponse(callings), totalCount);
+    }
+
+    @Override
+    public MediaTextResponse getTextByFile(MultipartFile file) {
+        return null;
     }
 
     private FilterValue[] getFilterValues(String filterStr) {
