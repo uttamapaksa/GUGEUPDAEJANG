@@ -117,7 +117,7 @@ public class CallingSupportRepositoryImpl implements CallingSupportRepository {
 //        predicate.and(calling.memberId.eq(memberId));
 
         for (FilterValue filterValue : filterValues) {
-            if (filterValue.getValue().equals("")) continue;
+            if (filterValue.getValue() == null || filterValue.getValue().equals("")) continue;
 
             PathBuilder<CallingItem> path = getPath(filterValue.getName());
             String columnName = getColumnName(filterValue.getName());
