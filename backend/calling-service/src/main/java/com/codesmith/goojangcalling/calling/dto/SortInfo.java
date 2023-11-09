@@ -12,4 +12,5 @@ public class SortInfo {
     private String id;
     private String name;
     private String columnName;
+    private String type;
 }

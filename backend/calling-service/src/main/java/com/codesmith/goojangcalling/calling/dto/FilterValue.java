@@ -11,5 +11,5 @@ public class FilterValue {
     private String name;
     private String type;
     private String operator;
-    private String value;
+    private Object value;
 }
