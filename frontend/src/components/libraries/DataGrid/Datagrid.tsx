@@ -38,8 +38,8 @@ const defaultFilterValue = [
   { name: 'gender', type: 'select', operator: 'eq', value: '' },
   { name: 'tags', type: 'string', operator: 'contains', value: '' },
   { name: 'address', type: 'string', operator: 'contains', value: '' },
-  { name: 'callingTime', type: 'date', operator: 'inrange', value: '' },
-  { name: 'replyTime', type: 'date', operator: 'inrange', value: '' },
+  { name: 'callingTime', type: 'date', operator: 'inrange', value: {start: "", end: ""} },
+  { name: 'replyTime', type: 'date', operator: 'inrange', value: {start: "", end: ""} },
   { name: 'status', type: 'select', operator: 'eq', value: '' },
   { name: 'ktas', type: 'select', operator: 'eq', value: '' }
 ];
@@ -52,12 +52,12 @@ const columns = [
   { name: 'address', header: '주소', defaultFlex: 3 },
   {
     name: 'callingTime', header: '요청 시간', type: 'date', defaultFlex: 2, dateFormat: 'YYYY/MM/DD HH:mm A', filterEditor: DateFilter,
-    filterEditorProps: (_props: any, { index }: { index: number }) => { return { placeholder: index == 1 ? '시작' : '끝' } },
+    filterEditorProps: (_props: any, { index }: { index: number }) => { return { placeholder: index == 0 ? '시작' : '끝' } },
     render: ({ value, cellProps: { dateFormat } }: { value: any, cellProps: any }) => moment(value).format(dateFormat),
   },
   {
     name: 'replyTime', header: '응답 시간', type: 'date', defaultFlex: 2, dateFormat: 'YYYY/MM/DD HH:mm A', filterEditor: DateFilter,
-    filterEditorProps: (_props: any, { index }: { index: number }) => { return { placeholder: index == 1 ? '시작' : '끝' } },
+    filterEditorProps: (_props: any, { index }: { index: number }) => { return { placeholder: index == 0 ? '시작' : '끝' } },
     render: ({ value, cellProps: { dateFormat } }: { value: any, cellProps: any }) => moment(value).format(dateFormat),
   },
   { name: 'status', header: '상태', defaultFlex: 1, filterEditor: SelectFilter, filterEditorProps: { placeholder: 'All', dataSource: status }, render: ({ value }: { value: string }) => STATUS[value] },
@@ -68,6 +68,9 @@ const loadData = async ({ skip, limit, sortInfo, groupBy, filterValue }: any) =>
   const encodedSortInfo = encodeURIComponent(JSON.stringify(sortInfo));
   const encodedFilterValue = encodeURIComponent(JSON.stringify(filterValue));
   const uri = "/calling?skip=" + skip + "&limit=" + limit + "&sortInfo=" + encodedSortInfo + "&groupBy=" + JSON.stringify(groupBy) + "&filterValue=" + encodedFilterValue;
+  console.log("==========================");
+  console.log(JSON.stringify(filterValue));
+  console.log("==========================");
   const response = await getHistoryList(uri);
 
   return Promise.resolve({data:response?.data, count:21});
