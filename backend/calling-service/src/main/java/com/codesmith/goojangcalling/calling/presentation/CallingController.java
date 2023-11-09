@@ -69,7 +69,7 @@ public class CallingController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/history")
+    @GetMapping("/transfer")
     public ResponseEntity<List<TransferHistoryResponse>> getTransferHistoryList(@RequestParam Map<String, String> memberInfoMap) {
         return ResponseEntity.ok(callingService.getTransferHistoryList(memberInfoMap));
     }
