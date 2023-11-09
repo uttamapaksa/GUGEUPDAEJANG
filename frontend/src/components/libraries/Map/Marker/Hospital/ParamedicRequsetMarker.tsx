@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Tmapv3 } from "../../Map";
-import { ParamedicRequestMarkerContainer } from "./ParamedicRequsetMarker.style";
 import { useRecoilState } from "recoil";
 import { hospitalSelectedRequestItem } from "../../../../../recoils/HospitalAtoms";
 
@@ -44,7 +43,7 @@ function ParamedicRequestMarker(props: any) {
     }, [paraRequestItem]);
 
     return (
-        <ParamedicRequestMarkerContainer></ParamedicRequestMarkerContainer>
+        <></>
     );
 }
 

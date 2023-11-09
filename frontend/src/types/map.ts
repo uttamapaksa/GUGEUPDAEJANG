@@ -9,10 +9,18 @@ export interface HospitalItem {
   response?: string; //구급대원용 wait | accept | refuse
 }
 
+// 구급대원용 사고 위치, 반경 표시용
+export interface OccurrenceItem {
+  pos: Position;
+  radius: number; //반경, 미터
+}
+
 export interface MapProps {
-  type: string; // guest | paramedic | request | transfer
+  type: string; // guest | paraRequest | paraTransfer | request | transfer
   pos?: Position; // { lat: number; lon: number; }
   hosList?: HospitalItem[];
+  occurData?: OccurrenceItem; // 구급대원용 사고 위치, 반경 표시용
+  endPos?: Position; // 구급대원용 도착지점
   paraRequestList?: ParaRequestItem[]; //병원 요청용
   paraTransferList?: HospitalTransferItem[]; //병원 이송용
 }
