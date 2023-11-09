@@ -198,8 +198,8 @@ public class CallingServiceImpl implements CallingService{
     }
 
     @Override
-    public List<TransferHistoryResponse> getTransferHistoryList(Map<Long, String> memberInfoMap) {
-        List<Long> memberList = memberInfoMap.keySet().stream().toList();
+    public List<TransferHistoryResponse> getTransferHistoryList(Map<String, String> memberInfoMap) {
+        List<Long> memberList = memberInfoMap.keySet().stream().map(Long::parseLong).collect(Collectors.toList());
 
         List<TransferHistoryResponse> transferHistoryResponseList = new ArrayList<>();
         callingRepository.findAllByMemberIdListAndStatus(memberList)
@@ -208,7 +208,7 @@ public class CallingServiceImpl implements CallingService{
                     List<String> occurrenceTagList = occurrenceTagRepository.findAllByOccurrence(occurrence);
                     List<String> ocuurenceFileList = occurrenceFileRepository.findAllFileNameByOccurrenceId(occurrence.getId());
                     transferHistoryResponseList.add(new TransferHistoryResponse(calling.getOccurrence(),
-                            memberInfoMap.get(occurrence.getMemberId()), occurrenceTagList, ocuurenceFileList, calling));
+                            memberInfoMap.get(occurrence.getMemberId().toString()), occurrenceTagList, ocuurenceFileList, calling));
                 });
         return transferHistoryResponseList;
     }

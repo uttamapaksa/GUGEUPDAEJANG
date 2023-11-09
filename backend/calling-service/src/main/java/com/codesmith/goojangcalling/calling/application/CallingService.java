@@ -28,5 +28,5 @@ public interface CallingService {
 
     void cancelCallingStatus(Long callingId);
 
-    List<TransferHistoryResponse> getTransferHistoryList(Map<Long, String> memberInfoMap);
+    List<TransferHistoryResponse> getTransferHistoryList(Map<String, String> memberInfoMap);
 }
