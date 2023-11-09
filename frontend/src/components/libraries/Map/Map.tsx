@@ -7,6 +7,11 @@ import ParamedicRequestMarker from "./Marker/Hospital/ParamedicRequsetMarker";
 import ParamedicTransferMarker from "./Marker/Hospital/ParamedicTransferMarker";
 import ParamedicTransferInfo from "./InfoWindow/ParamedicTransferInfo";
 import MyHospitalMarker from "./Marker/Hospital/MyHospitalMarker";
+import CurPosMarker from "./Marker/CurPosMarker";
+import HospitalMarkers from "./Marker/Paramedic/HospitalMarkers";
+import ParamedicRequestMapItem from "./Marker/Paramedic/ParamedicRequestMapItem";
+import GuestMapItem from "./Marker/Guest/GuestMapItem";
+import ParamedicTransferMapItem from "./Marker/Paramedic/ParamedicTransferMapItem";
 
 declare global {
     interface Window {
@@ -78,10 +83,15 @@ function Map(props: MapProps) {
             {map !== undefined ?
                 <>
                     {props.type === "guest" ?
-                        <><HospitalMarker {...props} map={map} /></> :
+                        <>
+                        <GuestMapItem {...props} map={map} />
+                        </> :
                         <></>}
-                    {props.type === "paramedic" ?
-                        <><HospitalMarker {...props} map={map} /></> :
+                    {props.type === "paraRequest" ? 
+                        <ParamedicRequestMapItem {...props} map={map} /> :
+                        <></>}
+                    {props.type === "paraTransfer" ?
+                        <ParamedicTransferMapItem {...props} map={map} />:
                         <></>}
                     {props.type === "request" ?
                         <>
