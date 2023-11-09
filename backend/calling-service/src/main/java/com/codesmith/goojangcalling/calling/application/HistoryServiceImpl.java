@@ -21,12 +21,12 @@ public class HistoryServiceImpl implements HistoryService {
     private final CallingRepository callingRepository;
     private final ObjectMapper objectMapper;
     @Override
-    public CallingListResponse getCallingList(CallingListRequest callingHistoryRequest) {
+    public CallingListResponse getCallingList(Long memberId, CallingListRequest callingHistoryRequest) {
         SortInfo sortInfo = getSortInfo(callingHistoryRequest.getSortInfo());
         FilterValue[] filterValues = getFilterValues(callingHistoryRequest.getFilterValue());
 
         Long totalCount = callingRepository.countCallingByOptions(filterValues);
-        List<CallingItem> callings = callingRepository.findAllCallingByOptions(callingHistoryRequest.getSkip(), callingHistoryRequest.getLimit(), sortInfo, filterValues);
+        List<CallingItem> callings = callingRepository.findAllCallingByOptions(memberId, callingHistoryRequest.getSkip(), callingHistoryRequest.getLimit(), sortInfo, filterValues);
         return new CallingListResponse(convertToCallingListResponse(callings), totalCount);
     }
 

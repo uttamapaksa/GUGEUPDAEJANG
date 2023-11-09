@@ -35,7 +35,7 @@ public class CallingSupportRepositoryImpl implements CallingSupportRepository {
     }
 
     @Override
-    public List<CallingItem> findAllCallingByOptions(int skip, int limit, SortInfo sortInfo, FilterValue[] filterValues) {
+    public List<CallingItem> findAllCallingByOptions(Long memberId, int skip, int limit, SortInfo sortInfo, FilterValue[] filterValues) {
         StringTemplate tagsConcatenated = Expressions.stringTemplate(
                 "GROUP_CONCAT({0})", tag.name
         );
@@ -52,7 +52,7 @@ public class CallingSupportRepositoryImpl implements CallingSupportRepository {
                         calling.occurrence.address, calling.createdAt, calling.responseTime, calling.status, calling.occurrence.ktas))
                 .from(calling)
                 .leftJoin(calling.occurrence, occurrence)
-//                .where(getBuildFilterPredicate(filterValues))
+//                .where(getBuildFilterPredicate(memberId, filterValues))
                 .orderBy(getOrderByExpression(sortInfo))
                 .offset(skip)
                 .limit(limit)
@@ -62,12 +62,12 @@ public class CallingSupportRepositoryImpl implements CallingSupportRepository {
     }
 
     @Override
-    public Long countCallingByOptions(FilterValue[] filterValues) {
+    public Long countCallingByOptions(Long memberId, FilterValue[] filterValues) {
         return (long) queryFactory
                 .select(calling.count())
                 .from(calling)
                 .leftJoin(calling.occurrence, occurrence)
-                .where(getBuildFilterPredicate(filterValues))
+                .where(getBuildFilterPredicate(memberId, filterValues))
                 .fetch()
                 .size();
     }
@@ -95,8 +95,9 @@ public class CallingSupportRepositoryImpl implements CallingSupportRepository {
 
 
 
-    public static BooleanBuilder getBuildFilterPredicate(FilterValue[] filterValues) {
+    public static BooleanBuilder getBuildFilterPredicate(Long memberId, FilterValue[] filterValues) {
         BooleanBuilder predicate = new BooleanBuilder();
+        predicate.and(calling.memberId.eq(memberId));
 
         /*
         [{"name":"id","type":"string","operator":"contains","value":""},
@@ -110,10 +111,20 @@ public class CallingSupportRepositoryImpl implements CallingSupportRepository {
          */
 
         for (FilterValue filterValue : filterValues) {
-            String name = filterValue.getName();
-            String type = filterValue.getType();
-            String operator = filterValue.getOperator();
-            String value = filterValue.getValue();
+            if (filterValue.getValue().equals("")) continue;
+
+            if (filterValue.getType().equals("string")) {
+
+                continue;
+            }
+
+            if (filterValue.getType().equals("select")) {
+
+                continue;
+            }
+
+
+
         }
 
         return predicate;

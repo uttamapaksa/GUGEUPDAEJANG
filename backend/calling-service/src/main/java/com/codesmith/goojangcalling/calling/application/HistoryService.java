@@ -7,5 +7,5 @@ import com.codesmith.goojangcalling.calling.dto.response.CallingListResponse;
 import java.util.List;
 
 public interface HistoryService {
-    CallingListResponse getCallingList(CallingListRequest callingHistoryRequest);
+    CallingListResponse getCallingList(Long memberId, CallingListRequest callingHistoryRequest);
 }
