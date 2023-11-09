@@ -64,7 +64,7 @@ public class MemberController {
 
 
     @GetMapping("/my-safety-center")
-    public ResponseEntity<MySafetyCenterInfoResponse> getMySafetyCenter(@AuthMember MemberInfo memberInfo) {
-        return ResponseEntity.ok(memberService.getMySafetyCenterInfo(memberInfo.getId()));
+    public ResponseEntity<MySafetyCenterInfoResponse> getMySafetyCenter(@RequestParam("memberId") Long memberId) {
+        return ResponseEntity.ok(memberService.getMySafetyCenterInfo(memberId));
     }
 }
