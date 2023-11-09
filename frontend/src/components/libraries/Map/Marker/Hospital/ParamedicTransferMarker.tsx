@@ -5,16 +5,20 @@ import { hospitalSelectedTransferItem } from "../../../../../recoils/HospitalAto
 import { ParamedicTransferMarkerContainer } from "./ParamedicTransferMarker.style";
 
 function ParamedicTransferMarker(props: any) {
-    const [paraTransferMarkers, setparaTransferMarkers] = useState<any[]>([]);
-    const [paraTransferItem, setParaRequsetItem] = useRecoilState(hospitalSelectedTransferItem);
+    const [paraTransferItem, setParaTransferItem] = useRecoilState(hospitalSelectedTransferItem);
 
     const updateMarker = () => {
         if (props.map !== undefined && props.paraTransferList !== undefined) {
-            let next: any[] = []
             for (var i = 0; i < props.paraTransferList.length; i++) {
-                var lonlat = new Tmapv3.LatLng(props.paraTransferList[i].curLat, props.paraTransferList[i].curLon);
+                let lonlat;
+                if (props.paraTransferList[i].curLat !== undefined) {
+                    lonlat = new Tmapv3.LatLng(props.paraTransferList[i].curLat, props.paraTransferList[i].curLon);
+                }
+                else {
+                    lonlat = new Tmapv3.LatLng(props.paraTransferList[i].data.latitude, props.paraTransferList[i].data.longitude);
+                }
                 // var title = props.paraTransferList[i].name;
-                const size = new Tmapv3.Size(30, 30);
+                const size = new Tmapv3.Size(35, 35);
                 const marker = new Tmapv3.Marker({
                     position: lonlat,
                     draggable: true,
@@ -27,41 +31,25 @@ function ParamedicTransferMarker(props: any) {
                 marker.name = props.paraTransferList[i].id
                 const tmp = props.paraTransferList[i]
                 marker.on("Click", () => {
-                    setParaRequsetItem(tmp)
+                    setParaTransferItem(tmp)
                 });
-                // console.log(marker)
-                next.push(marker);
             }
-            setparaTransferMarkers(next);
         }
-    }
-    const deleteMarker = () => {
-        for (let i = 0; i < paraTransferMarkers.length; i++) {
-            paraTransferMarkers[i].setMap(null);
-        }
-        setparaTransferMarkers([]);
     }
 
     useEffect(() => {
         if (props.map !== undefined && props.paraTransferList !== undefined) {
-            deleteMarker()
-            if (paraTransferMarkers.length == 0) updateMarker()
+            updateMarker();
         }
     }, [props]);
     useEffect(() => {
         if (paraTransferItem !== undefined)
-            props.map.setCenter(new Tmapv3.LatLng(paraTransferItem.data.latitude, paraTransferItem.data.longitude));
-
+            props.map.setCenter(new Tmapv3.LatLng(paraTransferItem.curLat, paraTransferItem.curLon));
     }, [paraTransferItem]);
 
     return (
         <ParamedicTransferMarkerContainer></ParamedicTransferMarkerContainer>
     );
-
-    // return {
-    //     paraTransferList,
-    //     updateMarker
-    // };
 }
 
 export default ParamedicTransferMarker;

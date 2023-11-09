@@ -3,10 +3,12 @@ import { MapContainer } from "./HospitalMap.styls";
 import Map from "/src/components/libraries/Map/Map";
 import { MapProps } from "/src/types/map";
 import { useRecoilValue } from "recoil";
-import { currentPosition, hospitalParmedicRequestList, hospitalSidebarType, hospitalParmedicTransferList } from "/src/recoils/HospitalAtoms";
+import { hospitalParmedicRequestList, hospitalSidebarType, hospitalParmedicTransferList } from "/src/recoils/HospitalAtoms";
+import { hospitalInfoState } from "/src/recoils/AuthAtoms";
 
 const HospitalMap = () => {
-  const curPos = useRecoilValue(currentPosition);
+  // const curPos = useRecoilValue(currentPosition);
+  const hospitalInfo = useRecoilValue(hospitalInfoState);
   const requestList = useRecoilValue(hospitalParmedicRequestList);
   const transferList = useRecoilValue(hospitalParmedicTransferList);
 
@@ -15,30 +17,30 @@ const HospitalMap = () => {
   const [hospitalMapProps, setHospitalMapProps] = useState<MapProps | undefined>(undefined);
 
   useEffect(() => {
-    console.log("!!!", curPos)
-    if(curPos.lat != null && curPos.lon != null){
+    console.log("ㄴnewProps: MapPropsㄱ")
+    if(hospitalInfo.latitude != 0 && hospitalInfo.longitude != 0){
       if(isRequest){
         const newProps: MapProps = {
           type: "request",
-          pos:  { lat: curPos.lat, lon: curPos.lon },
+          pos:  { lat: hospitalInfo.latitude, lon: hospitalInfo.longitude },
           paraRequestList: requestList !== undefined ? requestList : undefined,
         };
-        console.log(newProps.type, curPos, requestList)
+        console.log("request", newProps, requestList)
         setHospitalMapProps(newProps);
       }
       else{
         const newProps: MapProps = {
           type: "transfer",
-          pos:  { lat: curPos.lat, lon: curPos.lon },
+          pos:  { lat: hospitalInfo.latitude, lon: hospitalInfo.longitude },
           paraTransferList: transferList !== undefined ? transferList : undefined,
         };
-        console.log(newProps.type, curPos, transferList)
+        console.log("transfer", newProps, transferList)
         setHospitalMapProps(newProps);
       }
       
     }
     
-  }, [requestList, curPos, isRequest]);
+  }, [requestList, transferList, hospitalInfo, isRequest]);
 
   return (
     <MapContainer>

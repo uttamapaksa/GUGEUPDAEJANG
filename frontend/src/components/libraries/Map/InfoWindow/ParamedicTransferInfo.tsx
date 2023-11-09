@@ -4,16 +4,19 @@ import InfoContents from "./InfoContents";
 import { ParamedicInfoContainer } from "./ParamedicInfo.style";
 import { useEffect, useState } from 'react';
 
-
 function ParamedicTransferInfo(props: any) {
-    const [paraInfo, setParaInfo] = useState<any[]>([]);
     const updateInfo = () => {
         if (props.map !== undefined && props.paraTransferList !== undefined) {
-            let info: any[] = []
+            // let info: any[] = []
             for (var i = 0; i < props.paraTransferList.length; i++) {
-                var lonlat = new Tmapv3.LatLng(props.paraTransferList[i].curLat, props.paraTransferList[i].curLon);
-                const infoWindow = new Tmapv3.InfoWindow({
-                    position: lonlat = lonlat,
+                let lonlat;
+                if (props.paraTransferList[i].curLat !== undefined) {
+                    lonlat = new Tmapv3.LatLng(props.paraTransferList[i].curLat, props.paraTransferList[i].curLon);
+                }
+                else {
+                    lonlat = new Tmapv3.LatLng(props.paraTransferList[i].data.latitude, props.paraTransferList[i].data.longitude);
+                }                const infoWindow = new Tmapv3.InfoWindow({
+                    position: lonlat,
                     offset: new Tmapv3.Point(0, -30),
                     content: renderToString(
                         <InfoContents
@@ -29,24 +32,13 @@ function ParamedicTransferInfo(props: any) {
                     type: 2,
                     map: props.map
                 });
-                info.push(infoWindow);
             }
-            // console.log(info)
-            setParaInfo(info);
         }
-    }
-    const deleteInfo = () => {
-        console.log(paraInfo)
-        for (let i = 0; i < paraInfo.length; i++) {
-            paraInfo[i].setMap(null);
-            // console.log()
-        }
-        setParaInfo([]);
     }
     useEffect(() => {
         if (props.map !== undefined && props.paraTransferList !== undefined) {
-            deleteInfo();
-            if(paraInfo.length==0)updateInfo();
+            console.log("~~~~~~~~~~~~updateInfo", props)
+            updateInfo();
         }
     }, [props]);
 

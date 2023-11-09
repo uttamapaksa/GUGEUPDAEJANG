@@ -15,7 +15,7 @@ const TransferList = () => {
     }
 
     useEffect(() => {
-        console.log(transferList)
+        console.log("transferList", transferList)
     }, [transferList])
 
     return (

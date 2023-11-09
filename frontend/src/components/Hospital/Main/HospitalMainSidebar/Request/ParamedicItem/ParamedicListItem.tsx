@@ -1,10 +1,21 @@
 import { useEffect, useRef, useState } from "react";
-import { ParamedicItemContainer, ParamedicItemContent, ItemRequestAt, ItemParaType, ItemParaInfo, ItemParaTagGroup } from "./ParamedicListItem.style";
+import {
+  ParamedicItemContainer,
+  ParamedicItemContent,
+  ItemRequestAt,
+  ItemParaType,
+  ItemParaInfo,
+  ItemParaTagGroup,
+} from "./ParamedicListItem.style";
 import A from "/src/components/Commons/Atoms";
 import theme from "/src/styles";
-import { HospitalResponsePostProps, HospitalTransferItem } from "/src/types/map";
+import { HospitalResponsePostProps, HospitalTransferItem, ParaRequestItem } from "/src/types/map";
 import { useRecoilState } from "recoil";
-import { hospitalParmedicRequestList, hospitalSelectedRequestItem, hospitalParmedicTransferList } from "/src/recoils/HospitalAtoms";
+import {
+  hospitalParmedicRequestList,
+  hospitalSelectedRequestItem,
+  hospitalParmedicTransferList,
+} from "/src/recoils/HospitalAtoms";
 import { AGEGROUP, GENDER } from "/src/constants/variable";
 import { timeToString } from "/src/constants/function";
 import { putHospitalResponse } from "/src/apis/hospital";
@@ -19,89 +30,84 @@ const ParamedicListItem = (props: any) => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    console.log(props)
+    console.log(props);
     if (props.isSelected) setScrollMoved(true);
     else setScrollMoved(false);
   }, [props]);
 
   useEffect(() => {
     if (scrollMoved) moveScroll();
-  }, [scrollMoved])
+  }, [scrollMoved]);
   const moveScroll = () => {
-    console.log(scrollRef)
+    console.log(scrollRef);
     if (scrollRef.current != null) {
-      scrollRef.current.scrollIntoView({ behavior: 'smooth' });
+      scrollRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
 
   const checkFull = async (res: boolean) => {
     if (!res) {
-      let inputReason = prompt('사유를 입력하세요', '');
+      let inputReason = prompt("사유를 입력하세요", "");
       if (inputReason != null) {
         const postProps: HospitalResponsePostProps = {
           callingId: props.id,
           status: "REJECTED",
-          reason: inputReason
-        }
+          reason: inputReason,
+        };
         return await putHospitalResponse(postProps);
-      }
-      else {
+      } else {
         const postProps: HospitalResponsePostProps = {
           callingId: props.id,
           status: "REJECTED",
-          reason: "사유 없음"
-        }
+          reason: "사유 없음",
+        };
         return await putHospitalResponse(postProps);
       }
-    }
-    else {
+    } else {
       const postProps: HospitalResponsePostProps = {
         callingId: props.id,
         status: "APPROVED",
-        reason: ""
-      }
+        reason: "",
+      };
       return await putHospitalResponse(postProps);
     }
-  }
+  };
 
   const clickButton = async (res: boolean) => {
     const response = await checkFull(res);
-    console.log("response", response);
+    console.log("clickButton response", response, transferList);
     if (response === undefined) {
       alert("HospitalResponse 실패");
       return;
-    }
-    else if (response.data.isFull) {
+    } else if (response.data.isFull) {
+      alert("HospitalResponse isFull");
       setRequestList([]);
       return;
-    }
-
-    if (requestList !== undefined) {
-      let nextList = [];
-      for (let i = 0; i < requestList.length; i++) {
-        if (requestList[i].id !== props.id) {
-          nextList.push(requestList[i]);
+    } else if (requestList !== undefined) {
+      if (res) {
+        const newTransferItem: HospitalTransferItem = {
+          id: props.id,
+          state: "wait",
+          data: props,
+        };
+        if (transferList !== undefined) {
+          setTransferList([...transferList, newTransferItem]);
+        } else {
+          setTransferList([newTransferItem]);
         }
-        else if (res) {
-          let curTransferList: HospitalTransferItem[] = [];
-          if (transferList !== undefined) {
-            curTransferList = [...transferList];
-          }
-          const newTransferItem: HospitalTransferItem = {
-            id: props.id,
-            state: "wait",
-            data: props
-          }
-          curTransferList.push(newTransferItem);
-          setTransferList(curTransferList);
-        }
-        if (selectedParaItem !== undefined && selectedParaItem.id == props.id) {
-          setSelectedParaItem(undefined);
-        }
+        console.log("transferList 들어간다!!!!!!!!!!", transferList, newTransferItem);
       }
-      setRequestList(nextList);
+
+      console.log("transferList 들어갔나?????????", transferList);
+      let nextRequestList = requestList.filter((item: ParaRequestItem) => item.id != props.id);
+      setRequestList(nextRequestList);
+
+      console.log("requestList 빠진다!!!!!!!!!!", nextRequestList);
+      if (selectedParaItem !== undefined && selectedParaItem.id == props.id) {
+        setSelectedParaItem(undefined);
+      }
     }
-  }
+  };
 
   return (
     <ParamedicItemContainer ref={scrollRef}>
@@ -114,11 +120,14 @@ const ParamedicListItem = (props: any) => {
           $width="50px"
           $height="25px"
           $borderRadius="0px 0px 0px 10px"
-          $fontSize={theme.font.Small5_12}>
+          $fontSize={theme.font.Small5_12}
+        >
           {props.ktas}
         </A.DivKtasInfo>
         <ItemRequestAt>{timeToString(props.createdAt)}</ItemRequestAt>
-        <ItemParaType>{AGEGROUP[props.ageGroup]} ({GENDER[props.gender]})</ItemParaType>
+        <ItemParaType>
+          {AGEGROUP[props.ageGroup]} ({GENDER[props.gender]})
+        </ItemParaType>
         {/* <ItemParaType>{props.gender}</ItemParaType> */}
         <ItemParaInfo>{props.description}</ItemParaInfo>
         <ItemParaTagGroup>
@@ -132,7 +141,9 @@ const ParamedicListItem = (props: any) => {
               $textAlign="center"
               $padding="2px"
               $fontSize={theme.font.Small5_12}
-            >{item}</A.DivTag>
+            >
+              {item}
+            </A.DivTag>
           ))}
         </ItemParaTagGroup>
         <div onClick={(e: React.MouseEvent<HTMLElement>) => e.stopPropagation()}>

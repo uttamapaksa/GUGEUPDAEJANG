@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { TransferListItemContainer, TransferListItemContent, ItemRequestAt, ItemParaType, ItemParaTagGroup } from "./TransferListItem.style";
 import A from "/src/components/Commons/Atoms";
 import theme from "/src/styles";
-import { hospitalParmedicTransferList } from "/src/recoils/HospitalAtoms";
+import { hospitalParmedicTransferList, hospitalSelectedTransferItem } from "/src/recoils/HospitalAtoms";
 import { timeToString } from "/src/constants/function";
 import { AGEGROUP, GENDER } from "/src/constants/variable";
 import { HospitalTransferItem } from "/src/types/map";
@@ -10,13 +10,14 @@ import { useRecoilState } from "recoil";
 
 const TransferListItem = (props: any) => {
   const [transferList, setTransferList] = useRecoilState(hospitalParmedicTransferList);
+  const [selectedParaItem, setSelectedParaItem] = useRecoilState(hospitalSelectedTransferItem);
 
   const [scrollMoved, setScrollMoved] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    console.log(props.data)
-    if (props.data.isSelected) setScrollMoved(true);
+    console.log(props.data, transferList)
+    if (props.isSelected) setScrollMoved(true);
     else setScrollMoved(false);
   }, [props.data])
   useEffect(() => {
@@ -31,6 +32,7 @@ const TransferListItem = (props: any) => {
 
   const clickButton = () => {
     if(transferList!=undefined){
+      console.log("clickButton", transferList)
       let nextTransferList = transferList.filter((item:HospitalTransferItem) => item.id!=props.id);
       setTransferList(nextTransferList);
     }

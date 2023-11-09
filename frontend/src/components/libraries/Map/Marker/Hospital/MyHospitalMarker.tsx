@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Tmapv3 } from "../../Map";
 import { HospitalMarkerContainer } from "../HospitalMarker.style";
+import { deleteMarker } from "/src/constants/function";
 
 function MyHospitalMarker(props: any) {
     useEffect(() => {
@@ -17,6 +18,11 @@ function MyHospitalMarker(props: any) {
             // label: title //Marker의 라벨.
         })
     }, []);
+    useEffect(() => {
+        if (props.map !== undefined) {
+            deleteMarker();
+        }
+    }, [props]);
 
     return (
         <HospitalMarkerContainer />

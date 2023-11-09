@@ -3,7 +3,6 @@ import { MapContainer } from "./Map.style";
 import ParamedicInfo from "./InfoWindow/ParamedicInfo";
 import HospitalMarker from "./Marker/HospitalMarker";
 import { MapProps } from "/src/types/map";
-import ParamedicMarker from "./Marker/Hospital/ParamedicRequsetMarker";
 import ParamedicRequestMarker from "./Marker/Hospital/ParamedicRequsetMarker";
 import ParamedicTransferMarker from "./Marker/Hospital/ParamedicTransferMarker";
 import ParamedicTransferInfo from "./InfoWindow/ParamedicTransferInfo";
@@ -45,31 +44,31 @@ function Map(props: MapProps) {
     useEffect(() => {
         if (props.pos !== undefined && props.type != prevType) {
             if (map !== undefined) destroyMap();
+            console.log("지도 prevType", prevType, props);
             console.log("mapchange")
             if (props.pos !== undefined) {
                 const tmp = createMap(props.pos.lat, props.pos.lon);
-                console.log("tmp", tmp);
                 setMap(tmp);
                 setPrevType(props.type);
             }
             else {
                 let pos = {
-                    lat: 37.565128,
-                    lon: 126.98883
+                    lat: 36.4469365928189,
+                    lon: 127.43940812262
                 }
                 const tmp = createMap(pos.lat, pos.lon);
-                console.log("tmp", tmp);
                 setMap(tmp);
                 setPrevType(props.type);
             }
         }
     }, [prevType]);
 
+
     useEffect(() => {
         if (props.pos !== undefined && map !== undefined && props.type != prevType) {
             map.setCenter(new Tmapv3.LatLng(props.pos.lat, props.pos.lon));
+            console.log("MapPos", props);
         }
-        console.log("pos", props.pos);
     }, [props]);
 
     return (
@@ -78,7 +77,6 @@ function Map(props: MapProps) {
             </MapContainer >
             {map !== undefined ?
                 <>
-
                     {props.type === "guest" ?
                         <><HospitalMarker {...props} map={map} /></> :
                         <></>}
@@ -87,16 +85,16 @@ function Map(props: MapProps) {
                         <></>}
                     {props.type === "request" ?
                         <>
+                            <MyHospitalMarker {...props} map={map} />
                             <ParamedicRequestMarker {...props} map={map} />
                             <ParamedicInfo {...props} map={map} />
-                            <MyHospitalMarker {...props} map={map} />
                         </> :
                         <></>}
                     {props.type === "transfer" ?
                         <>
+                            <MyHospitalMarker {...props} map={map} />
                             <ParamedicTransferMarker {...props} map={map} />
                             <ParamedicTransferInfo {...props} map={map} />
-                            <MyHospitalMarker {...props} map={map} />
                         </> :
                         <></>}
 
