@@ -7,6 +7,7 @@ import com.codesmith.goojangcalling.calling.dto.response.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 public interface CallingService {
     OccurrenceCreateResponse addOccurrence (Long memberId, OccurrenceCreateRequest occurrenceCreateRequest);
@@ -26,4 +27,6 @@ public interface CallingService {
     TransferCreateResponse createTransfer(Long callingId);
 
     void cancelCallingStatus(Long callingId);
+
+    List<TransferHistoryResponse> getTransferHistoryList(Map<String, String> memberInfoMap);
 }

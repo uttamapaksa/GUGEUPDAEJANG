@@ -2,10 +2,7 @@ package com.codesmith.goojangcalling.calling.application;
 
 import com.codesmith.goojangcalling.calling.dto.message.CallingCreateMessage;
 import com.codesmith.goojangcalling.calling.dto.message.CallingStatusMessage;
-import com.codesmith.goojangcalling.calling.dto.request.CallingStatusChangeRequest;
-import com.codesmith.goojangcalling.calling.dto.request.CallingCreateRequest;
-import com.codesmith.goojangcalling.calling.dto.request.OccurrenceCreateRequest;
-import com.codesmith.goojangcalling.calling.dto.request.CreateTransferRequest;
+import com.codesmith.goojangcalling.calling.dto.request.*;
 import com.codesmith.goojangcalling.calling.dto.response.*;
 import com.codesmith.goojangcalling.calling.persistence.*;
 import com.codesmith.goojangcalling.calling.persistence.domain.*;
@@ -18,9 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -200,6 +195,22 @@ public class CallingServiceImpl implements CallingService{
         callingValidator.validateApprovedOrPendingCalling(selectedCalling);
         selectedCalling.cancelCalling();
                 simpMessagingTemplate.convertAndSend("/topic/status/" + selectedCalling.getMemberId(), new CallingStatusMessage(selectedCalling));
+    }
+
+    @Override
+    public List<TransferHistoryResponse> getTransferHistoryList(Map<String, String> memberInfoMap) {
+        List<Long> memberList = memberInfoMap.keySet().stream().map(Long::parseLong).collect(Collectors.toList());
+
+        List<TransferHistoryResponse> transferHistoryResponseList = new ArrayList<>();
+        callingRepository.findAllByMemberIdListAndStatus(memberList)
+                .forEach(calling -> {
+                    Occurrence occurrence = calling.getOccurrence();
+                    List<String> occurrenceTagList = occurrenceTagRepository.findAllByOccurrence(occurrence);
+                    List<String> ocuurenceFileList = occurrenceFileRepository.findAllFileNameByOccurrenceId(occurrence.getId());
+                    transferHistoryResponseList.add(new TransferHistoryResponse(calling.getOccurrence(),
+                            memberInfoMap.get(occurrence.getMemberId().toString()), occurrenceTagList, ocuurenceFileList, calling));
+                });
+        return transferHistoryResponseList;
     }
 
     private void changePendingCalling(Calling selectedCalling) {

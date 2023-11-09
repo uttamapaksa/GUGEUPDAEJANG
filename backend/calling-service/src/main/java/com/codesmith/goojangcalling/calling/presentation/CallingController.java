@@ -2,10 +2,7 @@ package com.codesmith.goojangcalling.calling.presentation;
 
 import com.codesmith.goojangcalling.calling.application.CallingService;
 import com.codesmith.goojangcalling.calling.application.MemberTagService;
-import com.codesmith.goojangcalling.calling.dto.request.CallingStatusChangeRequest;
-import com.codesmith.goojangcalling.calling.dto.request.MemberTagCreateRequest;
-import com.codesmith.goojangcalling.calling.dto.request.CallingCreateRequest;
-import com.codesmith.goojangcalling.calling.dto.request.OccurrenceCreateRequest;
+import com.codesmith.goojangcalling.calling.dto.request.*;
 import com.codesmith.goojangcalling.calling.dto.response.*;
 import com.codesmith.goojangcalling.global.passport.MemberInfo;
 import com.codesmith.goojangcalling.global.passport.presentation.AuthMember;
@@ -15,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -69,5 +67,10 @@ public class CallingController {
     public ResponseEntity<Void> deleteMemberTag(@AuthMember MemberInfo memberInfo, @PathVariable Long tagId) {
         memberTagService.deleteMemberTag(memberInfo.getId(), tagId);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/transfer")
+    public ResponseEntity<List<TransferHistoryResponse>> getTransferHistoryList(@RequestParam Map<String, String> memberInfoMap) {
+        return ResponseEntity.ok(callingService.getTransferHistoryList(memberInfoMap));
     }
 }
