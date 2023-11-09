@@ -11,6 +11,7 @@ import {
   StartTimeSpan
 } from "./InfoContents.style";
 import A from "/src/components/Commons/Atoms";
+import { timeToString, turmToString } from "/src/constants/function";
 
 export interface InfoProps {
   ktas: number;
@@ -38,14 +39,14 @@ function InfoContents(props: any) {
             <AddrTitle>
               {props.addr}
             </AddrTitle>
-            <span>{11.5}km</span>
+            <span>{props.distance}km</span>
           </AddrP>
           <ContentsP>
             <StartTimeSpan>
-              {props.requestAt}
+              {timeToString(props.createdAt)}
             </StartTimeSpan>
             <ElapseTimeSpan>
-              요청 대기 {props.elapseMin}분 경과
+              요청 대기 {turmToString(props.createdAt)}분 경과
             </ElapseTimeSpan>
           </ContentsP>
           <BottomHr />

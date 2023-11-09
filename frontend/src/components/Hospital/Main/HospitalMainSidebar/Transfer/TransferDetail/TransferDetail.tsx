@@ -14,7 +14,7 @@ import A from "/src/components/Commons/Atoms";
 import theme from "/src/styles";
 import { hospitalParmedicTransferList } from "/src/recoils/HospitalAtoms";
 import { HospitalTransferItem } from "/src/types/map";
-import { timeToString } from "/src/constants/function";
+import { timeToString, turmToString } from "/src/constants/function";
 import { AGEGROUP, GENDER } from "/src/constants/variable";
 
 const TransferDetail = (props: any) => {
@@ -49,7 +49,7 @@ const TransferDetail = (props: any) => {
             <ItemParaType>
               {AGEGROUP[props.data.ageGroup]} ({GENDER[props.data.gender]})
             </ItemParaType>
-            <ItemElapseMin>요청 대기 {props.data.duration}분 경과</ItemElapseMin>
+            <ItemElapseMin>요청 이후 {turmToString(props.data.createdAt)}분 경과</ItemElapseMin>
           </DetailItemBetween>
 
           <div style={{ width: "90%", margin: "0 auto" }}>

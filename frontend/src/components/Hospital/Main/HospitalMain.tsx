@@ -8,7 +8,6 @@ const HospitalMain = () => {
     <Container>
       <HospitalMainSidebar />
       <HospitalMap/>
-
     </Container>
   );
 };
