@@ -2,7 +2,10 @@ package com.codesmith.goojangcalling.calling.persistence;
 
 import com.codesmith.goojangcalling.calling.dto.FilterValue;
 import com.codesmith.goojangcalling.calling.dto.SortInfo;
+import com.codesmith.goojangcalling.calling.persistence.domain.AgeGroup;
 import com.codesmith.goojangcalling.calling.persistence.domain.CallingItem;
+import com.codesmith.goojangcalling.calling.persistence.domain.Gender;
+import com.codesmith.goojangcalling.calling.persistence.domain.KTAS;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Order;
@@ -46,19 +49,16 @@ public class CallingSupportRepositoryImpl implements CallingSupportRepository {
 
     @Override
     public List<CallingItem> findAllCallingByOptions(Long memberId, int skip, int limit, SortInfo sortInfo, FilterValue[] filterValues) {
-        StringTemplate tagsConcatenated = Expressions.stringTemplate(
-                "GROUP_CONCAT({0})", tag.name
-        );
 
         List<CallingItem> result = queryFactory
                 .select(Projections.constructor(CallingItem.class, calling.id, calling.occurrence.ageGroup, calling.occurrence.gender,
-                                ExpressionUtils.as(JPAExpressions
-                                        .select(tagsConcatenated)
-                                        .from(occurrenceTag)
-                                        .join(occurrenceTag.occurrence, occurrence)
-                                        .join(occurrenceTag.tag, tag)
-                                        .where(occurrenceTag.occurrence.eq(calling.occurrence))
-                                        .groupBy(occurrenceTag.occurrence.id), "tagStr"),
+                        ExpressionUtils.as(JPAExpressions
+                                .select(getTagsConcatenated())
+                                .from(occurrenceTag)
+                                .join(occurrenceTag.occurrence, occurrence)
+                                .join(occurrenceTag.tag, tag)
+                                .where(occurrenceTag.occurrence.eq(calling.occurrence))
+                                .groupBy(occurrenceTag.occurrence.id), "tagStr"),
                         calling.occurrence.address, calling.createdAt, calling.responseTime, calling.status, calling.occurrence.ktas))
                 .from(calling)
                 .leftJoin(calling.occurrence, occurrence)
@@ -73,13 +73,20 @@ public class CallingSupportRepositoryImpl implements CallingSupportRepository {
 
     @Override
     public Long countCallingByOptions(Long memberId, FilterValue[] filterValues) {
-        return queryFactory
-                .select(calling.count())
+        return (long) queryFactory
+                .select(Projections.constructor(CallingItem.class, calling.id, calling.occurrence.ageGroup, calling.occurrence.gender,
+                        ExpressionUtils.as(JPAExpressions
+                                .select(getTagsConcatenated())
+                                .from(occurrenceTag)
+                                .join(occurrenceTag.occurrence, occurrence)
+                                .join(occurrenceTag.tag, tag)
+                                .where(occurrenceTag.occurrence.eq(calling.occurrence))
+                                .groupBy(occurrenceTag.occurrence.id), "tagStr"),
+                        calling.occurrence.address, calling.createdAt, calling.responseTime, calling.status, calling.occurrence.ktas))
                 .from(calling)
                 .leftJoin(calling.occurrence, occurrence)
                 .where(getBuildFilterPredicate(memberId, filterValues))
-                .fetch()
-                .get(0);
+                .fetch().size();
     }
 
     private OrderSpecifier getOrderByExpression(SortInfo sortInfo) {
@@ -89,7 +96,7 @@ public class CallingSupportRepositoryImpl implements CallingSupportRepository {
 
         if (sortInfo.getColumnName().equals("tags")) {
             StringPath stringPath = Expressions.stringPath("tagStr");
-            return sortInfo.getDir() == 1? stringPath.asc() : stringPath.desc();
+            return sortInfo.getDir() == 1 ? stringPath.asc() : stringPath.desc();
         }
 
         Order dir = sortInfo.getDir() == 1 ? Order.ASC : Order.DESC;
@@ -97,6 +104,12 @@ public class CallingSupportRepositoryImpl implements CallingSupportRepository {
         String columnName = getColumnName(sortInfo.getColumnName());
 
         return new OrderSpecifier(dir, orderByExpression.get(columnName));
+    }
+
+    private StringTemplate getTagsConcatenated() {
+        return Expressions.stringTemplate(
+            "GROUP_CONCAT({0})", tag.name
+        );
     }
 
 
@@ -108,18 +121,43 @@ public class CallingSupportRepositoryImpl implements CallingSupportRepository {
 
         for (FilterValue filterValue : filterValues) {
             if (filterValue.getValue().equals("")) continue;
+
             PathBuilder<CallingItem> path = getPath(filterValue.getName());
             String columnName = getColumnName(filterValue.getName());
+            if (filterValue.getName().equals("tags")) {
+                predicate.and(JPAExpressions
+                        .select(getTagsConcatenated())
+                        .from(occurrenceTag)
+                        .where(occurrenceTag.occurrence.eq(calling.occurrence)
+                                .and(occurrenceTag.tag.name.like("%" +  filterValue.getValue()+"%")))
+                        .exists());
+                continue;
+            }
 
-            if (filterValue.getType().equals("string")) {
+            else if (filterValue.getName().equals("id")) {
+                predicate.and(path.get("id").eq(filterValue.getValue()));
+                continue;
+            }
+
+            else if (filterValue.getType().equals("string")) {
                 StringPath field = path.getString(columnName);
                 predicate.and(field.contains(filterValue.getValue().toString()));
                 continue;
             }
 
-            if (filterValue.getType().equals("select")) {
-                StringPath field = path.getString(columnName);
-                predicate.and(field.eq(filterValue.getValue().toString()));
+            String value = filterValue.getValue().toString();
+            if (filterValue.getName().equals("ageGroup")) {
+                predicate.and(path.get("ageGroup").eq(AgeGroup.valueOf(value)));
+                continue;
+            }
+
+            if (filterValue.getName().equals("gender")) {
+                predicate.and(path.get("gender").eq(Gender.valueOf(value)));
+                continue;
+            }
+
+            if (filterValue.getName().equals("ktas")) {
+                predicate.and(path.get("ktas").eq(KTAS.valueOf(value)));
                 continue;
             }
 
