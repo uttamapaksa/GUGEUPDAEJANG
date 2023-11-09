@@ -22,7 +22,7 @@ const genderMapping: GroupMapping = {
 
 function CallWaitToggle() {
   const setCurrentPageIndex = useSetRecoilState(currentParamedicPageIndexState);
-  const isTransferring = useRecoilValue(isTransferringState);
+  const istransferring = useRecoilValue(isTransferringState);
   const fixedCalling = useRecoilValue(fixedCallingState);
 
   const [selected, setSelected] = useState(0);
@@ -31,33 +31,33 @@ function CallWaitToggle() {
     return false;
   };
   const goToCall = () => {
-    if (isTransferring) return;
+    if (istransferring) return;
     setSelected(1);
     setTimeout(() => {
       setCurrentPageIndex(1);
     }, 200);
   };
   const goTMove = () => {
-    if (!isTransferring) return;
+    if (!istransferring) return;
     setCurrentPageIndex(2);
   };
 
   return (
     <S.Container>
       <A.BtnParaState onClick={goToCall} $IsClick={isSelected(1)}>
-        <S.TxtParaState1 isTransferring={isTransferring ? 1 : 0} selected={selected}>
+        <S.TxtParaState1 istransferring={istransferring ? 1 : 0} selected={selected}>
           환자 이송
         </S.TxtParaState1>
-        <S.TxtParaState1 isTransferring={isTransferring ? 1 : 0} selected={selected}>
+        <S.TxtParaState1 istransferring={istransferring ? 1 : 0} selected={selected}>
           요청하기
         </S.TxtParaState1>
-        <S.ImgDiv>{isTransferring ? <A.ImgAmbulance $width="4vh" /> : <A.ImgAmbulanceActive $width="4vh" />}</S.ImgDiv>
+        <S.ImgDiv>{istransferring ? <A.ImgAmbulance $width="4vh" /> : <A.ImgAmbulanceActive $width="4vh" />}</S.ImgDiv>
       </A.BtnParaState>
 
-      <A.BtnParaState onClick={goTMove} $IsClick={isTransferring}>
-        {isTransferring ? (
+      <A.BtnParaState onClick={goTMove} $IsClick={istransferring}>
+        {istransferring ? (
           <>
-            <S.TxtParaState5 isTransferring={isTransferring ? 1 : 0}>{fixedCalling.name}</S.TxtParaState5>
+            <S.TxtParaState5 istransferring={istransferring ? 1 : 0}>{fixedCalling.name}</S.TxtParaState5>
             <S.TxtParaState2>이송중</S.TxtParaState2>
             <S.Blank />
             <S.Row1>
@@ -70,11 +70,11 @@ function CallWaitToggle() {
             </S.Row1>
           </>
         ) : (
-          <S.TxtParaState5 isTransferring={isTransferring ? 1 : 0}>이송 정보</S.TxtParaState5>
+          <S.TxtParaState5 istransferring={istransferring ? 1 : 0}>이송 정보</S.TxtParaState5>
         )}
 
         <S.ImgDiv>
-          {isTransferring ? <A.ImgRequestBellActive $width="3.5vh" /> : <A.ImgRequestBell $width="3.5vh" />}
+          {istransferring ? <A.ImgRequestBellActive $width="3.5vh" /> : <A.ImgRequestBell $width="3.5vh" />}
         </S.ImgDiv>
       </A.BtnParaState>
     </S.Container>

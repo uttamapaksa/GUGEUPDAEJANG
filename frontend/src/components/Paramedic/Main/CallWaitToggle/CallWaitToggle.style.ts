@@ -8,12 +8,12 @@ export const Container = styled.div`
   height: 45%;
 `;
 
-export const TxtParaState1 = styled.div<{ isTransferring: number; selected: number }>`
+export const TxtParaState1 = styled.div<{ istransferring: number; selected: number }>`
   padding: 0.2vh 0;
   font-size: 3.2vh;
   font-weight: 800;
-  ${({ isTransferring, selected }) =>
-    isTransferring
+  ${({ istransferring, selected }) =>
+    istransferring
       ? css`
           color: ${theme.color.grayMedium};
         `
@@ -26,12 +26,12 @@ export const TxtParaState1 = styled.div<{ isTransferring: number; selected: numb
         `}
 `;
 
-export const TxtParaState5 = styled.div<{ isTransferring: number }>`
+export const TxtParaState5 = styled.div<{ istransferring: number }>`
   padding: 0.2vh 0;
   font-size: 3.2vh;
   font-weight: 800;
-  ${({ isTransferring }) =>
-    isTransferring
+  ${({ istransferring }) =>
+    istransferring
       ? css`
           color: ${theme.color.white};
         `
