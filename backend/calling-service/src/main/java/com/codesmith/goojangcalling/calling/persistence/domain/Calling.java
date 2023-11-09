@@ -17,7 +17,7 @@ public class Calling {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Occurrence occurrence;
     private Long memberId;
     @Enumerated(EnumType.STRING)
