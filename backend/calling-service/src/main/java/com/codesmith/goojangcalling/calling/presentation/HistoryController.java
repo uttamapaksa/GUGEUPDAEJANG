@@ -24,7 +24,7 @@ public class HistoryController {
         return ResponseEntity.ok(historyService.getCallingList(memberInfo.getId(), callingHistoryRequest));
     }
 
-    @PostMapping
+    @PostMapping("/stt")
     public ResponseEntity<MediaTextResponse> mediaToText(@RequestParam("file") MultipartFile file) {
         return ResponseEntity.ok(historyService.getTextByFile(file));
     }

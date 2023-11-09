@@ -9,12 +9,14 @@ import com.codesmith.goojangcalling.calling.dto.response.MediaTextResponse;
 import com.codesmith.goojangcalling.calling.persistence.CallingRepository;
 import com.codesmith.goojangcalling.calling.persistence.domain.CallingItem;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.cloud.speech.v1.*;
+import com.google.protobuf.ByteString;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import com.google.cloud.speech.v1.RecognitionConfig.AudioEncoding;
 
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,7 +37,34 @@ public class HistoryServiceImpl implements HistoryService {
 
     @Override
     public MediaTextResponse getTextByFile(MultipartFile file) {
-        return null;
+        try (SpeechClient speechClient = SpeechClient.create()) {
+            byte[] audioBytes = file.getBytes();
+
+            ByteString audioData = ByteString.copyFrom(audioBytes);
+            RecognitionAudio recognitionAudio = RecognitionAudio.newBuilder()
+                    .setContent(audioData)
+                    .build();
+            RecognitionConfig.AudioEncoding encoding = AudioEncoding.MP3;
+
+            RecognitionConfig recognitionConfig =
+                    RecognitionConfig.newBuilder()
+                            .setEncoding(encoding)
+                            .setSampleRateHertz(44100)
+                            .setLanguageCode("ko")
+                            .build();
+
+            RecognizeResponse response = speechClient.recognize(recognitionConfig, recognitionAudio);
+            List<SpeechRecognitionResult> results = response.getResultsList();
+
+            if (!results.isEmpty()) {
+                SpeechRecognitionResult result = results.get(0);
+                return new MediaTextResponse(result.getAlternatives(0).getTranscript());
+            } else {
+                return new MediaTextResponse("");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private FilterValue[] getFilterValues(String filterStr) {
