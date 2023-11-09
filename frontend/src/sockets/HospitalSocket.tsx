@@ -27,15 +27,12 @@ function HospitalSocket() {
 
   const [requestList, setRequestList] = useRecoilState(hospitalParmedicRequestList);
   const [transferList, setTransferList] = useRecoilState(hospitalParmedicTransferList);
+  console.log(requestList);
+
+
 
   const callingSocket = useRef<Client | null>(null);
-
-  // const [transferMessages, setTransferMessages] = useState<string[]>([]);
-  // const [transferMessageToSend, setTransferMessageToSend] = useState<string>('');
   const transferSocket = useRef<Client | null>(null);
-
-  // const [statusMessages, setStatusMessages] = useState<string[]>([]);
-  // const [statusMessageToSend, setStatusMessageToSend] = useState<string>('');
   const statusSocket = useRef<Client | null>(null);
 
   // 연결 함수
@@ -182,9 +179,9 @@ function HospitalSocket() {
           nextList.push(transferList[i]);
         }
       }
+      setTransferList(nextList);
     }
     console.log(nextList);
-    setTransferList(nextList);
   };
 
   useEffect(() => {

@@ -28,6 +28,7 @@ function Main() {
     const responese = await getMyHospital();
     console.log("`````hospitalInfo", hospitalInfo)
     if ((hospitalInfo.hospitalId===0 || hospitalInfo === undefined) && responese !== undefined && curMemberInfo.role === "HOSPITAL") {
+      console.log("초기화초기화초기화초기화초기화초기화초기화초기화초기화초기화")
       if(requestList!==undefined) setRequestList([]);
       if(transferList!==undefined) setTransferList([]);
       // setCurPos({ lat: responese.data.latitude, lon: responese.data.longitude });

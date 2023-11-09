@@ -67,8 +67,8 @@ function Map(props: MapProps) {
     useEffect(() => {
         if (props.pos !== undefined && map !== undefined && props.type != prevType) {
             map.setCenter(new Tmapv3.LatLng(props.pos.lat, props.pos.lon));
+            console.log("MapPos", props);
         }
-        console.log("MapPos", props);
     }, [props]);
 
     return (

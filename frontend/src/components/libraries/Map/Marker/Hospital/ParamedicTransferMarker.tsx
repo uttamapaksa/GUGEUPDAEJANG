@@ -10,9 +10,15 @@ function ParamedicTransferMarker(props: any) {
     const updateMarker = () => {
         if (props.map !== undefined && props.paraTransferList !== undefined) {
             for (var i = 0; i < props.paraTransferList.length; i++) {
-                var lonlat = new Tmapv3.LatLng(props.paraTransferList[i].curLat, props.paraTransferList[i].curLon);
+                let lonlat;
+                if (props.paraTransferList[i].curLat !== undefined) {
+                    lonlat = new Tmapv3.LatLng(props.paraTransferList[i].curLat, props.paraTransferList[i].curLon);
+                }
+                else {
+                    lonlat = new Tmapv3.LatLng(props.paraTransferList[i].data.latitude, props.paraTransferList[i].data.longitude);
+                }
                 // var title = props.paraTransferList[i].name;
-                const size = new Tmapv3.Size(30, 30);
+                const size = new Tmapv3.Size(35, 35);
                 const marker = new Tmapv3.Marker({
                     position: lonlat,
                     draggable: true,
