@@ -5,7 +5,9 @@ import com.codesmith.goojangtransfer.global.passport.presentation.AuthMember;
 import com.codesmith.goojangtransfer.transfer.application.TransferService;
 import com.codesmith.goojangtransfer.transfer.dto.request.TransferCreateRequest;
 import com.codesmith.goojangtransfer.transfer.dto.response.MeetingJoinResponse;
+import com.codesmith.goojangtransfer.transfer.dto.request.TransferHistoryListRequest;
 import com.codesmith.goojangtransfer.transfer.dto.response.TransferCreateResponse;
+import com.codesmith.goojangtransfer.transfer.dto.response.TransferHistoryListResponse;
 import com.codesmith.goojangtransfer.transfer.dto.response.TransferListResponse;
 import com.codesmith.goojangtransfer.transfer.dto.response.TransferStatusChangeResponse;
 import lombok.RequiredArgsConstructor;
@@ -48,8 +50,13 @@ public class TransferController {
     }
 
     @DeleteMapping("/meeting/{transferId}")
-    public ResponseEntity<Void> deleteMeetingByTransferId(@PathVariable Long transferId){
+    public ResponseEntity<Void> deleteMeetingByTransferId(@PathVariable Long transferId) {
         transferService.deleteMeeting(transferId);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/history")
+    public ResponseEntity<List<TransferHistoryListResponse>> getTransferHistoryList(@AuthMember MemberInfo memberInfo, @ModelAttribute TransferHistoryListRequest transferHistoryListRequest) {
+        return ResponseEntity.ok(transferService.getTransferHistoryList(memberInfo.getId(), transferHistoryListRequest));
     }
 }
