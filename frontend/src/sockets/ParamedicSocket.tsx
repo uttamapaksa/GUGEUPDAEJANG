@@ -128,8 +128,8 @@ function ParamedicSocket() {
     data = {
       id: fixedCalling && fixedCalling.transferId,
       state: 'transfer', // transfer, complete, cancel, wait
-      curLat: position.lat || 36.4469365928189,
-      curLon: position.lon || 127.43940812262,
+      curLat: position.lat,
+      curLon: position.lon,
       curAddr: '김준섭 자택',
       leftTime: 10,
       leftDist: 10,
@@ -145,8 +145,8 @@ function ParamedicSocket() {
     data = {
       id: fixedCalling && fixedCalling.transferId,
       state: 'cancel', // transfer, complete, cancel, wait
-      curLat: position.lat || 36.4469365928189,
-      curLon: position.lon || 127.43940812262,
+      curLat: position.lat,
+      curLon: position.lon,
       curAddr: '김준섭 자택',
       leftTime: 10,
       leftDist: 10,
@@ -160,8 +160,8 @@ function ParamedicSocket() {
     data = {
       id: fixedCalling && fixedCalling.transferId,
       state: 'complete',
-      curLat: position.lat || 36.4469365928189,
-      curLon: position.lon || 127.43940812262,
+      curLat: position.lat,
+      curLon: position.lon,
       curAddr: '김준섭 자택',
       leftTime: 10,
       leftDist: 10,
