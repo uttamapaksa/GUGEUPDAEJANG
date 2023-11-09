@@ -18,7 +18,7 @@ import {
   hospitalSelectedRequestItem,
 } from "/src/recoils/HospitalAtoms";
 import { HospitalResponsePostProps, HospitalTransferItem, ParaRequestItem } from "/src/types/map";
-import { timeToString } from "/src/constants/function";
+import { timeToString, turmToString } from "/src/constants/function";
 import { AGEGROUP, GENDER } from "/src/constants/variable";
 import { putHospitalResponse } from "/src/apis/hospital";
 
@@ -112,7 +112,7 @@ const ParamedicDetail = (props: any) => {
             <ItemParaType>
               {AGEGROUP[props.ageGroup]} ({GENDER[props.gender]})
             </ItemParaType>
-            <ItemElapseMin>요청 대기 {props.duration}분 경과</ItemElapseMin>
+            <ItemElapseMin>요청 대기 {turmToString(props.createdAt)}분 경과</ItemElapseMin>
           </DetailItemBetween>
 
           <div style={{ width: "90%", margin: "0 auto" }}>

@@ -3,10 +3,11 @@ import { TransferListItemContainer, TransferListItemContent, ItemRequestAt, Item
 import A from "/src/components/Commons/Atoms";
 import theme from "/src/styles";
 import { hospitalParmedicTransferList, hospitalSelectedTransferItem } from "/src/recoils/HospitalAtoms";
-import { timeToString } from "/src/constants/function";
+import { timeToString, turmToString } from "/src/constants/function";
 import { AGEGROUP, GENDER } from "/src/constants/variable";
 import { HospitalTransferItem } from "/src/types/map";
 import { useRecoilState } from "recoil";
+import { DetailItemBetween, ItemElapseMin } from "../TransferDetail/TransferDetail.style";
 
 const TransferListItem = (props: any) => {
   const [transferList, setTransferList] = useRecoilState(hospitalParmedicTransferList);
@@ -53,7 +54,12 @@ const TransferListItem = (props: any) => {
           {props.data.ktas}
         </A.DivKtasInfo>
         <ItemRequestAt>{timeToString(props.data.createdAt)}</ItemRequestAt>
-        <ItemParaType>{AGEGROUP[props.data.ageGroup]} ({GENDER[props.data.gender]})</ItemParaType>
+        <DetailItemBetween>
+            <ItemParaType>
+              {AGEGROUP[props.data.ageGroup]} ({GENDER[props.data.gender]})
+            </ItemParaType>
+            <ItemElapseMin>요청 이후 {turmToString(props.data.createdAt)}분 경과</ItemElapseMin>
+          </DetailItemBetween>
         <ItemParaTagGroup>
           {props.data.tags.map((item: string, index: number) => (
             <A.DivTag

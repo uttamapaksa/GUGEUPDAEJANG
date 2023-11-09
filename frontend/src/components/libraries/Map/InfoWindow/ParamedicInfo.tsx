@@ -19,8 +19,8 @@ function ParamedicInfo(props: any) {
                             id={props.paraRequestList[i].id}
                             ktas={props.paraRequestList[i].ktas}
                             addr={props.paraRequestList[i].address}
+                            distance={props.paraRequestList[i].distance}
                             requestAt={props.paraRequestList[i].createdAt}
-                            elapseMin={"-"}
                             leftTime={props.paraRequestList[i].duration}
                         />
                     ),

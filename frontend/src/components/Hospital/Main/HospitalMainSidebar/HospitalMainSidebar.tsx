@@ -8,7 +8,6 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import { hospitalSelectedRequestItem, hospitalSelectedTransferItem, hospitalSidebarType } from "../../../../recoils/HospitalAtoms";
 import ParamedicList from "./Request/ParamedicList/ParamedicList";
 import TransferList from "./Transfer/TransferList/TransferList";
-// import { useEffect } from "react";
 
 const HospitalMainSidebar = () => {
   const [sidebarType, setSidebarType] = useRecoilState(hospitalSidebarType);
@@ -20,10 +19,6 @@ const HospitalMainSidebar = () => {
     setRequestItem(undefined);
     setTransferItem(undefined);
   };
-
-  // useEffect(() => {
-  //   console.log(sidebarType)
-  // }, [sidebarType])
 
   return (
     <HospitalMainSidebarContainer>

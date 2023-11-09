@@ -17,8 +17,9 @@ import {
   hospitalParmedicTransferList,
 } from "/src/recoils/HospitalAtoms";
 import { AGEGROUP, GENDER } from "/src/constants/variable";
-import { timeToString } from "/src/constants/function";
+import { timeToString, turmToString } from "/src/constants/function";
 import { putHospitalResponse } from "/src/apis/hospital";
+import { DetailItemBetween, ItemElapseMin } from "../ParamedicDetail/ParamedicDetail.style";
 
 const ParamedicListItem = (props: any) => {
   // const setCurResponse = useSetRecoilState(hospitalResponse); //http post로 수정 예정
@@ -75,7 +76,6 @@ const ParamedicListItem = (props: any) => {
 
   const clickButton = async (res: boolean) => {
     const response = await checkFull(res);
-    console.log("clickButton response", response, transferList);
     if (response === undefined) {
       alert("HospitalResponse 실패");
       return;
@@ -95,14 +95,11 @@ const ParamedicListItem = (props: any) => {
         } else {
           setTransferList([newTransferItem]);
         }
-        console.log("transferList 들어간다!!!!!!!!!!", transferList, newTransferItem);
       }
 
-      console.log("transferList 들어갔나?????????", transferList);
       let nextRequestList = requestList.filter((item: ParaRequestItem) => item.id != props.id);
       setRequestList(nextRequestList);
 
-      console.log("requestList 빠진다!!!!!!!!!!", nextRequestList);
       if (selectedParaItem !== undefined && selectedParaItem.id == props.id) {
         setSelectedParaItem(undefined);
       }
@@ -125,10 +122,12 @@ const ParamedicListItem = (props: any) => {
           {props.ktas}
         </A.DivKtasInfo>
         <ItemRequestAt>{timeToString(props.createdAt)}</ItemRequestAt>
-        <ItemParaType>
-          {AGEGROUP[props.ageGroup]} ({GENDER[props.gender]})
-        </ItemParaType>
-        {/* <ItemParaType>{props.gender}</ItemParaType> */}
+        <DetailItemBetween>
+          <ItemParaType>
+            {AGEGROUP[props.ageGroup]} ({GENDER[props.gender]})
+          </ItemParaType>
+          <ItemElapseMin>요청 대기 {turmToString(props.createdAt)}분 경과</ItemElapseMin>
+        </DetailItemBetween>
         <ItemParaInfo>{props.description}</ItemParaInfo>
         <ItemParaTagGroup>
           {props.tags.map((item: string, index: number) => (

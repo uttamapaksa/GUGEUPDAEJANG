@@ -47,6 +47,7 @@ export const DetailItemContainer = styled.div`
 
 export const DetailItemBetween = styled.div`
   display: flex;
+  width: 100%;
   justify-content: space-between;
 `;
 
