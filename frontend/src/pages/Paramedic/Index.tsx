@@ -7,6 +7,7 @@ import Call from './Call/Call';
 import WaitMove from './WaitMove/WaitMove';
 import History from './History/History';
 import Statistic from './Statistics/Statistic';
+import { useEffect } from 'react';
 
 const paramedicPages: any = {
   0: <Main />,

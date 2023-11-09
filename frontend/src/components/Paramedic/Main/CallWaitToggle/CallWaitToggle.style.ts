@@ -8,12 +8,12 @@ export const Container = styled.div`
   height: 45%;
 `;
 
-export const TxtParaState1 = styled.div<{ showwait: number; selected: number }>`
+export const TxtParaState1 = styled.div<{ isTransferring: number; selected: number }>`
   padding: 0.2vh 0;
   font-size: 3.2vh;
   font-weight: 800;
-  ${({ showwait, selected }) =>
-    showwait
+  ${({ isTransferring, selected }) =>
+    isTransferring
       ? css`
           color: ${theme.color.grayMedium};
         `
@@ -26,12 +26,12 @@ export const TxtParaState1 = styled.div<{ showwait: number; selected: number }>`
         `}
 `;
 
-export const TxtParaState5 = styled.div<{ showwait: number }>`
+export const TxtParaState5 = styled.div<{ isTransferring: number }>`
   padding: 0.2vh 0;
   font-size: 3.2vh;
   font-weight: 800;
-  ${({ showwait }) =>
-    showwait
+  ${({ isTransferring }) =>
+    isTransferring
       ? css`
           color: ${theme.color.white};
         `
