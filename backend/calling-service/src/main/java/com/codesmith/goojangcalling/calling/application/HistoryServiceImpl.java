@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -53,9 +54,8 @@ public class HistoryServiceImpl implements HistoryService {
     }
 
     private List<CallingItemResponse> convertToCallingListResponse(List<CallingItem> callingItemList) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd hh:mm a");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
 
-        System.out.println("=====================" + callingItemList.get(0));
         return callingItemList.stream()
                 .map(callingItem -> new CallingItemResponse(
                         callingItem.getId(),
@@ -64,7 +64,7 @@ public class HistoryServiceImpl implements HistoryService {
                         callingItem.getTags() == null? "" : callingItem.getTags(),
                         callingItem.getAddress() == null? "" : callingItem.getAddress(),
                         callingItem.getCallingTime().format(formatter),
-                        callingItem.getReplyTime() == null ? "0000/00/00 00:00 AM" : callingItem.getReplyTime().format(formatter),
+                        callingItem.getReplyTime() == null ? "0000/00/00 00:00" : callingItem.getReplyTime().format(formatter),
                         callingItem.getStatus().name(),
                         callingItem.getKtas().name()
                 ))

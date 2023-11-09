@@ -13,11 +13,20 @@ import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.ResolverStyle;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import static com.codesmith.goojangcalling.calling.persistence.domain.QCalling.calling;
 import static com.codesmith.goojangcalling.calling.persistence.domain.QOccurrence.occurrence;
@@ -53,7 +62,7 @@ public class CallingSupportRepositoryImpl implements CallingSupportRepository {
                         calling.occurrence.address, calling.createdAt, calling.responseTime, calling.status, calling.occurrence.ktas))
                 .from(calling)
                 .leftJoin(calling.occurrence, occurrence)
-//                .where(getBuildFilterPredicate(memberId, filterValues))
+                .where(getBuildFilterPredicate(memberId, filterValues))
                 .orderBy(getOrderByExpression(sortInfo))
                 .offset(skip)
                 .limit(limit)
@@ -64,13 +73,13 @@ public class CallingSupportRepositoryImpl implements CallingSupportRepository {
 
     @Override
     public Long countCallingByOptions(Long memberId, FilterValue[] filterValues) {
-        return (long) queryFactory
+        return queryFactory
                 .select(calling.count())
                 .from(calling)
                 .leftJoin(calling.occurrence, occurrence)
                 .where(getBuildFilterPredicate(memberId, filterValues))
                 .fetch()
-                .size();
+                .get(0);
     }
 
     private OrderSpecifier getOrderByExpression(SortInfo sortInfo) {
@@ -94,34 +103,38 @@ public class CallingSupportRepositoryImpl implements CallingSupportRepository {
 
     private BooleanBuilder getBuildFilterPredicate(Long memberId, FilterValue[] filterValues) {
         BooleanBuilder predicate = new BooleanBuilder();
-        predicate.and(calling.memberId.eq(memberId));
-
-        /*
-        [{"name":"id","type":"string","operator":"contains","value":""},
-        {"name":"ageGroup","type":"select","operator":"eq","value":""},
-        {"name":"gender","type":"select","operator":"eq","value":""},
-        {"name":"tags","type":"string","operator":"contains","value":""},
-        {"name":"address","type":"string","operator":"contains","value":""},
-        {"name":"callingTime","type":"date","operator":"inrange","value":""},
-        {"name":"replyTime","type":"date","operator":"inrange","value":""},
-        {"name":"ktas","type":"select","operator":"eq","value":""}]
-         */
+        // TODO: 나중에 아래 주석 제거해서 사용자별로 다른 결과 보여주기
+//        predicate.and(calling.memberId.eq(memberId));
 
         for (FilterValue filterValue : filterValues) {
             if (filterValue.getValue().equals("")) continue;
             PathBuilder<CallingItem> path = getPath(filterValue.getName());
             String columnName = getColumnName(filterValue.getName());
-            StringPath field = path.getString(columnName);
-            DateTimePath<LocalDateTime> dateField = path.getDateTime(columnName, LocalDateTime.class);
 
             if (filterValue.getType().equals("string")) {
-                predicate.and(field.contains(filterValue.getValue()));
+                StringPath field = path.getString(columnName);
+                predicate.and(field.contains(filterValue.getValue().toString()));
                 continue;
             }
 
             if (filterValue.getType().equals("select")) {
-                predicate.and(field.eq(filterValue.getValue()));
+                StringPath field = path.getString(columnName);
+                predicate.and(field.eq(filterValue.getValue().toString()));
                 continue;
+            }
+
+            DateTimePath<LocalDateTime> dateField = path.getDateTime(columnName, LocalDateTime.class);
+            Map<String, String> map = (LinkedHashMap) filterValue.getValue();
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm", Locale.ENGLISH);
+            if (!map.get("start").equals("")) {
+                LocalDateTime startDate = LocalDateTime.parse(map.get("start"), formatter);
+                predicate.and(dateField.after(startDate));
+            }
+
+            if (!map.get("end").equals("")) {
+                LocalDateTime endDate = LocalDateTime.parse(map.get("end"), formatter);
+                predicate.and(dateField.before(endDate));
             }
         }
 
