@@ -2,10 +2,7 @@ package com.codesmith.goojangcalling.calling.persistence;
 
 import com.codesmith.goojangcalling.calling.dto.FilterValue;
 import com.codesmith.goojangcalling.calling.dto.SortInfo;
-import com.codesmith.goojangcalling.calling.persistence.domain.AgeGroup;
-import com.codesmith.goojangcalling.calling.persistence.domain.CallingItem;
-import com.codesmith.goojangcalling.calling.persistence.domain.Gender;
-import com.codesmith.goojangcalling.calling.persistence.domain.KTAS;
+import com.codesmith.goojangcalling.calling.persistence.domain.*;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Order;
@@ -153,6 +150,11 @@ public class CallingSupportRepositoryImpl implements CallingSupportRepository {
 
             if (filterValue.getName().equals("gender")) {
                 predicate.and(path.get("gender").eq(Gender.valueOf(value)));
+                continue;
+            }
+
+            if (filterValue.getName().equals("status")) {
+                predicate.and(path.get("status").eq(Status.valueOf(value)));
                 continue;
             }
 
