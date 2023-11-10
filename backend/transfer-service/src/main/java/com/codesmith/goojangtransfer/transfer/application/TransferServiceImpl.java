@@ -9,7 +9,6 @@ import com.codesmith.goojangtransfer.transfer.dto.response.TransferListResponse;
 import com.codesmith.goojangtransfer.transfer.dto.response.TransferStatusChangeResponse;
 import com.codesmith.goojangtransfer.infra.openfeign.CallingServiceClient;
 import com.codesmith.goojangtransfer.infra.openfeign.MemberServiceClient;
-import com.codesmith.goojangtransfer.transfer.dto.request.TransferCreateRequest;
 import com.codesmith.goojangtransfer.transfer.dto.request.TransferHistoryListRequest;
 import com.codesmith.goojangtransfer.transfer.dto.response.*;
 import com.codesmith.goojangtransfer.transfer.persistence.TransferRepository;
