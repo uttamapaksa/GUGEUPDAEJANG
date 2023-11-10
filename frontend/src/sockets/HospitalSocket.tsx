@@ -169,8 +169,6 @@ function HospitalSocket() {
             curLat: item.curLat,
             curLon: item.curLon,
             curAddr: item.curAddr,
-            leftTime: item.leftTime,
-            leftDist: item.leftDist,
             data: transferList[i].data,
           };
           console.log(curItme);

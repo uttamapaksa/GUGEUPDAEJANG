@@ -14,7 +14,7 @@ import A from "/src/components/Commons/Atoms";
 import theme from "/src/styles";
 import { hospitalParmedicTransferList } from "/src/recoils/HospitalAtoms";
 import { HospitalTransferItem } from "/src/types/map";
-import { timeToString, turmToString } from "/src/constants/function";
+import { expectedTime, timeToString, turmToString } from "/src/constants/function";
 import { AGEGROUP, GENDER } from "/src/constants/variable";
 
 const TransferDetail = (props: any) => {
@@ -80,8 +80,8 @@ const TransferDetail = (props: any) => {
           <ItemAddr>{props.data.description}</ItemAddr>
           <ItemAddr>{props.data.address}</ItemAddr>
           <DetailItemBetween>
-            <ItemElapseMin>{props.leftDist} km</ItemElapseMin>
-            <ItemLeftTime>{props.leftTime}분 이내 도착 가능</ItemLeftTime>
+            {/* <ItemElapseMin>{props.leftDist} km</ItemElapseMin> */}
+            <ItemLeftTime>도착 예정 시간 : {expectedTime(props.data.createdAt, props.data.duration)}</ItemLeftTime>
           </DetailItemBetween>
 
           {props.state == "transfer" ? (
@@ -97,7 +97,7 @@ const TransferDetail = (props: any) => {
               $backgroundColor={theme.color.blue}
               $boxShadow=""
             >
-              {props.leftTime}분 이내 도착 가능
+              이송중
             </A.DivTag>
           ) : (
             <></>

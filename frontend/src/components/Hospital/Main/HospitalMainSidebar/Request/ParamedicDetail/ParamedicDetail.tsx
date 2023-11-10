@@ -77,14 +77,11 @@ const ParamedicDetail = (props: any) => {
         } else {
           setTransferList([newTransferItem]);
         }
-        console.log("transferList 들어간다!!!!!!!!!!", transferList, newTransferItem);
       }
 
-      console.log("transferList 들어갔나?????????", transferList);
       let nextRequestList = requestList.filter((item: ParaRequestItem) => item.id != props.id);
       setRequestList(nextRequestList);
 
-      console.log("requestList 빠진다!!!!!!!!!!", nextRequestList);
       if (selectedParaItem !== undefined && selectedParaItem.id == props.id) {
         setSelectedParaItem(undefined);
       }
