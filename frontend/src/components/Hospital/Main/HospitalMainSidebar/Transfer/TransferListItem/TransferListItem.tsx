@@ -37,6 +37,9 @@ const TransferListItem = (props: any) => {
       let nextTransferList = transferList.filter((item:HospitalTransferItem) => item.id!=props.id);
       setTransferList(nextTransferList);
     }
+    if (selectedParaItem !== undefined && selectedParaItem.id == props.id) {
+      setSelectedParaItem(undefined);
+    }
   };
 
   return (

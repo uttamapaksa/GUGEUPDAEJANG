@@ -12,13 +12,15 @@ import {
 } from "./TransferDetail.style";
 import A from "/src/components/Commons/Atoms";
 import theme from "/src/styles";
-import { hospitalParmedicTransferList } from "/src/recoils/HospitalAtoms";
+import { hospitalParmedicTransferList, hospitalSelectedTransferItem } from "/src/recoils/HospitalAtoms";
 import { HospitalTransferItem } from "/src/types/map";
 import { expectedTime, timeToString, turmToString } from "/src/constants/function";
 import { AGEGROUP, GENDER } from "/src/constants/variable";
 
 const TransferDetail = (props: any) => {
   const [transferList, setTransferList] = useRecoilState(hospitalParmedicTransferList);
+  const [selectedParaItem, setSelectedParaItem] = useRecoilState(hospitalSelectedTransferItem);
+
 
   const clickButton = () => {
     if (transferList != undefined) {
@@ -26,6 +28,9 @@ const TransferDetail = (props: any) => {
       let nextTransferList = transferList.filter((item: HospitalTransferItem) => item.id != props.id);
       setTransferList(nextTransferList);
       props.onclick();
+    }
+    if (selectedParaItem !== undefined && selectedParaItem.id == props.id) {
+      setSelectedParaItem(undefined);
     }
   };
   return (
