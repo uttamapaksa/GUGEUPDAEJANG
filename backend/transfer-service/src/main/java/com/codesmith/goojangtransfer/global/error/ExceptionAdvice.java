@@ -5,6 +5,7 @@ import com.codesmith.goojangtransfer.global.error.dto.ErrorResponse;
 import com.codesmith.goojangtransfer.global.error.dto.ErrorStatus;
 import com.codesmith.goojangtransfer.infra.openvidu.exception.OpenViduConnectionFailException;
 import com.codesmith.goojangtransfer.infra.openvidu.exception.OpenViduCreateFailException;
+import com.codesmith.goojangtransfer.infra.openvidu.exception.OpenViduSessionNotFoundException;
 import com.codesmith.goojangtransfer.transfer.exception.TransferAlreadyArrivedException;
 import com.codesmith.goojangtransfer.transfer.exception.TransferDuplicateException;
 import com.codesmith.goojangtransfer.transfer.exception.TransferNotFoundException;
@@ -45,5 +46,11 @@ public class ExceptionAdvice {
     public ResponseEntity<ErrorResponse> failConnectionOpenVidu() {
         ErrorResponse errorResponse = new ErrorResponse(ErrorCode.OPENVIDU_CONNECTION_FAIL, "접속에 실패했습니다.");
         return ResponseEntity.status(HttpStatus.valueOf(ErrorStatus.BAD_REQUEST.getValue())).body(errorResponse);
+    }
+
+    @ExceptionHandler({OpenViduSessionNotFoundException.class})
+    public ResponseEntity<ErrorResponse> sessionNotFound() {
+        ErrorResponse errorResponse = new ErrorResponse(ErrorCode.OPENVIDU_SESSION_NOT_FOUND, "세션이 존재하지 않습니다.");
+        return ResponseEntity.status(HttpStatus.valueOf(ErrorStatus.NOT_FOUND.getValue())).body(errorResponse);
     }
 }
