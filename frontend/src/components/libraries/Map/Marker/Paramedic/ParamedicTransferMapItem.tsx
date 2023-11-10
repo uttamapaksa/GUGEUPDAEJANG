@@ -5,8 +5,16 @@ import { Tmapv3 } from "../../Map";
 function ParamedicTransferMapItem(props: any) {
   const [count, setCount] = useState(3);
 
+  const [item, setItem] = useState<any>(undefined);
+  const [routeReturn, setRouteReturn] = useState<any>(undefined);
+
+
+
+  // 테스트용
+  const [idx, setIdx] = useState(0);
+
   function getRP() {
-    var s_latlng = new Tmapv3.LatLng(props.pos.lat, props.pos.lon);
+    var s_latlng = new Tmapv3.LatLng(props.pos.lat + 0.0001 * idx, props.pos.lon + 0.0001 * idx);
     var e_latlng = new Tmapv3.LatLng(props.endPos.lat, props.endPos.lon);
 
     var optionObj = {
@@ -28,13 +36,15 @@ function ParamedicTransferMapItem(props: any) {
 
   const onComplete = (responseData: any) => {
     console.log(responseData);
-
+    if (item !== undefined && item.polylines !== undefined) {
+      item.polylines.forEach((element: any) => {
+        element.setMap(null);
+      });
+    }
     var jsonObject = new Tmapv3.extension.GeoJSON();
-    if (jsonObject !== undefined) {
-      var jsonForm = jsonObject.rpTrafficRead(responseData);
-      //교통정보 표출시 생성되는 LineColor 입니다.
+    if (jsonObject !== undefined && responseData !== undefined) {
+      var jsonForm = jsonObject.rpTrafficRead(responseData._responseData);
       var trafficColors = {
-        // 사용자가 임의로 색상을 설정할 수 있습니다.
         // 교통정보 옵션 - 라인색상
         trafficDefaultColor: "#000000", //교통 정보가 없을 때
         trafficType1Color: "#009900", //원할
@@ -42,13 +52,20 @@ function ParamedicTransferMapItem(props: any) {
         trafficType3Color: "#8E8111", //정체
         trafficType4Color: "#FF0000", //정체
       };
-      jsonObject.drawRouteByTraffic(props.map, jsonForm, trafficColors);
-      // props.map.setCenter(new Tmapv3.LatLng(props.pos.lat, props.pos.lon));
-      props.map.setZoom(13);
+      jsonObject.drawRouteByTraffic(props.map, jsonForm, trafficColors, setRouteItem);
+      setRouteReturn({distance: responseData._responseData.features[0].properties.totalDistance, time: responseData._responseData.features[0].properties.totalTime})
+      // console.log(responseData._responseData.features[0].properties.totalDistance,
+      //   responseData._responseData.features[0].properties.totalTime);
     }
+    // setRouteReturn()
   };
 
-  function onProgress() {}
+  function onProgress() { }
+
+  const setRouteItem = (evt: any) => {
+    setItem(evt);
+    console.log(evt)
+  }
 
   function onError() {
     alert("onError");
@@ -60,7 +77,7 @@ function ParamedicTransferMapItem(props: any) {
     }, 1000);
 
     if (count === 0) {
-      setCount(3);
+      setCount(5);
       if (props.map !== undefined) {
         deleteMarker(2);
         // var lonlat = new Tmapv3.LatLng(props.pos.lat, props.pos.lon);
@@ -73,7 +90,9 @@ function ParamedicTransferMapItem(props: any) {
         //   icon: "/src/assets/hospital/map-marker-hospital.png",
         //   // label: title //Marker의 라벨.
         // });
+        setIdx(idx + 1)
         getRP();
+        console.log(routeReturn)
       }
     }
     return () => clearInterval(id);
