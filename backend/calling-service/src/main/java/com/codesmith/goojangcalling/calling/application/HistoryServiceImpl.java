@@ -8,16 +8,22 @@ import com.codesmith.goojangcalling.calling.dto.response.CallingListResponse;
 import com.codesmith.goojangcalling.calling.dto.response.MediaTextResponse;
 import com.codesmith.goojangcalling.calling.persistence.CallingRepository;
 import com.codesmith.goojangcalling.calling.persistence.domain.CallingItem;
+import com.codesmith.goojangcalling.infra.ncp.NaverCloudClient;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.cloud.speech.v1.*;
 import com.google.protobuf.ByteString;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.fileupload.InvalidFileNameException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import com.google.cloud.speech.v1.RecognitionConfig.AudioEncoding;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,6 +31,8 @@ import java.util.stream.Collectors;
 public class HistoryServiceImpl implements HistoryService {
     private final CallingRepository callingRepository;
     private final ObjectMapper objectMapper;
+    private final NaverCloudClient naverCloudClient;
+
     @Override
     public CallingListResponse getCallingList(Long memberId, CallingListRequest callingHistoryRequest) {
         SortInfo sortInfo = getSortInfo(callingHistoryRequest.getSortInfo());
@@ -37,7 +45,18 @@ public class HistoryServiceImpl implements HistoryService {
 
     @Override
     public MediaTextResponse getTextByFile(MultipartFile file) {
-        return null;
+        try {
+            File convFile = new File(Objects.requireNonNull(file.getOriginalFilename()));
+            convFile.createNewFile();
+            FileOutputStream fos = new FileOutputStream(convFile);
+            fos.write(file.getBytes());
+            fos.close();
+
+            String resp = naverCloudClient.stt(convFile);
+            return new MediaTextResponse(resp);
+        } catch (Exception e) {
+            throw new InvalidFileNameException("잘못된 파일", null);
+        }
     }
 
     private FilterValue[] getFilterValues(String filterStr) {

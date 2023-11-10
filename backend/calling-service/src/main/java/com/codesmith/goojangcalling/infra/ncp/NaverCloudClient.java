@@ -15,7 +15,7 @@ import java.net.URL;
 @Component
 @Configuration
 @RequiredArgsConstructor
-public class NaverCloud {
+public class NaverCloudClient {
     private final ObjectMapper objectMapper;
 
     @Value("${naver.cloud.id}")
