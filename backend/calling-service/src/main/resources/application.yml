@@ -54,3 +54,7 @@ passport:
 webclient:
   url:
     member: https://k9b204.p.ssafy.io:64417/member
+naver:
+  cloud:
+    id: ${NAVER_CLOUD_ID}
+    secrete: ${NAVER_CLOUD_SECRET}

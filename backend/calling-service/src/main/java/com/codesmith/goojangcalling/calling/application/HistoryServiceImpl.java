@@ -37,34 +37,7 @@ public class HistoryServiceImpl implements HistoryService {
 
     @Override
     public MediaTextResponse getTextByFile(MultipartFile file) {
-        try (SpeechClient speechClient = SpeechClient.create()) {
-            byte[] audioBytes = file.getBytes();
-
-            ByteString audioData = ByteString.copyFrom(audioBytes);
-            RecognitionAudio recognitionAudio = RecognitionAudio.newBuilder()
-                    .setContent(audioData)
-                    .build();
-            RecognitionConfig.AudioEncoding encoding = AudioEncoding.MP3;
-
-            RecognitionConfig recognitionConfig =
-                    RecognitionConfig.newBuilder()
-                            .setEncoding(encoding)
-                            .setSampleRateHertz(44100)
-                            .setLanguageCode("ko")
-                            .build();
-
-            RecognizeResponse response = speechClient.recognize(recognitionConfig, recognitionAudio);
-            List<SpeechRecognitionResult> results = response.getResultsList();
-
-            if (!results.isEmpty()) {
-                SpeechRecognitionResult result = results.get(0);
-                return new MediaTextResponse(result.getAlternatives(0).getTranscript());
-            } else {
-                return new MediaTextResponse("");
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        return null;
     }
 
     private FilterValue[] getFilterValues(String filterStr) {
