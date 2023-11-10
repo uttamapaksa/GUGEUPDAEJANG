@@ -9,11 +9,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Getter
 public class SafetyCenterMemberResponse {
-    private Long id;
+    private Long memberId;
     private String name;
 
     public SafetyCenterMemberResponse(ParamedicDetail paramedicDetail) {
-        this.id = paramedicDetail.getId();
+        this.memberId = paramedicDetail.getMember().getId();
         this.name = paramedicDetail.getMember().getName();
     }
 }
