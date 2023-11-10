@@ -47,6 +47,11 @@ function LoginInput() {
     }
     setPassword(e.target.value.split(' ').join(''));
   };
+  const handleEnterPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      axiosLogin();
+    }
+  };
 
   const axiosLogin = async (): Promise<void> => {
     if (showSpinner) return;
@@ -85,6 +90,7 @@ function LoginInput() {
     setShowSpinner(false)
   };
 
+
   const axiosLogout = async (): Promise<void> => {
     try {
       const response = await deleteLogout();
@@ -97,7 +103,7 @@ function LoginInput() {
       console.log(error);
     }
   };
-
+  
   return (
     <S.Container>
       {isOpen && <LoginFailModal content={modalContent} setIsOpen={setIsOpen} />}
@@ -110,7 +116,7 @@ function LoginInput() {
           placeholder="이메일"
           value={email}
           onChange={handleEmail}
-        />
+          />
       </S.Row1>
 
       <S.Row1>
@@ -121,6 +127,7 @@ function LoginInput() {
           placeholder="비밀번호"
           value={password}
           onChange={handlePassword}
+          onKeyDown={handleEnterPress}
         />
 
         <A.BtnSubmit
