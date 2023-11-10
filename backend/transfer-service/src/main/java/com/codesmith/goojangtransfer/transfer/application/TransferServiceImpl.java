@@ -9,7 +9,7 @@ import com.codesmith.goojangtransfer.transfer.dto.response.TransferListResponse;
 import com.codesmith.goojangtransfer.transfer.dto.response.TransferStatusChangeResponse;
 import com.codesmith.goojangtransfer.infra.openfeign.CallingServiceClient;
 import com.codesmith.goojangtransfer.infra.openfeign.MemberServiceClient;
-import com.codesmith.goojangtransfer.transfer.dto.request.TransferHistoryListRequest;
+import com.codesmith.goojangtransfer.transfer.dto.request.TransferHistoryRequest;
 import com.codesmith.goojangtransfer.transfer.dto.response.*;
 import com.codesmith.goojangtransfer.transfer.persistence.TransferRepository;
 import com.codesmith.goojangtransfer.transfer.persistence.domain.Status;
@@ -97,7 +97,7 @@ public class TransferServiceImpl implements TransferService {
     }
 
     @Override
-    public List<TransferHistoryListResponse> getTransferHistoryList(Long memberId, TransferHistoryListRequest transferHistoryListRequest) {
+    public List<TransferHistoryResponse> getTransferHistoryList(Long memberId, TransferHistoryRequest transferHistoryRequest) {
         SafetyCenterInfoResponse safetyCenterInfoResponse = memberServiceClient.getSafetyCenterInfo(memberId);
         Map<String, String> paramedicMap = safetyCenterInfoResponse.getParamedics().stream()
                 .collect(Collectors.toMap(paramedic -> paramedic.getMemberId().toString(), paramedic -> paramedic.getName()));
@@ -106,14 +106,14 @@ public class TransferServiceImpl implements TransferService {
 
         List<Transfer> transfers = transferRepository.findAllByCallingIds(occurrenceInfos.stream()
                 .map(occurrenceInfoResponse -> occurrenceInfoResponse.getCallingId())
-                .collect(Collectors.toList()), transferHistoryListRequest.getStartDate(), transferHistoryListRequest.getEndDate());
+                .collect(Collectors.toList()), transferHistoryRequest.getStartDate(), transferHistoryRequest.getEndDate());
 
-        List<TransferHistoryListResponse> transferHistoryListResponses = new ArrayList<>();
+        List<TransferHistoryResponse> transferHistoryListResponses = new ArrayList<>();
         for (Transfer transfer: transfers) {
             occurrenceInfos.stream()
                     .filter(occurrenceInfoResponse -> occurrenceInfoResponse.getCallingId().equals(transfer.getCallingId()))
                     .findFirst()
-                    .ifPresent(occurrenceInfoResponse -> transferHistoryListResponses.add(new TransferHistoryListResponse(occurrenceInfoResponse, transfer)));
+                    .ifPresent(occurrenceInfoResponse -> transferHistoryListResponses.add(new TransferHistoryResponse(occurrenceInfoResponse, transfer)));
         }
 
         return transferHistoryListResponses;
