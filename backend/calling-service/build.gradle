@@ -27,6 +27,8 @@ ext {
 }
 
 dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
 	implementation 'com.google.cloud:google-cloud-speech:4.25.0'
 
 	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'

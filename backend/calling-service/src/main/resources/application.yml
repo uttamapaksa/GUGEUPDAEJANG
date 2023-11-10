@@ -21,6 +21,11 @@ spring:
       properties:
         hibernate:
           default_batch_fetch_size: 500
+  redis:
+    host: ${CALLING_REDIS_HOST}
+    port: ${CALLING_REDIS_PORT}
+    password: ${CALLING_REDIS_PASSWORD}
+    database: 9
 cloud:
   aws:
     s3:
@@ -57,4 +62,4 @@ webclient:
 naver:
   cloud:
     id: ${NAVER_CLOUD_ID}
-    secrete: ${NAVER_CLOUD_SECRET}
+    secret: ${NAVER_CLOUD_SECRET}
