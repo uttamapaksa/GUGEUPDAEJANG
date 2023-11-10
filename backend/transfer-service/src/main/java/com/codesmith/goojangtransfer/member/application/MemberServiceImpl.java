@@ -15,7 +15,11 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public Member getMember(Long memberId) {
-        return null;
+        if (!memberRepository.existsById(memberId)) {
+            saveMember(memberId);
+        }
+
+        return memberRepository.findById(memberId).get();
     }
 
     @Override
