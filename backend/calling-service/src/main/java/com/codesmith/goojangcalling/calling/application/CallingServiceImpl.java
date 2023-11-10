@@ -9,6 +9,9 @@ import com.codesmith.goojangcalling.calling.persistence.domain.*;
 import com.codesmith.goojangcalling.infra.aws.S3Client;
 import com.codesmith.goojangcalling.infra.openfeign.MemberServiceClient;
 import com.codesmith.goojangcalling.infra.openfeign.TransferServiceClient;
+import com.codesmith.goojangcalling.member.application.MemberService;
+import com.codesmith.goojangcalling.member.dto.response.MemberInfoResponse;
+import com.codesmith.goojangcalling.member.persistence.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
@@ -37,6 +40,8 @@ public class CallingServiceImpl implements CallingService{
 
     private final MemberServiceClient memberServiceClient;
     private final TransferServiceClient transferServiceClient;
+
+    private final MemberService memberService;
 
     @Override
     public OccurrenceCreateResponse addOccurrence(Long memberId, OccurrenceCreateRequest occurrenceCreateRequest) {
@@ -181,9 +186,9 @@ public class CallingServiceImpl implements CallingService{
         selectedCalling.fixCalling();
         simpMessagingTemplate.convertAndSend("/topic/status/" + selectedCalling.getMemberId(), new CallingStatusMessage(selectedCalling));
         changePendingCalling(selectedCalling);
-        MemberInfoResponse hospital = memberServiceClient.getMember(selectedCalling.getMemberId());
+        Member member = memberService.getMember(selectedCalling.getMemberId());
         TransferCreateResponse transfer = transferServiceClient.createTransfer(new CreateTransferRequest(selectedCalling));
-        transfer.setInfo(selectedCalling.getOccurrence(), hospital.getName(), hospital.getId());
+        transfer.setInfo(selectedCalling.getOccurrence(), member.getName(), member.getId());
         return transfer;
     }
 
