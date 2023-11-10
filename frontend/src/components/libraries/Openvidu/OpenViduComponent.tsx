@@ -56,9 +56,8 @@ const OpenViduComponent = (props: any) => {
     // --- 4) Connect to the session with a valid user token ---
     try {
       const token = await getToken();
-      console.log(props.roomData.token);
 
-      await mySession.connect(token, { clientData: currentUser });
+      await mySession.connect(token.data.token, { clientData: currentUser });
 
       const devices = await OV.getDevices();
       console.log("devices");
@@ -104,9 +103,10 @@ const OpenViduComponent = (props: any) => {
   };
 
   const getToken = async () => {
-    const respense = await postMeetConnect(props.transferId);
-    if (respense !== undefined) return respense.data.token;
-    else return undefined;
+    const response = await postMeetConnect(props.transferId);
+    // if (response !== undefined) return response.data.token;
+    // else return undefined;
+    return response;
   };
 
   useEffect(() => {
@@ -121,9 +121,9 @@ const OpenViduComponent = (props: any) => {
             {publisher !== undefined ? (
               <UserVideoComponent streamManager={publisher} />
             ) : null}
-            <UserVideoComponent
+            {/* <UserVideoComponent
               streamManager={subscribers}
-            />
+            /> */}
           </div>
         </div>
       ) : (

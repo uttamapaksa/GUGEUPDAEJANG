@@ -4,6 +4,9 @@ import { useEffect, useRef, useState } from "react";
 import OpenViduVideoComponent from "./OvVideo";
 
 const UserVideoComponent = (props: any) => {
+  useEffect(()=>{
+    console.log("UserVideoComponent", props)
+  }, [props])
   const anchorRef = useRef<HTMLDivElement>(null);
   return (
     <VedioOuterDiv

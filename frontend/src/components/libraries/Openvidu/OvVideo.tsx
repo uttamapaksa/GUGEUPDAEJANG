@@ -10,7 +10,7 @@ const OpenViduVideoComponent = (props: any) => {
     }
   }, [props]);
 
-  return <Video autoPlay={true} ref={videoRef} muted={props.isMuted}/>
+  return <Video autoPlay={true} ref={videoRef}/>
 };
 
 export default OpenViduVideoComponent;
