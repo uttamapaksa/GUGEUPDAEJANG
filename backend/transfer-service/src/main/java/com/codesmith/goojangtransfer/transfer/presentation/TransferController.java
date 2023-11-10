@@ -5,7 +5,7 @@ import com.codesmith.goojangtransfer.global.passport.presentation.AuthMember;
 import com.codesmith.goojangtransfer.transfer.application.TransferService;
 import com.codesmith.goojangtransfer.transfer.dto.request.TransferCreateRequest;
 import com.codesmith.goojangtransfer.transfer.dto.response.MeetingJoinResponse;
-import com.codesmith.goojangtransfer.transfer.dto.request.TransferHistoryListRequest;
+import com.codesmith.goojangtransfer.transfer.dto.request.TransferHistoryRequest;
 import com.codesmith.goojangtransfer.transfer.dto.response.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,11 +17,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/transfer")
 @RequiredArgsConstructor
-@Slf4j
 public class TransferController {
 
     private final TransferService transferService;
-
 
     @PostMapping
     public ResponseEntity<TransferCreateResponse> createTransfer(@RequestBody TransferCreateRequest transferCreateRequest) {
@@ -55,7 +53,7 @@ public class TransferController {
     }
 
     @GetMapping("/history")
-    public ResponseEntity<List<TransferHistoryListResponse>> getTransferHistoryList(@AuthMember MemberInfo memberInfo, @ModelAttribute TransferHistoryListRequest transferHistoryListRequest) {
-        return ResponseEntity.ok(transferService.getTransferHistoryList(memberInfo.getId(), transferHistoryListRequest));
+    public ResponseEntity<List<TransferHistoryResponse>> getTransferHistoryList(@AuthMember MemberInfo memberInfo, @ModelAttribute TransferHistoryRequest transferHistoryRequest) {
+        return ResponseEntity.ok(transferService.getTransferHistoryList(memberInfo.getId(), transferHistoryRequest));
     }
 }

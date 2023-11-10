@@ -21,5 +21,5 @@ public class OccurrenceInfoResponse {
     private List<String> files;
     private Long callingId;
     private LocalDateTime createdAt;
-    private Long hospitalId; // 얘도 병원 이름으로 받고 싶다... 내가 왜 id라 그랬을까..
+    private Long hospitalId;
 }

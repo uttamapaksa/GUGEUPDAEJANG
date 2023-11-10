@@ -13,6 +13,6 @@ public interface MemberServiceClient {
     MemberInfoResponse getMember(@PathVariable("memberId") Long memberId);
 
     @GetMapping("/member/my-safety-center")
-    SafetyCenterInfoResponse getSafetyCenterInfo(@RequestParam("memberId") Long memberId); // 멤버 서비스 가서 memberId로 바꾸기
+    SafetyCenterInfoResponse getSafetyCenterInfo(@RequestParam("memberId") Long memberId);
 }
 
