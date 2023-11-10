@@ -1,16 +1,20 @@
 package com.codesmith.goojangtransfer.transfer.application;
 
+import com.codesmith.goojangtransfer.infra.openvidu.OpenViduClient;
+import com.codesmith.goojangtransfer.transfer.dto.message.MeetingJoinMessage;
 import com.codesmith.goojangtransfer.transfer.dto.request.TransferCreateRequest;
+import com.codesmith.goojangtransfer.transfer.dto.response.MeetingJoinResponse;
 import com.codesmith.goojangtransfer.transfer.dto.response.TransferCreateResponse;
 import com.codesmith.goojangtransfer.transfer.dto.response.TransferListResponse;
 import com.codesmith.goojangtransfer.transfer.dto.response.TransferStatusChangeResponse;
 import com.codesmith.goojangtransfer.transfer.persistence.TransferRepository;
 import com.codesmith.goojangtransfer.transfer.persistence.domain.Status;
 import com.codesmith.goojangtransfer.transfer.persistence.domain.Transfer;
+import io.openvidu.java.client.Session;
 import lombok.RequiredArgsConstructor;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,6 +24,10 @@ public class TransferServiceImpl implements TransferService {
 
     private final TransferRepository transferRepository;
     private final TransferValidator transferValidator;
+
+    private final OpenViduClient openViduClient;
+
+    private final SimpMessagingTemplate simpMessagingTemplate;
 
     @Override
     public TransferCreateResponse createTransfer(TransferCreateRequest transferCreateRequest) {
@@ -61,5 +69,22 @@ public class TransferServiceImpl implements TransferService {
                         transfer.getArrivedAt()
                 ))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public MeetingJoinResponse joinMeeting(Long memberId, Long transferId) {
+        Session existSession = openViduClient.checkSession(transferId);
+        if (existSession == null) {
+            Session session = openViduClient.createSession(transferId);
+            MeetingJoinMessage meetingJoinMessage = new MeetingJoinMessage(memberId, transferId);
+            simpMessagingTemplate.convertAndSend("/topic/meeting/" + transferId, meetingJoinMessage);
+            return new MeetingJoinResponse(openViduClient.getToken(session).getToken());
+        }
+        return new MeetingJoinResponse(openViduClient.getToken(existSession).getToken());
+    }
+
+    @Override
+    public void deleteMeeting(Long transferId) {
+        openViduClient.closeSession(transferId);
     }
 }
