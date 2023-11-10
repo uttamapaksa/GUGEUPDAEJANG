@@ -67,8 +67,12 @@ public class NaverCloudClient {
             System.out.println(e);
         }
 
+        return getTextFromResponse(response.toString());
+    }
+
+    private String getTextFromResponse(String responseStr) {
         try {
-            return objectMapper.readValue(response.toString(), MediaTextResponse.class).getText();
+            return objectMapper.readValue(responseStr, MediaTextResponse.class).getText();
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
