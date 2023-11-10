@@ -4,7 +4,7 @@ import com.codesmith.goojangtransfer.global.passport.MemberInfo;
 import com.codesmith.goojangtransfer.global.passport.presentation.AuthMember;
 import com.codesmith.goojangtransfer.transfer.application.TransferService;
 import com.codesmith.goojangtransfer.transfer.dto.request.TransferCreateRequest;
-import com.codesmith.goojangtransfer.transfer.dto.response.JoinMeetingResponse;
+import com.codesmith.goojangtransfer.transfer.dto.response.MeetingJoinResponse;
 import com.codesmith.goojangtransfer.transfer.dto.response.TransferCreateResponse;
 import com.codesmith.goojangtransfer.transfer.dto.response.TransferListResponse;
 import com.codesmith.goojangtransfer.transfer.dto.response.TransferStatusChangeResponse;
@@ -43,7 +43,7 @@ public class TransferController {
     }
 
     @PostMapping("/meeting/{transferId}")
-    public ResponseEntity<JoinMeetingResponse> joinMeetingByTransferId(@AuthMember MemberInfo memberInfo, @PathVariable Long transferId) {
+    public ResponseEntity<MeetingJoinResponse> joinMeetingByTransferId(@AuthMember MemberInfo memberInfo, @PathVariable Long transferId) {
         return ResponseEntity.ok(transferService.joinMeeting(memberInfo.getId(), transferId));
     }
 

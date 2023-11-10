@@ -47,7 +47,7 @@ public class OpenViduClient {
         }
     }
 
-    public Session isExistSession(Long transferId) {
+    public Session checkSession(Long transferId) {
         String inputSessionId = "session" + transferId;
         return openVidu.getActiveSessions().stream()
                 .filter(o -> o.getSessionId().equals(inputSessionId))
@@ -63,7 +63,7 @@ public class OpenViduClient {
 
     public void closeSession(Long transferId) {
         try {
-            Session session = isExistSession(transferId);
+            Session session = checkSession(transferId);
             validateSession(session);
             session.close();
         } catch (OpenViduException e) {

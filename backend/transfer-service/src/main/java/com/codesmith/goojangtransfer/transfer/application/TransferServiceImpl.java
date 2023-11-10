@@ -1,9 +1,9 @@
 package com.codesmith.goojangtransfer.transfer.application;
 
 import com.codesmith.goojangtransfer.infra.openvidu.OpenViduClient;
-import com.codesmith.goojangtransfer.transfer.dto.message.JoinMeetingMessage;
+import com.codesmith.goojangtransfer.transfer.dto.message.MeetingJoinMessage;
 import com.codesmith.goojangtransfer.transfer.dto.request.TransferCreateRequest;
-import com.codesmith.goojangtransfer.transfer.dto.response.JoinMeetingResponse;
+import com.codesmith.goojangtransfer.transfer.dto.response.MeetingJoinResponse;
 import com.codesmith.goojangtransfer.transfer.dto.response.TransferCreateResponse;
 import com.codesmith.goojangtransfer.transfer.dto.response.TransferListResponse;
 import com.codesmith.goojangtransfer.transfer.dto.response.TransferStatusChangeResponse;
@@ -72,15 +72,15 @@ public class TransferServiceImpl implements TransferService {
     }
 
     @Override
-    public JoinMeetingResponse joinMeeting(Long memberId, Long transferId) {
-        Session existSession = openViduClient.isExistSession(transferId);
+    public MeetingJoinResponse joinMeeting(Long memberId, Long transferId) {
+        Session existSession = openViduClient.checkSession(transferId);
         if (existSession == null) {
             Session session = openViduClient.createSession(transferId);
-            JoinMeetingMessage joinMeetingMessage = new JoinMeetingMessage(memberId, transferId);
-            simpMessagingTemplate.convertAndSend("/topic/meeting/" + transferId, joinMeetingMessage);
-            return new JoinMeetingResponse(openViduClient.getToken(session).getToken());
+            MeetingJoinMessage meetingJoinMessage = new MeetingJoinMessage(memberId, transferId);
+            simpMessagingTemplate.convertAndSend("/topic/meeting/" + transferId, meetingJoinMessage);
+            return new MeetingJoinResponse(openViduClient.getToken(session).getToken());
         }
-        return new JoinMeetingResponse(openViduClient.getToken(existSession).getToken());
+        return new MeetingJoinResponse(openViduClient.getToken(existSession).getToken());
     }
 
     @Override

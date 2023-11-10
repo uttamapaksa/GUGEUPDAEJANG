@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class JoinMeetingMessage {
+public class MeetingJoinMessage {
     private Long memberId;
     private Long transferId;
 }

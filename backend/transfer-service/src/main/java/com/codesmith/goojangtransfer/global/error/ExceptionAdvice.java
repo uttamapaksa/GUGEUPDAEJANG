@@ -38,7 +38,7 @@ public class ExceptionAdvice {
 
     @ExceptionHandler({OpenViduCreateFailException.class})
     public ResponseEntity<ErrorResponse> failCreateOpenVidu() {
-        ErrorResponse errorResponse = new ErrorResponse(ErrorCode.OPENVIDU_SESSION_FAIL, "오픈비두 생성에 실패했습니다.");
+        ErrorResponse errorResponse = new ErrorResponse(ErrorCode.OPENVIDU_SESSION_FAIL, "오픈비두 세션 생성에 실패했습니다.");
         return ResponseEntity.status(HttpStatusCode.valueOf(ErrorStatus.BAD_REQUEST.getValue())).body(errorResponse);
     }
 

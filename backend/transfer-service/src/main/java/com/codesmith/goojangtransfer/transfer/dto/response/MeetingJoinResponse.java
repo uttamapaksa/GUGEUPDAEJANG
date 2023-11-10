@@ -9,6 +9,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class JoinMeetingResponse {
+public class MeetingJoinResponse {
     private String token;
 }
