@@ -8,7 +8,6 @@ import {
   isCanceledState,
   isCompletedState,
   fixedCallingState,
-  transferHospitalIdState,
 } from '/src/recoils/ParamedicAtoms';
 import { currentPosition } from '../recoils/HospitalAtoms';
 import { HospitalTransferParaItem } from '../types/map';
@@ -20,7 +19,7 @@ const TRANSFER_SERVER_URL = 'https://k9b204a.p.ssafy.io:64413/transfer-websocket
 
 function ParamedicSocket() {
   const paramedicId = useRecoilValue(memberInfoState).memberId;
-  const hospitalId = useRecoilValue(transferHospitalIdState);
+  const hospitalId = useRecoilValue(fixedCallingState).hospitalId;
 
   const isTransferring = useRecoilValue(isTransferringState);
   const [isCanceled, setIsCanceled] = useRecoilState(isCanceledState);
