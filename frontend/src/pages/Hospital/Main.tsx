@@ -11,6 +11,7 @@ import { getMyHospital } from "/src/apis/hospital";
 import { hospitalInfoState, memberInfoState } from "/src/recoils/AuthAtoms";
 import { HosJoinProps } from "/src/types/auth";
 import ParaMapTest from "/src/components/Hospital/Test/ParaMapTest";
+import HospitalReport from "/src/components/Hospital/Report/HospitalReport";
 
 
 function Main() {
@@ -71,7 +72,8 @@ function Main() {
           <></>
         )}
         {componentType[2] ? (
-          <ParaMapTest/>
+          // <ParaMapTest/>
+          <HospitalReport/>
         ) : (
           <></>
         )}
