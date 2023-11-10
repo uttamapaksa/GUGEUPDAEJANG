@@ -12,8 +12,6 @@ export const turmToString = (start: Date) => {
 
 export const deleteMarker = (idx:number) => {
   const parent = document.querySelector('#map_div > div > div');
-  console.log(console.log('deleteMarker'));
-  console.log(parent);
   if (parent != null) {
     while (parent.children.length > idx) {
       parent.removeChild(parent.children[idx]);
