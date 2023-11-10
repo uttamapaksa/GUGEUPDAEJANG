@@ -69,6 +69,10 @@ function ParamedicSocket() {
   // 구독 함수
   const subscribeCallingTopic = () => {
     if (callingSocket.current) {
+      // // 요청 소켓
+      // callingSocket.current.subscribe(`/topic/${paramedicId}`, (message) => {
+      //   callingReceiveMessage(JSON.parse(message.body));
+      // });
       // 요청 변경 소켓
       callingSocket.current.subscribe(`/topic/status/${paramedicId}`, (message) => {
         callingStatusMessage(JSON.parse(message.body));
@@ -86,6 +90,9 @@ function ParamedicSocket() {
   };
 
   // 메시지 수신
+  // const callingReceiveMessage = (message: any) => {
+  //   console.log('Received calling message:', message);
+  // };
   const callingStatusMessage = (message: any) => {
     console.log('Received Status message:', message);
     setHospitals((currHospitals) =>
@@ -97,6 +104,16 @@ function ParamedicSocket() {
   const transferReceiveMessage = (message: any) => {
     console.log('Received transfer message:', message);
   };
+
+  // // 메시지 송신
+  // const callingSendMessage = () => {
+  //   if (callingSocket.current) {
+  //     callingSocket.current.publish({
+  //       destination: `/app/${hospitalId}`,
+  //       body: JSON.stringify({ name: '구급대원 요청 소켓 송신', longitude: 35.123, latitude: 127.123 }),
+  //     });
+  //   }
+  // };
 
   const transferSendMessage = (data: HospitalTransferParaItem) => {
     if (transferSocket.current) {
