@@ -7,8 +7,8 @@ interface SpinnerProps {
 }
 
 function Spinner ({width, height, top}: SpinnerProps) {
-  const processedWidth = width? width.replace('px', ''):""
-  const processedHeight = height? height.replace('px', ''):""
+  const processedWidth = width? width.replace('vh', ''):""
+  const processedHeight = height? height.replace('vh', ''):""
   
   return (
     <S.SpinnerWrapper width={width} height={height} top={top}>
