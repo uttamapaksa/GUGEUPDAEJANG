@@ -20,6 +20,11 @@ spring:
       properties:
         hibernate:
           default_batch_fetch_size: 500
+  redis:
+    host: ${CALLING_REDIS_HOST}
+    port: ${CALLING_REDIS_PORT}
+    password: ${CALLING_REDIS_PASSWORD}
+    database: 3
 eureka:
   client:
     register-with-eureka: true
