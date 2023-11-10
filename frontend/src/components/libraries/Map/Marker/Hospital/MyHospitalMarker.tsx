@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { Tmapv3 } from "../../Map";
-import { HospitalMarkerContainer } from "../HospitalMarker.style";
 import { deleteMarker } from "/src/constants/function";
 
 function MyHospitalMarker(props: any) {
@@ -20,12 +19,12 @@ function MyHospitalMarker(props: any) {
     }, []);
     useEffect(() => {
         if (props.map !== undefined) {
-            deleteMarker();
+            deleteMarker(3);
         }
     }, [props]);
 
     return (
-        <HospitalMarkerContainer />
+        <></>
     );
 }
 

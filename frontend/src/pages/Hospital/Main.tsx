@@ -10,6 +10,7 @@ import HospitalHistory from "/src/components/Hospital/History/HospitalHistory";
 import { getMyHospital } from "/src/apis/hospital";
 import { hospitalInfoState, memberInfoState } from "/src/recoils/AuthAtoms";
 import { HosJoinProps } from "/src/types/auth";
+import ParaMapTest from "/src/components/Hospital/Test/ParaMapTest";
 
 
 function Main() {
@@ -70,7 +71,7 @@ function Main() {
           <></>
         )}
         {componentType[2] ? (
-          <>이송 기록 수치?</>
+          <ParaMapTest/>
         ) : (
           <></>
         )}

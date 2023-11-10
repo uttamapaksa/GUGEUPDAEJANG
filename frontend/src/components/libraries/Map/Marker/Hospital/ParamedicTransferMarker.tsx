@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Tmapv3 } from "../../Map";
 import { useRecoilState } from "recoil";
 import { hospitalSelectedTransferItem } from "../../../../../recoils/HospitalAtoms";
-import { ParamedicTransferMarkerContainer } from "./ParamedicTransferMarker.style";
 
 function ParamedicTransferMarker(props: any) {
     const [paraTransferItem, setParaTransferItem] = useRecoilState(hospitalSelectedTransferItem);
@@ -48,7 +47,7 @@ function ParamedicTransferMarker(props: any) {
     }, [paraTransferItem]);
 
     return (
-        <ParamedicTransferMarkerContainer></ParamedicTransferMarkerContainer>
+        <></>
     );
 }
 

@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { MapContainer } from "./Map.style";
 import ParamedicInfo from "./InfoWindow/ParamedicInfo";
-import HospitalMarker from "./Marker/HospitalMarker";
 import { MapProps } from "/src/types/map";
 import ParamedicRequestMarker from "./Marker/Hospital/ParamedicRequsetMarker";
 import ParamedicTransferMarker from "./Marker/Hospital/ParamedicTransferMarker";
 import ParamedicTransferInfo from "./InfoWindow/ParamedicTransferInfo";
 import MyHospitalMarker from "./Marker/Hospital/MyHospitalMarker";
+import ParamedicRequestMapItem from "./Marker/Paramedic/ParamedicRequestMapItem";
+import GuestMapItem from "./Marker/Guest/GuestMapItem";
+import ParamedicTransferMapItem from "./Marker/Paramedic/ParamedicTransferMapItem";
 
 declare global {
     interface Window {
@@ -78,10 +80,15 @@ function Map(props: MapProps) {
             {map !== undefined ?
                 <>
                     {props.type === "guest" ?
-                        <><HospitalMarker {...props} map={map} /></> :
+                        <>
+                        <GuestMapItem {...props} map={map} />
+                        </> :
                         <></>}
-                    {props.type === "paramedic" ?
-                        <><HospitalMarker {...props} map={map} /></> :
+                    {props.type === "paraRequest" ? 
+                        <ParamedicRequestMapItem {...props} map={map} /> :
+                        <></>}
+                    {props.type === "paraTransfer" ?
+                        <ParamedicTransferMapItem {...props} map={map} />:
                         <></>}
                     {props.type === "request" ?
                         <>

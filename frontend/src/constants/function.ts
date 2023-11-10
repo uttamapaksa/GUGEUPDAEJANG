@@ -10,13 +10,11 @@ export const turmToString = (start: Date) => {
   return date1.diff(date2, 'm');
 };
 
-export const deleteMarker = () => {
+export const deleteMarker = (idx:number) => {
   const parent = document.querySelector('#map_div > div > div');
-  console.log(console.log('deleteMarker'));
-  console.log(parent);
   if (parent != null) {
-    while (parent.children.length > 3) {
-      parent.removeChild(parent.children[3]);
+    while (parent.children.length > idx) {
+      parent.removeChild(parent.children[idx]);
     }
   }
 };
