@@ -92,5 +92,12 @@ export const DivKtasInfo = styled(StyledDiv)`
 
 export const DivTag = styled(StyledDiv)`
   box-shadow: ${(props) => props.$boxShadow || '0px 0px 4px 2px rgba(0, 0, 0, 0.10)'};
+  
 `
 
+export const DivReport = styled(StyledDiv)`
+  /* border: 1px solid red; */
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0px 0px 1vh 0.3vh rgba(0, 0, 0, 0.08);
+`

@@ -7,7 +7,8 @@ import {
 
 import {
   DivKtasInfo,
-  DivTag,} from './Div'
+  DivTag,
+  DivReport} from './Div'
 
 import {
   ImgLogoHospital,
@@ -67,6 +68,7 @@ const A = {
 
   DivKtasInfo,
   DivTag,
+  DivReport,
   
   ImgLogoHospital,
   ImgMapMarkerHospital,
