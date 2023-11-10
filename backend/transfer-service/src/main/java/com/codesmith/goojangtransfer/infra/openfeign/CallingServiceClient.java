@@ -7,6 +7,7 @@ import com.codesmith.goojangtransfer.transfer.dto.response.SafetyCenterInfoRespo
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,6 @@ import java.util.Map;
 public interface CallingServiceClient {
 
     @GetMapping("/calling/transfer")
-    List<OccurrenceInfoResponse> getOccurrenceInfoList(Map<String, String> paramedics);
+    List<OccurrenceInfoResponse> getOccurrenceInfoList(@RequestParam("memberInfoMap") Map<String, String> paramedics);
 }
 

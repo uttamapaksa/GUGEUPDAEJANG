@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ParamedicInfoResponse {
-    private Long id;
+    private Long memberId;
     private String name;
 }

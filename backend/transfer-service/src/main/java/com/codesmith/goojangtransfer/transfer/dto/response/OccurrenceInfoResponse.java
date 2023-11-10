@@ -14,7 +14,7 @@ public class OccurrenceInfoResponse {
     private String address;
     private String ageGroup;
     private String gender;
-    private String KTAS;
+    private String ktas;
     private String description;
     private String memberName;
     private List<String> tags;

@@ -13,6 +13,7 @@ import java.time.format.DateTimeFormatter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TransferHistoryListResponse {
+    private Long transferId;
     private String date;
     private String transferStartTime;
     private String transferEndTime;
@@ -24,6 +25,7 @@ public class TransferHistoryListResponse {
     private boolean isCompleted;
 
     public TransferHistoryListResponse(OccurrenceInfoResponse occurrenceInfo, Transfer transfer) {
+        this.transferId = transfer.getId();
         this.date = transfer.getArrivedAt().format(DateTimeFormatter.ofPattern("yy.MM.dd"));
         this.transferStartTime = occurrenceInfo.getCreatedAt().format(DateTimeFormatter.ofPattern("HH:mm"));
         this.transferEndTime = transfer.getArrivedAt().format(DateTimeFormatter.ofPattern("HH:mm"));
@@ -31,7 +33,7 @@ public class TransferHistoryListResponse {
         this.accidentAddress = occurrenceInfo.getAddress();
         this.ageGroup = occurrenceInfo.getAgeGroup();
         this.gender = occurrenceInfo.getGender();
-        this.KTAS = occurrenceInfo.getKTAS();
+        this.KTAS = occurrenceInfo.getKtas();
         this.isCompleted = transfer.getStatus() == Status.COMPLETE;
     }
 }

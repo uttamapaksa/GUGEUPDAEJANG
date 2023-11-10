@@ -21,6 +21,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -101,7 +102,7 @@ public class TransferServiceImpl implements TransferService {
     public List<TransferHistoryListResponse> getTransferHistoryList(Long memberId, TransferHistoryListRequest transferHistoryListRequest) {
         SafetyCenterInfoResponse safetyCenterInfoResponse = memberServiceClient.getSafetyCenterInfo(memberId);
         Map<String, String> paramedicMap = safetyCenterInfoResponse.getParamedics().stream()
-                .collect(Collectors.toMap(paramedic -> paramedic.getId().toString(), paramedic -> paramedic.getName()));
+                .collect(Collectors.toMap(paramedic -> paramedic.getMemberId().toString(), paramedic -> paramedic.getName()));
 
         List<OccurrenceInfoResponse> occurrenceInfos = callingServiceClient.getOccurrenceInfoList(paramedicMap);
 
