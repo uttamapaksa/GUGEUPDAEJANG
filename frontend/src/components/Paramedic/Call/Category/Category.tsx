@@ -9,6 +9,7 @@ import {
   occurrenceState,
   callingStepState,
   HospitalListState,
+  currentAddressState,
 } from '/src/recoils/ParamedicAtoms';
 import { currentPosition } from '/src/recoils/HospitalAtoms';
 import * as S from './Category.style';
@@ -18,6 +19,7 @@ import theme from '/src/styles';
 function Category() {
   const setCurrentPageIndex = useSetRecoilState(currentParamedicPageIndexState);
   const currPosition = useRecoilValue(currentPosition);
+  const currAddress = useRecoilValue(currentAddressState)
   const [occurence, setOccurence] = useRecoilState(occurrenceState);
   const selected = occurence.tags;
   const [options, setOptions] = useRecoilState(tagsState);
@@ -75,11 +77,11 @@ function Category() {
       ageGroup: occurence.ageGroup,
       gender: occurence.gender,
       symptom: symptom,
-      // latitude: currPosition.lat,
-      // longitude: currPosition.lon,
-      latitude: 36.4469365928189,
-      longitude: 127.43940812262,
-      address: '한밭대',
+      latitude: currPosition.lat,
+      longitude: currPosition.lon,
+      // latitude: 36.4469365928189,
+      // longitude: 127.43940812262,
+      address: currAddress,
       tags: selected,
       files: [],
     };

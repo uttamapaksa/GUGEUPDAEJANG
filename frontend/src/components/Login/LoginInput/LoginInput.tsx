@@ -1,4 +1,4 @@
-import { useState, ChangeEvent, useEffect } from 'react';
+import { useState, ChangeEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import * as S from './LoginInput.style';
@@ -24,15 +24,9 @@ function LoginInput() {
   const MAX_LENGTH = 50;
 
   const navigate = useNavigate();
-  const goSignUp = () => {
-    navigate(PATH.Signup);
-  };
-  const goHospital = () => {
-    navigate(PATH.Hospital);
-  };
-  const goParamedic = () => {
-    navigate(PATH.Paramedic);
-  };
+  const goSignUp = () => navigate(PATH.Signup);
+  const goHospital = () => navigate(PATH.Hospital);
+  const goParamedic = () => navigate(PATH.Paramedic);
 
   const handleEmail = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length > MAX_LENGTH) {
@@ -47,9 +41,14 @@ function LoginInput() {
     }
     setPassword(e.target.value.split(' ').join(''));
   };
+
   const handleEnterPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      axiosLogin();
+      if (isOpen) {
+        setIsOpen(false);
+      } else {
+        axiosLogin();
+      }
     }
   };
 
@@ -57,16 +56,16 @@ function LoginInput() {
     if (showSpinner) return;
     setShowSpinner(true);
     if (email.length < 1) {
-      setModalContent('이메일을 입력해주세요.')
+      setModalContent('이메일을 입력해주세요.');
       setIsOpen(true);
-      setShowSpinner(false)
-      return
+      setShowSpinner(false);
+      return;
     }
     if (password.length < 1) {
-      setModalContent('비밀번호를 입력해주세요.')
+      setModalContent('비밀번호를 입력해주세요.');
       setIsOpen(true);
-      setShowSpinner(false)
-      return
+      setShowSpinner(false);
+      return;
     }
     const info: LoginProps = {
       email: email,
@@ -82,14 +81,13 @@ function LoginInput() {
         goHospital();
       }
     } catch (error) {
-      setModalContent('회원 정보가 맞지 않습니다.')
+      setModalContent('회원 정보가 맞지 않습니다.');
       setIsOpen(true);
       setPassword('');
       console.log(error);
     }
-    setShowSpinner(false)
+    setShowSpinner(false);
   };
-
 
   const axiosLogout = async (): Promise<void> => {
     try {
@@ -103,9 +101,9 @@ function LoginInput() {
       console.log(error);
     }
   };
-  
+
   return (
-    <S.Container>
+    <S.Container onKeyDown={handleEnterPress}>
       {isOpen && <LoginFailModal content={modalContent} setIsOpen={setIsOpen} />}
 
       <S.Row1>
@@ -116,7 +114,7 @@ function LoginInput() {
           placeholder="이메일"
           value={email}
           onChange={handleEmail}
-          />
+        />
       </S.Row1>
 
       <S.Row1>
@@ -127,7 +125,6 @@ function LoginInput() {
           placeholder="비밀번호"
           value={password}
           onChange={handlePassword}
-          onKeyDown={handleEnterPress}
         />
 
         <A.BtnSubmit
@@ -139,14 +136,14 @@ function LoginInput() {
           $backgroundColor={theme.color.fontPink1}
           onClick={() => axiosLogin()}
         >
-          {showSpinner ? <Spinner width="8vh" height="8vh" top="61.6vh" /> : '로그인' }
+          {showSpinner ? <Spinner width="8vh" height="8vh" top="61.6vh" /> : '로그인'}
         </A.BtnSubmit>
       </S.Row1>
 
       <S.Row2>
-          <S.TxtLoginToggle onClick={goSignUp}>회원가입</S.TxtLoginToggle>
-          <S.TxtLoginToggle>/</S.TxtLoginToggle>
-          <S.TxtLoginToggle>비밀번호 찾기</S.TxtLoginToggle>
+        <S.TxtLoginToggle onClick={goSignUp}>회원가입</S.TxtLoginToggle>
+        <S.TxtLoginToggle>/</S.TxtLoginToggle>
+        <S.TxtLoginToggle>비밀번호 찾기</S.TxtLoginToggle>
       </S.Row2>
       <S.Row1>
         <A.BtnSubmit
