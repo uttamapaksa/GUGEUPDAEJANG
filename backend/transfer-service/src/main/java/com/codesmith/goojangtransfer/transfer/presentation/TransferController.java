@@ -8,6 +8,7 @@ import com.codesmith.goojangtransfer.transfer.dto.response.MeetingJoinResponse;
 import com.codesmith.goojangtransfer.transfer.dto.request.TransferHistoryListRequest;
 import com.codesmith.goojangtransfer.transfer.dto.response.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/transfer")
 @RequiredArgsConstructor
+@Slf4j
 public class TransferController {
 
     private final TransferService transferService;

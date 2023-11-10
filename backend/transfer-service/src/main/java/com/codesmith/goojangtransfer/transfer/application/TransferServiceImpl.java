@@ -21,7 +21,6 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -108,7 +107,7 @@ public class TransferServiceImpl implements TransferService {
 
         List<Transfer> transfers = transferRepository.findAllByCallingIds(occurrenceInfos.stream()
                 .map(occurrenceInfoResponse -> occurrenceInfoResponse.getCallingId())
-                .collect(Collectors.toList()));
+                .collect(Collectors.toList()), transferHistoryListRequest.getStartDate(), transferHistoryListRequest.getEndDate());
 
         List<TransferHistoryListResponse> transferHistoryListResponses = new ArrayList<>();
         for (Transfer transfer: transfers) {
