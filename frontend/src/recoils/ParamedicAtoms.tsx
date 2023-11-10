@@ -102,3 +102,8 @@ export const transferHospitalIdState = atom<number>({
   default: undefined,
   effects_UNSTABLE: [persistAtom],
 });
+
+export const currentAddressState = atom<string>({
+  key: 'currentAddressState',
+  default: '',
+});

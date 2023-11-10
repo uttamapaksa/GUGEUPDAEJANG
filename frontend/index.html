@@ -12,6 +12,7 @@
   <body>
     <div id="root"></div>
     <script src="https://apis.openapi.sk.com/tmap/vectorjs?version=1&appKey=uNvEu7LL2zaBhcZN7iv768YXUbahYl9YatwxUQ0d"></script>
+    <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=252f3b894bd1c819e8237900971dcebf&libraries=services"></script>
     <script type="module" src="/src/main.tsx"></script>
     <script>
       if ('serviceWorker' in navigator) {
@@ -26,8 +27,7 @@
           .catch((error) => {
             console.error(`Service worker registration failed: ${error}`);
           });
-      } 
-      else {
+      } else {
         console.error('Service workers are not supported.');
       }
     </script>
