@@ -42,8 +42,17 @@ function ParamedicTransferMarker(props: any) {
         }
     }, [props]);
     useEffect(() => {
-        if (paraTransferItem !== undefined)
-            props.map.setCenter(new Tmapv3.LatLng(paraTransferItem.curLat, paraTransferItem.curLon));
+        if (paraTransferItem !== undefined) {
+            let lonlat;
+            if (paraTransferItem.curLat !== undefined) {
+                lonlat = new Tmapv3.LatLng(paraTransferItem.curLat, paraTransferItem.curLon);
+            }
+            else {
+                lonlat = new Tmapv3.LatLng(paraTransferItem.data.latitude, paraTransferItem.data.longitude);
+            }
+            props.map.setCenter(lonlat);
+        }
+
     }, [paraTransferItem]);
 
     return (
