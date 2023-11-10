@@ -7,6 +7,10 @@ import com.codesmith.goojangtransfer.transfer.dto.response.MeetingJoinResponse;
 import com.codesmith.goojangtransfer.transfer.dto.response.TransferCreateResponse;
 import com.codesmith.goojangtransfer.transfer.dto.response.TransferListResponse;
 import com.codesmith.goojangtransfer.transfer.dto.response.TransferStatusChangeResponse;
+import com.codesmith.goojangtransfer.infra.openfeign.CallingServiceClient;
+import com.codesmith.goojangtransfer.infra.openfeign.MemberServiceClient;
+import com.codesmith.goojangtransfer.transfer.dto.request.TransferHistoryListRequest;
+import com.codesmith.goojangtransfer.transfer.dto.response.*;
 import com.codesmith.goojangtransfer.transfer.persistence.TransferRepository;
 import com.codesmith.goojangtransfer.transfer.persistence.domain.Status;
 import com.codesmith.goojangtransfer.transfer.persistence.domain.Transfer;
@@ -15,7 +19,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,6 +34,8 @@ public class TransferServiceImpl implements TransferService {
     private final OpenViduClient openViduClient;
 
     private final SimpMessagingTemplate simpMessagingTemplate;
+    private final MemberServiceClient memberServiceClient;
+    private final CallingServiceClient callingServiceClient;
 
     @Override
     public TransferCreateResponse createTransfer(TransferCreateRequest transferCreateRequest) {
@@ -86,5 +94,28 @@ public class TransferServiceImpl implements TransferService {
     @Override
     public void deleteMeeting(Long transferId) {
         openViduClient.closeSession(transferId);
+    }
+
+    @Override
+    public List<TransferHistoryListResponse> getTransferHistoryList(Long memberId, TransferHistoryListRequest transferHistoryListRequest) {
+        SafetyCenterInfoResponse safetyCenterInfoResponse = memberServiceClient.getSafetyCenterInfo(memberId);
+        Map<String, String> paramedicMap = safetyCenterInfoResponse.getParamedics().stream()
+                .collect(Collectors.toMap(paramedic -> paramedic.getMemberId().toString(), paramedic -> paramedic.getName()));
+
+        List<OccurrenceInfoResponse> occurrenceInfos = callingServiceClient.getOccurrenceInfoList(paramedicMap);
+
+        List<Transfer> transfers = transferRepository.findAllByCallingIds(occurrenceInfos.stream()
+                .map(occurrenceInfoResponse -> occurrenceInfoResponse.getCallingId())
+                .collect(Collectors.toList()), transferHistoryListRequest.getStartDate(), transferHistoryListRequest.getEndDate());
+
+        List<TransferHistoryListResponse> transferHistoryListResponses = new ArrayList<>();
+        for (Transfer transfer: transfers) {
+            occurrenceInfos.stream()
+                    .filter(occurrenceInfoResponse -> occurrenceInfoResponse.getCallingId().equals(transfer.getCallingId()))
+                    .findFirst()
+                    .ifPresent(occurrenceInfoResponse -> transferHistoryListResponses.add(new TransferHistoryListResponse(occurrenceInfoResponse, transfer)));
+        }
+
+        return transferHistoryListResponses;
     }
 }

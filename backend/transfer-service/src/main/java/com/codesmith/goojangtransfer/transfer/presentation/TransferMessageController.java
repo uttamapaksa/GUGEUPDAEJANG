@@ -9,8 +9,8 @@ import org.springframework.stereotype.Controller;
 @Controller
 @RequiredArgsConstructor
 public class TransferMessageController {
-    @MessageMapping("/location/{hospitalId}")
-    @SendTo("/topic/{hospitalId}/location")
+    @MessageMapping("/location/{memberId}")
+    @SendTo("/topic/{memberId}/location")
     public LocationNotiMessage sendLocation(LocationNotiMessage locationNotiMessage) {
         return locationNotiMessage;
     }
