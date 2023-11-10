@@ -1,14 +1,16 @@
-import A from '../../Atoms';
 import * as S from './LoginFailModal.style';
 
-function LoginFailModal({content, setIsOpen }: { content: string, setIsOpen: React.Dispatch<React.SetStateAction<boolean>>}) {
-  
+interface LoginFailModalProps {
+  content: string;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+function LoginFailModal({ content, setIsOpen }: LoginFailModalProps) {
+
   return (
     <S.Overlay onClick={() => setIsOpen(false)}>
       <S.Content>
-        <S.Title>
-          {content}
-        </S.Title>
+        <S.Title>{content}</S.Title>
       </S.Content>
     </S.Overlay>
   );

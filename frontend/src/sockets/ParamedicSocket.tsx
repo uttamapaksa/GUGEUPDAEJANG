@@ -19,7 +19,7 @@ const TRANSFER_SERVER_URL = 'https://k9b204a.p.ssafy.io:64413/transfer-websocket
 
 function ParamedicSocket() {
   const paramedicId = useRecoilValue(memberInfoState).memberId;
-  const hospitalId = useRecoilValue(fixedCallingState).hospitalId;
+  const hospitalId = useRecoilValue(fixedCallingState) || {hospitalId: undefined}.hospitalId;
 
   const isTransferring = useRecoilValue(isTransferringState);
   const [isCanceled, setIsCanceled] = useRecoilState(isCanceledState);
