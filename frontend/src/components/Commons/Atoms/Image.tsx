@@ -91,14 +91,14 @@ const StyledImage = styled.img<ImageProps>`
 export const ImgLogoHospital = styled(StyledImage).attrs({src: logo_hospital})``;
 export const ImgMapMarkerHospital = styled(StyledImage).attrs({src: map_marker_hospital})``;
 export const ImgMapMarkerAmbulance = styled(StyledImage).attrs({src: map_marker_ambulance})``;
-export const ImgTransferActivate = styled(StyledImage).attrs({src: transfer_activate})``;
-export const ImgTransferDeactivate = styled(StyledImage).attrs({src: transfer_deactivate})``;
-export const ImgHistoryActivate = styled(StyledImage).attrs({src: history_activate})``;
-export const ImgHistoryDeactivate = styled(StyledImage).attrs({src: history_deactivate})``;
-export const ImgStatisticActivate = styled(StyledImage).attrs({src: statistic_activate})``;
-export const ImgStatisticDeactivate = styled(StyledImage).attrs({src: statistic_deactivate})``;
-export const ImgSetupActivate = styled(StyledImage).attrs({src: setup_activate})``;
-export const ImgSetupDeactivate = styled(StyledImage).attrs({src: setup_deactivate})``;
+export const ImgTransferActivate = styled(StyledImage).attrs({src: transfer_activate})`cursor: pointer;`;
+export const ImgTransferDeactivate = styled(StyledImage).attrs({src: transfer_deactivate})`cursor: pointer;`;
+export const ImgHistoryActivate = styled(StyledImage).attrs({src: history_activate})`cursor: pointer;`;
+export const ImgHistoryDeactivate = styled(StyledImage).attrs({src: history_deactivate})`cursor: pointer;`;
+export const ImgStatisticActivate = styled(StyledImage).attrs({src: statistic_activate})`cursor: pointer;`;
+export const ImgStatisticDeactivate = styled(StyledImage).attrs({src: statistic_deactivate})`cursor: pointer;`;
+export const ImgSetupActivate = styled(StyledImage).attrs({src: setup_activate})`cursor: pointer;`;
+export const ImgSetupDeactivate = styled(StyledImage).attrs({src: setup_deactivate})`cursor: pointer;`;
 
 //paramedic
 export const ImgAmbulance = styled(StyledImage).attrs({src: ambulance})``;
