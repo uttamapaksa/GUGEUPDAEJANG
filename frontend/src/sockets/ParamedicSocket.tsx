@@ -133,8 +133,6 @@ function ParamedicSocket() {
       curLat: position.lat || undefined,
       curLon: position.lon || undefined,
       curAddr: address,
-      leftTime: 10,
-      leftDist: 10,
     };
     const interval = setInterval(() => transferSendMessage(data), 2000);
     return () => {
@@ -150,8 +148,6 @@ function ParamedicSocket() {
       curLat: position.lat || undefined,
       curLon: position.lon || undefined,
       curAddr: address,
-      leftTime: 10,
-      leftDist: 10,
     };
     transferSendMessage(data);
     setIsCanceled(false)
@@ -165,8 +161,6 @@ function ParamedicSocket() {
       curLat: position.lat || undefined,
       curLon: position.lon || undefined,
       curAddr: address,
-      leftTime: 10,
-      leftDist: 10,
     };
     transferSendMessage(data);
     setIsCompleted(false)

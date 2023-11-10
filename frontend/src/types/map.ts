@@ -97,7 +97,6 @@ export interface HospitalTransferParaItem {
   curLat?: number;
   curLon?: number;
   curAddr: string;
-  leftDist: number;
 }
 
 // 일반사용자 선택된 병원

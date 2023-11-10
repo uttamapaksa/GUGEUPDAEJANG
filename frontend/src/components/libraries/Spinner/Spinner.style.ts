@@ -35,10 +35,10 @@ export const SpinnerInner = styled.div<SpinnerProps>`
     position: absolute;
     animation: ${rotate} linear 1s infinite;
     background: #000000;
-    border-radius: 2px / 2.08px;
-    width: ${props => props.width ? `${(parseInt(props.width) * 4) / 150}px` : "4px"};
-    height: ${props => props.height ? `${(parseInt(props.height) * 16) / 150}px` : "16px"};
-    transform-origin: ${props => props.width ? `${(parseInt(props.width) * 2) / 150}px` : "2px"} ${props => props.height ?  `${(parseInt(props.height) * 42) / 150}px` : "42px"};
+    border-radius: 2vh / 2.08vh;
+    width: ${props => props.width ? `${(parseInt(props.width) * 4) / 150}vh` : "4vh"};
+    height: ${props => props.height ? `${(parseInt(props.height) * 16) / 150}vh` : "16vh"};
+    transform-origin: ${props => props.width ? `${(parseInt(props.width) * 2) / 150}vh` : "2vh"} ${props => props.height ?  `${(parseInt(props.height) * 42) / 150}vh` : "42vh"};
   
 
     &:nth-child(1) {
