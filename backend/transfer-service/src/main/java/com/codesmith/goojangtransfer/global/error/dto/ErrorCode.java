@@ -3,7 +3,9 @@ package com.codesmith.goojangtransfer.global.error.dto;
 public enum ErrorCode {
     NO_TRANSFER("T1001"),
     ALREADY_ARRIVED("T1002"),
-    TRANSFER_DUPLICATE("T1003"),;
+    TRANSFER_DUPLICATE("T1003"),
+    OPENVIDU_SESSION_FAIL("T1011"),
+    OPENVIDU_CONNECTION_FAIL("T1012");
 
     private final String value;
 

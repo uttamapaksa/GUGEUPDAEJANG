@@ -43,3 +43,7 @@ eureka:
 passport:
   key: ${SECRETE_KEY}
   algorithm: HmacSHA256
+
+openvidu:
+  url: ${OPENVIDU_URL}
+  password: ${OPENVIDU_SECRET}
