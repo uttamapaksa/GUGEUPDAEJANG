@@ -1,7 +1,6 @@
 import { renderToString } from "react-dom/server";
 import { Tmapv3 } from "../Map";
 import InfoContents from "./InfoContents";
-import { ParamedicInfoContainer } from "./ParamedicInfo.style";
 import { useEffect, useState } from 'react';
 
 
@@ -15,14 +14,7 @@ function ParamedicInfo(props: any) {
                     position: lonlat,
                     offset: new Tmapv3.Point(0, -30),
                     content: renderToString(
-                        <InfoContents
-                            id={props.paraRequestList[i].id}
-                            ktas={props.paraRequestList[i].ktas}
-                            addr={props.paraRequestList[i].address}
-                            distance={props.paraRequestList[i].distance}
-                            requestAt={props.paraRequestList[i].createdAt}
-                            leftTime={props.paraRequestList[i].duration}
-                        />
+                        <InfoContents {...props.paraRequestList[i]}/>
                     ),
                     border: '0px solid #ffffff',
                     type: 2,
@@ -39,8 +31,7 @@ function ParamedicInfo(props: any) {
     }, [props]);
 
     return (
-        <ParamedicInfoContainer>
-        </ParamedicInfoContainer>
+        <></>
     );
 }
 

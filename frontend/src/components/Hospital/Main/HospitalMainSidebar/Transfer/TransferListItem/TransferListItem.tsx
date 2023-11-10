@@ -3,7 +3,7 @@ import { TransferListItemContainer, TransferListItemContent, ItemRequestAt, Item
 import A from "/src/components/Commons/Atoms";
 import theme from "/src/styles";
 import { hospitalParmedicTransferList, hospitalSelectedTransferItem } from "/src/recoils/HospitalAtoms";
-import { timeToString, turmToString } from "/src/constants/function";
+import { expectedTime, timeToString, turmToString } from "/src/constants/function";
 import { AGEGROUP, GENDER } from "/src/constants/variable";
 import { HospitalTransferItem } from "/src/types/map";
 import { useRecoilState } from "recoil";
@@ -88,7 +88,7 @@ const TransferListItem = (props: any) => {
             $boxShadow=""
           >
             {/* {props.leftTime}분 이내 도착 예정 */}
-             - 분 이내 도착 예정
+             도착 예정 시간 : {expectedTime(props.data.createdAt, props.data.duration)}
           </A.DivTag> : <></>}
         {props.state == "wait" ?
           <A.DivTag

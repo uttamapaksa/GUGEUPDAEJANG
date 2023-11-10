@@ -87,8 +87,6 @@ export interface HospitalTransferItem {
   curLat?: number;
   curLon?: number;
   curAddr?: string;
-  leftTime?: number;
-  leftDist?: number;
   data: ParaRequestItem;
 }
 
@@ -99,7 +97,6 @@ export interface HospitalTransferParaItem {
   curLat?: number;
   curLon?: number;
   curAddr: string;
-  leftTime: number;
   leftDist: number;
 }
 
