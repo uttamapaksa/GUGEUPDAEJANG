@@ -1,4 +1,4 @@
-import { useState, ChangeEvent } from 'react';
+import { useState, ChangeEvent, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import * as S from './LoginInput.style';
@@ -25,13 +25,13 @@ function LoginInput() {
 
   const navigate = useNavigate();
   const goSignUp = () => {
-    navigate(`${PATH.Signup}`);
+    navigate(PATH.Signup);
   };
   const goHospital = () => {
-    navigate(`${PATH.Hospital}`);
+    navigate(PATH.Hospital);
   };
   const goParamedic = () => {
-    navigate(`${PATH.Paramedic}`);
+    navigate(PATH.Paramedic);
   };
 
   const handleEmail = (e: ChangeEvent<HTMLInputElement>) => {
@@ -137,12 +137,9 @@ function LoginInput() {
       </S.Row1>
 
       <S.Row2>
-        <S.LoginToggle>
-          <A.TxtContent $width="120%" onClick={goSignUp}>
-            회원가입
-          </A.TxtContent>
-          /<A.TxtContent $width="180%">비밀번호 찾기</A.TxtContent>
-        </S.LoginToggle>
+          <S.TxtLoginToggle onClick={goSignUp}>회원가입</S.TxtLoginToggle>
+          <S.TxtLoginToggle>/</S.TxtLoginToggle>
+          <S.TxtLoginToggle>비밀번호 찾기</S.TxtLoginToggle>
       </S.Row2>
       <S.Row1>
         <A.BtnSubmit

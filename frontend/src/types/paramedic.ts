@@ -48,4 +48,5 @@ export interface fixedCallingType {
   gender: 'MALE' | 'FEMALE';
   ageGroup: 'INFANT' | 'CHILD' | 'ADOLESCENT' | 'YOUTH' | 'MIDDLE' | 'SENIOR';
   description: string;
+  hospitalId: number;
 }

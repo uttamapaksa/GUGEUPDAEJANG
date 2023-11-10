@@ -96,13 +96,7 @@ export const fixedCallingState = atom<fixedCallingType>({
   effects_UNSTABLE: [persistAtom],
 });
 
-// 요청에 응답한 병원 id
-export const transferHospitalIdState = atom<number>({
-  key: 'transferHospitalIdState',
-  default: undefined,
-  effects_UNSTABLE: [persistAtom],
-});
-
+// 현재 위치 주소
 export const currentAddressState = atom<string>({
   key: 'currentAddressState',
   default: '',
