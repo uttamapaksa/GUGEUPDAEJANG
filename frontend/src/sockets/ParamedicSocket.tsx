@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { useRecoilValue, useRecoilState } from 'recoil';
 import { memberInfoState } from '../recoils/AuthAtoms';
 import {
+  currentAddressState,
   HospitalListState,
   isTransferringState,
   isCanceledState,
@@ -27,6 +28,7 @@ function ParamedicSocket() {
   
   const fixedCalling = useRecoilValue(fixedCallingState);
   const position = useRecoilValue(currentPosition);
+  const address = useRecoilValue(currentAddressState);
   const [_, setHospitals] = useRecoilState(HospitalListState);
   const callingSocket = useRef<Client | null>(null);
   const transferSocket = useRef<Client | null>(null);
@@ -127,10 +129,10 @@ function ParamedicSocket() {
     if (!isTransferring) return;
     data = {
       id: fixedCalling && fixedCalling.transferId,
-      state: 'transfer', // transfer, complete, cancel, wait
-      curLat: position.lat,
-      curLon: position.lon,
-      curAddr: '김준섭 자택',
+      state: 'transfer',
+      curLat: position.lat || undefined,
+      curLon: position.lon || undefined,
+      curAddr: address,
       leftTime: 10,
       leftDist: 10,
     };
@@ -144,10 +146,10 @@ function ParamedicSocket() {
     if (!isCanceled) return;
     data = {
       id: fixedCalling && fixedCalling.transferId,
-      state: 'cancel', // transfer, complete, cancel, wait
-      curLat: position.lat,
-      curLon: position.lon,
-      curAddr: '김준섭 자택',
+      state: 'cancel',
+      curLat: position.lat || undefined,
+      curLon: position.lon || undefined,
+      curAddr: address,
       leftTime: 10,
       leftDist: 10,
     };
@@ -160,9 +162,9 @@ function ParamedicSocket() {
     data = {
       id: fixedCalling && fixedCalling.transferId,
       state: 'complete',
-      curLat: position.lat,
-      curLon: position.lon,
-      curAddr: '김준섭 자택',
+      curLat: position.lat || undefined,
+      curLon: position.lon || undefined,
+      curAddr: address,
       leftTime: 10,
       leftDist: 10,
     };

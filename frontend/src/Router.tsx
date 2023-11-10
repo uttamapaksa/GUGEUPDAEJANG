@@ -17,8 +17,7 @@ const router = createBrowserRouter([
       //   errorElement: <ErrorComponent />,
       // },
       {
-        // path: PATH.Login,
-        path: '',
+        path: PATH.Login,
         element: <PAGE.Login />,
         errorElement: <ErrorComponent />,
       },

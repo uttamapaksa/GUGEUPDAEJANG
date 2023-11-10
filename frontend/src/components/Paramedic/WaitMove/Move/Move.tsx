@@ -1,16 +1,10 @@
-import { useRecoilValue, useResetRecoilState } from 'recoil';
-import {
-  currentParamedicPageIndexState,
-  occurrenceState,
-  callingStepState,
-  isTransferringState,
-  fixedCallingState,
-  transferHospitalIdState,
-} from '/src/recoils/ParamedicAtoms';
+import { finishTransfer } from '/src/apis/paramedic';
+import { useRecoilValue } from 'recoil';
+import { occurrenceState, fixedCallingState } from '/src/recoils/ParamedicAtoms';
+import useResetParamedicRecoil from '../../RecoilReset/RecoilReset';
 import * as S from './Move.style';
 import A from '/src/components/Commons/Atoms';
 import theme from '/src/styles';
-import { finishTransfer } from '/src/apis/paramedic';
 
 interface GroupMapping {
   [key: string]: string;
@@ -31,23 +25,12 @@ const genderMapping: GroupMapping = {
 function Move() {
   const occurrence = useRecoilValue(occurrenceState);
   const fixedCalling = useRecoilValue(fixedCallingState);
-
-  const resetStep = useResetRecoilState(callingStepState);
-  const resetOccurrence = useResetRecoilState(occurrenceState);
-  const resetFixedCalling = useResetRecoilState(fixedCallingState);
-  const resetIsTransferring = useResetRecoilState(isTransferringState);
-  const resetCurrentPageIndex = useResetRecoilState(currentParamedicPageIndexState);
-  const resetTransferHospitalId = useResetRecoilState(transferHospitalIdState);
+  const resetParemdicRecoil = useResetParamedicRecoil();
 
   const completeTransfer = () => {
     finishTransfer(fixedCalling.transferId).then((success) => {
       if (success) {
-        resetStep();
-        resetOccurrence();
-        resetFixedCalling();
-        resetIsTransferring();
-        resetCurrentPageIndex();
-        resetTransferHospitalId();
+        resetParemdicRecoil();
       }
     });
   };
