@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { OpenVidu } from "openvidu-browser";
-import styled from 'styled-components';
-import { postMeetConnect } from '/src/apis/openvidu';
-import UserVideoComponent from './UserVideoComponent';
+import styled from "styled-components";
+import { postMeetConnect } from "/src/apis/openvidu";
+import UserVideoComponent from "./UserVideoComponent";
 
 const Container = styled.div`
   display: flex;
@@ -11,29 +11,36 @@ const Container = styled.div`
   align-items: center;
   border: 3px solid red;
   height: 400px;
-`
+`;
+
+const List = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80%;
+  overflow-y: auto;
+  overflow-x: none;
+`;
 const OpenViduComponent = (props: any) => {
   // const OPENVIDU_SERVER_URL = `https://${window.location.hostname}:4443`;
   // const OPENVIDU_SERVER_SECRET = 'MY_SECRET';
 
-  const currentUser = props.transferId; //현재 사용자 정보
-
-  const [mySessionId, setMySessionId] = useState('SessionA');
+  const [OV, setOV] = useState<OpenVidu>();
+  const [mySessionId, setMySessionId] = useState("SessionA");
   const [myUserName, setMyUserName] = useState(`OpenVidu_User_${Math.floor(Math.random() * 100)}`);
   const [session, setSession] = useState<any>(undefined);
 
   const [publisher, setPublisher] = useState<any>(undefined);
   const [subscribers, setSubscribers] = useState<any[]>([]);
 
-
   const [connectionId, setConnectionId] = useState("");
 
-
   const joinSession = async () => {
-    const OV = new OpenVidu();
-
+    const newOV = new OpenVidu();
     // --- 2) Init a session ---
-    const mySession = OV.initSession();
+    newOV.enableProdMode();
+    const mySession = newOV.initSession();
+    setOV(newOV);
     setSession(mySession);
 
     // --- 3) Specify the actions when events take place in the session ---
@@ -43,36 +50,40 @@ const OpenViduComponent = (props: any) => {
 
       console.log(subscriber);
 
-      await setSubscribers((subscribers) => [...subscribers, subscriber]);
-      setConnectionId(event.stream.connection.connectionId);
-
-      console.log(subscriber);
+      setSubscribers((subscribers) => [...subscribers, subscriber]);
     });
 
     mySession.on("streamDestroyed", (event) => {
+      event.preventDefault();
       deleteSubscriber(event.stream.streamManager);
     });
 
+    mySession.on("exception", (exception) => {
+      console.warn(exception);
+    });
     // --- 4) Connect to the session with a valid user token ---
     try {
       const token = await getToken();
 
-      await mySession.connect(token.data.token, { clientData: currentUser });
+      console.log(token);
+      await mySession.connect(token, { clientData: props.transferId });
 
-      const devices = await OV.getDevices();
+      const devices = await newOV.getDevices();
       console.log("devices");
       console.log(devices);
       const videoDevices = devices.filter((device) => device.kind === "videoinput");
 
       // --- 5) Get your own camera stream ---
-      const newPublisher = OV.initPublisher("", {
+      const newPublisher = newOV.initPublisher("", {
         videoSource: videoDevices[1]?.deviceId,
         frameRate: 30,
+        publishAudio: true,
+        publishVideo: true,
         mirror: false,
         // insertMode: 'APPEND',
       });
 
-      newPublisher.id = currentUser;
+      // newPublisher.id = props.transferId;
       await mySession.publish(newPublisher);
       setPublisher(newPublisher);
       console.log(newPublisher);
@@ -89,8 +100,7 @@ const OpenViduComponent = (props: any) => {
     if (session) {
       session.disconnect();
     }
-
-    // Empty all properties...
+    setOV(undefined);
     setSession(undefined);
     setSubscribers([]);
     setMySessionId("SessionA");
@@ -111,20 +121,34 @@ const OpenViduComponent = (props: any) => {
 
   useEffect(() => {
     joinSession();
+    console.log(
+      "openviduopenviduopenviduopenviduopenviduopenviduopenviduopenviduopenviduopenviduopenvidu"
+    );
   }, []);
 
   return (
     <Container>
       {session !== undefined ? (
         <div id="session">
-          <div>
-            {publisher !== undefined ? (
-              <UserVideoComponent streamManager={publisher} />
-            ) : null}
-            {/* <UserVideoComponent
-              streamManager={subscribers}
-            /> */}
-          </div>
+          <List>
+            <>
+              {publisher !== undefined ? (
+                <UserVideoComponent id="publisher" streamManager={publisher}>
+                  publisher
+                </UserVideoComponent>
+              ) : (
+                <>nonpublisher</>
+              )}
+            </>
+            <>
+              {subscribers.map((sub, i) => (
+                <UserVideoComponent key={i} streamManager={sub}>
+                  subscribers
+                </UserVideoComponent>
+              ))}
+            </>
+          </List>
+          <button onClick={leaveSession}></button>
         </div>
       ) : (
         <button onClick={joinSession}></button>

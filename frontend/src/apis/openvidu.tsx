@@ -5,7 +5,7 @@ export const postMeetConnect = async (transferId:number) => {
     try {
       const res = await privateApi.post(`/transfer/meeting/`+transferId);
       console.log('postMeetConnect', res);
-      return res;
+      return res.data.token;
     } catch (err) {
       console.log('postMeetConnect 실패', err);
     }
