@@ -1,4 +1,4 @@
-package com.codesmith.goojangcalling.calling.dto.response;
+package com.codesmith.goojangcalling.member.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
