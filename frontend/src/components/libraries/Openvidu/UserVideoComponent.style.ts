@@ -37,56 +37,56 @@ export const VedioInnerDiv = styled.div`
   /* z-index: 3; */
 `;
 
-export const VedioMuteIcon = styled.img`
-  position: absolute;
-  right: 2%;
-  bottom: 3%;
-  color: white;
-  width: 10%;
-  /* height: 10%; */
-  /* z-index: 3; */
-`;
-export const VedioHoverMenu = styled.div`
-  position: absolute;
-  width: 40%;
-  height: 16%;
-  color: white;
-  border-radius: 20px;
-  background-color: black;
-  border-width: 2px;
-  border-style: solid;
-  border-color: white;
-  opacity: 0.8;
-  font-size: 7%;
-  cursor: pointer;
-  z-index: 3;
-  top:50%;
-  left:50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  &:hover {
-    background-color: gray;
-    opacity: 0.9;
-  }
-`;
+// export const VedioMuteIcon = styled.img`
+//   position: absolute;
+//   right: 2%;
+//   bottom: 3%;
+//   color: white;
+//   width: 10%;
+//   /* height: 10%; */
+//   /* z-index: 3; */
+// `;
+// export const VedioHoverMenu = styled.div`
+//   position: absolute;
+//   width: 40%;
+//   height: 16%;
+//   color: white;
+//   border-radius: 20px;
+//   background-color: black;
+//   border-width: 2px;
+//   border-style: solid;
+//   border-color: white;
+//   opacity: 0.8;
+//   font-size: 7%;
+//   cursor: pointer;
+//   z-index: 3;
+//   top:50%;
+//   left:50%;
+//   transform: translate(-50%, -50%);
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   &:hover {
+//     background-color: gray;
+//     opacity: 0.9;
+//   }
+// `;
 
-export const ProfileImg = styled.div`
-  width: 120%;
-  height: 120%;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  left: -10%;
-  top: -10%;
-  color: white;
-  background-color: #222222;
+// export const ProfileImg = styled.div`
+//   width: 120%;
+//   height: 120%;
+//   position: relative;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   left: -10%;
+//   top: -10%;
+//   color: white;
+//   background-color: #222222;
 
-  img {
-    border-radius: 100rem;
-    width: 20%;
-    object-fit: cover;
-  }
-`;
+//   img {
+//     border-radius: 100rem;
+//     width: 20%;
+//     object-fit: cover;
+//   }
+// `;

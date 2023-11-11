@@ -7,10 +7,11 @@ const OpenViduVideoComponent = (props: any) => {
   useEffect(() => {
     if (props && !!videoRef.current) {
       props.streamManager.addVideoElement(videoRef.current);
+      console.log('StreamManager Stream:', props.streamManager.stream);
     }
-  }, [props]);
+  }, [props, props.streamManager]);
 
-  return <Video autoPlay={true} ref={videoRef}/>
+  return <Video autoPlay={true} ref={videoRef} muted={true}/>
 };
 
 export default OpenViduVideoComponent;
