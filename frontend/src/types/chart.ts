@@ -9,4 +9,4 @@ export interface  CharacterRequestData {
   age: number[];
   male: number[];
   female: number[];
-}
+};

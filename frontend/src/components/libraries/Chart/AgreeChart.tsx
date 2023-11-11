@@ -137,7 +137,7 @@ const AgreeChart = () => {
           fontSize: '11px',
         },
       },
-      
+
       // 범례
       legend: {
         floating: true,
@@ -198,7 +198,7 @@ const AgreeChart = () => {
   return (
     <Container>
       <ChartHeader>
-        <Title>월별 요청 승낙</Title>
+        <Title>월별 요청 승낙 현황</Title>
         <SelectYear  onChange={handleYearChange} value={selectedYear}>
           <option value="2017">2017년</option>
           <option value="2018">2018년</option>

@@ -76,7 +76,8 @@ const CharacterChart = () => {
         categories: [
           '10대 이하', '10대', '20대', 
           '30대', '40대', '50대', 
-          '60대', '70대', '70대 이상'],
+          '60대', '70대', '70대 이상'
+        ],
       },
 
       // y축
@@ -109,6 +110,7 @@ const CharacterChart = () => {
         },
       },
 
+      
       plotOptions: {
         bar: {
           horizontal: false,
@@ -123,10 +125,6 @@ const CharacterChart = () => {
         show: true,
         width: 2,
         colors: ['transparent'],
-      },
-
-      fill: {
-        opacity: 1
       },
 
       tooltip: {
