@@ -96,7 +96,7 @@ export const DivTag = styled(StyledDiv)`
 `
 
 export const DivReport = styled(StyledDiv)`
-  border: 2px solid pink;
+  /* border: 2px solid pink; */
   position: relative;
   display: flex;
   justify-content: center;

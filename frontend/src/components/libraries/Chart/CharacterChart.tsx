@@ -23,7 +23,7 @@ const ChartHeader = styled.div`
 `
 
 const Title = styled.div`
-  font-size: 2.6vh;
+  font-size: 2.5vh;
   font-weight: 600;
 `
 
