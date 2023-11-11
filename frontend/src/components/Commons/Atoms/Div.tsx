@@ -97,6 +97,10 @@ export const DivTag = styled(StyledDiv)`
 
 export const DivReport = styled(StyledDiv)`
   /* border: 1px solid red; */
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: white;
   border-radius: 10px;
   box-shadow: 0px 0px 1vh 0.3vh rgba(0, 0, 0, 0.08);
