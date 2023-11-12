@@ -122,7 +122,7 @@ public class TransferServiceImpl implements TransferService {
             occurrenceInfos.stream()
                     .filter(occurrenceInfo -> occurrenceInfo.getCallingId().equals(transfer.getCallingId()))
                     .findFirst()
-                    .ifPresent(occurrenceInfoResponse -> transferHistoryListResponses.add(new TransferHistoryResponse(occurrenceInfoResponse, transfer)));
+                    .ifPresent(occurrenceInfoResponse -> transferHistoryListResponses.add(new TransferHistoryResponse(occurrenceInfoResponse, transfer, memberService.getMember(occurrenceInfoResponse.getHospitalId()).getName())));
         }
 
         return transferHistoryListResponses;
