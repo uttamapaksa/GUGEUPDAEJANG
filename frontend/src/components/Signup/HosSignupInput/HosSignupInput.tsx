@@ -1,13 +1,16 @@
 import { useState, ChangeEvent } from "react"
-import { HosSignupInputProps } from "/src/types/auth";
 import { useNavigate } from 'react-router-dom';
+
 import * as S from './HosSignupInput.style';
 import A from '/src/components/Commons/Atoms';
 import theme from '/src/styles';
 import PATH from '/src/constants/path';
+
+import { HosSignupInputProps } from "/src/types/auth";
 import { getCheckEmail, postHosJoin } from "/src/apis/auth";
-import { hospitalInfoState } from "/src/recoils/AuthAtoms";
+
 import { useRecoilState } from "recoil";
+import { hospitalInfoState } from "/src/recoils/AuthAtoms";
 
 function HosSignupInput ({setIsOpen, setIsHosSearch}: HosSignupInputProps) {
   const [showPassword, setShowPassword] = useState(false);

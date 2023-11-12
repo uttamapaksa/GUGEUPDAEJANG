@@ -6,16 +6,20 @@ import Map from "/src/components/libraries/Map/Map";
 import { 
   GuestMapProps, 
   MapProps } from "/src/types/map";
+import { currentPosition } from "/src/recoils/HospitalAtoms";
+import { useRecoilValue } from "recoil";
 
 function GuestMap ({ mapProps, setMapProps }: GuestMapProps) {
+  const currPosition = useRecoilValue(currentPosition);
+
   const changePosition = () =>{
     const nextMapProps: MapProps = {
-      type: "hospital",
-      pos: { lat: 37.565138, lon: 126.983655 }
+      type: "guest",
+      pos: { lat: currPosition.lat, lon: currPosition.lon },
+      hosList: []
     }
     setMapProps(nextMapProps)
   }
-  
   useEffect(()=>{
     changePosition();
   },[])

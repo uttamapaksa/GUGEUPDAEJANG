@@ -48,6 +48,7 @@ export const currentPosition = atom<{
     lat: null,
     lon: null
   },
+  effects_UNSTABLE: [persistAtom],
 });
 
 

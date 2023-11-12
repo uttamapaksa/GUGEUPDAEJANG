@@ -1,10 +1,12 @@
-import { useState, useEffect, ChangeEvent } from "react"
-import { ParaSignupInputProps } from "/src/types/auth";
+import { useState, ChangeEvent } from "react"
 import { useNavigate } from 'react-router-dom';
+
 import * as S from './ParaSignupInput.style';
 import A from '/src/components/Commons/Atoms';
 import theme from '/src/styles';
 import PATH from '/src/constants/path';
+
+import { ParaSignupInputProps } from "/src/types/auth";
 import { getCheckEmail, postParaJoin } from "/src/apis/auth";
 
 import { useRecoilState } from "recoil";

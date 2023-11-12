@@ -20,13 +20,15 @@ function Signup() {
             IsClick={IsClick}
             setIsClick={setIsClick}/>
           {isOpen && <SearchModal setIsOpen={setIsOpen} isHosSearch={isHosSearch} />}
-          {IsClick 
-          ? <ParaSignupInput 
+          {IsClick ? ( 
+            <ParaSignupInput 
               setIsOpen={setIsOpen} 
               setIsHosSearch={setIsHosSearch}/>
-          : <HosSignupInput   
+          ) : ( 
+            <HosSignupInput   
               setIsOpen={setIsOpen} 
-              setIsHosSearch={setIsHosSearch}/>}
+              setIsHosSearch={setIsHosSearch}/>
+          )}
         </S.ContentBox>
       </S.Wrapper>
     </S.Container>

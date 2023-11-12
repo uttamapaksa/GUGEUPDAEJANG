@@ -7,8 +7,10 @@ import theme from '/src/styles';
 import PATH from '/src/constants/path';
 import LoginFailModal from '../../Commons/Molecules/LoginFailModal/LoginFailModal';
 import Spinner from '../../libraries/Spinner/Spinner';
+
 import { deleteLogout, postLogin } from '/src/apis/auth';
 import { LoginProps } from '/src/types/auth';
+
 import { useResetRecoilState, useSetRecoilState } from 'recoil';
 import { hospitalInfoState, memberInfoState } from '/src/recoils/AuthAtoms';
 
@@ -145,6 +147,8 @@ function LoginInput() {
         <S.TxtLoginToggle>/</S.TxtLoginToggle>
         <S.TxtLoginToggle>비밀번호 찾기</S.TxtLoginToggle>
       </S.Row2>
+
+      {/* 삭제할 예정 */}
       <S.Row1>
         <A.BtnSubmit
           $margin="0 0 0 auto"

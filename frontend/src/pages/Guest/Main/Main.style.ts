@@ -10,6 +10,7 @@ export const Container = styled.div`
 `;
 
 export const ContentBox = styled.div`
+  /* border: 1px solid red; */
   position: absolute;
   bottom: 0px;
   height: 48vh;
@@ -48,9 +49,9 @@ export const SearchBtn = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  position: sticky;
-  bottom: 2vh;
-  height: 4vh;
+  position: absolute;
+  bottom: 1vh;
+  height: 3vh;
   padding: 1vh 4.5vw;
   font-size: 1.8vh;
   border-radius: 4vh;
