@@ -7,6 +7,7 @@ import com.codesmith.goojangcalling.calling.dto.response.*;
 import com.codesmith.goojangcalling.calling.persistence.*;
 import com.codesmith.goojangcalling.calling.persistence.domain.*;
 import com.codesmith.goojangcalling.infra.aws.S3Client;
+import com.codesmith.goojangcalling.infra.kafka.CallingProducer;
 import com.codesmith.goojangcalling.infra.openfeign.MemberServiceClient;
 import com.codesmith.goojangcalling.infra.openfeign.TransferServiceClient;
 import com.codesmith.goojangcalling.member.application.MemberService;
@@ -42,6 +43,7 @@ public class CallingServiceImpl implements CallingService{
     private final TransferServiceClient transferServiceClient;
 
     private final MemberService memberService;
+    private final CallingProducer callingProducer;
 
     @Override
     public OccurrenceCreateResponse addOccurrence(Long memberId, OccurrenceCreateRequest occurrenceCreateRequest) {

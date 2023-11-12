@@ -1,5 +1,9 @@
 package com.codesmith.goojangcalling.calling.persistence.domain;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -22,9 +26,14 @@ public class Calling {
     private Long memberId;
     @Enumerated(EnumType.STRING)
     private Status status;
+
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime responseTime;
     private String reason;
     @CreatedDate
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime createdAt;
 
     public Calling(Occurrence occurrence, Long memberId, Status status, LocalDateTime responseTime, String reason) {

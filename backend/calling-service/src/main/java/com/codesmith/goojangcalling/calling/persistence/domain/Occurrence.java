@@ -1,5 +1,9 @@
 package com.codesmith.goojangcalling.calling.persistence.domain;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -29,6 +33,8 @@ public class Occurrence {
     private Double longitude;
     private String address;
     @CreatedDate
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime createdAt;
 
     public Occurrence(Long memberId, KTAS ktas, AgeGroup ageGroup, Gender gender, String symptom, Double latitude, Double longitude, String address) {
