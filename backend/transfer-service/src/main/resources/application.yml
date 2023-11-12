@@ -25,6 +25,16 @@ spring:
     port: ${CALLING_REDIS_PORT}
     password: ${CALLING_REDIS_PASSWORD}
     database: 3
+  kafka:
+    bootstrap-servers: ${KAFKA_SERVER}
+    consumer:
+      group-id: transfer-consumer
+      auto-offset-reset: latest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
 eureka:
   client:
     register-with-eureka: true
