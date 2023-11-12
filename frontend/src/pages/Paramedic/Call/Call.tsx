@@ -13,13 +13,13 @@ import { useReactMediaRecorder } from 'react-media-recorder';
 
 // 리코일
 import { 
-  useRecoilState, 
-  useRecoilValue } from 'recoil';
+  useRecoilValue,
+  useSetRecoilState} from 'recoil';
 import { 
   recordContentFile, 
-  recordVoiceFile, 
-  recordImageFile,
-  recordVideoFile} from '/src/recoils/ParamedicAtoms';
+  recordImageFile, 
+  recordVideoFile, 
+  recordVoiceFile } from '/src/recoils/ParamedicAtoms';
 import CameraModal from '../../../components/Paramedic/Call/CameraModal/CameraModal';
 import { postSTT, postVoiceUpload } from '/src/apis/paramedic';
 
@@ -28,10 +28,12 @@ function Call() {
   const [cameraing, setCameraing] = useState<boolean>(false);
   const [seconds, setSeconds] = useState<number>(0);
   const [timer, setTimer] = useState<NodeJS.Timeout | null>(null);
-  const [recordContent, setRecordContent] = useRecoilState(recordContentFile);
-  const [recordVoice, setRecordVoice] = useRecoilState(recordVoiceFile);
+  const setRecordContent = useSetRecoilState(recordContentFile);
+  const setRecordVoice = useSetRecoilState(recordVoiceFile);
+
   const recordVideo = useRecoilValue(recordVideoFile);
   const recordImage = useRecoilValue(recordImageFile);
+  const recordVoice = useRecoilValue(recordVoiceFile);
 
   // 녹음 라이브러리
   const {
@@ -71,7 +73,7 @@ function Call() {
         dataForStt.append("file", blob, "tmp.webm");
         axiosVoiceSTT(dataForStt)
         const response = await postVoiceUpload(data)
-        setRecordVoice(response.filePath)
+        setRecordVoice(response)
       }
     }
     catch(error) {
@@ -147,20 +149,27 @@ function Call() {
           <RecordModal 
             RecordStop={RecordStop} 
             time={formatTime(seconds)} /> ) : (<></>)}
-
+        
+        
         {/* 임시 태그 삭제할 예정 */}
-        <audio
-          src={recordVoice}
-          controls
-          style={{
-            width: '300px',
-            height: '50px',
-          }}
-        ></audio>
-          <img src={recordImage}/>
-          <video width="400" height="240" autoPlay controls>
-            <source src={recordVideo?.filePath} type="video/mp4" />
-          </video>
+        {recordVoice?.filePath && (
+          <audio
+            src={recordVoice.filePath}
+            controls
+            style={{
+              width: '300px',
+              height: '50px',
+            }}
+          ></audio>
+        )}
+        <img src={recordImage?.filePath}/>
+        {
+          recordVideo?.filePath ? (
+            <video width="400" height="240" autoPlay controls>
+              <source src={recordVideo.filePath} type="video/mp4" />
+            </video>
+          ) : null
+        }
 
         <S.Blank />
         <Category />
