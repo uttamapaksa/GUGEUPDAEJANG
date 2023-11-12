@@ -30,16 +30,25 @@ export interface OccurrenceType {
 }
 
 export interface HospitalListType {
-  callingId: number;
-  callingTime: string;
-  status: 'PENDING' | 'APPROVED' | 'REJECTED' | 'CANCELED';
-  memberId: number;
-  hospitalName: string;
-  telephone: string;
+  callingId?: number ;
+  callingTime?: string ;
+  status?: 'PENDING' | 'APPROVED' | 'REJECTED' | 'CANCELED';
+  memberId?: number;
+  hospitalName?: string;
+  telephone?: string;
   latitude: number;
   longitude: number;
   distance: number;
-  duration: number;
+  duration?: number;
+
+  id? : number;
+  hospitalId? : string;
+  name? : string;
+  address? : string;
+  telephone1? : string;
+  telephone2? : string;
+  bedCount? : number;
+  time? : number
 }
 
 export interface fixedCallingType {
