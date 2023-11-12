@@ -60,4 +60,5 @@ export const ImgPassword = styled.img`
   position: absolute;
   right: 5%;
   height: 40%;
+  cursor: pointer;
 `;
