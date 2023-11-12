@@ -5,6 +5,7 @@ import { CallProps } from '/src/types/paramedic';
 import * as S from './Status.style';
 import A from '/src/components/Commons/Atoms';
 import theme from '/src/styles';
+import Spinner from '/src/components/libraries/Spinner/Spinner';
 
 function Status({ RecordStart, CameraOpen }: CallProps) {
   const [recordContent, setRecordContent] = useRecoilState(recordContentFile);
@@ -53,7 +54,8 @@ function Status({ RecordStart, CameraOpen }: CallProps) {
           value={recordContent}
           onChange={(e) => setRecordContent(e.target.value)}
           placeholder="환자의 상태를 상세히 입력해주세요."
-        />
+        >
+        </S.TxtStatus>
       </S.Col9>
     </S.Status>
   );

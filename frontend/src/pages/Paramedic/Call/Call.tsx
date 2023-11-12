@@ -65,13 +65,13 @@ function Call() {
         const BlobUrl = await fetch(mediaBlobUrl);
         const blobData = await BlobUrl.blob();
         const data = new FormData();
-        const data2 = new FormData();
+        const dataForStt = new FormData();
         const blob = new Blob([blobData], { type: "audio/webm;codecs=opus" });
         data.append("files", blob, "tmp.webm");
-        data2.append("file", blob, "tmp.webm");
+        dataForStt.append("file", blob, "tmp.webm");
+        axiosVoiceSTT(dataForStt)
         const response = await postVoiceUpload(data)
         setRecordVoice(response.filePath)
-        axiosVoiceSTT(data2)
       }
     }
     catch(error) {
@@ -80,10 +80,11 @@ function Call() {
   }
 
   // 녹음 파일 STT 
-  const axiosVoiceSTT = async (file:FormData): Promise<void> => {
+  const axiosVoiceSTT = async (file: FormData): Promise<void> => {
     try {
+      setRecordContent("음성을 텍스트로 반환하고 있습니다...")
       const response = await postSTT(file)
-      console.log("녹음파일 STT의 결과물",response)
+      setRecordContent(response.text)
     }
     catch(error) {
       console.log(error)

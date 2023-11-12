@@ -6,7 +6,6 @@ export const postCameraUpload = async (info: File[]) => {
   data.append('files', info[0]);
   try {
     const res = await UploadFileApi.post(`/calling/upload`, data);
-    console.log('postCameraUpload', res.data[0]);
     return res.data[0];
   } catch (err) {
     console.log('postCameraUpload 실패', err);

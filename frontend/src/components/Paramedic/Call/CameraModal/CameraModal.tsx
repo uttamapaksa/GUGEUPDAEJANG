@@ -56,6 +56,7 @@ function CameraModal({CameraClose} : CallProps) {
     try {
       const data = new FormData();
       data.append('file', file[0]);
+      setRecordContent("음성을 텍스트로 반환하고 있습니다...")
       const response = await postSTT(data)
       setRecordContent(response.text)
     }
