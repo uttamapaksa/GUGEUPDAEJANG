@@ -72,7 +72,7 @@ function ParamedicTransferMapItem(props: any) {
   useEffect(() => {
     const id = setInterval(() => {
       setCount((count) => count - 1);
-    }, 1000);
+    }, 3000);
 
     if (count === 0) {
       setCount(5);

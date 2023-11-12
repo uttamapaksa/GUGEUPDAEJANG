@@ -19,6 +19,7 @@ function Signup() {
           <SignupToggle 
             IsClick={IsClick}
             setIsClick={setIsClick}/>
+          {isOpen && <SearchModal setIsOpen={setIsOpen} isHosSearch={isHosSearch} />}
           {IsClick 
           ? <ParaSignupInput 
               setIsOpen={setIsOpen} 
@@ -26,7 +27,6 @@ function Signup() {
           : <HosSignupInput   
               setIsOpen={setIsOpen} 
               setIsHosSearch={setIsHosSearch}/>}
-          {isOpen && <SearchModal setIsOpen={setIsOpen} isHosSearch={isHosSearch} />}
         </S.ContentBox>
       </S.Wrapper>
     </S.Container>

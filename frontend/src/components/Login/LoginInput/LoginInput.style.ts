@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const Container = styled.div`
   display: flex;
@@ -17,24 +17,25 @@ export const Row1 = styled.div`
 `;
 
 export const Row2 = styled.div`
+  /* border: 3px solid skyblue; */
   display: flex;
   justify-content: center;
-  /* border: 3px solid skyblue; */
   width: 90%;
   height: 3vh;
+  font-size: 2vh;
 `;
 
-export const LoginToggle = styled.div`
+export const TxtLoginToggle = styled.div`
+  /* border: 3px solid purple; */
+  margin: 0 0.5vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  /* border: 3px solid purple; */
-  width: 40%;
-  height: 100%;
   font-size: 2vh;
-  @media (max-width: 500px) {
-    font-size: 1.8vh;
-    width: 48%;
-  }
   cursor: pointer;
+  &:hover {
+    text-decoration: underline
+  }
 `;
+
+TxtLoginToggle;

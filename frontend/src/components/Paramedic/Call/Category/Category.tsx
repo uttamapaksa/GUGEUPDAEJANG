@@ -4,26 +4,35 @@ import { addTag, getTags, deleteTag, addCalling, getHospitals } from '/src/apis/
 import { TagType } from '/src/types/paramedic';
 import {
   currentParamedicPageIndexState,
+  recordImageFile,
+  recordVideoFile,
+  recordVoiceFile,
   recordContentFile,
   tagsState,
   occurrenceState,
   callingStepState,
   HospitalListState,
+  currentAddressState,
 } from '/src/recoils/ParamedicAtoms';
 import { currentPosition } from '/src/recoils/HospitalAtoms';
 import * as S from './Category.style';
 import A from '/src/components/Commons/Atoms';
 import theme from '/src/styles';
+import { OccurrenceType } from '/src/types/paramedic';
 
 function Category() {
   const setCurrentPageIndex = useSetRecoilState(currentParamedicPageIndexState);
   const currPosition = useRecoilValue(currentPosition);
+  const currAddress = useRecoilValue(currentAddressState)
   const [occurence, setOccurence] = useRecoilState(occurrenceState);
   const selected = occurence.tags;
   const [options, setOptions] = useRecoilState(tagsState);
   const [newOption, setNewOption] = useState<string>('');
   const [edit, setEdit] = useState<boolean>(false);
-  const symptom = useRecoilValue(recordContentFile);
+  const recordImage = useRecoilValue(recordImageFile);
+  const recordVideo = useRecoilValue(recordVideoFile);
+  const recordVoice = useRecoilValue(recordVoiceFile);
+  const recordContent = useRecoilValue(recordContentFile);
   const [step, setStep] = useRecoilState(callingStepState);
   const setHospitals = useSetRecoilState(HospitalListState);
 
@@ -52,7 +61,6 @@ function Category() {
   };
 
   const deleteOption = (tagId: number) => {
-    console.log(111)
     deleteTag(tagId).then((success) => {
       if (success) {
         setOccurence((prev) => ({ ...prev, tags: selected.filter((tag) => tag.id !== tagId) }));
@@ -70,24 +78,26 @@ function Category() {
   };
 
   const goToWaitMove = () => {
-    let data = {
+    let data: OccurrenceType = {
       ktas: occurence.ktas,
       ageGroup: occurence.ageGroup,
       gender: occurence.gender,
-      symptom: symptom,
-      // latitude: currPosition.lat,
-      // longitude: currPosition.lon,
-      latitude: 36.4469365928189,
-      longitude: 127.43940812262,
-      address: '한밭대',
+      symptom: recordContent,
+      // latitude: 36.4469365928189,
+      // longitude: 127.43940812262,
+      latitude: currPosition.lat as number,
+      longitude: currPosition.lon as number,
+      address: currAddress,
       tags: selected,
-      files: [],
+      files: [recordImage, recordVoice, recordVideo].filter(Boolean),
+      // 해당 값을 boolean 으로 바꾸어 truthy 할 경우만 return
     };
+    setOccurence(data);
     addCalling(data).then((occurrenceIdData) => {
       if (occurrenceIdData) {
         let data = {
           occurrenceId: occurrenceIdData.occurrenceId,
-          distance: 10.1, // 무조건 실수
+          distance: 5 * (step + 1) + 0.1, // 무조건 실수
           step: step + 1,
         };
         console.log(data)

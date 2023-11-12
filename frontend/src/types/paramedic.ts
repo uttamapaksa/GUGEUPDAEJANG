@@ -26,7 +26,7 @@ export interface OccurrenceType {
   longitude: number;
   address: string;
   tags: TagType[];
-  files: FileType[];
+  files: (FileType | undefined)[];
 }
 
 export interface HospitalListType {
@@ -43,9 +43,13 @@ export interface HospitalListType {
 }
 
 export interface fixedCallingType {
+  callingId: number;
   transferId: number;
   name: string;
   gender: 'MALE' | 'FEMALE';
   ageGroup: 'INFANT' | 'CHILD' | 'ADOLESCENT' | 'YOUTH' | 'MIDDLE' | 'SENIOR';
   description: string;
+  hospitalId: number;
+  latitude: number;
+  longitude: number;
 }

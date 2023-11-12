@@ -1,5 +1,5 @@
 export interface memberInfo {
-  role:string;
+  role: string;
   memberId: number;
 }
 
@@ -24,9 +24,9 @@ export interface ParaSignupInputProps {
 }
 
 export interface SearchListProps {
-  searchList: string[][];
+  searchList: SearchItemProps[];
   isHosSearch: boolean;
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export interface SearchModalProps {
@@ -35,32 +35,34 @@ export interface SearchModalProps {
 }
 
 export interface ParaJoinProps {
-  email: string,
-  password: string,
-  name: string,
-  imageUrl: string,
-  role: string,
-  centerId : number,
+  email: string;
+  password: string;
+  name: string;
+  imageUrl: string;
+  role: string;
+  centerId: number;
 }
 
 export interface HosJoinProps {
-  hospitalId: number,
-  email: string,
-  password: string,
-  name: string,
-  imageUrl: string,
-  role: string,
-  telephone1:string,
-  telephone2: string,
-  address: string,
-  latitude : number,
-  longitude : number
+  hospitalId: number;
+  email: string;
+  password: string;
+  name: string;
+  imageUrl: string;
+  role: string;
+  telephone1: string;
+  telephone2: string;
+  address: string;
+  latitude?: number;
+  longitude?: number;
 }
 
-export interface SearchItemProps{
-  id: number,
-  region: string,
-  name: string,
-  address: string,
-  telephone: string
+export interface SearchItemProps {
+  id: number;
+  region?: string;
+  name: string;
+  address: string;
+  telephone: string;
+  latitude?: number;
+  longitude?: number;
 }

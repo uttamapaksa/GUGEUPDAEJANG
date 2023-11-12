@@ -24,15 +24,9 @@ function LoginInput() {
   const MAX_LENGTH = 50;
 
   const navigate = useNavigate();
-  const goSignUp = () => {
-    navigate(`${PATH.Signup}`);
-  };
-  const goHospital = () => {
-    navigate(`${PATH.Hospital}`);
-  };
-  const goParamedic = () => {
-    navigate(`${PATH.Paramedic}`);
-  };
+  const goSignUp = () => navigate(PATH.Signup);
+  const goHospital = () => navigate(PATH.Hospital);
+  const goParamedic = () => navigate(PATH.Paramedic);
 
   const handleEmail = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length > MAX_LENGTH) {
@@ -48,20 +42,30 @@ function LoginInput() {
     setPassword(e.target.value.split(' ').join(''));
   };
 
+  const handleEnterPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      if (isOpen) {
+        setIsOpen(false);
+      } else {
+        axiosLogin();
+      }
+    }
+  };
+
   const axiosLogin = async (): Promise<void> => {
     if (showSpinner) return;
     setShowSpinner(true);
     if (email.length < 1) {
-      setModalContent('이메일을 입력해주세요.')
+      setModalContent('이메일을 입력해주세요.');
       setIsOpen(true);
-      setShowSpinner(false)
-      return
+      setShowSpinner(false);
+      return;
     }
     if (password.length < 1) {
-      setModalContent('비밀번호를 입력해주세요.')
+      setModalContent('비밀번호를 입력해주세요.');
       setIsOpen(true);
-      setShowSpinner(false)
-      return
+      setShowSpinner(false);
+      return;
     }
     const info: LoginProps = {
       email: email,
@@ -77,12 +81,12 @@ function LoginInput() {
         goHospital();
       }
     } catch (error) {
-      setModalContent('회원 정보가 맞지 않습니다.')
+      setModalContent('회원 정보가 맞지 않습니다.');
       setIsOpen(true);
       setPassword('');
       console.log(error);
     }
-    setShowSpinner(false)
+    setShowSpinner(false);
   };
 
   const axiosLogout = async (): Promise<void> => {
@@ -99,7 +103,7 @@ function LoginInput() {
   };
 
   return (
-    <S.Container>
+    <S.Container onKeyDown={handleEnterPress}>
       {isOpen && <LoginFailModal content={modalContent} setIsOpen={setIsOpen} />}
 
       <S.Row1>
@@ -132,17 +136,14 @@ function LoginInput() {
           $backgroundColor={theme.color.fontPink1}
           onClick={() => axiosLogin()}
         >
-          {showSpinner ? <Spinner width="8vh" height="8vh" top="61.6vh" /> : '로그인' }
+          {showSpinner ? <Spinner width="8vh" height="8vh" top="61.6vh" /> : '로그인'}
         </A.BtnSubmit>
       </S.Row1>
 
       <S.Row2>
-        <S.LoginToggle>
-          <A.TxtContent $width="120%" onClick={goSignUp}>
-            회원가입
-          </A.TxtContent>
-          /<A.TxtContent $width="180%">비밀번호 찾기</A.TxtContent>
-        </S.LoginToggle>
+        <S.TxtLoginToggle onClick={goSignUp}>회원가입</S.TxtLoginToggle>
+        <S.TxtLoginToggle>/</S.TxtLoginToggle>
+        <S.TxtLoginToggle>비밀번호 찾기</S.TxtLoginToggle>
       </S.Row2>
       <S.Row1>
         <A.BtnSubmit

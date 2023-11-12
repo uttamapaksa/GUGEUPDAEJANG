@@ -1,10 +1,6 @@
 import { useSetRecoilState } from 'recoil';
 import { HospitalListType } from '/src/types/paramedic';
-import {
-  fixedCallingState,
-  isTransferringState,
-  transferHospitalIdState,
-} from '/src/recoils/ParamedicAtoms';
+import { fixedCallingState, isTransferringState } from '/src/recoils/ParamedicAtoms';
 import * as S from './HospitalItem.style';
 import A from '/src/components/Commons/Atoms';
 import theme from '/src/styles';
@@ -34,16 +30,14 @@ const BTNCONTENT: { [key: string]: string } = {
 function HospitalItem({ hospital, setHospitals }: { key: number; hospital: HospitalListType; setHospitals: any }) {
   const setFixedCalling = useSetRecoilState(fixedCallingState);
   const setIsTransferring = useSetRecoilState(isTransferringState);
-  const setTransferHospitalId = useSetRecoilState(transferHospitalIdState);
 
-  const clickItem = (callingId: number, status: string) => {
+  const clickItem = (callingId: number, status: string, hospitalId: number, latitude: number, longitude: number) => {
     switch (status) {
       case 'APPROVED':
         fixCalling(callingId).then((fixedData) => {
           if (fixedData) {
-            setFixedCalling(fixedData);
+            setFixedCalling({callingId, ...fixedData, hospitalId, latitude, longitude });
             setIsTransferring(true);
-            setTransferHospitalId(fixedData.memberId);
           }
         });
         return;
@@ -83,7 +77,7 @@ function HospitalItem({ hospital, setHospitals }: { key: number; hospital: Hospi
           {hospital.callingTime.slice(11, 13)}시 {hospital.callingTime.slice(14, 16)}분에 요청
         </S.CallTime>
         <A.BtnToggle
-          onClick={() => clickItem(hospital.callingId, hospital.status)}
+          onClick={() => clickItem(hospital.callingId, hospital.status, hospital.memberId, hospital.latitude, hospital.longitude)}
           $width="90%"
           $height="8vh"
           $fontSize="2.2vh"
@@ -108,7 +102,6 @@ function HospitalItem({ hospital, setHospitals }: { key: number; hospital: Hospi
           <S.HosRoomText>응급실 가용 병상</S.HosRoomText>
           <S.HosRoonCount>{hospital.bedCount}</S.HosRoonCount>
         </A.BtnSubmit> */}
-
       </S.RightSection>
     </S.HospitalItem>
   );

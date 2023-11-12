@@ -146,7 +146,7 @@ function Call() {
 
         {/* 임시 태그 삭제할 예정 */}
         <audio
-          src={recordVoice}
+          src={recordVoice?.filePath}
           controls
           style={{
             width: '300px',
@@ -158,9 +158,9 @@ function Call() {
           <button onClick={stopRecording}>임시녹음종료</button>
         </div>
         <p>Microphone: {listening ? 'on' : 'off'}</p>
-          <img src={recordImage}/>
+          <img src={recordImage?.filePath}/>
           <video width="400" height="240" autoPlay controls>
-            <source src={recordVideo} type="video/mp4" />
+            <source src={recordVideo?.filePath} type="video/mp4" />
           </video>
 
         {/* 임시 태그 삭제할 예정 */}
