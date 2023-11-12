@@ -44,7 +44,7 @@ function ParamedicRequestMapItem(props: any) {
   useEffect(() => {
     const id = setInterval(() => {
       setCount((count) => count - 1);
-    }, 5000);
+    }, 3000);
 
     if (count === 0) {
       setCount(2);

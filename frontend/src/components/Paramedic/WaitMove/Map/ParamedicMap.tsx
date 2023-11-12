@@ -56,7 +56,7 @@ function ParamedicMap() {
   useEffect(() => {
     const intervalId = setInterval(() => {
       setUpdatedPosition(currPosition)
-    }, 5000);
+    }, 3000);
 
     return () => clearInterval(intervalId);
   }, []);

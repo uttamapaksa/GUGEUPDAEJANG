@@ -1,5 +1,5 @@
 const PATH = {
-  Login: '/login',
+  Login: '/',
   Signup: '/signup',
   Hospital: '/hospital',
   HospitalSocket: '/hospital-socket',
