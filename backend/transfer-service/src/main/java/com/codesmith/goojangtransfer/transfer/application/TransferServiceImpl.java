@@ -2,7 +2,6 @@ package com.codesmith.goojangtransfer.transfer.application;
 
 import com.codesmith.goojangtransfer.infra.openvidu.OpenViduClient;
 import com.codesmith.goojangtransfer.member.application.MemberService;
-import com.codesmith.goojangtransfer.member.persistence.domain.Member;
 import com.codesmith.goojangtransfer.transfer.dto.message.MeetingJoinMessage;
 import com.codesmith.goojangtransfer.transfer.dto.request.TransferCreateRequest;
 import com.codesmith.goojangtransfer.transfer.dto.response.MeetingJoinResponse;
@@ -18,7 +17,6 @@ import com.codesmith.goojangtransfer.transfer.persistence.domain.Status;
 import com.codesmith.goojangtransfer.transfer.persistence.domain.Transfer;
 import io.openvidu.java.client.Session;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +27,6 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class TransferServiceImpl implements TransferService {
 
     private final TransferRepository transferRepository;
@@ -114,7 +111,6 @@ public class TransferServiceImpl implements TransferService {
             occurrenceInfos = callingServiceClient.getOccurrenceInfoList(paramedicMap);
         } else {
             occurrenceInfos = callingServiceClient.getOccurrenceInfoList(Map.of(memberId.toString(), memberService.getMember(memberId).getName()));
-            log.info("memberId: {}, memberName: {}", memberId, memberService.getMember(memberId).getName());
         }
 
         List<Transfer> transfers = transferRepository.findAllByCallingIds(occurrenceInfos.stream()
