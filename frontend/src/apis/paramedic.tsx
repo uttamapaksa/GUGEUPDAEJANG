@@ -17,10 +17,19 @@ export const postCameraUpload = async (info: File[]) => {
 export const postVoiceUpload = async (info: FormData) => {
   try {
     const res = await UploadFileApi.post(`/calling/upload`, info);
-    console.log('postVoiceUpload', res.data[0]);
     return res.data[0];
   } catch (err) {
     console.log('postVoiceUpload 실패', err);
+  }
+};
+
+// STT
+export const postSTT = async (info: FormData) => {
+  try {
+    const res = await UploadFileApi.post(`/calling/stt`, info);
+    return res.data;
+  } catch (err) {
+    console.log('postSTT 실패', err);
   }
 };
 
@@ -112,3 +121,4 @@ export const finishTransfer = async (transferId: number) => {
     console.log('finishTransfer catch', err);
   }
 };
+
