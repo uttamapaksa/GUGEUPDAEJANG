@@ -1,5 +1,9 @@
 package com.codesmith.goojangtransfer.transfer.persistence.domain;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +23,9 @@ public class Transfer {
     private Long memberId;
     @Enumerated(EnumType.STRING)
     private Status status;
+
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime arrivedAt;
 
     public Transfer(Long callingId, Long memberId, Status status, LocalDateTime arrivedAt) {
