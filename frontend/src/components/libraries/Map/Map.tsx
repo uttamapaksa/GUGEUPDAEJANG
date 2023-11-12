@@ -81,9 +81,7 @@ function Map(props: MapProps) {
             {map !== undefined ?
                 <>
                     {props.type === "guest" ?
-                        <>
-                        <GuestMapItem {...props} map={map} />
-                        </> :
+                        <GuestMapItem {...props} map={map} />:
                         <></>}
                     {props.type === "paraRequest" ?
                         <>

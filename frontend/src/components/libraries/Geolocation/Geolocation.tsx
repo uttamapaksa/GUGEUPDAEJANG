@@ -7,8 +7,8 @@ function Geolocation() {
   const [locationCaptured, setLocationCaptured] = useState(false);
   const setCurPos = useSetRecoilState(currentPosition);
   // const [curPos, setCurPos] = useRecoilState(currentPosition)
-  const geolocation = useGeolocation({
-    enableHighAccuracy: true,
+  const geolocation = useGeolocation({ 
+    enableHighAccuracy: true, 
     timeout: 3000,
     maximumAge: 2000,
   });

@@ -9,7 +9,6 @@ import Spinner from '/src/components/libraries/Spinner/Spinner';
 import { CheckHospitalProps } from '/src/types/guest';
 import { currentPosition } from '/src/recoils/HospitalAtoms';
 import { getCheckHospital } from '/src/apis/guest';
-import Geolocation from '/src/components/libraries/Geolocation/Geolocation';
 import { GuestHospitalListState } from '/src/recoils/GuestAtoms';
 
 function Main() {
@@ -31,9 +30,7 @@ function Main() {
     try{
       const response = await getCheckHospital(info)
       setGuestHospitals(response)
-      if (response) {
-        setSearching(false)
-      }
+      if (response) { setSearching(false) }
     } 
     catch(error){
       console.log(error)
@@ -42,7 +39,6 @@ function Main() {
 
   return (
     <S.Container>
-      <Geolocation/>
       <GuestMap mapProps={mapProps} setMapProps={setMapProps} />
 
       <S.ContentBox>
