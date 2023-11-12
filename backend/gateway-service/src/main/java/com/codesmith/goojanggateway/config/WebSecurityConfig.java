@@ -44,7 +44,7 @@ public class WebSecurityConfig {
                 .authorizeExchange(exchanges ->
                         exchanges
                                 .pathMatchers(HttpMethod.OPTIONS).permitAll()
-                                .pathMatchers("/api/member/hospital/join", "/api/member/paramedic/join").permitAll()
+                                .pathMatchers("/api/member/hospital/join", "/api/member/paramedic/join", "/api/member/hospital").permitAll()
                                 .pathMatchers("/api/auth/refresh", "/api/member/center", "/api/member/check-email").permitAll()
                                 .pathMatchers("/api/auth/login").permitAll()
                                 .anyExchange()
