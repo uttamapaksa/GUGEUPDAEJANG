@@ -2,24 +2,13 @@ import { useState, useEffect, ChangeEvent } from 'react';
 import * as S from './SearchModal.style';
 import A from '../../Commons/Atoms';
 import SearchList from '../SearchList/SearchList';
-import { SearchModalProps } from '/src/types/auth';
+import { SearchModalProps, SearchListProps, SearchItemProps } from '/src/types/auth';
 import { getParaCenterList } from '/src/apis/auth';
 
 function SearchModal({ isHosSearch, setIsOpen }: SearchModalProps) {
   const [searchWord, setSearchWord] = useState<string>('');
-  const [searchList, setSearchList] = useState<[]>([]);
-  const [searchPage, setSearchPage] = useState(1);
-
-  var places = new kakao.maps.services.Places();
-  var searchOption = {
-    category_group_code: 'HP8',
-    page: searchPage,
-  };
-  var getHospitalList = function (result: any, status: any) {
-    if (status === kakao.maps.services.Status.OK) {
-      console.log(result);
-    }
-  };
+  const [searchList, setSearchList] = useState<SearchItemProps[]>([]);
+  const [searchPage, setSearchPage] = useState<number>(1);
   
   // 검색창 키워드
   const handleSearchWord = (e: ChangeEvent<HTMLInputElement>) => {
@@ -61,6 +50,29 @@ function SearchModal({ isHosSearch, setIsOpen }: SearchModalProps) {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  var places = new kakao.maps.services.Places();
+  
+  // 병원 검색 카카오맵 콜백 함수
+  var getHospitalList = (result: any, status: any, pagination: any) => {
+    if (status === kakao.maps.services.Status.OK) {
+      const response = result.map((item: any) => ({
+        id: item.id,
+        name: item.place_name,
+        telephone: item.phone,
+        address: item.road_address_name || item.address_name,
+        latitude: item.y,
+        longitude: item.x,
+      }));
+      setSearchList(response);
+    }
+  };
+
+  // 병원 검색 옵션
+  var searchOption = {
+    category_group_code: 'HP8',
+    page: searchPage,
   };
 
   // 병원 목록 조회

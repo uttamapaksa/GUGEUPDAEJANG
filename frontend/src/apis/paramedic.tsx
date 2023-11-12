@@ -6,10 +6,10 @@ export const postCameraUpload = async (info: File[]) => {
   data.append('files', info[0]);
   try {
     const res = await UploadFileApi.post(`/calling/upload`, data);
-    console.log('postFileUpload', res.data[0].filePath);
-    return res.data[0].filePath;
+    console.log('postCameraUpload', res.data[0]);
+    return res.data[0];
   } catch (err) {
-    console.log('postFileUpload 실패', err);
+    console.log('postCameraUpload 실패', err);
   }
 };
 
@@ -17,10 +17,10 @@ export const postCameraUpload = async (info: File[]) => {
 export const postVoiceUpload = async (info: FormData) => {
   try {
     const res = await UploadFileApi.post(`/calling/upload`, info);
-    console.log('postFileUpload', res.data[0].filePath);
-    return res.data[0].filePath;
+    console.log('postVoiceUpload', res.data[0]);
+    return res.data[0];
   } catch (err) {
-    console.log('postFileUpload 실패', err);
+    console.log('postVoiceUpload 실패', err);
   }
 };
 
@@ -106,9 +106,9 @@ export const fixCalling = async (callingId: number) => {
 export const finishTransfer = async (transferId: number) => {
   try {
     const res = await privateApi.put(`/transfer/${transferId}`);
-    console.log('fixCalling then', res);
+    console.log('finishTransfer then', res);
     return true
   } catch (err) {
-    console.log('fixCalling catch', err);
+    console.log('finishTransfer catch', err);
   }
 };

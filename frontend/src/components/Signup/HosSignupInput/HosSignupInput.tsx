@@ -10,79 +10,68 @@ import { hospitalInfoState } from "/src/recoils/AuthAtoms";
 import { useRecoilState } from "recoil";
 
 function HosSignupInput ({setIsOpen, setIsHosSearch}: HosSignupInputProps) {
-    
-  const [address, setAddress] = useState<string>("");
-  const [hospitalName, setHospitalName] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showRePassword, setReShowPassword] = useState(false);
   const [repassword, setRepassword] = useState<string>("");
-  const [phone1, setPhone1] = useState<string>("");
-  const [phone2, setPhone2] = useState<string>("");
   const [hospitalInfo, setHospitalInfo] = useRecoilState(hospitalInfoState);
-
   const MAX_LENGTH = 50;
 
   const navigate = useNavigate()
-  const goLogin = () => {navigate(`${PATH.Login}`)} 
+  const goLogin = () => {navigate(PATH.Login)} 
 
   const handleAddress = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length > MAX_LENGTH) {
       e.target.value = e.target.value.slice(0, MAX_LENGTH);
     }
-    setAddress(e.target.value.split(" ").join(""));
     setHospitalInfo(prev => ({ ...prev, address: e.target.value.split(" ").join("") }));
   };
-
+  
   const handleHospitalName = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length > MAX_LENGTH) {
       e.target.value = e.target.value.slice(0, MAX_LENGTH);
     }
-    setHospitalName(e.target.value.split(" ").join(""));
+    setHospitalInfo(prev => ({ ...prev, name: e.target.value.split(" ").join("") }));
   };
-
+  
   const handleEmail = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length > MAX_LENGTH) {
       e.target.value = e.target.value.slice(0, MAX_LENGTH);
     }
-    setEmail(e.target.value.split(" ").join(""));
     setHospitalInfo(prev => ({ ...prev, email: e.target.value.split(" ").join("") }));
   };
-
+  
   const handlePassword = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length > MAX_LENGTH) {
       e.target.value = e.target.value.slice(0, MAX_LENGTH);
     }
-    setPassword(e.target.value.split(" ").join(""));
     setHospitalInfo(prev => ({ ...prev, password: e.target.value.split(" ").join("") }));
   };
-
+  
   const handleRePassword = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length > MAX_LENGTH) {
       e.target.value = e.target.value.slice(0, MAX_LENGTH);
     }
     setRepassword(e.target.value.split(" ").join(""));
   };
-
+  
   const handlePhone1 = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length > MAX_LENGTH) {
       e.target.value = e.target.value.slice(0, MAX_LENGTH);
     }
-    setPhone1(e.target.value.split(" ").join(""));
-    setHospitalInfo(prev => ({ ...prev, phone1: e.target.value.split(" ").join("") }));
+    setHospitalInfo(prev => ({ ...prev, telephone1: e.target.value.split(" ").join("") }));
   };
 
   const handlePhone2 = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length > MAX_LENGTH) {
       e.target.value = e.target.value.slice(0, MAX_LENGTH);
     }
-    setPhone2(e.target.value.split(" ").join(""));
-    setHospitalInfo(prev => ({ ...prev, phone2: e.target.value.split(" ").join("") }));
+    setHospitalInfo(prev => ({ ...prev, telephone2: e.target.value.split(" ").join("") }));
   };
 
   const axiosHosJoin = async ():Promise<void> => {
     try {
       if (await postHosJoin(hospitalInfo) === 200) {
-        console.log("구급대원 회원가입 성공")
+        console.log("병원 회원가입 성공")
       }
     }
     catch(error) {
@@ -92,7 +81,7 @@ function HosSignupInput ({setIsOpen, setIsHosSearch}: HosSignupInputProps) {
 
   const axiosCheckEmail = async ():Promise<void> => {
     try {
-      const response = await getCheckEmail(email)
+      const response = await getCheckEmail(hospitalInfo.email)
       console.log(response.alreadyExists)
     }
     catch(error) {
@@ -108,7 +97,8 @@ function HosSignupInput ({setIsOpen, setIsHosSearch}: HosSignupInputProps) {
           $width='70%'
           $height='100%'
           placeholder='주소'
-          value={address}
+          $color='black'
+          value={hospitalInfo.address}
           onChange={handleAddress}/>
           
         <A.BtnSubmit
@@ -127,7 +117,8 @@ function HosSignupInput ({setIsOpen, setIsHosSearch}: HosSignupInputProps) {
           $width='100%'
           $height='100%'
           placeholder='병원이름'
-          value={hospitalName}
+          $color='black'
+          value={hospitalInfo.name}
           onChange={handleHospitalName}/>
       </S.Row1>
 
@@ -137,7 +128,8 @@ function HosSignupInput ({setIsOpen, setIsHosSearch}: HosSignupInputProps) {
           $width='70%'
           $height='100%'
           placeholder='이메일'
-          value={email}
+          $color='black'
+          value={hospitalInfo.email}
           onChange={handleEmail}/>
           
         <A.BtnSubmit
@@ -152,22 +144,31 @@ function HosSignupInput ({setIsOpen, setIsHosSearch}: HosSignupInputProps) {
 
       <S.Row1>
         <A.IptUserInfo
-          type='password'
+          type={showPassword ? "text" : "password"}
           $width='100%'
           $height='100%'
           placeholder='비밀번호'
-          value={password}
-          onChange={handlePassword}/>
+          value={hospitalInfo.password}
+          onChange={handlePassword}>
+          </A.IptUserInfo>
+          <S.ImgPassword
+            src="/src/assets/share/check-password.png" alt="" 
+            onClick={()=>setShowPassword(prev => !prev)}
+          />
       </S.Row1>
 
       <S.Row1>
         <A.IptUserInfo
-          type='password'
+          type={showRePassword ? "text" : "password"}
           $width='100%'
           $height='100%'
           placeholder='비밀번호 확인'
           value={repassword}
           onChange={handleRePassword}/>
+          <S.ImgPassword
+            src="/src/assets/share/check-password.png" alt="" 
+            onClick={()=>setReShowPassword(prev => !prev)}
+          />
       </S.Row1>
 
       <S.Row1>
@@ -175,8 +176,9 @@ function HosSignupInput ({setIsOpen, setIsHosSearch}: HosSignupInputProps) {
           type='text'
           $width='100%'
           $height='100%'
+          $color='black'
           placeholder='전화번호1'
-          value={phone1}
+          value={hospitalInfo.telephone1}
           onChange={handlePhone1}/>
       </S.Row1>
 
@@ -185,8 +187,9 @@ function HosSignupInput ({setIsOpen, setIsHosSearch}: HosSignupInputProps) {
           type='text'
           $width='100%'
           $height='100%'
+          $color='black'
           placeholder='전화번호2'
-          value={phone2}
+          value={hospitalInfo.telephone2}
           onChange={handlePhone2}/>
       </S.Row1>
 
@@ -203,10 +206,9 @@ function HosSignupInput ({setIsOpen, setIsHosSearch}: HosSignupInputProps) {
       
       <S.Row2>
         <S.LoginToggle>        
-          <A.TxtContent 
-            $width='120%'
-            onClick={goLogin}>로그인</A.TxtContent>/ 
-          <A.TxtContent $width='180%'>비밀번호 찾기</A.TxtContent>
+          <S.TxtContent1 onClick={goLogin}>로그인</S.TxtContent1>
+          / 
+          <S.TxtContent2>비밀번호 찾기</S.TxtContent2>
         </S.LoginToggle>
       </S.Row2>
     </S.Container>

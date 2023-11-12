@@ -1,6 +1,5 @@
 import { privateApi, publicApi } from "./";
 import { 
-  CheckEmailProps,
   HosJoinProps,
   LoginProps, 
   ParaJoinProps } from "../types/auth";

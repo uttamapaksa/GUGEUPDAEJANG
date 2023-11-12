@@ -44,6 +44,7 @@ import bar from "/src/assets/share/bar.png"
 import exit_black from "/src/assets/share/exit-black.png"
 import exit_gray from "/src/assets/share/exit-gray.png"
 import search_gray from "/src/assets/share/search-gray.png"
+import check_password from "/src/assets/share/check-password.png"
 
 interface ImageProps {
   $height?: string;
@@ -131,3 +132,4 @@ export const ImgBar = styled(StyledImage).attrs({src: bar})``;
 export const ImgExitBlack = styled(StyledImage).attrs({src: exit_black})``;
 export const ImgExitGray = styled(StyledImage).attrs({src: exit_gray})``;
 export const ImgSearchGray = styled(StyledImage).attrs({src: search_gray})``;
+export const ImgCheckPassword = styled(StyledImage).attrs({src: check_password})``;

@@ -31,13 +31,12 @@ function HospitalItem({ hospital, setHospitals }: { key: number; hospital: Hospi
   const setFixedCalling = useSetRecoilState(fixedCallingState);
   const setIsTransferring = useSetRecoilState(isTransferringState);
 
-  const clickItem = (callingId: number, status: string, memberId: number) => {
+  const clickItem = (callingId: number, status: string, hospitalId: number, latitude: number, longitude: number) => {
     switch (status) {
       case 'APPROVED':
         fixCalling(callingId).then((fixedData) => {
           if (fixedData) {
-            const { transferId, ...rest } = fixedData;
-            setFixedCalling({ transferId: callingId, ...rest, hospitalId: memberId });
+            setFixedCalling({callingId, ...fixedData, hospitalId, latitude, longitude });
             setIsTransferring(true);
           }
         });
@@ -78,7 +77,7 @@ function HospitalItem({ hospital, setHospitals }: { key: number; hospital: Hospi
           {hospital.callingTime.slice(11, 13)}시 {hospital.callingTime.slice(14, 16)}분에 요청
         </S.CallTime>
         <A.BtnToggle
-          onClick={() => clickItem(hospital.callingId, hospital.status, hospital.memberId)}
+          onClick={() => clickItem(hospital.callingId, hospital.status, hospital.memberId, hospital.latitude, hospital.longitude)}
           $width="90%"
           $height="8vh"
           $fontSize="2.2vh"

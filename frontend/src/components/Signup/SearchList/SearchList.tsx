@@ -1,11 +1,12 @@
 import { useSetRecoilState} from 'recoil';
 import * as S from './SearchList.style';
-import { centerState, paramedicInfoState } from '/src/recoils/AuthAtoms';
+import { centerState, paramedicInfoState, hospitalInfoState } from '/src/recoils/AuthAtoms';
 import { SearchItemProps, SearchListProps } from '/src/types/auth';
 
 function SearchList({ searchList, isHosSearch, setIsOpen }: SearchListProps) {
   const setParamedicInfo = useSetRecoilState(paramedicInfoState);
   const setCenter = useSetRecoilState(centerState)
+  const setHospitalInfo = useSetRecoilState(hospitalInfoState);
 
   const selectItem = (searchItem : SearchItemProps) =>{
     setIsOpen(false)
@@ -13,8 +14,24 @@ function SearchList({ searchList, isHosSearch, setIsOpen }: SearchListProps) {
       setCenter(searchItem.name)
       setParamedicInfo(prev => ({ ...prev, centerId: searchItem.id}));
     }
-    // else if (isHosSearch === true){}
+    else {
+      setHospitalInfo({
+        hospitalId: searchItem.id,
+        email: "",
+        password: "",
+        name: searchItem.name,
+        imageUrl: "https://firebasestorage.googleapis.com/v0/b/pocket-sch.appspot.com/o/hospital_tmp.png?alt=media&token=3361b47c-fb74-4932-aab5-e28bdce64f4d&_gl=1*ijrqc8*_ga*Nzk4NDA1MzUuMTY5ODEyNTQzMw..*_ga_CW55HF8NVT*MTY5ODEyNTQzMy4xLjEuMTY5ODEyNTUxNS42MC4wLjA.",
+        role: "HOSPITAL",
+        telephone1: searchItem.telephone,
+        telephone2: "",
+        address: searchItem.address,
+        longitude: searchItem.longitude,
+        latitude: searchItem.latitude,
+      })
+    }
   }
+
+  
 
   return (
     <S.ListWrapper>

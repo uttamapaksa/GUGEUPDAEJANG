@@ -67,12 +67,13 @@ function Map(props: MapProps) {
 
 
     useEffect(() => {
+        console.log('props', props);
         if (props.pos !== undefined && map !== undefined && props.type != prevType) {
             map.setCenter(new Tmapv3.LatLng(props.pos.lat, props.pos.lon));
             console.log("MapPos", props);
         }
     }, [props]);
-
+    
     return (
         <>
             <MapContainer id="map_div">
@@ -84,8 +85,10 @@ function Map(props: MapProps) {
                         <GuestMapItem {...props} map={map} />
                         </> :
                         <></>}
-                    {props.type === "paraRequest" ? 
-                        <ParamedicRequestMapItem {...props} map={map} /> :
+                    {props.type === "paraRequest" ?
+                        <>
+                        <ParamedicRequestMapItem {...props} map={map} /> 
+                        </>:
                         <></>}
                     {props.type === "paraTransfer" ?
                         <ParamedicTransferMapItem {...props} map={map} />:

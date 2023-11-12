@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
 import { recoilPersist } from 'recoil-persist';
-import { TagType, OccurrenceType, HospitalListType, fixedCallingType } from '../types/paramedic';
+import { TagType, FileType, OccurrenceType, HospitalListType, fixedCallingType } from '../types/paramedic';
 const { persistAtom } = recoilPersist();
 
 // 구급대원 메인(0), 요청(1), 대기 및 이송(2), 기록(3), 통계(4) 페이지
@@ -10,19 +10,19 @@ export const currentParamedicPageIndexState = atom<number>({
   // effects_UNSTABLE: [persistAtom],
 });
 
-export const recordVoiceFile = atom<string>({
+export const recordVoiceFile = atom<FileType | undefined>({
   key: 'recordVoiceFile',
-  default: '',
+  default: undefined,
 });
 
-export const recordImageFile = atom<string>({
+export const recordImageFile = atom<FileType | undefined>({
   key: 'recordImageFile',
-  default: '',
+  default: undefined,
 });
 
-export const recordVideoFile = atom<string>({
+export const recordVideoFile = atom<FileType | undefined>({
   key: 'recordVideoFile',
-  default: '',
+  default: undefined,
 });
 
 export const recordContentFile = atom<string>({

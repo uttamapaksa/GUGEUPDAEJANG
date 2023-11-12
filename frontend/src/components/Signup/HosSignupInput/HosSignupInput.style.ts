@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const Container = styled.div`
   display: flex;
@@ -9,7 +9,9 @@ export const Container = styled.div`
 
 // atoms
 export const Row1 = styled.div`
+  position: relative;
   display: flex;
+  align-items: center;
   /* border: 3px solid skyblue; */
   width: 90%;
   height: 6.2vh;
@@ -41,4 +43,22 @@ export const LoginToggle = styled.div`
   cursor: pointer;
 `;
 
+export const TxtContent1 = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: '120%';
+`;
 
+export const TxtContent2 = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: '180%';
+`;
+
+export const ImgPassword = styled.img`
+  position: absolute;
+  right: 5%;
+  height: 40%;
+`;

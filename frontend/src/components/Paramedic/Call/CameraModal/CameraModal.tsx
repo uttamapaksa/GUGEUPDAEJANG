@@ -52,14 +52,14 @@ function CameraModal({CameraClose} : CallProps) {
 
   // 사진 카메라 버튼
   const handleCameraClick = () => {
-    setRecordImage("")
+    setRecordImage(undefined)
     const fileInput = document.getElementById('fileInput');
     if(fileInput) {fileInput.click()}
   };
   
   // 동영상 카메라 버튼
   const handleVideoClick = () => {
-    setRecordVideo("")
+    setRecordVideo(undefined)
     const videoInput = document.getElementById('videoInput');
     if(videoInput) {videoInput.click()}
   };

@@ -11,6 +11,8 @@ import { useRecoilState } from "recoil";
 import { centerState, paramedicInfoState } from "/src/recoils/AuthAtoms";
 
 function ParaSignupInput ({setIsOpen, setIsHosSearch}: ParaSignupInputProps) {
+  const [showPassword, setShowPassword] = useState(false);
+  const [showRePassword, setReShowPassword] = useState(false);
   const [center, setCenter] = useRecoilState(centerState);
   const [email, setEmail] = useState<string>("");
   const [name, setName] = useState<string>("");
@@ -114,22 +116,30 @@ function ParaSignupInput ({setIsOpen, setIsHosSearch}: ParaSignupInputProps) {
 
       <S.Row1>
         <A.IptUserInfo
-          type='password'
+          type={showPassword ? "text" : "password"}
           $width='100%'
           $height='100%'
           placeholder='비밀번호'
           value={password}
           onChange={handlePassword}/>
+          <S.ImgPassword
+            src="/src/assets/share/check-password.png" alt="" 
+            onClick={()=>setShowPassword(prev => !prev)}
+          />
       </S.Row1>
 
       <S.Row1>
         <A.IptUserInfo
-          type='password'
+          type={showRePassword ? "text" : "password"}
           $width='100%'
           $height='100%'
           placeholder='비밀번호 확인'
           value={repassword}
           onChange={handleRePassword}/>
+          <S.ImgPassword
+            src="/src/assets/share/check-password.png" alt="" 
+            onClick={()=>setReShowPassword(prev => !prev)}
+          />
       </S.Row1>
 
       <S.Row1>
@@ -163,10 +173,9 @@ function ParaSignupInput ({setIsOpen, setIsHosSearch}: ParaSignupInputProps) {
       
       <S.Row2>
         <S.LoginToggle>        
-          <A.TxtContent 
-            $width='120%'
-            onClick={goLogin}>로그인</A.TxtContent>/ 
-          <A.TxtContent $width='180%'>비밀번호 찾기</A.TxtContent>
+          <S.TxtContent1 onClick={goLogin}>로그인</S.TxtContent1>
+          / 
+          <S.TxtContent2>비밀번호 찾기</S.TxtContent2>
         </S.LoginToggle>
       </S.Row2>
     </S.Container>
