@@ -28,12 +28,12 @@ public class TransferHistoryResponse {
     private String description;
     private boolean isCompleted;
 
-    public TransferHistoryResponse(OccurrenceInfoResponse occurrenceInfo, Transfer transfer) {
+    public TransferHistoryResponse(OccurrenceInfoResponse occurrenceInfo, Transfer transfer, String hospitalName) {
         this.transferId = transfer.getId();
         this.date = transfer.getArrivedAt().format(DateTimeFormatter.ofPattern("yy.MM.dd"));
         this.transferStartTime = occurrenceInfo.getCreatedAt().format(DateTimeFormatter.ofPattern("HH:mm"));
         this.transferEndTime = transfer.getArrivedAt().format(DateTimeFormatter.ofPattern("HH:mm"));
-        this.hospitalName = occurrenceInfo.getHospitalId().toString();
+        this.hospitalName = hospitalName;
         this.paramedicName = occurrenceInfo.getMemberName();
         this.accidentAddress = occurrenceInfo.getAddress();
         this.ageGroup = occurrenceInfo.getAgeGroup();
