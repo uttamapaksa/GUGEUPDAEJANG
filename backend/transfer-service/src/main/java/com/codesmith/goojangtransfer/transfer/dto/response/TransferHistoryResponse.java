@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -17,10 +18,14 @@ public class TransferHistoryResponse {
     private String transferStartTime;
     private String transferEndTime;
     private String hospitalName;
+    private String paramedicName;
     private String accidentAddress;
     private String ageGroup;
     private String gender;
     private String ktas;
+    private List<String> tags;
+    private List<String> files;
+    private String description;
     private boolean isCompleted;
 
     public TransferHistoryResponse(OccurrenceInfoResponse occurrenceInfo, Transfer transfer) {
@@ -29,10 +34,14 @@ public class TransferHistoryResponse {
         this.transferStartTime = occurrenceInfo.getCreatedAt().format(DateTimeFormatter.ofPattern("HH:mm"));
         this.transferEndTime = transfer.getArrivedAt().format(DateTimeFormatter.ofPattern("HH:mm"));
         this.hospitalName = occurrenceInfo.getHospitalId().toString();
+        this.paramedicName = occurrenceInfo.getMemberName();
         this.accidentAddress = occurrenceInfo.getAddress();
         this.ageGroup = occurrenceInfo.getAgeGroup();
         this.gender = occurrenceInfo.getGender();
         this.ktas = occurrenceInfo.getKtas();
+        this.tags = occurrenceInfo.getTags();
+        this.files = occurrenceInfo.getFiles();
+        this.description = occurrenceInfo.getDescription();
         this.isCompleted = transfer.getStatus() == Status.COMPLETE;
     }
 }
