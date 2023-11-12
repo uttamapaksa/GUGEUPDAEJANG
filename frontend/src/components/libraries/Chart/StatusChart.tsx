@@ -2,11 +2,33 @@ import ApexCharts from 'apexcharts';
 import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
-const ChartContainer = styled.div`
+const Container = styled.div`
+  /* border: 1px solid red; */
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
   height: 100%;
+  width: 100%;
+`;
+
+const ChartHeader = styled.div`
+  /* border: 1px solid green; */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 10%;
+  width: 94%;
+  padding: 2% 3% 0% 3%;
+`
+
+const Title = styled.div`
+  font-size: 2.5vh;
+  font-weight: 600;
+`
+
+const Chart = styled.div`
+  /* border: 1px solid blue; */
   width: 100%;
 `;
 
@@ -16,12 +38,35 @@ const StatusChart = () => {
 
   useEffect(() => {
     const options = {
+      // 데이터
       series: requestData,
+
+      // 차트
       chart: {
-        width: "95%",
+        height: "86%",
         type: 'pie',
       },
-      labels: ['승인', '거절', '대기', '철회', '확정', '취소'],
+
+      // 범례
+      legend: {
+        position: 'right',
+        markers: {
+          width: 10,
+          height: 10,
+        },
+        itemMargin: {
+          horizontal: 12,
+          vertical: -6
+        },
+        fontSize: '12px',
+        fontWeight: 600,
+      },
+
+      labels: [
+        '승인', '거절', '대기', 
+        '철회', '확정', '취소'
+      ],
+      
       colors: [
         '#008FFB', 
         '#00E396', 
@@ -30,17 +75,6 @@ const StatusChart = () => {
         '#775DD0', 
         '#B7B7B7',
       ],
-      responsive: [{
-        breakpoint: 480,
-        options: {
-          chart: {
-            width: "95%"
-          },
-          legend: {
-            position: 'bottom'
-          }
-        }
-      }]
     };
 
     const chart = new ApexCharts(chartRef.current, options);
@@ -52,7 +86,12 @@ const StatusChart = () => {
   }, []);
 
   return (
-    <ChartContainer ref={chartRef} />
+    <Container>
+      <ChartHeader>
+        <Title>당일 요청 상태 비율</Title>
+      </ChartHeader>
+      <Chart ref={chartRef} />
+    </Container>
   );
 };
 

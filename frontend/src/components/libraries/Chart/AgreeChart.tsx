@@ -1,41 +1,55 @@
 import ApexCharts from 'apexcharts';
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
+import { AgreeRequestData } from '/src/types/chart';
 
 // 스타일 컴포넌트 정의
-const ChartContainer = styled.div`
+const Container = styled.div`
   /* border: 1px solid red; */
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: flex-end;
+  justify-content: space-between;
+  align-items: center;
   height: 100%;
   width: 100%;
 `;
 
+const ChartHeader = styled.div`
+  /* border: 1px solid green; */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 8%;
+  width: 96%;
+  padding: 1.8% 2% 0.2% 2%;
+`
+
+const Title = styled.div`
+  font-size: 2.5vh;
+  font-weight: 600;
+`
+
 const SelectYear = styled.select`
-  position: absolute;
   font-size: 1.6vh;
   border: 1px solid #ccc;
-  border-radius: 0.6vh;
+  border-radius: 0.5vh;
   background-color: white;
-  margin-right: 2.8vh;
-  padding: 0.2vh 0.3vh;
-  top: 1vh;
+  height: 120%;
+  padding: 0.1% 0.3%;
   z-index: 1000;
   cursor: pointer;
 `;
 
 const Chart = styled.div`
-  /* border: 1px solid red; */
-  width: 98%;
+  /* border: 1px solid blue; */
+  width: 100%;
 `;
 
 const AgreeChart = () => {
   const chartRef = useRef(null);
-  const [selectedYear, setSelectedYear] = useState('2023');
+  const [selectedYear, setSelectedYear] = useState<string>('2023');
 
-  const requestData = {
+  const requestData: AgreeRequestData = {
     '2017': {
       totalRequests:[280, 290, 330, 360, 320, 320, 330, 290, 330, 360, 320, 320],
       acceptedRequests:[120, 110, 140, 108, 107, 130, 130, 120, 110, 140, 180, 170]
@@ -53,10 +67,11 @@ const AgreeChart = () => {
   useEffect(() => {
     const acceptanceRates = requestData[selectedYear].acceptedRequests.map((accepted, index) => {
       const total = requestData[selectedYear].totalRequests[index];
-      return total > 0 ? parseFloat((accepted / total) * 100).toFixed(2) : null;
+      return total > 0 ? ((accepted / total) * 100).toFixed(2) : null;
     });
 
     const options = {
+      // 데이터
       series: [
         {
           name:  `전체 요청수`,
@@ -74,8 +89,10 @@ const AgreeChart = () => {
           type: 'none',
         },
       ],
+      
+      // 차트
       chart: {
-        height: "96%",
+        height: "86%",
         dropShadow: {
           enabled: true,
           color: '#000',
@@ -91,20 +108,59 @@ const AgreeChart = () => {
           enabled: false
         },
       },
-      colors: ['#545454', '#77B6EA'],
+
+      // x축
+      xaxis: {
+        categories: [
+          '01월', '02월', '03월', '04월',
+          '05월', '06월', '07월', '08월',
+          '09월', '10월', '11월', '12월'
+        ],
+      },
+
+      // y축
+      yaxis: {
+        labels: {
+          formatter: function (val:string) {
+            return parseInt(val);
+          },
+        },
+        min: 0,
+        max: 400,
+        tickAmount: 4,
+      },
+
+      // 데이터 레이블  
       dataLabels: {
         enabled: true,
-      },
-      title: {
-        text: `${selectedYear}년 월별 승낙 통계`,
-        align: 'left',
         style: {
-          fontSize: '12px',
-        }
+          fontSize: '11px',
+        },
       },
+
+      // 범례
+      legend: {
+        floating: true,
+        position: 'top',
+        horizontalAlign: 'right',
+        offsetY: -12,
+        fontSize: '12%',
+        fontWeight : 800,
+        markers: {
+          width: '9%',
+          height: '9%',
+        },
+      },
+      
+      // line 컬러
+      colors: ['#545454', '#77B6EA', '#FFF101'],
+
+      // line 유형
       stroke: {
         curve: 'smooth'
       },
+      
+      // 차트 뒤 선
       grid: {
         borderColor: '#e7e7e7',
         row: {
@@ -112,38 +168,12 @@ const AgreeChart = () => {
           opacity: 0.8
         },
       },
-      markers: {
-        size: 1
-      },
-      xaxis: {
-        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul','Aug','Sep','Oct','Nov','Dec'],
-        style: {
-          fontSize: '1px', // 여기에서 폰트 사이즈를 조정할 수 있습니다
-        }
-      },
-      yaxis: {
-        title: {
-          text: 'call'
-        },
-        labels: {
-          formatter: function (val:any) {
-            return parseInt(val); // y축 레이블을 정수로 변환
-          },
-        },
-        min: 0,
-        max: 400,
-        tickAmount: 4,
-      },
-      legend: {
-        position: 'top',
-        horizontalAlign: 'right',
-        floating: true,
-        offsetY: -25,
-        offsetX: -5,
-      },
+
+
+      // 호버 시 데이터표
       tooltip: {
         y: {
-          formatter: function (value, { seriesIndex, dataPointIndex, w }) {
+          formatter: function (value: string, { seriesIndex}: { seriesIndex: number }) {
             if (seriesIndex === 2) {
               return parseFloat(value).toFixed(2) + "%";
             }
@@ -161,23 +191,26 @@ const AgreeChart = () => {
     };
   }, [selectedYear]);
 
-  const handleYearChange = (event:any) => {
+  const handleYearChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedYear(event.target.value);
   };
 
   return (
-    <ChartContainer>
-      <SelectYear  onChange={handleYearChange} value={selectedYear}>
-        <option value="2017">2017년</option>
-        <option value="2018">2018년</option>
-        <option value="2019">2019년</option>
-        <option value="2020">2020년</option>
-        <option value="2021">2021년</option>
-        <option value="2022">2022년</option>
-        <option value="2023">2023년</option>
-      </SelectYear>
+    <Container>
+      <ChartHeader>
+        <Title>월별 요청 승낙 현황</Title>
+        <SelectYear  onChange={handleYearChange} value={selectedYear}>
+          <option value="2017">2017년</option>
+          <option value="2018">2018년</option>
+          <option value="2019">2019년</option>
+          <option value="2020">2020년</option>
+          <option value="2021">2021년</option>
+          <option value="2022">2022년</option>
+          <option value="2023">2023년</option>
+        </SelectYear>
+      </ChartHeader>
       <Chart ref={chartRef}></Chart>
-    </ChartContainer>
+    </Container>
   );
 };
 

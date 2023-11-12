@@ -2,82 +2,91 @@ import ApexCharts from 'apexcharts';
 import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
-const ChartContainer = styled.div`
+const Container = styled.div`
+  /* border: 1px solid red; */
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
   height: 100%;
+  width: 100%;
+`;
+const ChartHeader = styled.div`
+  /* border: 1px solid green; */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 10%;
+  width: 94%;
+  padding: 2% 3% 0% 3%;
+`
+
+const Title = styled.div`
+  font-size: 2.5vh;
+  font-weight: 600;
+`
+
+const Chart = styled.div`
+  /* border: 1px solid blue; */
   width: 100%;
 `;
 
 const TimeChart = () => {
   const chartRef = useRef(null);
-
+  const requestData = [
+    440, 505, 414, 671, 227, 413, 201, 352, 352, 752, 320, 257,
+  ];
+  
   useEffect(() => {
-    const requestData = [
-      440, 505, 414, 671, 227, 413, 201, 352, 352, 752, 320, 257,
-    ];
-    
     const options = {
-      series: [{
+      // 데이터
+      series: [
+        {
         name: '요청 수',
-        type: 'column',
         data: requestData
-      }, ],
+        }, 
+      ],
+      
+      // 차트
       chart: {
-        height: "98%",
-        type: 'line',
+        height: "96%",
+        type: 'bar',
         toolbar: {
-          show: true
+          show: false
         },
         zoom: {
-          enabled: true
+          enabled: false
         },
       },
-      stroke: {
-        width: [0, 3]
-      },
-      title: {
-        text: '시간대별 요청',
-      },
-      dataLabels: {
-        enabled: true,
-        enabledOnSeries: [1]
-      },
+
+      // x축
       xaxis: {
-        labels: {
-          rotate: -55
-        },
-        // categories: [
-        //   '00:00 ~ 01:00', '01:00 ~ 02:00', '02:00 ~ 03:00', '03:00 ~ 04:00',
-        //   '04:00 ~ 05:00', '05:00 ~ 06:00', '06:00 ~ 07:00', '07:00 ~ 08:00',
-        //   '08:00 ~ 09:00', '09:00 ~ 10:00', '10:00 ~ 11:00', '11:00 ~ 12:00',
-        //   '12:00 ~ 13:00', '13:00 ~ 14:00', '14:00 ~ 15:00', '15:00 ~ 16:00',
-        //   '16:00 ~ 17:00', '17:00 ~ 18:00', '18:00 ~ 19:00', '19:00 ~ 20:00',
-        //   '20:00 ~ 21:00', '21:00 ~ 22:00', '22:00 ~ 23:00', '23:00 ~ 24:00'
-        // ],
         categories: [
           '00:00 ~ 02:00', '02:00 ~ 04:00', '04:00 ~ 06:00', '06:00 ~ 08:00',
           '08:00 ~ 10:00', '10:00 ~ 12:00', '12:00 ~ 14:00', '14:00 ~ 16:00',
           '16:00 ~ 18:00', '18:00 ~ 20:00', '20:00 ~ 22:00', '22:00 ~ 24:00'
         ],
-        // categories: [
-        //   '00 ~ 01', '01 ~ 02', '02 ~ 03', '03 ~ 04',
-        //   '04 ~ 05', '05 ~ 06', '06 ~ 07', '07 ~ 08',
-        //   '08 ~ 09', '09 ~ 10', '10 ~ 11', '11 ~ 12',
-        //   '12 ~ 13', '13 ~ 14', '14 ~ 15', '15 ~ 16',
-        //   '16 ~ 17', '17 ~ 18', '18 ~ 19', '19 ~ 20',
-        //   '20 ~ 21', '21 ~ 22', '22 ~ 23', '23 ~ 24'
-        // ],
-      },
-      yaxis: [{
-        title: {
-          text: '요청 수',
+        labels: {
+          rotate: -55,
+          style: {
+            fontSize: '10px'
+          }
         },
+      },
+
+      // y축
+      yaxis: {
         min: 0,
         max: 1000,
         tickAmount: 5,
-      }]
+      },
+
+      // 데이터 레이블
+      dataLabels: {
+        enabled: true,
+        enabledOnSeries: [1]
+      },
+
     };
 
     const chart = new ApexCharts(chartRef.current, options);
@@ -89,7 +98,12 @@ const TimeChart = () => {
   }, []);
 
   return (
-    <ChartContainer ref={chartRef} />
+    <Container>
+      <ChartHeader>
+        <Title>시간대별 요청현황</Title>
+      </ChartHeader>
+      <Chart ref={chartRef} />
+    </Container>
   );
 };
 
