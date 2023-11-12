@@ -1,6 +1,8 @@
 package com.codesmith.goojangtransfer.transfer.application;
 
 import com.codesmith.goojangtransfer.infra.openvidu.OpenViduClient;
+import com.codesmith.goojangtransfer.member.application.MemberService;
+import com.codesmith.goojangtransfer.member.persistence.domain.Member;
 import com.codesmith.goojangtransfer.transfer.dto.message.MeetingJoinMessage;
 import com.codesmith.goojangtransfer.transfer.dto.request.TransferCreateRequest;
 import com.codesmith.goojangtransfer.transfer.dto.response.MeetingJoinResponse;
@@ -16,6 +18,7 @@ import com.codesmith.goojangtransfer.transfer.persistence.domain.Status;
 import com.codesmith.goojangtransfer.transfer.persistence.domain.Transfer;
 import io.openvidu.java.client.Session;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +29,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class TransferServiceImpl implements TransferService {
 
     private final TransferRepository transferRepository;
@@ -36,6 +40,8 @@ public class TransferServiceImpl implements TransferService {
     private final SimpMessagingTemplate simpMessagingTemplate;
     private final MemberServiceClient memberServiceClient;
     private final CallingServiceClient callingServiceClient;
+
+    private final MemberService memberService;
 
     @Override
     public TransferCreateResponse createTransfer(TransferCreateRequest transferCreateRequest) {
@@ -98,20 +104,27 @@ public class TransferServiceImpl implements TransferService {
 
     @Override
     public List<TransferHistoryResponse> getTransferHistoryList(Long memberId, TransferHistoryRequest transferHistoryRequest) {
-        SafetyCenterInfoResponse safetyCenterInfoResponse = memberServiceClient.getSafetyCenterInfo(memberId);
-        Map<String, String> paramedicMap = safetyCenterInfoResponse.getParamedics().stream()
-                .collect(Collectors.toMap(paramedic -> paramedic.getMemberId().toString(), paramedic -> paramedic.getName()));
+        SafetyCenterInfoResponse safetyCenterInfoResponse;
+        List<OccurrenceInfoResponse> occurrenceInfos;
 
-        List<OccurrenceInfoResponse> occurrenceInfos = callingServiceClient.getOccurrenceInfoList(paramedicMap);
+        if (transferHistoryRequest.isAll()) {
+            safetyCenterInfoResponse = memberServiceClient.getSafetyCenterInfo(memberId);
+            Map<String, String> paramedicMap = safetyCenterInfoResponse.getParamedics().stream()
+                    .collect(Collectors.toMap(paramedic -> paramedic.getMemberId().toString(), paramedic -> paramedic.getName()));
+            occurrenceInfos = callingServiceClient.getOccurrenceInfoList(paramedicMap);
+        } else {
+            occurrenceInfos = callingServiceClient.getOccurrenceInfoList(Map.of(memberId.toString(), memberService.getMember(memberId).getName()));
+            log.info("memberId: {}, memberName: {}", memberId, memberService.getMember(memberId).getName());
+        }
 
         List<Transfer> transfers = transferRepository.findAllByCallingIds(occurrenceInfos.stream()
-                .map(occurrenceInfoResponse -> occurrenceInfoResponse.getCallingId())
+                .map(occurrenceInfo -> occurrenceInfo.getCallingId())
                 .collect(Collectors.toList()), transferHistoryRequest.getStartDate(), transferHistoryRequest.getEndDate());
 
         List<TransferHistoryResponse> transferHistoryListResponses = new ArrayList<>();
         for (Transfer transfer: transfers) {
             occurrenceInfos.stream()
-                    .filter(occurrenceInfoResponse -> occurrenceInfoResponse.getCallingId().equals(transfer.getCallingId()))
+                    .filter(occurrenceInfo -> occurrenceInfo.getCallingId().equals(transfer.getCallingId()))
                     .findFirst()
                     .ifPresent(occurrenceInfoResponse -> transferHistoryListResponses.add(new TransferHistoryResponse(occurrenceInfoResponse, transfer)));
         }
