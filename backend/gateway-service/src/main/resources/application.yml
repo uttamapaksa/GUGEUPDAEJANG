@@ -40,5 +40,12 @@ spring:
             - Path=/api/transfer/**
           filters:
             - RewritePath=/api/(?<segment>.*), /$\{segment}
+
+        - id: report-service
+          uri: lb://REPORT-SERVICE
+          predicates:
+            - Path=/api/report/**
+          filters:
+            - RewritePath=/api/(?<segment>.*), /$\{segment}
 jwt:
   key: ${SECRETE_KEY}
