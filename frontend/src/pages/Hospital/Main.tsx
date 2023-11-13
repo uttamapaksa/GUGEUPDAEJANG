@@ -12,6 +12,7 @@ import { hospitalInfoState, memberInfoState } from "/src/recoils/AuthAtoms";
 import { HosJoinProps } from "/src/types/auth";
 import ParaMapTest from "/src/components/Hospital/Test/ParaMapTest";
 import HospitalReport from "/src/components/Hospital/Report/HospitalReport";
+import OpenViduComponent from "/src/components/libraries/Openvidu/OpenViduComponent";
 
 
 function Main() {
@@ -62,7 +63,8 @@ function Main() {
       <HopsitalSidebar />
       <ComponentContainer>
         {componentType[0] ? (
-          <HospitalMain />
+          <OpenViduComponent transferId={1111}></OpenViduComponent>
+          // <HospitalMain />
         ) : (
           <></>
         )}
