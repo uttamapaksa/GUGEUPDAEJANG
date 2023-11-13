@@ -8,23 +8,23 @@ function GuestMapItem(props: any) {
     const updateHospitalMarkers = () => {
       if (props.map !== undefined && props.hosList !== undefined) {
           for (var i = 0; i < props.hosList.length; i++) {
-              var lonlat = new Tmapv3.LatLng(props.hosList[i].latitude, props.hosList[i].longitude);
+              var lonlat = new Tmapv3.LatLng(props.hosList[i].pos.lat, props.hosList[i].pos.lon);
               // var title = props.hosList[i].name;
-              let color
-              if(props.hosList[i].response !== undefined){
-                  color = props.hosList[i].response === "accept" ? "#37b829" : props.hosList[i].response === "refuse" ? "#ff1500" : "#f6f157"
-              }
-              else{
-                  color = "#F66457"
-              }
+              // let color
+              // if(props.hosList[i].response !== undefined){
+              //     color = props.hosList[i].response === "accept" ? "#37b829" : props.hosList[i].response === "refuse" ? "#ff1500" : "#f6f157"
+              // }
+              // else{
+              //     color = "#F66457"
+              // }
               const size = new Tmapv3.Size(30, 30);
               const marker = new Tmapv3.Marker({
                   position: lonlat,
                   draggable: true,
                   map: props.map,
-                  color: color,
+                  // color: color,
                   iconSize: size,
-                  // icon: props.hosList[i].type,
+                  icon: "/src/assets/hospital/map-marker-hospital.png",
                   // label: title //Marker의 라벨.
               })
               marker.name = props.hosList[i].id
@@ -54,7 +54,7 @@ function GuestMapItem(props: any) {
               map: props.map,
               // color: positions[i].color,
               iconSize: size,
-              icon: "/src/assets/hospital/map-marker-hospital.png",
+              icon: "/src/assets/share/map-marker-my.png",
               // label: title //Marker의 라벨.
             });
             updateHospitalMarkers();

@@ -36,7 +36,6 @@ function Status({ RecordStart, CameraOpen }: CallProps) {
       image: recordImage,
       voice: recordVoice
     });
-    console.log("recordVoice",recordVoice)
   },[recordVideo, recordImage, recordVoice])
 
   return (
