@@ -43,12 +43,6 @@ public class MemberValidator {
         }
     }
 
-    public void validateBedCount(HashMap<String, Long> hospitalInfoMap, String hospitalId) {
-        if (!hospitalInfoMap.containsKey(hospitalId) || hospitalInfoMap.get(hospitalId) <= 0) {
-            throw new NoAvailableBedsException("응급실 가용 병상이 없음");
-        }
-    }
-
     public void validateHospitalRole(Long memberId) {
         if (memberRepository.findById(memberId).get().getRole() != Role.HOSPITAL) {
             throw new NotHospitalMemberException("병원 사용자가 아님");

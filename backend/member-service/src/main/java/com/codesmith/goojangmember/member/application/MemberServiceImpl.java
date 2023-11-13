@@ -124,8 +124,7 @@ public class MemberServiceImpl implements MemberService {
         memberValidator.validateMemberId(memberId);
         memberValidator.validateHospitalRole(memberId);
         HospitalDetail hospitalDetail = hospitalDetailRepository.findByMemberId(memberId);
-        HashMap<String, Long> hospitalInfoMap = publicDataClient.getRealTimeBedInfo();
-        memberValidator.validateBedCount(hospitalInfoMap, hospitalDetail.getId());
+        HashMap<String, Long> hospitalInfoMap = publicDataClient.getRealTimeBedInfo();;
         return new BedCountResponse(hospitalInfoMap.get(hospitalDetail.getId()));
     }
 
