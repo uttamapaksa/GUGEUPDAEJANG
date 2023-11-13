@@ -16,7 +16,9 @@ public class CallingCreateMessage {
     private String createdAt;
 
     private Long occurrenceId;
+    private String occurrenceTime;
     private Long memberId;
+    private Long hospitalId;
     private KTAS ktas;
     private AgeGroup ageGroup;
     private Gender gender;
@@ -35,7 +37,9 @@ public class CallingCreateMessage {
         this.id = callingStatusResponse.getCallingId();
         this.createdAt = callingStatusResponse.getCallingTime().toString();
         this.occurrenceId = occurrence.getId();
+        this.occurrenceTime = occurrence.getCreatedAt().toString();
         this.memberId = occurrence.getMemberId();
+        this.hospitalId = callingStatusResponse.getMemberId();
         this.ktas = occurrence.getKtas();
         this.ageGroup = occurrence.getAgeGroup();
         this.gender = occurrence.getGender();

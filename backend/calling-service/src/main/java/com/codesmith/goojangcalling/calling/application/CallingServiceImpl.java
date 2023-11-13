@@ -11,7 +11,6 @@ import com.codesmith.goojangcalling.infra.kafka.CallingProducer;
 import com.codesmith.goojangcalling.infra.openfeign.MemberServiceClient;
 import com.codesmith.goojangcalling.infra.openfeign.TransferServiceClient;
 import com.codesmith.goojangcalling.member.application.MemberService;
-import com.codesmith.goojangcalling.member.dto.response.MemberInfoResponse;
 import com.codesmith.goojangcalling.member.persistence.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -138,6 +137,7 @@ public class CallingServiceImpl implements CallingService{
         List<String> occurrenceFileList = occurrenceFileRepository.findAllFileNameByOccurrenceId(occurrenceId);
         callingStatusResponseList.forEach(o -> {
             CallingCreateMessage callingCreateMessage = new CallingCreateMessage(occurrence, o, occurrenceTagList, occurrenceFileList);
+            callingProducer.sendCreateMessage(callingCreateMessage);
             // 병원들에게 요청 전달
             simpMessagingTemplate.convertAndSend("/topic/" + o.getMemberId(), callingCreateMessage);
         });
@@ -170,6 +170,8 @@ public class CallingServiceImpl implements CallingService{
     private void sendToParamedic(CallingStatusChangeRequest callingStatusChangeRequest, Calling calling) {
         Long memberId = calling.getOccurrence().getMemberId();
         simpMessagingTemplate.convertAndSend("/topic/status/" + memberId, callingStatusChangeRequest);
+        CallingStatusMessage callingStatusMessage = new CallingStatusMessage(callingStatusChangeRequest.getCallingId(), callingStatusChangeRequest.getStatus());
+        callingProducer.sendUpdateMessage(callingStatusMessage);
     }
 
     private Calling updateCallingStatus(CallingStatusChangeRequest callingStatusChangeRequest) {
@@ -186,7 +188,7 @@ public class CallingServiceImpl implements CallingService{
         Calling selectedCalling = callingRepository.findById(callingId).get();
         callingValidator.validateApprovedCalling(selectedCalling);
         selectedCalling.fixCalling();
-        simpMessagingTemplate.convertAndSend("/topic/status/" + selectedCalling.getMemberId(), new CallingStatusMessage(selectedCalling));
+        updateStatusAnsSend(selectedCalling);
         changePendingCalling(selectedCalling);
         Member member = memberService.getMember(selectedCalling.getMemberId());
         TransferCreateResponse transfer = transferServiceClient.createTransfer(new CreateTransferRequest(selectedCalling));
@@ -201,7 +203,14 @@ public class CallingServiceImpl implements CallingService{
         Calling selectedCalling = callingRepository.findById(callingId).get();
         callingValidator.validateApprovedOrPendingCalling(selectedCalling);
         selectedCalling.cancelCalling();
-                simpMessagingTemplate.convertAndSend("/topic/status/" + selectedCalling.getMemberId(), new CallingStatusMessage(selectedCalling));
+        updateStatusAnsSend(selectedCalling);
+    }
+
+    private void updateStatusAnsSend(Calling selectedCalling) {
+        CallingStatusMessage callingStatusMessage = new CallingStatusMessage(selectedCalling);
+        simpMessagingTemplate.convertAndSend("/topic/status/" + selectedCalling.getMemberId(), callingStatusMessage);
+        System.out.println("callingStatusMessage.getCallingId() = " + callingStatusMessage.getCallingId());
+        callingProducer.sendUpdateMessage(callingStatusMessage);
     }
 
     @Override
@@ -226,7 +235,7 @@ public class CallingServiceImpl implements CallingService{
         callingList.forEach(o -> {
             if (o.getStatus().equals(Status.PENDING) && o.getId() != selectedCalling.getId()) {
                 o.terminateCalling();
-                simpMessagingTemplate.convertAndSend("/topic/status/" + o.getMemberId(), new CallingStatusMessage(o));
+                updateStatusAnsSend(o);
             }
         });
     }
