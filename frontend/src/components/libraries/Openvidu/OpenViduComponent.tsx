@@ -6,6 +6,8 @@ import { postMeetConnect } from "/src/apis/openvidu";
 import UserVideoComponent from "./UserVideoComponent";
 
 const Container = styled.div`
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -18,6 +20,7 @@ const List = styled.div`
   justify-content: center;
   align-items: center;
   height: 80%;
+  width: 100%;
   overflow-y: auto;
   overflow-x: none;
 `;
