@@ -15,7 +15,7 @@ const ParamedicList = () => {
     }
 
     useEffect(() => {
-        console.log(requestList)
+        console.log("요청 리스트",requestList)
       }, [requestList])
 
     return (

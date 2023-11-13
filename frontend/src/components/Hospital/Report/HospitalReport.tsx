@@ -1,6 +1,6 @@
 import AgreeChart from '../../libraries/Chart/AgreeChart'
 import CharacterChart from '../../libraries/Chart/CharacterChart'
-import KtasChart from '../../libraries/Chart/KTASChart'
+import KtasChart from '../../libraries/Chart/KtasChart'
 import StatusChart from '../../libraries/Chart/StatusChart'
 import TimeChart from '../../libraries/Chart/TimeChart'
 import * as S from './HospitalReport.style'

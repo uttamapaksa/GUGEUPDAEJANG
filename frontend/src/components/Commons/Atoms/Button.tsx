@@ -139,6 +139,7 @@ export const BtnKtas = styled(StyledButton)`
 
 export const BtnMediaRecord = styled(StyledButton)`
   justify-content: space-around;
+  align-items: center;
   font-size: ${(props) => props.$fontSize || `${theme.font.Large3_32}`};
   background-color: transparent;
   border: ${(props) => `3px solid ${props.$border}`};

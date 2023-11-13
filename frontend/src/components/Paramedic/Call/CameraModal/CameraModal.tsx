@@ -4,26 +4,26 @@ import * as S from './CameraModal.style'
 // 리코일
 import { useSetRecoilState } from 'recoil';
 import { 
+  recordContentFile,
   recordImageFile, 
   recordVideoFile } from '/src/recoils/ParamedicAtoms';
 
 // API
-import { postCameraUpload } from '/src/apis/paramedic';
+import { postCameraUpload, postSTT } from '/src/apis/paramedic';
 
 // 타입
 import { CallProps } from '/src/types/paramedic';
 
 function CameraModal({CameraClose} : CallProps) {
-  const setRecordImage = useSetRecoilState(recordImageFile);
+  const setRecordContent = useSetRecoilState(recordContentFile);
   const setRecordVideo = useSetRecoilState(recordVideoFile);
+  const setRecordImage = useSetRecoilState(recordImageFile);
 
   // 사진 or 동영상 촬영
   const handleCapture = (event: React.ChangeEvent<HTMLInputElement>) => {
     CameraClose?.()
     const file = event.target.files? Array.from(event.target.files):[]
-    console.log("file",file)
     const type = file[0].type.split('/')[0]
-
     if (type === "image") { axiosImageUpload(file) }
     else if (type === "video") { axiosVideoUpload(file) }
   };
@@ -44,6 +44,21 @@ function CameraModal({CameraClose} : CallProps) {
     try {
       const response = await postCameraUpload(file)
       setRecordVideo(response)
+      axiosVideoSTT(file)
+    }
+    catch(error) {
+      console.log(error)
+    }
+  }
+
+  // 동영상 파일 STT
+  const axiosVideoSTT = async (file:File[]): Promise<void> => {
+    try {
+      const data = new FormData();
+      data.append('file', file[0]);
+      setRecordContent("음성을 텍스트로 반환하고 있습니다...")
+      const response = await postSTT(data)
+      setRecordContent(response.text)
     }
     catch(error) {
       console.log(error)

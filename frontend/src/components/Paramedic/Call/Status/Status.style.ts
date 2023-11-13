@@ -29,3 +29,9 @@ export const TxtStatus = styled.textarea`
   font-size: 2.3vh;
   line-height: 4vh;
 `;
+
+export const FileBox = styled.div`
+  /* border: 3px solid skyblue; */
+  display: flex;
+  width: 102%;
+`
