@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { currentParamedicPageIndexState } from '/src/recoils/ParamedicAtoms';
-import { useSetRecoilState } from 'recoil';
+import { currentParamedicPageIndexState, paramedicHistoriesState } from '/src/recoils/ParamedicAtoms';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { getParamedicHistories } from '/src/apis/paramedic';
 import * as S from './History.style';
 import A from '/src/components/Commons/Atoms';
 
@@ -8,6 +9,15 @@ function History() {
   const setCurrentPageIndex = useSetRecoilState(currentParamedicPageIndexState);
   const goToPrev = () => setCurrentPageIndex(0);
   const [showCenter, setShowCenter] = useState(true);
+  const [paramedicHistories, setParamedicHistories] = useRecoilState(paramedicHistoriesState);
+
+  const getHistory = () => {
+    getParamedicHistories('1', '2', true).then((historyData) => {
+      if (historyData) {
+        setParamedicHistories(historyData)
+      }
+    })
+  }
 
   return (
     <>
