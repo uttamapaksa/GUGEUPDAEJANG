@@ -7,6 +7,7 @@ export interface HospitalItem {
   id: number;
   pos: Position;
   response?: string; //구급대원용 wait | accept | refuse
+  name?: string;
 }
 
 // 구급대원용 사고 위치, 반경 표시용
