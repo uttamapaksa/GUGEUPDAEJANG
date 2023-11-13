@@ -23,14 +23,14 @@ function GuestMap ({ mapProps, setMapProps }: GuestMapProps) {
 
     const nextMapProps: MapProps = {
       type: "guest",
-      pos: { lat: currPosition.lat, lon: currPosition.lon },
+      pos: { lat: currPosition.lat ?? 0, lon: currPosition.lon ?? 0 },
       hosList: hosList ? hosList : undefined,
     }
     setMapProps(nextMapProps)
   }
   useEffect(()=>{
     changePosition();
-  },[guestHospitals])
+  },[guestHospitals, currPosition])
 
   return (
     <S.Container>

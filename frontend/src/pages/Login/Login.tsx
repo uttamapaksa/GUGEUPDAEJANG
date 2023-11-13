@@ -15,10 +15,11 @@ function Login() {
   const curPos = useRecoilValue(currentPosition);
 
   useEffect(()=>{
+    // GPS 권한 접근
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(() => {}, () => {})} 
 
-    if (curPos.lat !== null) {setIsOpen(false)}
+    if (curPos.lat !== null) { setIsOpen(false) }
   },[curPos])
 
   return (

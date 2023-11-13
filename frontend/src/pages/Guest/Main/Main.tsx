@@ -10,12 +10,18 @@ import { CheckHospitalProps } from '/src/types/guest';
 import { currentPosition } from '/src/recoils/HospitalAtoms';
 import { getCheckHospital } from '/src/apis/guest';
 import { GuestHospitalListState } from '/src/recoils/GuestAtoms';
+import { ImgArrowLeft } from '/src/components/Commons/Atoms/Image';
+import { useNavigate } from 'react-router-dom';
+import PATH from '/src/constants/path';
 
 function Main() {
   const [mapProps, setMapProps] = useState<MapProps>();
   const [searching, setSearching] = useState<boolean>(false)
   const [guestHospitals, setGuestHospitals] = useRecoilState(GuestHospitalListState);
   const currPosition = useRecoilValue(currentPosition)
+
+  const navigate = useNavigate()
+  const goLogin = () => {navigate(`${PATH.Login}`)} 
 
   const searchToggle = () => {
     setSearching(!searching)
@@ -28,6 +34,7 @@ function Main() {
       distance  : 10.00,
     };
     try{
+      setGuestHospitals([])
       const response = await getCheckHospital(info)
       setGuestHospitals(response)
       if (response) { setSearching(false) }
@@ -39,7 +46,15 @@ function Main() {
 
   return (
     <S.Container>
-      <GuestMap mapProps={mapProps} setMapProps={setMapProps} />
+e     <GuestMap mapProps={mapProps} setMapProps={setMapProps} />
+      <S.Header>
+        <ImgArrowLeft 
+          $width='1vh'
+          $height='2vh'
+          onClick={goLogin}/>
+        사용자 페이지
+        <S.Empty/>
+      </S.Header>
 
       <S.ContentBox>
         <S.ImageBox>

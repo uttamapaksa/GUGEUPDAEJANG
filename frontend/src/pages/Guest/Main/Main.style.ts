@@ -9,6 +9,25 @@ export const Container = styled.div`
   align-items: center;
 `;
 
+export const Header = styled.div`
+  /* border: 1px solid red;  */
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 94%;
+  height: 5vh;
+  padding: 0 3%;
+  font-size: 2.5vh;
+  font-weight: 600;
+  background-color: white;
+  box-shadow: 0px 0px 10px 4px rgba(0, 0, 0, 0.10);
+`
+export const Empty = styled.div`
+  width: 1vh;
+  height: 2vh;
+` 
+
 export const ContentBox = styled.div`
   /* border: 1px solid red; */
   position: absolute;

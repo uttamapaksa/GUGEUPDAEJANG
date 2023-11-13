@@ -3,7 +3,7 @@ import { deleteMarker } from "/src/constants/function";
 import { Tmapv3 } from "../../Map";
 
 function GuestMapItem(props: any) {
-    const [count, setCount] = useState(2);
+
 
     const updateHospitalMarkers = () => {
       if (props.map !== undefined && props.hosList !== undefined) {
@@ -37,30 +37,29 @@ function GuestMapItem(props: any) {
           }
       }
   }
+    const updateGuestMarkers = () =>{
+      if (props.map !== undefined) {
+        deleteMarker(2);
+        const lonlat = new Tmapv3.LatLng(props.pos.lat, props.pos.lon);
+        const size = new Tmapv3.Size(30, 30);
+        const marker = new Tmapv3.Marker({
+          position: lonlat,
+          map: props.map,
+          iconSize: size,
+          icon: "/src/assets/share/map-marker-my.png",
+          // label: "asdasd" //Marker의 라벨.
+          // color: "#b52626",
+        });
+        updateHospitalMarkers();
+      }
+    }
 
     useEffect(() => {
-      const id = setInterval(() => {
-        setCount((count) => count - 1);
-      }, 1000);
-      
-      if(count === 0) {
-        setCount(2);
-        if (props.map !== undefined) {
-            deleteMarker(2);
-            var lonlat = new Tmapv3.LatLng(props.pos.lat, props.pos.lon);
-            const size = new Tmapv3.Size(30, 30);
-            const marker = new Tmapv3.Marker({
-              position: lonlat,
-              map: props.map,
-              // color: positions[i].color,
-              iconSize: size,
-              icon: "/src/assets/share/map-marker-my.png",
-              // label: title //Marker의 라벨.
-            });
-            updateHospitalMarkers();
-          }
-      }
-    }, [count]);
+      updateGuestMarkers()
+      const intervalId = setInterval(() => {
+        updateGuestMarkers()}, 10000)
+      return () => clearInterval(intervalId);
+    }, [props.hosList]);
 
   return <></>;
 }
