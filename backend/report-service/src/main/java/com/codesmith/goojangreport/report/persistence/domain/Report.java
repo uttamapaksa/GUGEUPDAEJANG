@@ -80,6 +80,14 @@ public class Report {
         this.callingStatus = status;
     }
 
+    public void hospitalResponse(LocalDateTime responseTime) {
+        this.responseTime = responseTime;
+    }
+
+    public void startTransfer(Long transferId) {
+        this.transferId = transferId;
+    }
+
     public void updateTransferStatue(String status) {
         this.transferStatus = status;
     }

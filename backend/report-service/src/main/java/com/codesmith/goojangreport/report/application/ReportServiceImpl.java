@@ -22,15 +22,21 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    public void updateReport(CallingStatusMessage callingStatusMessage) {
-        Report report = reportRepository.findByCallingId(callingStatusMessage.getCallingId());
-        report.updateCallingStatue(callingStatusMessage.getStatus());
+    public void updateReport(CallingStatusMessage message) {
+        Report report = reportRepository.findByCallingId(message.getCallingId());
+        report.updateCallingStatue(message.getStatus());
+
+        if (message.getStatus().equals("REJECTED") || message.getStatus().equals("APPROVED")) {
+            report.hospitalResponse(LocalDateTime.now());
+        }
+
         reportRepository.save(report);
     }
 
     @Override
     public void updateReport(TransferMessage transferMessage) {
         Report report = reportRepository.findByCallingId(transferMessage.getCallingId());
+        report.startTransfer(transferMessage.getId());
         report.updateTransferStatue(transferMessage.getStatus());
 
         if (transferMessage.getArrivedAt() != null) {
