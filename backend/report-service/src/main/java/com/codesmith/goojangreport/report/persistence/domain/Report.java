@@ -56,4 +56,43 @@ public class Report {
         this.transferStatus = transferStatus;
         this.arriveTime = arriveTime;
     }
+
+    public Report(Long paramedicMemberId, Long hospitalMemberId, Long occurrenceId,
+                  String ktas, String ageGroup, String gender, LocalDateTime occurrenceTime,
+                  Double latitude, Double longitude, String address,
+                  Long callingId, String callingStatus, LocalDateTime callingTime) {
+        this.paramedicMemberId = paramedicMemberId;
+        this.hospitalMemberId = hospitalMemberId;
+        this.occurrenceId = occurrenceId;
+        this.ktas = ktas;
+        this.ageGroup = ageGroup;
+        this.gender = gender;
+        this.occurrenceTime = occurrenceTime;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.address = address;
+        this.callingId = callingId;
+        this.callingStatus = callingStatus;
+        this.callingTime = callingTime;
+    }
+
+    public void updateCallingStatue(String status) {
+        this.callingStatus = status;
+    }
+
+    public void hospitalResponse(LocalDateTime responseTime) {
+        this.responseTime = responseTime;
+    }
+
+    public void startTransfer(Long transferId) {
+        this.transferId = transferId;
+    }
+
+    public void updateTransferStatue(String status) {
+        this.transferStatus = status;
+    }
+
+    public void arrived(LocalDateTime arriveTime) {
+        this.arriveTime = arriveTime;
+    }
 }
