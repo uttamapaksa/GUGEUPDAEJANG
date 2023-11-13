@@ -34,33 +34,33 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    public void updateReport(TransferMessage transferMessage) {
-        Report report = reportRepository.findByCallingId(transferMessage.getCallingId());
-        report.startTransfer(transferMessage.getId());
-        report.updateTransferStatue(transferMessage.getStatus());
+    public void updateReport(TransferMessage message) {
+        Report report = reportRepository.findByCallingId(message.getCallingId());
+        report.startTransfer(message.getId());
+        report.updateTransferStatue(message.getStatus());
 
-        if (transferMessage.getArrivedAt() != null) {
-            report.arrived(transferMessage.getArrivedAt());
+        if (message.getArrivedAt() != null) {
+            report.arrived(message.getArrivedAt());
         }
 
         reportRepository.save(report);
     }
 
-    private Report convertToReport(CallingCreateMessage msg) {
+    private Report convertToReport(CallingCreateMessage message) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
 
-        Long paramedicMemberId = msg.getMemberId();
-        Long hospitalMemberId = msg.getHospitalId();
-        Long occurrenceId = msg.getOccurrenceId();
-        String ktas = msg.getKtas();
-        String ageGroup = msg.getAgeGroup();
-        String gender = msg.getGender();
-        LocalDateTime occurrenceTime = LocalDateTime.parse(msg.getOccurrenceTime(), formatter);
-        Double latitude = msg.getLatitude();
-        Double longitude = msg.getLongitude();
-        String address = msg.getAddress();
-        Long callingId = msg.getId();
-        String callingStatus = msg.getStatus();
+        Long paramedicMemberId = message.getMemberId();
+        Long hospitalMemberId = message.getHospitalId();
+        Long occurrenceId = message.getOccurrenceId();
+        String ktas = message.getKtas();
+        String ageGroup = message.getAgeGroup();
+        String gender = message.getGender();
+        LocalDateTime occurrenceTime = LocalDateTime.parse(message.getOccurrenceTime(), formatter);
+        Double latitude = message.getLatitude();
+        Double longitude = message.getLongitude();
+        String address = message.getAddress();
+        Long callingId = message.getId();
+        String callingStatus = message.getStatus();
         LocalDateTime callingTime = LocalDateTime.now();
 
 
