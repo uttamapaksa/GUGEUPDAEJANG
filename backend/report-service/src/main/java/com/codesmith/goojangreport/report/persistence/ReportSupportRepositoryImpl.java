@@ -38,30 +38,35 @@ public class ReportSupportRepositoryImpl implements ReportSupportRepository {
     public JPQLQuery<Long> getToday(Long memberId) {
         return JPAExpressions
                 .select(report.id)
-                .from(report);
+                .from(report)
+                .where(report.id.eq(1L));
     }
 
     public JPQLQuery<Long> getTodayApproved(Long memberId) {
         return JPAExpressions
                 .select(report.id)
-                .from(report);
+                .from(report)
+                .where(report.id.eq(1L));
     }
 
     public JPQLQuery<Long> getTodayRejected(Long memberId) {
         return JPAExpressions
                 .select(report.id)
-                .from(report);
+                .from(report)
+                .where(report.id.eq(1L));
     }
 
     public JPQLQuery<Double> getAvgResponseTime(Long memberId) {
         return JPAExpressions
                 .select(report.id.avg())
-                .from(report);
+                .from(report)
+                .where(report.id.eq(1L));
     }
 
     public JPQLQuery<Double> getAvgTransferTime(Long memberId) {
         return JPAExpressions
                 .select(report.id.avg())
-                .from(report);
+                .from(report)
+                .where(report.id.eq(1L));
     }
 }
