@@ -70,16 +70,15 @@ export const SearchList = styled.div`
   justify-content: space-between;
   padding: 5% 0;
   height: 7vh;
-  `
+`;
 
 export const SearchItem = styled.div`
-margin-bottom: 2vh;
+  margin-bottom: 2vh;
   border: 1px solid blue;
   width: 48%;
-`
+`;
 
 export const SearchItemRow = styled.div`
   border: 1px solid purple;
   height: 3vh;
-`
-
+`;
