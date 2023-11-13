@@ -15,13 +15,16 @@ function Login() {
   const curPos = useRecoilValue(currentPosition);
 
   useEffect(()=>{
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(() => {}, () => {})} 
+
     if (curPos.lat !== null) {setIsOpen(false)}
   },[curPos])
 
   return (
     <S.Container>
-      {isOpen && <LoginFailModal content={"내 위치를 받아오는 중입니다..."} setIsOpen={setIsOpen} />}
       <Geolocation/>
+      {isOpen && <LoginFailModal content={"내 위치를 받아오는 중입니다..."} setIsOpen={setIsOpen} />}
       <S.Wrapper>
         <S.ContentBox>
           <M.Logo/>
