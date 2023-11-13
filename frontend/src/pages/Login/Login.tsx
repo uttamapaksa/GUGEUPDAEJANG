@@ -15,7 +15,7 @@ function Login() {
   const curPos = useRecoilValue(currentPosition);
 
   useEffect(()=>{
-    if (curPos) {setIsOpen(false)}
+    if (curPos.lat !== null) {setIsOpen(false)}
   },[curPos])
 
   return (
