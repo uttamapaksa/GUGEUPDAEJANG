@@ -2,12 +2,11 @@ import { useState, useEffect } from 'react';
 
 import * as S from './Call.style';
 import M from '/src/components/Commons/Molecules';
-import { 
-  Ktas, 
-  Information, 
-  Status, 
-  Category, 
-  RecordModal } from '/src/components/Paramedic/Call';
+import Ktas from '/src/components/Paramedic/Call/Ktas/Ktas';
+import Status from '/src/components/Paramedic/Call/Status/Status';
+import Category from '/src/components/Paramedic/Call/Category/Category';
+import Information from '/src/components/Paramedic/Call/Information/Information';
+import RecordModal from '/src/components/Paramedic/Call/RecordModal/RecordModal';
 
 import { useReactMediaRecorder } from 'react-media-recorder';
 

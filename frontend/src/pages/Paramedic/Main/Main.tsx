@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import * as S from './Main.style';
 import M from '/src/components/Commons/Molecules';
-import { CallWaitToggle, GoToHistory } from '/src/components/Paramedic/Main';
+import GoToHistory from '/src/components/Paramedic/Main/GoToHistory/GoToHistory';
+import CallWaitToggle from '/src/components/Paramedic/Main/CallWaitToggle/CallWaitToggle';
 
 function Main() {
   useEffect(() => {

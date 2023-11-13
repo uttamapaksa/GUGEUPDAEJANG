@@ -1,14 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { deleteMarker } from '/src/constants/function';
 import { Tmapv3 } from '../../Map';
 
 function ParamedicRequestMapItem(props: any) {
-  const [count, setCount] = useState(2);
   const updateHospitalMarkers = () => {
     if (props.map !== undefined && props.hosList !== undefined) {
       for (var i = 0; i < props.hosList.length; i++) {
         var lonlat = new Tmapv3.LatLng(props.hosList[i].pos.lat, props.hosList[i].pos.lon);
-        // var title = props.hosList[i].name;
+        var title = props.hosList[i].name;
         let color;
         if (props.hosList[i].response !== undefined) {
           color =
@@ -28,10 +27,10 @@ function ParamedicRequestMapItem(props: any) {
           color: color,
           iconSize: size,
           // icon: props.hosList[i].type,
-          // label: title //Marker의 라벨.
+          // label: title, //Marker의 라벨.
         });
         marker.name = props.hosList[i].id;
-        
+
         // //마커 이벤트 등록용
         // const tmp = props.hosList[i]
         // marker.on("Click", () => {
@@ -42,12 +41,7 @@ function ParamedicRequestMapItem(props: any) {
   };
 
   useEffect(() => {
-    const id = setInterval(() => {
-      setCount((count) => count - 1);
-    }, 3000);
-
-    if (count === 0) {
-      setCount(2);
+    const intervalId = setInterval(() => {
       if (props.map !== undefined) {
         deleteMarker(2);
         const size = new Tmapv3.Size(35, 35);
@@ -79,9 +73,10 @@ function ParamedicRequestMapItem(props: any) {
         });
         updateHospitalMarkers();
       }
-    }
-    return () => clearInterval(id);
-  }, [count]);
+    }, 3000);
+
+    return () => clearInterval(intervalId);
+  }, [props.map]);
 
   return <></>;
 }

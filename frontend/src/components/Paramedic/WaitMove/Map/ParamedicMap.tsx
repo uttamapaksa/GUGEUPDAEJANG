@@ -32,6 +32,7 @@ function ParamedicMap() {
           id: hospital.memberId,
           pos: { lat: hospital.latitude, lon: hospital.longitude },
           response: statusMapping[hospital.status],
+          name: hospital.hospitalName,
         }));
         const newProps: MapProps = {
           type: 'paraRequest',
