@@ -28,6 +28,7 @@ function Main() {
       distance  : 10.00,
     };
     try{
+      setGuestHospitals([])
       const response = await getCheckHospital(info)
       setGuestHospitals(response)
       if (response) { setSearching(false) }
@@ -39,7 +40,7 @@ function Main() {
 
   return (
     <S.Container>
-      <GuestMap mapProps={mapProps} setMapProps={setMapProps} />
+e      <GuestMap mapProps={mapProps} setMapProps={setMapProps} />
 
       <S.ContentBox>
         <S.ImageBox>
