@@ -69,7 +69,6 @@ export const SearchList = styled.div`
   flex-wrap: wrap;
   justify-content: space-between;
   padding: 5% 0;
-  height: 7vh;
 `;
 
 export const SearchItem = styled.div`
@@ -82,3 +81,4 @@ export const SearchItemRow = styled.div`
   border: 1px solid purple;
   height: 3vh;
 `;
+
