@@ -248,7 +248,7 @@ function HosSignupInput ({setIsOpen, setIsHosSearch}: HosSignupInputProps) {
       <S.Row2>
         <S.LoginToggle>        
           <S.TxtContent1 onClick={goLogin}>로그인</S.TxtContent1>
-          / 
+            / 
           <S.TxtContent2>비밀번호 찾기</S.TxtContent2>
         </S.LoginToggle>
       </S.Row2>
