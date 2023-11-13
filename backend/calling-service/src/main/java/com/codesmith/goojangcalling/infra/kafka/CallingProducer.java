@@ -2,11 +2,9 @@ package com.codesmith.goojangcalling.infra.kafka;
 
 import com.codesmith.goojangcalling.calling.dto.message.CallingCreateMessage;
 import com.codesmith.goojangcalling.calling.dto.message.CallingStatusMessage;
-import com.codesmith.goojangcalling.calling.persistence.domain.Calling;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.weaver.ast.Call;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
