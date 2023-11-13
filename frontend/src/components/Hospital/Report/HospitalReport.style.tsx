@@ -24,7 +24,7 @@ export const TitleBox = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 9%;
+  height: 5%;
 `
 
 export const HospitalName = styled.div`
@@ -44,7 +44,7 @@ export const ContentBox = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 87%;
+  height: 93%;
 `
 
 export const Content1 = styled.div`
