@@ -14,7 +14,9 @@ public class CallingCreateMessage {
     private String createdAt;
 
     private Long occurrenceId;
+    private String occurrenceTime;
     private Long memberId;
+    private Long hospitalId;
     private String ktas;
     private String ageGroup;
     private String gender;
