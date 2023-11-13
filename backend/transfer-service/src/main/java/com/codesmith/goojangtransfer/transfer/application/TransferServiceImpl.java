@@ -1,5 +1,6 @@
 package com.codesmith.goojangtransfer.transfer.application;
 
+import com.codesmith.goojangtransfer.infra.kafka.TransferProducer;
 import com.codesmith.goojangtransfer.infra.openvidu.OpenViduClient;
 import com.codesmith.goojangtransfer.member.application.MemberService;
 import com.codesmith.goojangtransfer.transfer.dto.message.MeetingJoinMessage;
@@ -31,6 +32,7 @@ public class TransferServiceImpl implements TransferService {
 
     private final TransferRepository transferRepository;
     private final TransferValidator transferValidator;
+    private final TransferProducer transferProducer;
 
     private final OpenViduClient openViduClient;
 
@@ -44,6 +46,7 @@ public class TransferServiceImpl implements TransferService {
     public TransferCreateResponse createTransfer(TransferCreateRequest transferCreateRequest) {
         transferValidator.validateCallingId(transferCreateRequest.getCallingId());
         Transfer transfer = transferRepository.save(new Transfer(transferCreateRequest.getCallingId(), transferCreateRequest.getMemberId(), Status.TRANSFERRING, null));
+        transferProducer.sendTransferMessage(transfer);
         return new TransferCreateResponse(transfer.getId(), true);
     }
 
@@ -54,6 +57,7 @@ public class TransferServiceImpl implements TransferService {
         Transfer transfer = transferRepository.findById(transferId).get();
         transfer.complete();
         transferRepository.save(transfer);
+        transferProducer.sendTransferMessage(transfer);
         return new TransferStatusChangeResponse(true);
     }
 
@@ -64,6 +68,7 @@ public class TransferServiceImpl implements TransferService {
         Transfer transfer = transferRepository.findById(transferId).get();
         transfer.cancel();
         transferRepository.save(transfer);
+        transferProducer.sendTransferMessage(transfer);
         return new TransferStatusChangeResponse(true);
     }
 
