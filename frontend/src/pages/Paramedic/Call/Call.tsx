@@ -136,7 +136,7 @@ function Call() {
   return (
     <S.Container>
       <S.ContentBox>
-        <M.ParamedicHeader />
+        <M.ParamedicHeader title={'환자 등록'}/>
         <S.Blank />
         <Ktas />
         <S.Blank />

@@ -4,15 +4,16 @@ interface SpinnerProps {
   height?: string;
   width?: string;
   top?: string;
+  color?: string;
 }
 
-function Spinner ({width, height, top}: SpinnerProps) {
+function Spinner ({width, height, top, color}: SpinnerProps) {
   const processedWidth = width? width.replace('vh', ''):""
   const processedHeight = height? height.replace('vh', ''):""
   
   return (
     <S.SpinnerWrapper width={width} height={height} top={top}>
-      <S.SpinnerInner width={processedWidth}  height={processedHeight}>
+      <S.SpinnerInner width={processedWidth} height={processedHeight} color={color}>
         <div></div><div></div><div></div><div></div><div></div>
         <div></div><div></div><div></div><div></div><div></div>
         <div></div><div></div><div></div><div></div><div></div>

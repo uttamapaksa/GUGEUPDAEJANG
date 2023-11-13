@@ -4,6 +4,7 @@ interface SpinnerProps {
   height?: string;
   width?: string;
   top? : string;
+  color?: string;
 }
 
 const rotate = keyframes`
@@ -34,7 +35,7 @@ export const SpinnerInner = styled.div<SpinnerProps>`
     top: 25%;
     position: absolute;
     animation: ${rotate} linear 1s infinite;
-    background: #000000;
+    background: ${props => props.color || '#000000'};
     border-radius: 2vh / 2.08vh;
     width: ${props => props.width ? `${(parseInt(props.width) * 4) / 150}vh` : "4vh"};
     height: ${props => props.height ? `${(parseInt(props.height) * 16) / 150}vh` : "16vh"};
