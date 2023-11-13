@@ -19,4 +19,5 @@ export const Arrow = styled.div`
   align-items: center;
   width: 10%;
   height: 80%;
+    cursor: pointer;
 `;

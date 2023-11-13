@@ -39,21 +39,30 @@ export const LoginToggle = styled.div`
     font-size: 1.8vh;
     width: 48%;
   }
-  cursor: pointer;
 `;
 
 export const TxtContent1 = styled.div`
+  margin-right: 0.5vh;
   display: flex;
   justify-content: center;
   align-items: center;
   width: '120%';
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 export const TxtContent2 = styled.div`
+  margin-left: 0.5vh;
   display: flex;
   justify-content: center;
   align-items: center;
   width: '180%';
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 export const ImgPassword = styled.img`

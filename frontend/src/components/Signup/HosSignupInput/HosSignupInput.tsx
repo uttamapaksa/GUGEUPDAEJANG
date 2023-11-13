@@ -1,15 +1,17 @@
-import { useState, ChangeEvent } from "react"
+import { useState, useEffect, ChangeEvent } from "react"
 import { useNavigate } from 'react-router-dom';
 
 import * as S from './HosSignupInput.style';
 import A from '/src/components/Commons/Atoms';
 import theme from '/src/styles';
 import PATH from '/src/constants/path';
+import Spinner from '../../libraries/Spinner/Spinner';
+import LoginFailModal from "../../Commons/Molecules/LoginFailModal/LoginFailModal";
 
 import { HosSignupInputProps } from "/src/types/auth";
 import { getCheckEmail, postHosJoin } from "/src/apis/auth";
 
-import { useRecoilState } from "recoil";
+import { useRecoilState, useResetRecoilState } from "recoil";
 import { hospitalInfoState } from "/src/recoils/AuthAtoms";
 
 function HosSignupInput ({setIsOpen, setIsHosSearch}: HosSignupInputProps) {
@@ -17,6 +19,10 @@ function HosSignupInput ({setIsOpen, setIsHosSearch}: HosSignupInputProps) {
   const [showRePassword, setReShowPassword] = useState(false);
   const [repassword, setRepassword] = useState<string>("");
   const [hospitalInfo, setHospitalInfo] = useRecoilState(hospitalInfoState);
+  const resetHospitalInfo = useResetRecoilState(hospitalInfoState);
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const [showSpinner, setShowSpinner] = useState(false);
+  const [modalContent, setModalContent] = useState('');
   const MAX_LENGTH = 50;
 
   const navigate = useNavigate()
@@ -74,26 +80,56 @@ function HosSignupInput ({setIsOpen, setIsHosSearch}: HosSignupInputProps) {
   const axiosHosJoin = async ():Promise<void> => {
     try {
       if (await postHosJoin(hospitalInfo) === 200) {
-        console.log("병원 회원가입 성공")
+        console.log("병원 회원가입 성공");
+        alert(`${hospitalInfo.name}의 회원가입을 환영합니다`);
+        goLogin();
       }
     }
     catch(error) {
       console.log(error)
+      alert(`회원가입에 실패하였습니다.`);
     }
+  }
+
+  function validateEmail(email: string) {
+    const re = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    return re.test(String(email).toLowerCase());
   }
 
   const axiosCheckEmail = async ():Promise<void> => {
+    setShowSpinner(true);
+    if (!validateEmail(hospitalInfo.email)) {
+      setIsAlertOpen(true)
+      setModalContent('유효하지 않은 이메일 주소입니다.')
+      setShowSpinner(false);
+      return;
+    }
+
     try {
-      const response = await getCheckEmail(hospitalInfo.email)
-      console.log(response.alreadyExists)
+      const response = await getCheckEmail(hospitalInfo.email);
+      console.log(response)
+      setIsAlertOpen(true)
+      if (response.alreadyExists) {
+        setModalContent('이미 존재하는 이메일입니다.')
+      } else {
+        setModalContent('이메일 인증에 성공하였습니다')
+      }
+    } catch (error) {
+      setIsAlertOpen(true)
+      setModalContent('이메일 인증에 실패하였습니다')
+      console.log(error);
     }
-    catch(error) {
-      console.log(error)
-    }
+    setShowSpinner(false);
   }
+
+  useEffect(() => {
+    resetHospitalInfo();
+  
+  }, [])
 
   return(
     <S.Container>
+      {isAlertOpen && <LoginFailModal content={modalContent} setIsOpen={setIsAlertOpen} />}
       <S.Row1>
         <A.IptUserInfo
           type='text'
@@ -142,7 +178,9 @@ function HosSignupInput ({setIsOpen, setIsHosSearch}: HosSignupInputProps) {
           $fontSize='2vh'
           $borderRadius='1vh'
           $backgroundColor={theme.color.grayDarkest}
-          onClick={() => {axiosCheckEmail()}}>인증</A.BtnSubmit>
+          onClick={() => {axiosCheckEmail()}}>
+            {showSpinner ? <Spinner color='#ffffff' width="8vh" height="8vh" top="71.4vh" /> : '인증'}
+          </A.BtnSubmit>
       </S.Row1>
 
       <S.Row1>
@@ -210,12 +248,11 @@ function HosSignupInput ({setIsOpen, setIsHosSearch}: HosSignupInputProps) {
       <S.Row2>
         <S.LoginToggle>        
           <S.TxtContent1 onClick={goLogin}>로그인</S.TxtContent1>
-          / 
+            / 
           <S.TxtContent2>비밀번호 찾기</S.TxtContent2>
         </S.LoginToggle>
       </S.Row2>
     </S.Container>
-
   )
 }
 

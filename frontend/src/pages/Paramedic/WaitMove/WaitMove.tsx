@@ -11,7 +11,7 @@ function WaitMove() {
   return (
     <S.Container>
       <S.Wrapper>
-        <M.ParamedicHeader />
+        <M.ParamedicHeader title={!isTransferringState ? '이송 요청' : '이송 중'}/>
         <ParamedicMap />
         <S.ContentBox>
           <Toggle />

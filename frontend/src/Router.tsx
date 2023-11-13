@@ -1,6 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 import Root from './Root';
-import Home from './pages/Home';
+// import Home from './pages/Home';
 import ErrorComponent from './components/ErrorComponent';
 import NotFound from './pages/NotFound';
 import PATH from './constants/path';
@@ -32,18 +32,8 @@ const router = createBrowserRouter([
         errorElement: <ErrorComponent />,
       },
       {
-        path: PATH.HospitalSocket,
-        element: <PAGE.HospitalSocket />,
-        errorElement: <ErrorComponent />,
-      },
-      {
         path: PATH.Paramedic,
         element: <PAGE.Paramedic />,
-        errorElement: <ErrorComponent />,
-      },
-      {
-        path: PATH.ParamedicSocket,
-        element: <PAGE.ParamedicSocket />,
         errorElement: <ErrorComponent />,
       },
       {
