@@ -1,3 +1,4 @@
+
 export interface Position {
   lat: number;
   lon: number;
@@ -88,6 +89,7 @@ export interface HospitalTransferItem {
   curLon?: number;
   curAddr?: string;
   data: ParaRequestItem;
+  videoOn?: boolean;
 }
 
 // 실시간 위치 (웹소켓으로 받는 객체)
@@ -97,6 +99,7 @@ export interface HospitalTransferParaItem {
   curLat?: number;
   curLon?: number;
   curAddr: string;
+  videoOn?: boolean;
 }
 
 // 일반사용자 선택된 병원

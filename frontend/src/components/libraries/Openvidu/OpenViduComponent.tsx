@@ -52,7 +52,9 @@ const OpenViduComponent = (props: any) => {
       const subscriber = mySession.subscribe(event.stream, "");
 
       console.log(subscriber);
-
+      // if (props.type === "hospital"){
+      //   setSubscribers((subscribers) => [...subscribers, subscriber]);
+      // }
       setSubscribers((subscribers) => [...subscribers, subscriber]);
     });
 
@@ -76,6 +78,7 @@ const OpenViduComponent = (props: any) => {
       console.log(devices);
       const videoDevices = devices.filter((device) => device.kind === "videoinput");
 
+      // if (props.type === "paramedic") {
       // --- 5) Get your own camera stream ---
       const newPublisher = newOV.initPublisher("", {
         videoSource: videoDevices[1]?.deviceId,
@@ -92,6 +95,7 @@ const OpenViduComponent = (props: any) => {
       console.log(newPublisher);
       // console.log(publisher);
       console.log(subscribers);
+      // }
     } catch (error: any) {
       console.log("There was an error connecting to the session:", error.code, error.message);
       leaveSession();
@@ -122,11 +126,19 @@ const OpenViduComponent = (props: any) => {
     return response;
   };
 
+  const preventClose = (e: BeforeUnloadEvent) => {
+    e.preventDefault();
+    e.returnValue = ""; //Chrome에서 동작하도록; deprecated
+  };
+
   useEffect(() => {
     joinSession();
-    console.log(
-      "openviduopenviduopenviduopenviduopenviduopenviduopenviduopenviduopenviduopenviduopenvidu"
-    );
+    (() => {
+      window.addEventListener("beforeunload", preventClose);
+    })();
+    return () => {
+      window.removeEventListener("beforeunload", preventClose);
+    };
   }, []);
 
   return (
@@ -149,6 +161,7 @@ const OpenViduComponent = (props: any) => {
                   subscribers
                 </UserVideoComponent>
               ))}
+              {subscribers.length == 0 ? <>nonsubscribe</> : <></>}
             </>
           </List>
           <button onClick={leaveSession}></button>

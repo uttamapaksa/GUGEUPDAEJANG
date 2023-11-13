@@ -87,3 +87,19 @@ export const CloseDiv = styled.div`
   z-index: 10000;
   cursor: pointer;
   `;
+
+
+export const ModalContainer = styled.div`
+  pointer-events: none;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  height: 70%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  z-index: 11000;
+`;

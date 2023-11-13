@@ -170,6 +170,7 @@ function HospitalSocket() {
             curLon: item.curLon,
             curAddr: item.curAddr,
             data: transferList[i].data,
+            videoOn: item.videoOn,
           };
           console.log(curItme);
           nextList.push(curItme);

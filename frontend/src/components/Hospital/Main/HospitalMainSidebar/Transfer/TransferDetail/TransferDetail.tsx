@@ -12,20 +12,28 @@ import {
 } from "./TransferDetail.style";
 import A from "/src/components/Commons/Atoms";
 import theme from "/src/styles";
-import { hospitalParmedicTransferList, hospitalSelectedTransferItem } from "/src/recoils/HospitalAtoms";
+import {
+  hospitalParmedicTransferList,
+  hospitalSelectedTransferItem,
+} from "/src/recoils/HospitalAtoms";
 import { HospitalTransferItem } from "/src/types/map";
 import { expectedTime, timeToString, turmToString } from "/src/constants/function";
 import { AGEGROUP, GENDER } from "/src/constants/variable";
+import { useState } from "react";
+import VideoModal from "./VideoModal";
 
 const TransferDetail = (props: any) => {
   const [transferList, setTransferList] = useRecoilState(hospitalParmedicTransferList);
   const [selectedParaItem, setSelectedParaItem] = useRecoilState(hospitalSelectedTransferItem);
 
+  const [videoOpen, setVideoOpen] = useState(false);
 
   const clickButton = () => {
     if (transferList != undefined) {
-      console.log("clickButton", transferList)
-      let nextTransferList = transferList.filter((item: HospitalTransferItem) => item.id != props.id);
+      console.log("clickButton", transferList);
+      let nextTransferList = transferList.filter(
+        (item: HospitalTransferItem) => item.id != props.id
+      );
       setTransferList(nextTransferList);
       props.onclick();
     }
@@ -82,11 +90,28 @@ const TransferDetail = (props: any) => {
             ))}
           </div>
 
+          {/* {props.videoOn ? (
+            <A.BtnMediaRecord
+              $width="80%"
+              $height="30px"
+              onClick={() => setVideoOpen(true)}
+            ></A.BtnMediaRecord>
+          ) : (
+            <></>
+          )} */}
+          <A.BtnMediaRecord
+              $width="80%"
+              $height="30px"
+              onClick={() => setVideoOpen(true)}
+            >zz</A.BtnMediaRecord>
+
           <ItemAddr>{props.data.description}</ItemAddr>
           <ItemAddr>{props.data.address}</ItemAddr>
           <DetailItemBetween>
             {/* <ItemElapseMin>{props.leftDist} km</ItemElapseMin> */}
-            <ItemLeftTime>도착 예정 시간 : {expectedTime(props.data.createdAt, props.data.duration)}</ItemLeftTime>
+            <ItemLeftTime>
+              도착 예정 시간 : {expectedTime(props.data.createdAt, props.data.duration)}
+            </ItemLeftTime>
           </DetailItemBetween>
 
           {props.state == "transfer" ? (
@@ -166,6 +191,11 @@ const TransferDetail = (props: any) => {
         </DetailItemContainer>
       </TransferDetailContent>
       <CloseDiv onClick={props.onclick}>&lt;</CloseDiv>
+      {videoOpen && selectedParaItem !== undefined ? (
+        <VideoModal transferId={selectedParaItem.id}></VideoModal>
+      ) : (
+        <></>
+      )}
     </TransferDetailContainer>
   );
 };
