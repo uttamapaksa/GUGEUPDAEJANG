@@ -14,20 +14,17 @@ public class CallingConsumer {
     private final ObjectMapper objectMapper;
     private final ReportService reportService;
 
-    @KafkaListener(topics = "calling-topic", groupId = "report-consumer-dev")
+    @KafkaListener(topics = "calling-topic", groupId = "report-consumer")
     public void consumeCallingTopic(String message){
         try {
-            System.out.println("========================" + message);
             if (message.contains("occurrenceId")) {
                 CallingCreateMessage callingCreateMessage = objectMapper.readValue(message, CallingCreateMessage.class);
                 reportService.createReport(callingCreateMessage);
-                System.out.println(callingCreateMessage);
             }
 
             else {
                 CallingStatusMessage callingStatusMessage = objectMapper.readValue(message, CallingStatusMessage.class);
                 reportService.updateReport(callingStatusMessage);
-                System.out.println(callingStatusMessage);
             }
 
         } catch (Exception e) {

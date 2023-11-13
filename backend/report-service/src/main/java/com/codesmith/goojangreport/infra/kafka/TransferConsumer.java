@@ -14,7 +14,7 @@ public class TransferConsumer {
     private final ObjectMapper objectMapper;
     private final ReportService reportService;
 
-    @KafkaListener(topics = "transfer-topic", groupId = "report-consumer-devd")
+    @KafkaListener(topics = "transfer-topic", groupId = "report-consumer")
     public void consumeTransferTopic(String message){
         try {
             TransferMessage transfer = objectMapper.readValue(message, TransferMessage.class);
