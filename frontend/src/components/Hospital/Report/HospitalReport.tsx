@@ -9,9 +9,8 @@ import A from '/src/components/Commons/Atoms/index'
 function HospitalReport () {
   return (
     <S.Container>
-      <S.Wrapper>
+      <S.Wrapper>A
         <S.TitleBox>
-          <S.HospitalName>세브란스 병원</S.HospitalName>
           <S.Title>요청/이송 REPORT</S.Title>
         </S.TitleBox>
 
