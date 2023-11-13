@@ -9,6 +9,9 @@ import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import static com.codesmith.goojangreport.report.persistence.domain.QReport.report;
 
 @Repository
@@ -36,24 +39,47 @@ public class ReportSupportRepositoryImpl implements ReportSupportRepository {
     }
 
     public JPQLQuery<Long> getToday(Long memberId) {
+        LocalDate today = LocalDate.now();
+        LocalDateTime startOfToday = today.atStartOfDay();
+        LocalDateTime endOfToday = today.plusDays(1).atStartOfDay();
+
         return JPAExpressions
-                .select(report.id)
+                .select(report.id.count())
                 .from(report)
-                .where(report.id.eq(1L));
+                .where(
+                        report.hospitalMemberId.eq(memberId)
+                                .and(report.occurrenceTime.between(startOfToday, endOfToday))
+                );
     }
 
     public JPQLQuery<Long> getTodayApproved(Long memberId) {
+        LocalDate today = LocalDate.now();
+        LocalDateTime startOfToday = today.atStartOfDay();
+        LocalDateTime endOfToday = today.plusDays(1).atStartOfDay();
+
         return JPAExpressions
-                .select(report.id)
+                .select(report.id.count())
                 .from(report)
-                .where(report.id.eq(1L));
+                .where(
+                        report.hospitalMemberId.eq(memberId)
+                                .and(report.occurrenceTime.between(startOfToday, endOfToday))
+                                .and(report.callingStatus.eq("APPROVED"))
+                );
     }
 
     public JPQLQuery<Long> getTodayRejected(Long memberId) {
+        LocalDate today = LocalDate.now();
+        LocalDateTime startOfToday = today.atStartOfDay();
+        LocalDateTime endOfToday = today.plusDays(1).atStartOfDay();
+
         return JPAExpressions
-                .select(report.id)
+                .select(report.id.count())
                 .from(report)
-                .where(report.id.eq(1L));
+                .where(
+                        report.hospitalMemberId.eq(memberId)
+                                .and(report.occurrenceTime.between(startOfToday, endOfToday))
+                                .and(report.callingStatus.eq("REJECTED"))
+                );
     }
 
     public JPQLQuery<Double> getAvgResponseTime(Long memberId) {
