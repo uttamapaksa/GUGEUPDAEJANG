@@ -34,29 +34,30 @@ function HospitalReport () {
     }
   }
 
-  const axiosReportTime = async (): Promise<void> => {
+  const axiosReportAge = async (): Promise<void> => {
     try {
-      const res = await getReportTime()
-      console.log("timeValue",res)
-      setTimeValue(res)
+      const res = await getReportAge()
+      setAgeValue(res)
     } catch(err){
       console.log(err)
     }
   }
-  
+    
   const axiosReportStatus = async (): Promise<void> => {
     try {
       const res = await getReportStatus()
+      console.log("Status",res)
       setStatusValue(res)
     } catch(err){
       console.log(err)
     }
   }
   
-  const axiosReportAge = async (): Promise<void> => {
+
+  const axiosReportTime = async (): Promise<void> => {
     try {
-      const res = await getReportAge()
-      setAgeValue(res)
+      const res = await getReportTime()
+      setTimeValue(res)
     } catch(err){
       console.log(err)
     }
@@ -98,7 +99,7 @@ function HospitalReport () {
               <CharacterChart/>
             </A.DivReport>
             <A.DivReport $width='23.8%'>
-              <StatusChart/>
+              {statusValue && <StatusChart statusValue={statusValue} />}
             </A.DivReport>
             <A.DivReport $width='23.8%'>
               {timeValue && <TimeChart timeValue={timeValue} />}
