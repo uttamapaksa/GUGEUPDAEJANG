@@ -54,6 +54,6 @@ public class ReportController {
 
     @GetMapping("/response")
     public ResponseEntity<MonthlyApprovedResponse> getMontlyApproved(@AuthMember MemberInfo memberInfo, @RequestParam Long year) {
-        return ResponseEntity.ok(reportService.getMonthlyApproved(1379L, year));
+        return ResponseEntity.ok(reportService.getMonthlyApproved(memberInfo.getId(), year));
     }
 }
