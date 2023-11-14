@@ -61,7 +61,7 @@ export interface fixedCallingType {
   hospitalId: number;
   latitude: number;
   longitude: number;
-  vedioOn: boolean;
+  videoOn: boolean;
 }
 
 export interface ParamedicHistoryType {
