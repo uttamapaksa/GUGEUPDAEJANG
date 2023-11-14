@@ -12,9 +12,9 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 import static com.codesmith.goojangreport.report.persistence.domain.QReport.report;
+import static com.querydsl.jpa.JPAExpressions.select;
 
 @Repository
 public class ReportSupportRepositoryImpl implements ReportSupportRepository {
@@ -38,21 +38,6 @@ public class ReportSupportRepositoryImpl implements ReportSupportRepository {
                         getAvgTransferTime(memberId)))
                 .from(report)
                 .fetchFirst();
-    }
-
-    @Override
-    public List<Long> getKtasCount(Long memberId, String ktas) {
-        return queryFactory
-                .select(report.occurrenceTime.dayOfMonth().nullif(0).count())
-                .from(report)
-                .where(
-                        report.hospitalMemberId.eq(memberId)
-                                .and(report.ktas.eq(ktas))
-                                .and(report.occurrenceTime.between(LocalDateTime.now().minusDays(6), LocalDateTime.now()))
-                )
-                .groupBy(report.occurrenceTime.dayOfMonth())
-//                .orderBy(report.occurrenceTime.dayOfMonth().asc())
-                .fetch();
     }
 
     public JPQLQuery<Long> getToday(Long memberId) {

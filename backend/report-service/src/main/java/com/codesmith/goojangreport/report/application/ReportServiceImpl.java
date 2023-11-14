@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -59,12 +60,7 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public DailyKtasResponse getDailyKtas(Long memberId) {
-        DailyKtas dailyKtas = new DailyKtas();
-        dailyKtas.setKtas1(reportRepository.getKtasCount(memberId, "KTAS1"));
-        dailyKtas.setKtas2(reportRepository.getKtasCount(memberId, "KTAS2"));
-        dailyKtas.setKtas3(reportRepository.getKtasCount(memberId, "KTAS3"));
-        dailyKtas.setKtas4(reportRepository.getKtasCount(memberId, "KTAS4"));
-        dailyKtas.setKtas5(reportRepository.getKtasCount(memberId, "KTAS5"));
+        List<DailyKtas> dailyKtas = reportRepository.getDailyKtas(memberId);
         return convertToDailyKtasResponse(dailyKtas);
     }
 
@@ -99,12 +95,29 @@ public class ReportServiceImpl implements ReportService {
         return new ReportHeaderResponse(today, todayApproved, todayRejected, avgResponseTime, avgTransferTime);
     }
 
-    private DailyKtasResponse convertToDailyKtasResponse(DailyKtas dailyKtas) {
-        List<Long> ktas1 = dailyKtas.getKtas1();
-        List<Long> ktas2 = dailyKtas.getKtas2();
-        List<Long> ktas3 = dailyKtas.getKtas3();
-        List<Long> ktas4 = dailyKtas.getKtas4();
-        List<Long> ktas5 = dailyKtas.getKtas5();
-        return new DailyKtasResponse(ktas1, ktas2, ktas3, ktas4, ktas5);
+    private DailyKtasResponse convertToDailyKtasResponse(List<DailyKtas> dailyKtas) {
+        DailyKtasResponse dailyKtasResponse = new DailyKtasResponse();
+
+        dailyKtasResponse.setKtas1(dailyKtas.stream()
+            .map(DailyKtas::getKtas1)
+            .collect(Collectors.toList()));
+
+        dailyKtasResponse.setKtas2(dailyKtas.stream()
+            .map(DailyKtas::getKtas2)
+            .collect(Collectors.toList()));
+
+        dailyKtasResponse.setKtas3(dailyKtas.stream()
+            .map(DailyKtas::getKtas3)
+            .collect(Collectors.toList()));
+
+        dailyKtasResponse.setKtas4(dailyKtas.stream()
+            .map(DailyKtas::getKtas4)
+            .collect(Collectors.toList()));
+
+        dailyKtasResponse.setKtas5(dailyKtas.stream()
+            .map(DailyKtas::getKtas5)
+            .collect(Collectors.toList()));
+
+        return dailyKtasResponse;
     }
 }
