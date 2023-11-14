@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { currentParamedicPageIndexState, paramedicHistoriesState } from '/src/recoils/ParamedicAtoms';
-import { useRecoilState, useSetRecoilState } from 'recoil';
-import { getParamedicHistories } from '/src/apis/paramedic';
+import { currentParamedicPageIndexState } from '/src/recoils/ParamedicAtoms';
+import { useSetRecoilState } from 'recoil';
 import * as S from './History.style';
 import A from '/src/components/Commons/Atoms';
 import ParaHistoryCard from '/src/components/Paramedic/History/ParaHIstoryCard/ParaHIstoryCard';
@@ -11,21 +10,12 @@ function History() {
   const setCurrentPageIndex = useSetRecoilState(currentParamedicPageIndexState);
   const goToPrev = () => setCurrentPageIndex(0);
   const [showCenter, setShowCenter] = useState(true);
-  const [paramedicHistories, setParamedicHistories] = useRecoilState(paramedicHistoriesState);
-
-  const getHistory = () => {
-    getParamedicHistories('1', '2', true).then((historyData) => {
-      if (historyData) {
-        setParamedicHistories(historyData)
-      }
-    })
-  }
 
   return (
     <>
       <S.ParamedicHeader>
         <S.Arrow>
-          <A.ImgArrowLeft $width="2vh" onClick={goToPrev} />
+          <A.ImgArrowLeft $width="1.5vh" onClick={goToPrev} />
         </S.Arrow>
         <A.TxtHeaderTitle>이송 기록</A.TxtHeaderTitle>
         <S.Arrow />
@@ -41,9 +31,9 @@ function History() {
       </S.HistoryCategory>
 
       <S.Wrapper>
+        <ParaHistoryOption showCenter={showCenter} />
         <S.ContentBox>
-          <ParaHistoryOption showCenter={showCenter} />
-          <ParaHistoryCard />
+          <ParaHistoryCard showCenter={showCenter} />
         </S.ContentBox>
       </S.Wrapper>
     </>

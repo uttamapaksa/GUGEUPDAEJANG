@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import theme from '/src/styles';
 
 export const ParamedicHeader = styled.div`
   /* border: 1px solid green; */
@@ -23,7 +22,7 @@ export const Arrow = styled.div`
 
 export const HistoryCategory = styled.div`
   /* border: 1px solid green; */
-  padding: 0 3vh;
+  padding: 0 4vh 0 2vh;
   display: flex;
   align-items: center;
   width: calc(100% - 6vh);
@@ -38,33 +37,40 @@ export const TxtHeaderTitle = styled.div<{ showcenter: number }>`
   justify-content: center;
   align-items: center;
   font-size: 2.5vh;
-  font-weight: 400;
-  width: 25%;
+  font-weight: 500;
+  width: 18%;
   height: 100%;
+  margin: 0 1.2vh 0 0;
+  color: ${({ showcenter }) => (showcenter ? '#000000' : '#969696')};
   border-bottom: ${({ showcenter }) => (showcenter ? '0.5vh solid black' : '0.5vh solid transparent')};
 `;
 
 export const Wrapper = styled.div`
-  border: 1px solid green;
-  margin: 2vh 0;
+  /* border: 1px solid green; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5vh 0 0 0 ;
   width: auto;
   height: auto;
-  background-color: ${theme.color.grayLight};
+  background-color: #F5F5F5;
 `;
 
 export const ContentBox = styled.div`
-  border: 1px solid green;
-  margin: 0 auto;
-  width: 90%;
+  /* border: 1px solid green; */
+  margin: 3% auto;
+  width: 94%;
+  height: 75vh;
+  overflow-y: scroll;
 `;
 
 export const SearchOption = styled.div`
-  border: 1px solid red;
+  /* border: 1px solid red; */
   height: 7vh;
 `;
 
 export const SearchList = styled.div`
-  border: 1px solid red;
+  /* border: 1px solid red; */
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -72,13 +78,13 @@ export const SearchList = styled.div`
 `;
 
 export const SearchItem = styled.div`
+  /* border: 1px solid blue; */
   margin-bottom: 2vh;
-  border: 1px solid blue;
   width: 48%;
 `;
 
 export const SearchItemRow = styled.div`
-  border: 1px solid purple;
+  /* border: 1px solid purple; */
   height: 3vh;
 `;
 
