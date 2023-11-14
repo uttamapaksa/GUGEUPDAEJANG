@@ -36,7 +36,6 @@ const HospitalMainSidebar = () => {
       <HospitalMainSidebarContents>
         {sidebarType ? <ParamedicList /> : <TransferList/>}
       </HospitalMainSidebarContents>
-      {/*  */}
     </HospitalMainSidebarContainer>
   );
 };

@@ -88,7 +88,6 @@ export const CloseDiv = styled.div`
   cursor: pointer;
   `;
 
-
 export const ModalContainer = styled.div`
   /* pointer-events: none; */
   position: fixed;
@@ -106,7 +105,6 @@ export const ModalContainer = styled.div`
   box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
   z-index: 11000;
 `;
-
 
 export const FilesSection = styled.div`
   /* border: 1px solid red; */

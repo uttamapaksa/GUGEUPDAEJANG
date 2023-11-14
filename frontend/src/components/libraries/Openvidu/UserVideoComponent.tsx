@@ -1,4 +1,3 @@
-import { useRecoilState } from "recoil";
 import { VedioOuterDiv } from "./UserVideoComponent.style";
 import { useEffect, useRef, useState } from "react";
 import OpenViduVideoComponent from "./OvVideo";

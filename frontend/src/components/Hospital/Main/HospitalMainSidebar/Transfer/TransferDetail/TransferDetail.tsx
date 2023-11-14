@@ -117,13 +117,6 @@ const TransferDetail = (props: any) => {
             ))}
           </div>
 
-          {/* <video style={{ border: "1px solid gray" }}></video> */}
-
-          {/* <div style={{ width: "90%", margin: "0 auto" }}>
-            {props.data.files.map((item: string, index: number) => (
-              <img key={index} src={item}></img>
-            ))}
-          </div> */}
           <FilesSection>
             {objFiles.video ? (
               <Video controls>
@@ -139,23 +132,6 @@ const TransferDetail = (props: any) => {
             ) : (<Audio controls></Audio>)}
           </FilesSection>
 
-
-          {/* {props.videoOn ? (
-            <A.BtnMediaRecord
-              $width="80%"
-              $height="30px"
-              onClick={() => setVideoOpen(true)}
-            ></A.BtnMediaRecord>
-          ) : (
-            <></>
-          )} */}
-          {/* <A.BtnMediaRecord
-            $width="80%"
-            $height="30px"
-
-            onClick={() => setVideoOpen(true)}
-          >zz</A.BtnMediaRecord> */}
-
           <A.BtnMediaRecord
             $width="90%"
             $height="40PX"
@@ -170,14 +146,12 @@ const TransferDetail = (props: any) => {
           >
             <A.ImgRecordCameraPink $width="3.2vh" $margin="10px"/>
             화상 통화 보기
-            {/* <A.ImgArrowPinkRight $width="1vh" /> */}
           </A.BtnMediaRecord>
 
 
           <ItemAddr>{props.data.description}</ItemAddr>
           <ItemAddr>{props.data.address}</ItemAddr>
           <DetailItemBetween>
-            {/* <ItemElapseMin>{props.leftDist} km</ItemElapseMin> */}
             <ItemLeftTime>
               도착 예정 시간 : {expectedTime(props.data.createdAt, props.data.duration)}
             </ItemLeftTime>
@@ -270,14 +244,3 @@ const TransferDetail = (props: any) => {
 };
 
 export default TransferDetail;
-
-// id: number,
-// addr: string,
-// pos: Position,
-// ktas: string,
-// elapseMin: number,
-// leftTime: number,
-// paraType: string,
-// paraTag: string[],
-// paraInfo: string,
-// requestAt?: string,

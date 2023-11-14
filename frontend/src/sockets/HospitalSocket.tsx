@@ -1,5 +1,4 @@
-import { useState, useEffect, useRef } from "react";
-// import { HospitalSocketProps } from '../types/socket';
+import { useEffect, useRef } from "react";
 import { Client } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -17,8 +16,6 @@ import {
 
 const CALLING_SERVER_URL = "https://k9b204a.p.ssafy.io:64419/calling-websocket";
 const TRANSFER_SERVER_URL = "https://k9b204a.p.ssafy.io:64413/transfer-websocket";
-// let hospitalId = 9999;
-// const paramedicId = 1;
 
 // function HospitalSocket({ hospitalId }: HospitalSocketProps) {
 function HospitalSocket() {
