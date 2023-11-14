@@ -25,7 +25,7 @@ function GuestMapItem(props: any) {
                   // color: color,
                   iconSize: size,
                   icon: "/src/assets/hospital/map-marker-hospital.png",
-                  // label: title //Marker의 라벨.
+                  label: props.hosList[i].name //Marker의 라벨.
               })
               marker.name = props.hosList[i].id
               
