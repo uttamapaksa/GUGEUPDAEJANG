@@ -12,9 +12,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DailyKtas {
-    List<Long> ktas1;
-    List<Long> ktas2;
-    List<Long> ktas3;
-    List<Long> ktas4;
-    List<Long> ktas5;
+    Long ktas1;
+    Long ktas2;
+    Long ktas3;
+    Long ktas4;
+    Long ktas5;
 }
