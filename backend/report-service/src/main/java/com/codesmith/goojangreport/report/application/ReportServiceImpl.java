@@ -3,22 +3,20 @@ package com.codesmith.goojangreport.report.application;
 import com.codesmith.goojangreport.report.dto.message.CallingCreateMessage;
 import com.codesmith.goojangreport.report.dto.message.CallingStatusMessage;
 import com.codesmith.goojangreport.report.dto.message.TransferMessage;
-import com.codesmith.goojangreport.report.dto.response.DailyKtasResponse;
-import com.codesmith.goojangreport.report.dto.response.DailyStatusResponse;
-import com.codesmith.goojangreport.report.dto.response.MonthlyApprovedResponse;
-import com.codesmith.goojangreport.report.dto.response.ReportHeaderResponse;
+import com.codesmith.goojangreport.report.dto.response.*;
 import com.codesmith.goojangreport.report.persistence.ReportRepository;
 import com.codesmith.goojangreport.report.persistence.domain.DailyKtas;
 import com.codesmith.goojangreport.report.persistence.domain.MonthlyApproved;
 import com.codesmith.goojangreport.report.persistence.domain.Report;
 import com.codesmith.goojangreport.report.persistence.domain.ReportHeader;
-import com.querydsl.core.Tuple;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -75,7 +73,17 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public DailyStatusResponse getDailyStatus(Long memberId) {
-        return new DailyStatusResponse(reportRepository.getDailyStatus(memberId));
+        return reportRepository.getDailyStatus(memberId);
+    }
+
+    @Override
+    public CallingPerTimeResponse getTimeGroup(Long memberId) {
+        Map<Integer, Long> timeGroup = reportRepository.getTimeGroup(memberId);
+        List<Long> countList = new ArrayList<>();
+        for (int i = 0; i <= 22; i += 2) {
+            countList.add(timeGroup.get(i));
+        }
+        return new CallingPerTimeResponse(countList);
     }
 
     private Report convertToReport(CallingCreateMessage message) {

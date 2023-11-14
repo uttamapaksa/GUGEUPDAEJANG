@@ -1,11 +1,12 @@
 package com.codesmith.goojangreport.report.persistence;
 
+import com.codesmith.goojangreport.report.dto.response.DailyStatusResponse;
 import com.codesmith.goojangreport.report.persistence.domain.ReportHeader;
-import com.querydsl.core.Tuple;
 
-import java.util.List;
+import java.util.Map;
 
 public interface ReportSupportRepository {
     ReportHeader getHeaderValue(Long memberId);
-    List<Tuple> getDailyStatus(Long memberId);
+    DailyStatusResponse getDailyStatus(Long memberId);
+    Map<Integer, Long> getTimeGroup(Long memberId);
 }

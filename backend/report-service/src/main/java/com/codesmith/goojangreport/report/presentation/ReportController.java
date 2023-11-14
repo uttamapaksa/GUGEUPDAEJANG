@@ -24,9 +24,7 @@ public class ReportController {
 
     @GetMapping("/time")
     public ResponseEntity<CallingPerTimeResponse> getTimeGroupReport(@AuthMember MemberInfo memberInfo) {
-        Long[] arr = {440L, 505L, 414L, 671L, 227L, 413L, 201L, 352L, 352L, 752L, 320L, 257L};
-        List<Long> list = new ArrayList<>(Arrays.asList(arr));
-        return ResponseEntity.ok(new CallingPerTimeResponse(list));
+        return ResponseEntity.ok(reportService.getTimeGroup(memberInfo.getId()));
     }
 
     @GetMapping("/status")
