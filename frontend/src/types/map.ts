@@ -38,7 +38,7 @@ export interface GuestMapProps {
 //구급대원 요청(서버)
 export interface ParaRequestItem {
   id: number;
-  createdAt: string;
+  createdAt: Date;
   occurrenceId: number;
   memberId: number;
   ktas: string;

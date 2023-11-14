@@ -16,7 +16,7 @@ export const Session = styled.div`
   justify-content: center;
   align-items: center;
 `;
-Session
+Session;
 
 export const Main = styled.div`
   position: relative;
@@ -28,11 +28,14 @@ export const Main = styled.div`
 `;
 export const Sub = styled.div`
   position: absolute;
-  bottom: 10%;
-  right: 10%;
+  bottom: 0;
+  right: 0;
   transform: translate(-50%, -50%);
   height: 20%;
   width: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const VedioOuterDiv = styled.div`
@@ -44,11 +47,10 @@ export const VedioOuterDiv = styled.div`
   height: 100%;
   border-radius: 10px;
   border: 1px solid #333;
-  margin: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color:  ${theme.color.grayDark};
+  background-color: ${theme.color.grayDark};
   &:hover {
     background-color: transparent;
     opacity: 0.5;
@@ -59,4 +61,5 @@ export const Video = styled.video`
   width: 100%;
   height: 100%;
   position: relative;
+  object-fit: cover;
 `;

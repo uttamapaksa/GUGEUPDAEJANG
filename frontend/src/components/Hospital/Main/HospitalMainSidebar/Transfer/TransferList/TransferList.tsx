@@ -17,6 +17,9 @@ const TransferList = () => {
     useEffect(() => {
         console.log("transferList", transferList)
     }, [transferList])
+    useEffect(() => {
+        console.log("selectedTransferItem", selectedTransferItem)
+    }, [selectedTransferItem])
 
     return (
         <>
@@ -33,7 +36,7 @@ const TransferList = () => {
                     <></>
                 }
             </TransferListContainer>
-            {selectedTransferItem !== undefined ? <TransferDetail {...selectedTransferItem} onclick={() => selectParaDetail(undefined)}></TransferDetail>
+            {selectedTransferItem !== undefined ? <TransferDetail onclick={() => selectParaDetail(undefined)}></TransferDetail>
                 :
                 <></>}
         </>
