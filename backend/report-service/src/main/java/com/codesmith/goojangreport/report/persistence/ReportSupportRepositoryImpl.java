@@ -48,8 +48,8 @@ public class ReportSupportRepositoryImpl implements ReportSupportRepository {
                 .select(report.id.count())
                 .from(report)
                 .where(
-                        report.hospitalMemberId.eq(memberId)
-                                .and(report.occurrenceTime.between(startOfToday, endOfToday))
+                        report.occurrenceTime.between(startOfToday, endOfToday)
+//                                .and(report.hospitalMemberId.eq(memberId))
                 );
     }
 
@@ -62,9 +62,9 @@ public class ReportSupportRepositoryImpl implements ReportSupportRepository {
                 .select(report.id.count())
                 .from(report)
                 .where(
-                        report.hospitalMemberId.eq(memberId)
-                                .and(report.occurrenceTime.between(startOfToday, endOfToday))
+                        report.occurrenceTime.between(startOfToday, endOfToday)
                                 .and(report.callingStatus.eq("APPROVED"))
+                                .and(report.hospitalMemberId.eq(memberId))
                 );
     }
 
@@ -77,9 +77,9 @@ public class ReportSupportRepositoryImpl implements ReportSupportRepository {
                 .select(report.id.count())
                 .from(report)
                 .where(
-                        report.hospitalMemberId.eq(memberId)
-                                .and(report.occurrenceTime.between(startOfToday, endOfToday))
+                        report.occurrenceTime.between(startOfToday, endOfToday)
                                 .and(report.callingStatus.eq("REJECTED"))
+//                                .and(report.hospitalMemberId.eq(memberId))
                 );
     }
 
