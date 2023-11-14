@@ -49,7 +49,7 @@ public class ReportController {
 
     @GetMapping("/ktas")
     public ResponseEntity<DailyKtasResponse> getDailyKtas(@AuthMember MemberInfo memberInfo) {
-        return ResponseEntity.ok(reportService.getDailyKtas(1379L));
+        return ResponseEntity.ok(reportService.getDailyKtas(memberInfo.getId()));
     }
 
     @GetMapping("/response")
