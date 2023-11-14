@@ -1,7 +1,8 @@
 import ApexCharts from 'apexcharts';
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { CharacterRequestData } from '/src/types/chart';
+import { AgeType } from '/src/types/report';
 
 const Container = styled.div`
   /* border: 1px solid red; */
@@ -32,14 +33,16 @@ const Chart = styled.div`
   width: 100%;
 `;
 
-const CharacterChart = () => {
+const CharacterChart = ({ageValue}:{ageValue?: AgeType}) => {
   const chartRef = useRef(null);
 
   const requestData: CharacterRequestData = {
-    'age' : [280, 290, 330, 360, 320, 320, 330, 290, 330],
-    'male' : [160, 180, 190, 150, 250, 190, 200, 170, 220],
-    'female' : [120, 110, 140, 108, 107, 130, 130, 120, 110],
+    'age' : ageValue?.totalCountList,
+    'male' : ageValue?.maleCountList,
+    'female' : ageValue?.femaleCountList,
   }
+
+  const MaxData = requestData.age?  Math.ceil(Math.max(...requestData.age)/100) * 100 + 100 : 0;
 
   useEffect(() => {
     const options = {
@@ -83,8 +86,8 @@ const CharacterChart = () => {
       // y축
       yaxis: {
         min: 0,
-        max: 400,
-        tickAmount: 4,
+        max: MaxData,
+        tickAmount: 5,
       },
       
       // 데이터 레이블

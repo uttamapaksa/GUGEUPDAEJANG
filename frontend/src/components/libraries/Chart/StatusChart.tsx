@@ -1,6 +1,7 @@
 import ApexCharts from 'apexcharts';
 import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
+import { StatusType } from '/src/types/report';
 
 const Container = styled.div`
   /* border: 1px solid red; */
@@ -32,9 +33,9 @@ const Chart = styled.div`
   width: 100%;
 `;
 
-const StatusChart = () => {
+const StatusChart = ({statusValue}:{statusValue?: StatusType}) => {
   const chartRef = useRef(null);
-  const requestData = [44, 55, 13, 43, 22, 30]
+  const requestData = statusValue?.dailyStatusList
 
   useEffect(() => {
     const options = {
@@ -55,8 +56,8 @@ const StatusChart = () => {
           height: 10,
         },
         itemMargin: {
-          horizontal: 12,
-          vertical: -6
+          horizontal: 15,
+          vertical: -3
         },
         fontSize: '12px',
         fontWeight: 600,

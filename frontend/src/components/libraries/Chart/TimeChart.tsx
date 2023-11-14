@@ -1,6 +1,7 @@
 import ApexCharts from 'apexcharts';
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
+import { TimeType } from '/src/types/report';
 
 const Container = styled.div`
   /* border: 1px solid red; */
@@ -31,11 +32,11 @@ const Chart = styled.div`
   width: 100%;
 `;
 
-const TimeChart = () => {
+const TimeChart = ({timeValue}:{timeValue?: TimeType}) => {
   const chartRef = useRef(null);
-  const requestData = [
-    440, 505, 414, 671, 227, 413, 201, 352, 352, 752, 320, 257,
-  ];
+  const requestData = timeValue?.callingPerTimeList
+
+  const MaxData = requestData?  Math.ceil(Math.max(...requestData)/100) * 100 + 100 : 0;
   
   useEffect(() => {
     const options = {
@@ -77,7 +78,7 @@ const TimeChart = () => {
       // y축
       yaxis: {
         min: 0,
-        max: 1000,
+        max: MaxData,
         tickAmount: 5,
       },
 
