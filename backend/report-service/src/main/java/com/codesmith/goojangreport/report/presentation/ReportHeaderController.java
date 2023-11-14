@@ -3,7 +3,7 @@ package com.codesmith.goojangreport.report.presentation;
 import com.codesmith.goojangreport.global.passport.MemberInfo;
 import com.codesmith.goojangreport.global.passport.presentation.AuthMember;
 import com.codesmith.goojangreport.report.application.ReportService;
-import com.codesmith.goojangreport.report.dto.reponse.ReportHeaderResponse;
+import com.codesmith.goojangreport.report.dto.response.ReportHeaderResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
