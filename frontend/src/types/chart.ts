@@ -6,7 +6,7 @@ export interface AgreeRequestData {
 }
 
 export interface  CharacterRequestData {
-  age: number[];
-  male: number[];
-  female: number[];
+  age: number[] | undefined;
+  male: number[] | undefined;
+  female: number[] | undefined;
 };

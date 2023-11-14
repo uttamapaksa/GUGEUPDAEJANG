@@ -1,5 +1,5 @@
 import ApexCharts from 'apexcharts';
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { TimeType } from '/src/types/report';
 
