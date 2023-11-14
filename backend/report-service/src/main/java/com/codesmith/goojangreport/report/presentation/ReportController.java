@@ -54,8 +54,6 @@ public class ReportController {
 
     @GetMapping("/response")
     public ResponseEntity<MonthlyApprovedResponse> getMontlyApproved(@AuthMember MemberInfo memberInfo, @RequestParam Long year) {
-        List<Long> total = new ArrayList<>(Arrays.asList(280L, 290L, 330L, 360L, 320L, 330L, 290L, 330L, 360L, 320L, 330L, 290L));
-        List<Long> approved = new ArrayList<>(Arrays.asList(160L, 180L, 190L, 150L, 250L, 200L, 170L, 220L, 150L, 250L, 200L, 170L));
-        return ResponseEntity.ok(new MonthlyApprovedResponse(total, approved));
+        return ResponseEntity.ok(reportService.getMonthlyApproved(1379L, year));
     }
 }
