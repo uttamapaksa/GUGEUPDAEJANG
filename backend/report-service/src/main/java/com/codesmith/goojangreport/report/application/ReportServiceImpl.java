@@ -4,6 +4,7 @@ import com.codesmith.goojangreport.report.dto.message.CallingCreateMessage;
 import com.codesmith.goojangreport.report.dto.message.CallingStatusMessage;
 import com.codesmith.goojangreport.report.dto.message.TransferMessage;
 import com.codesmith.goojangreport.report.dto.response.DailyKtasResponse;
+import com.codesmith.goojangreport.report.dto.response.DailyStatusResponse;
 import com.codesmith.goojangreport.report.dto.response.MonthlyApprovedResponse;
 import com.codesmith.goojangreport.report.dto.response.ReportHeaderResponse;
 import com.codesmith.goojangreport.report.persistence.ReportRepository;
@@ -11,6 +12,7 @@ import com.codesmith.goojangreport.report.persistence.domain.DailyKtas;
 import com.codesmith.goojangreport.report.persistence.domain.MonthlyApproved;
 import com.codesmith.goojangreport.report.persistence.domain.Report;
 import com.codesmith.goojangreport.report.persistence.domain.ReportHeader;
+import com.querydsl.core.Tuple;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -69,6 +71,11 @@ public class ReportServiceImpl implements ReportService {
     public MonthlyApprovedResponse getMonthlyApproved(Long memberId, Long year) {
         List<MonthlyApproved> monthlyApproved = reportRepository.getMonthlyApproved(memberId, year);
         return convertToMonthlyApprovedResponse(monthlyApproved);
+    }
+
+    @Override
+    public DailyStatusResponse getDailyStatus(Long memberId) {
+        return new DailyStatusResponse(reportRepository.getDailyStatus(memberId));
     }
 
     private Report convertToReport(CallingCreateMessage message) {

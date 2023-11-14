@@ -1,6 +1,7 @@
 package com.codesmith.goojangreport.report.persistence;
 
 import com.codesmith.goojangreport.report.persistence.domain.ReportHeader;
+import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPAExpressions;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static com.codesmith.goojangreport.report.persistence.domain.QReport.report;
 import static com.querydsl.jpa.JPAExpressions.select;
@@ -38,6 +40,23 @@ public class ReportSupportRepositoryImpl implements ReportSupportRepository {
                         getAvgTransferTime(memberId)))
                 .from(report)
                 .fetchFirst();
+    }
+
+    @Override
+    public List<Tuple> getDailyStatus(Long memberId) {
+        // TODO : 현재 데이터가 적어서 날짜랑 멤버 아이디 조건을 조작해놓음 추후에 주석 지우기
+//        LocalDate today = LocalDateTime.now().toLocalDate();
+        LocalDate today = LocalDate.of(2023, 11, 13);
+
+        return queryFactory
+                .select(report.callingStatus, report.report.id.count())
+                .from(report)
+                .where(
+//                        report.hospitalMemberId.eq(memberId),
+                        report.callingTime.between(today.atStartOfDay(), today.plusDays(1).atStartOfDay())
+                )
+                .groupBy(report.callingStatus)
+                .fetch();
     }
 
     public JPQLQuery<Long> getToday(Long memberId) {

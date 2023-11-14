@@ -31,9 +31,7 @@ public class ReportController {
 
     @GetMapping("/status")
     public ResponseEntity<DailyStatusResponse> getDailyStatusReport(@AuthMember MemberInfo memberInfo) {
-        Long[] arr = {44L, 55L, 13L, 43L, 22L, 30L};
-        List<Long> list = new ArrayList<>(Arrays.asList(arr));
-        return ResponseEntity.ok(new DailyStatusResponse(list));
+        return ResponseEntity.ok(reportService.getDailyStatus(memberInfo.getId()));
     }
 
     @GetMapping("/age")
