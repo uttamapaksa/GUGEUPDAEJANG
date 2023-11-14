@@ -31,6 +31,7 @@ import arrow_black_right from "/src/assets/paramedic/arrow-black-right.png"
 import recording_black from "/src/assets/paramedic/recording-black.png"
 import recording_pink from "/src/assets/paramedic/recording-pink.png"
 import delete_category from "/src/assets/paramedic/delete-category.png"
+import calender_icon from "/src/assets/paramedic/calender-icon.png"
 
 // share
 import logo from "/src/assets/share/logo.png"
@@ -119,6 +120,7 @@ export const ImgArrowBlackRight = styled(StyledImage).attrs({src: arrow_black_ri
 export const ImgRecordingBlack = styled(StyledImage).attrs({src: recording_black})``;
 export const ImgRecordingPink = styled(StyledImage).attrs({src: recording_pink})``;
 export const ImgDeleteCategory = styled(StyledImage).attrs({src: delete_category})``;
+export const ImgCalenderIcon = styled(StyledImage).attrs({src: calender_icon})``;
 
 // share
 export const ImgLogo = styled(StyledImage).attrs({src: logo})``;

@@ -37,7 +37,7 @@ function HospitalItem({ IsGuest, hospital, guestHospital, setHospitals }: Hospit
       case 'APPROVED':
         fixCalling(callingId).then((fixedData) => {
           if (fixedData) {
-            setFixedCalling({callingId, ...fixedData, hospitalId, latitude, longitude });
+            setFixedCalling({callingId, ...fixedData, hospitalId, latitude, longitude, vedioOn: false });
             setIsTransferring(true);
           }
         });

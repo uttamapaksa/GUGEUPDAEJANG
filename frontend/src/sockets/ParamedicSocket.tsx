@@ -19,12 +19,12 @@ const TRANSFER_SERVER_URL = 'https://k9b204a.p.ssafy.io:64413/transfer-websocket
 
 function ParamedicSocket() {
   const paramedicId = useRecoilValue(memberInfoState).memberId;
-  const hospitalId = (useRecoilValue(fixedCallingState) || {hospitalId: 0}).hospitalId;
+  const hospitalId = (useRecoilValue(fixedCallingState) || { hospitalId: 0 }).hospitalId;
 
   const isTransferring = useRecoilValue(isTransferringState);
   const [isCanceled, setIsCanceled] = useRecoilState(isCanceledState);
   const [isCompleted, setIsCompleted] = useRecoilState(isCompletedState);
-  
+
   const fixedCalling = useRecoilValue(fixedCallingState);
   const position = useRecoilValue(currentPosition);
   const address = useRecoilValue(currentAddressState);
@@ -124,45 +124,59 @@ function ParamedicSocket() {
   };
 
   let data: HospitalTransferParaItem;
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
   useEffect(() => {
-    if (!isTransferring) return;
+    if (!isTransferring) {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+      return;
+    }
     data = {
-      id: fixedCalling && fixedCalling.callingId,
+      id: fixedCalling.callingId,
+      transferId: fixedCalling.transferId,
       state: 'transfer',
       curLat: position.lat || undefined,
       curLon: position.lon || undefined,
       curAddr: address,
+      videoOn: fixedCalling.videoOn,
     };
-    const interval = setInterval(() => transferSendMessage(data), 5000);
+    intervalRef.current = setInterval(() => transferSendMessage(data), 3000);
     return () => {
-      clearInterval(interval);
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
     };
   }, [isTransferring]);
 
   useEffect(() => {
     if (!isCanceled) return;
     data = {
-      id: fixedCalling && fixedCalling.callingId,
+      id: fixedCalling.callingId,
+      transferId: fixedCalling.transferId,
       state: 'cancel',
       curLat: position.lat || undefined,
       curLon: position.lon || undefined,
       curAddr: address,
+      videoOn: fixedCalling.videoOn,
     };
     transferSendMessage(data);
-    setIsCanceled(false)
+    setIsCanceled(false);
   }, [isCanceled]);
 
   useEffect(() => {
     if (!isCompleted) return;
     data = {
-      id: fixedCalling && fixedCalling.callingId,
+      id: fixedCalling.callingId,
+      transferId: fixedCalling.transferId,
       state: 'complete',
       curLat: position.lat || undefined,
       curLon: position.lon || undefined,
       curAddr: address,
+      videoOn: fixedCalling.videoOn,
     };
     transferSendMessage(data);
-    setIsCompleted(false)
+    setIsCompleted(false);
   }, [isCompleted]);
 
   useEffect(() => {

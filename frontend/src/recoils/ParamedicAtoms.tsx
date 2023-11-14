@@ -114,3 +114,15 @@ export const paramedicHistoriesState = atom<ParamedicHistoryType[]>({
   key: 'paramedicHistoryState',
   default: undefined,
 });
+
+// 구급대원 이송 기록 시작 시간
+export const startTimeState = atom<any>({
+  key: 'startTimeState',
+  default: null,
+});
+
+// 구급대원 이송 기록 종료 시간
+export const endTimeState = atom<any>({
+  key: 'endTimeState',
+  default: null,
+});

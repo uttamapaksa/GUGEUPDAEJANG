@@ -63,14 +63,6 @@ export const SearchOption = styled.div`
   height: 7vh;
 `;
 
-export const SearchList = styled.div`
-  border: 1px solid red;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  padding: 5% 0;
-`;
-
 export const SearchItem = styled.div`
   margin-bottom: 2vh;
   border: 1px solid blue;

@@ -124,10 +124,10 @@ export const finishTransfer = async (transferId: number) => {
 // 구급대원 이송 기록
 export const getParamedicHistories = async (startDate: string, endDate: string, all: boolean) => {
   try {
-    const res = await privateApi.get(`/transfer/history/startDate=${startDate}&endDate=${endDate}&all=${all}`);
-    console.log('getParamedicHistory then', res.data);
+    const res = await privateApi.get(`/transfer/history?startDate=${startDate}&endDate=${endDate}&all=${all}`);
+    console.log('getParamedicHistories then', res.data);
     return res.data;
   } catch (err) {
-    console.log('getParamedicHistory catch', err);
+    console.log('getParamedicHistories catch', err);
   }
 };
