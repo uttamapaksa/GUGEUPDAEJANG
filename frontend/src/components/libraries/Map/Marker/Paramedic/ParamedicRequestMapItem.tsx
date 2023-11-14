@@ -43,7 +43,7 @@ function ParamedicRequestMapItem(props: any) {
   };
 
   useEffect(() => {
-    let circle = null;
+    let circle: any = null;
 
     const intervalId = setInterval(() => {
       if (props.map !== undefined) {
@@ -53,7 +53,7 @@ function ParamedicRequestMapItem(props: any) {
         //   circle.setMap(null);
         // }
         if (circle) {
-          console.log(circle);
+          // console.log(circle);
           circle.setMap(null);
         }
         const size = new Tmapv3.Size(35, 35);

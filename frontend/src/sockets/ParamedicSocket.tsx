@@ -118,7 +118,7 @@ function ParamedicSocket() {
 
   const transferSendMessage = (data: HospitalTransferParaItem) => {
     if (transferSocket.current) {
-      console.log(data);
+      // console.log(data);
       transferSocket.current.publish({
         destination: `/app/location/${hospitalId}`,
         body: JSON.stringify(data),
