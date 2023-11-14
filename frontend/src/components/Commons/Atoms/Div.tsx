@@ -104,4 +104,6 @@ export const DivReport = styled(StyledDiv)`
   background-color: white;
   border-radius: 10px;
   box-shadow: 0px 0px 1vh 0.3vh rgba(0, 0, 0, 0.08);
+  font-size: 2.7vh;
+  font-weight: 600;
 `
