@@ -3,13 +3,14 @@ package com.codesmith.goojangreport.report.application;
 import com.codesmith.goojangreport.report.dto.message.CallingCreateMessage;
 import com.codesmith.goojangreport.report.dto.message.CallingStatusMessage;
 import com.codesmith.goojangreport.report.dto.message.TransferMessage;
-import com.codesmith.goojangreport.report.dto.reponse.DailyKtasResponse;
-import com.codesmith.goojangreport.report.dto.reponse.ReportHeaderResponse;
+import com.codesmith.goojangreport.report.dto.response.DailyKtasResponse;
+import com.codesmith.goojangreport.report.dto.response.MonthlyApprovedResponse;
+import com.codesmith.goojangreport.report.dto.response.ReportHeaderResponse;
 import com.codesmith.goojangreport.report.persistence.ReportRepository;
 import com.codesmith.goojangreport.report.persistence.domain.DailyKtas;
+import com.codesmith.goojangreport.report.persistence.domain.MonthlyApproved;
 import com.codesmith.goojangreport.report.persistence.domain.Report;
 import com.codesmith.goojangreport.report.persistence.domain.ReportHeader;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -62,6 +63,12 @@ public class ReportServiceImpl implements ReportService {
     public DailyKtasResponse getDailyKtas(Long memberId) {
         List<DailyKtas> dailyKtas = reportRepository.getDailyKtas(memberId);
         return convertToDailyKtasResponse(dailyKtas);
+    }
+
+    @Override
+    public MonthlyApprovedResponse getMonthlyApproved(Long memberId, Long year) {
+        List<MonthlyApproved> monthlyApproved = reportRepository.getMonthlyApproved(memberId, year);
+        return convertToMonthlyApprovedResponse(monthlyApproved);
     }
 
     private Report convertToReport(CallingCreateMessage message) {
@@ -119,5 +126,19 @@ public class ReportServiceImpl implements ReportService {
             .collect(Collectors.toList()));
 
         return dailyKtasResponse;
+    }
+
+    private MonthlyApprovedResponse convertToMonthlyApprovedResponse(List<MonthlyApproved> monthlyApproved) {
+        MonthlyApprovedResponse monthlyApprovedResponse = new MonthlyApprovedResponse();
+
+        monthlyApprovedResponse.setTotal(monthlyApproved.stream()
+            .map(MonthlyApproved::getTotal)
+            .collect(Collectors.toList()));
+
+        monthlyApprovedResponse.setApproved(monthlyApproved.stream()
+            .map(MonthlyApproved::getApproved)
+            .collect(Collectors.toList()));
+
+        return monthlyApprovedResponse;
     }
 }

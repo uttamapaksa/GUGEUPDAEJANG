@@ -1,4 +1,4 @@
-package com.codesmith.goojangreport.report.dto.reponse;
+package com.codesmith.goojangreport.report.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

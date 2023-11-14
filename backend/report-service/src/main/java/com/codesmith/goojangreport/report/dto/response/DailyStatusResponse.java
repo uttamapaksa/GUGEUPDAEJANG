@@ -1,4 +1,4 @@
-package com.codesmith.goojangreport.report.dto.reponse;
+package com.codesmith.goojangreport.report.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,6 +11,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CallingPerTimeResponse {
-    private List<Long> callingPerTimeList;
+public class DailyStatusResponse {
+    private List<Long> dailyStatusList;
 }
