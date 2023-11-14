@@ -61,4 +61,22 @@ export interface fixedCallingType {
   hospitalId: number;
   latitude: number;
   longitude: number;
+  vedioOn: boolean;
+}
+
+export interface ParamedicHistoryType {
+  transferId: number;
+  date: string;
+  transferStartTime: string;
+  transferEndTime: string;
+  hospitalName: string;
+  paramedicName: string;
+  accidentAddress: string;
+  ageGroup: "INFANT" | "CHILD" | "YOUTH" | "ADULT" | "ELDERLY";
+  gender: "MALE" | "FEMALE";
+  ktas: "KTAS1" | "KTAS2" | "KTAS3" | "KTAS4" | "KTAS5";
+  tags: string[];
+  files: string[];
+  description: string;
+  completed: boolean;
 }

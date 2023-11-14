@@ -1,6 +1,13 @@
 import { atom } from 'recoil';
 import { recoilPersist } from 'recoil-persist';
-import { TagType, FileType, OccurrenceType, HospitalListType, fixedCallingType } from '../types/paramedic';
+import {
+  TagType,
+  FileType,
+  OccurrenceType,
+  HospitalListType,
+  fixedCallingType,
+  ParamedicHistoryType,
+} from '../types/paramedic';
 const { persistAtom } = recoilPersist();
 
 // 구급대원 메인(0), 요청(1), 대기 및 이송(2), 기록(3), 통계(4) 페이지
@@ -100,4 +107,22 @@ export const fixedCallingState = atom<fixedCallingType>({
 export const currentAddressState = atom<string>({
   key: 'currentAddressState',
   default: '',
+});
+
+// 구급대원 이송 기록
+export const paramedicHistoriesState = atom<ParamedicHistoryType[]>({
+  key: 'paramedicHistoryState',
+  default: undefined,
+});
+
+// 구급대원 이송 기록 시작 시간
+export const startTimeState = atom<any>({
+  key: 'startTimeState',
+  default: null,
+});
+
+// 구급대원 이송 기록 종료 시간
+export const endTimeState = atom<any>({
+  key: 'endTimeState',
+  default: null,
 });

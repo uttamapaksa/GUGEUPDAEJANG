@@ -115,9 +115,19 @@ export const finishTransfer = async (transferId: number) => {
   try {
     const res = await privateApi.put(`/transfer/${transferId}`);
     console.log('finishTransfer then', res);
-    return true
+    return true;
   } catch (err) {
     console.log('finishTransfer catch', err);
   }
 };
 
+// 구급대원 이송 기록
+export const getParamedicHistories = async (startDate: string, endDate: string, all: boolean) => {
+  try {
+    const res = await privateApi.get(`/transfer/history?startDate=${startDate}&endDate=${endDate}&all=${all}`);
+    console.log('getParamedicHistories then', res.data);
+    return res.data;
+  } catch (err) {
+    console.log('getParamedicHistories catch', err);
+  }
+};
