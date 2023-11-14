@@ -41,42 +41,45 @@ const TransferDetail = (props: any) => {
 
     fileList.map((file) => {
       if (!file) return;
-      const parts = file.split('.');
-      const extension = parts.length > 1 ? parts.pop()?.toLowerCase() : '';
+      const parts = file.split(".");
+      const extension = parts.length > 1 ? parts.pop()?.toLowerCase() : "";
       if (!extension) return;
-      if (extension === 'mp4') {
+      if (extension === "mp4") {
         filesObject.video = file as string | null;
-      } else if (extension === 'jpg' || extension === 'png') {
+      } else if (extension === "jpg" || extension === "png") {
         filesObject.image = file as string | null;
-      } else if (extension === 'webm') {
+      } else if (extension === "webm") {
         filesObject.voice = file as string | null;
       }
     });
-    setObjFiles(filesObject)
+    setObjFiles(filesObject);
   };
 
   useEffect(() => {
-    if (props.files) { checkFiles(props.data.files) }
-  }, [props.files]);
+    if (selectedParaItem !== undefined && selectedParaItem.data.files) {
+      checkFiles(selectedParaItem.data.files);
+    }
+    console.log(selectedParaItem);
+  }, [selectedParaItem]);
 
   const closeModal = () => {
     setVideoOpen(false);
-  }
+  };
 
   const clickButton = () => {
-    if (transferList != undefined) {
+    if (transferList != undefined && selectedParaItem != undefined) {
       console.log("clickButton", transferList);
       let nextTransferList = transferList.filter(
-        (item: HospitalTransferItem) => item.id != props.id
+        (item: HospitalTransferItem) => item.id != selectedParaItem.id
       );
       setTransferList(nextTransferList);
       props.onclick();
     }
-    if (selectedParaItem !== undefined && selectedParaItem.id == props.id) {
+    if (selectedParaItem !== undefined) {
       setSelectedParaItem(undefined);
     }
   };
-  return (
+  return selectedParaItem && (
     <TransferDetailContainer>
       <TransferDetailContent>
         <DetailItemContainer>
@@ -84,24 +87,24 @@ const TransferDetail = (props: any) => {
             $position="absolute"
             $right="0%"
             $top="0%"
-            $ktas={props.data.ktas.toLowerCase()}
+            $ktas={selectedParaItem.data.ktas.toLowerCase()}
             $width="50px"
             $height="25px"
             $borderRadius="0px 0px 0px 10px"
             $fontSize={theme.font.Small5_12}
           >
-            {props.data.ktas}
+            {selectedParaItem.data.ktas}
           </A.DivKtasInfo>
-          <ItemRequestAt>{timeToString(props.data.createdAt)}</ItemRequestAt>
+          <ItemRequestAt>{timeToString(selectedParaItem.data.createdAt)}</ItemRequestAt>
           <DetailItemBetween>
             <ItemParaType>
-              {AGEGROUP[props.data.ageGroup]} ({GENDER[props.data.gender]})
+              {AGEGROUP[selectedParaItem.data.ageGroup]} ({GENDER[selectedParaItem.data.gender]})
             </ItemParaType>
-            <ItemElapseMin>요청 이후 {turmToString(props.data.createdAt)}분 경과</ItemElapseMin>
+            <ItemElapseMin>요청 이후 {turmToString(selectedParaItem.data.createdAt)}분 경과</ItemElapseMin>
           </DetailItemBetween>
 
           <div style={{ width: "90%", margin: "0 auto" }}>
-            {props.data.tags.map((item: string, index: number) => (
+            {selectedParaItem.data.tags.map((item: string, index: number) => (
               <A.DivTag
                 key={index}
                 $margin="2px 5px 10px 2px"
@@ -120,16 +123,27 @@ const TransferDetail = (props: any) => {
           <FilesSection>
             {objFiles.video ? (
               <Video controls>
-                <source src={objFiles.video} type="video/mp4" /></Video>
-            ) : (<NoFile>영상이<br></br>없습니다.</NoFile>)}
+                <source src={objFiles.video} type="video/mp4" />
+              </Video>
+            ) : (
+              <NoFile>
+                영상이<br></br>없습니다.
+              </NoFile>
+            )}
 
             {objFiles.image ? (
               <Image src={objFiles.image}></Image>
-            ) : (<NoFile>사진이<br></br>없습니다.</NoFile>)}
+            ) : (
+              <NoFile>
+                사진이<br></br>없습니다.
+              </NoFile>
+            )}
 
             {objFiles.voice ? (
               <Audio src={objFiles.voice} controls></Audio>
-            ) : (<Audio controls></Audio>)}
+            ) : (
+              <Audio controls></Audio>
+            )}
           </FilesSection>
 
           <A.BtnMediaRecord
@@ -144,20 +158,19 @@ const TransferDetail = (props: any) => {
             $margin="0 auto"
             onClick={() => setVideoOpen(true)}
           >
-            <A.ImgRecordCameraPink $width="3.2vh" $margin="10px"/>
+            <A.ImgRecordCameraPink $width="3.2vh" $margin="10px" />
             화상 통화 보기
           </A.BtnMediaRecord>
 
-
-          <ItemAddr>{props.data.description}</ItemAddr>
-          <ItemAddr>{props.data.address}</ItemAddr>
+          <ItemAddr>{selectedParaItem.data.description}</ItemAddr>
+          <ItemAddr>{selectedParaItem.data.address}</ItemAddr>
           <DetailItemBetween>
             <ItemLeftTime>
-              도착 예정 시간 : {expectedTime(props.data.createdAt, props.data.duration)}
+              도착 예정 시간 : {expectedTime(selectedParaItem.data.createdAt, selectedParaItem.data.duration)}
             </ItemLeftTime>
           </DetailItemBetween>
 
-          {props.state == "transfer" ? (
+          {selectedParaItem.state == "transfer" ? (
             <A.DivTag
               $width="100%"
               $height="50px"
@@ -175,7 +188,7 @@ const TransferDetail = (props: any) => {
           ) : (
             <></>
           )}
-          {props.state == "wait" ? (
+          {selectedParaItem.state == "wait" ? (
             <A.DivTag
               $width="100%"
               $height="50px"
@@ -193,7 +206,7 @@ const TransferDetail = (props: any) => {
           ) : (
             <></>
           )}
-          {props.state == "complete" ? (
+          {selectedParaItem.state == "complete" ? (
             <A.DivTag
               $width="100%"
               $height="50px"
@@ -212,7 +225,7 @@ const TransferDetail = (props: any) => {
           ) : (
             <></>
           )}
-          {props.state == "cancel" ? (
+          {selectedParaItem.state == "cancel" ? (
             <A.DivTag
               $width="100%"
               $height="50px"
@@ -234,7 +247,7 @@ const TransferDetail = (props: any) => {
         </DetailItemContainer>
       </TransferDetailContent>
       <CloseDiv onClick={props.onclick}>&lt;</CloseDiv>
-      {videoOpen && selectedParaItem !== undefined && selectedParaItem.transferId!==undefined? (
+      {videoOpen && selectedParaItem !== undefined && selectedParaItem.transferId !== undefined ? (
         <VideoModal transferId={selectedParaItem.transferId} closeModal={closeModal}></VideoModal>
       ) : (
         <></>

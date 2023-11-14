@@ -1,10 +1,11 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Client } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
   hospitalParmedicRequestList,
   hospitalParmedicTransferList,
+  hospitalSelectedTransferItem,
 } from "../recoils/HospitalAtoms";
 import { hospitalInfoState } from "../recoils/AuthAtoms";
 import {
@@ -22,11 +23,11 @@ function HospitalSocket() {
   const setHospitalInfo = useRecoilValue(hospitalInfoState);
   let hospitalId = setHospitalInfo.hospitalId;
 
+  const [selectedTransferItem, setSelectedTransferItem] = useRecoilState(hospitalSelectedTransferItem);
   const [requestList, setRequestList] = useRecoilState(hospitalParmedicRequestList);
   const [transferList, setTransferList] = useRecoilState(hospitalParmedicTransferList);
-  console.log(requestList);
-
-
+  
+  const [changedTransferItem, setChangedTransferItem] = useState<any>(undefined);
 
   const callingSocket = useRef<Client | null>(null);
   const transferSocket = useRef<Client | null>(null);
@@ -154,10 +155,13 @@ function HospitalSocket() {
     console.log("Received transfer message:", message);
     const item: HospitalTransferParaItem = JSON.parse(message);
     console.log("@@@-transfer-Receive-----------transferReceiveMessage----------");
-    console.log(transferList);
+    console.log(item);
+    setChangedTransferItem(item);
+  };
 
-    let nextList = [];
+  const changeTransferList = (item:any) => {
     if (transferList !== undefined) {
+      let nextList = [];
       for (let i = 0; i < transferList.length; i++) {
         if (transferList[i].id === item.id) {
           const curItme: HospitalTransferItem = {
@@ -177,13 +181,25 @@ function HospitalSocket() {
         }
       }
       setTransferList(nextList);
+      console.log(nextList);
     }
-    console.log(nextList);
-  };
+    else{
+      console.log("transferReceiveMessage: undefined");
+    }
+  }
 
   useEffect(() => {
     console.log("transferList in socket", transferList);
   }, [transferList]);
+  useEffect(() => {
+    if(changedTransferItem!==undefined){
+      changeTransferList(changedTransferItem);
+      if(selectedTransferItem !== undefined && selectedTransferItem.id === changedTransferItem.id){
+        setSelectedTransferItem(changedTransferItem);
+      }
+      setChangedTransferItem(undefined);
+    }
+  }, [changedTransferItem]);
 
   useEffect(() => {
     connectSocket();
