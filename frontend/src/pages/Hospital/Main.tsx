@@ -63,8 +63,11 @@ function Main() {
       <HopsitalSidebar />
       <ComponentContainer>
         {componentType[0] ? (
-          <OpenViduComponent transferId={1111}></OpenViduComponent>
-          // <HospitalMain />
+          // <>
+          //   <OpenViduComponent transferId={11111} type={"hospital"}></OpenViduComponent>
+          //   <OpenViduComponent transferId={11111} type={"paramedic"}></OpenViduComponent>
+          // </>
+          <HospitalMain />
         ) : (
           <></>
         )}

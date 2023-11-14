@@ -4,26 +4,9 @@ import { OpenVidu } from "openvidu-browser";
 import styled from "styled-components";
 import { postMeetConnect } from "/src/apis/openvidu";
 import UserVideoComponent from "./UserVideoComponent";
+import { Container, Main, Session, Sub } from "./UserVideoComponent.style";
 
-const Container = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 3px solid red;
-  height: 400px;
-`;
 
-const List = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 80%;
-  width: 100%;
-  overflow-y: auto;
-  overflow-x: none;
-`;
 const OpenViduComponent = (props: any) => {
   // const OPENVIDU_SERVER_URL = `https://${window.location.hostname}:4443`;
   // const OPENVIDU_SERVER_SECRET = 'MY_SECRET';
@@ -52,7 +35,9 @@ const OpenViduComponent = (props: any) => {
       const subscriber = mySession.subscribe(event.stream, "");
 
       console.log(subscriber);
-
+      // if (props.type === "hospital"){
+      //   setSubscribers((subscribers) => [...subscribers, subscriber]);
+      // }
       setSubscribers((subscribers) => [...subscribers, subscriber]);
     });
 
@@ -68,6 +53,7 @@ const OpenViduComponent = (props: any) => {
     try {
       const token = await getToken();
 
+      if (token === undefined) return;
       console.log(token);
       await mySession.connect(token, { clientData: props.transferId });
 
@@ -76,6 +62,7 @@ const OpenViduComponent = (props: any) => {
       console.log(devices);
       const videoDevices = devices.filter((device) => device.kind === "videoinput");
 
+      // if (props.type === "paramedic") {
       // --- 5) Get your own camera stream ---
       const newPublisher = newOV.initPublisher("", {
         videoSource: videoDevices[1]?.deviceId,
@@ -92,6 +79,7 @@ const OpenViduComponent = (props: any) => {
       console.log(newPublisher);
       // console.log(publisher);
       console.log(subscribers);
+      // }
     } catch (error: any) {
       console.log("There was an error connecting to the session:", error.code, error.message);
       leaveSession();
@@ -109,6 +97,7 @@ const OpenViduComponent = (props: any) => {
     setMySessionId("SessionA");
     setMyUserName("Participant" + Math.floor(Math.random() * 100));
     setPublisher(undefined);
+    props.setModalOff();
   };
 
   const deleteSubscriber = (streamManager: any) => {
@@ -122,37 +111,93 @@ const OpenViduComponent = (props: any) => {
     return response;
   };
 
+  const preventClose = (e: BeforeUnloadEvent) => {
+    e.preventDefault();
+    e.returnValue = ""; //Chrome에서 동작하도록; deprecated
+  };
+
   useEffect(() => {
     joinSession();
-    console.log(
-      "openviduopenviduopenviduopenviduopenviduopenviduopenviduopenviduopenviduopenviduopenvidu"
-    );
+    (() => {
+      window.addEventListener("beforeunload", preventClose);
+    })();
+    return () => {
+      window.removeEventListener("beforeunload", preventClose);
+      leaveSession();
+    };
   }, []);
+
+  useEffect(() => {
+    if (props.videoOff) {
+      leaveSession();
+    }
+  }, [props]);
 
   return (
     <Container>
       {session !== undefined ? (
-        <div id="session">
-          <List>
-            <>
-              {publisher !== undefined ? (
-                <UserVideoComponent id="publisher" streamManager={publisher}>
-                  publisher
-                </UserVideoComponent>
-              ) : (
-                <>nonpublisher</>
-              )}
-            </>
-            <>
-              {subscribers.map((sub, i) => (
-                <UserVideoComponent key={i} streamManager={sub}>
-                  subscribers
-                </UserVideoComponent>
-              ))}
-            </>
-          </List>
+        <Session id="session">
+          {
+            props.type === "hospital" ?
+              <>
+                <Main>
+                  {subscribers.map((sub, i) => (
+                    <UserVideoComponent key={i} streamManager={sub}>
+                      subscribers
+                    </UserVideoComponent>
+                  ))}
+                  {subscribers.length == 0 ? <>nonsubscribe</> : <></>}
+                  <Sub>
+                    {publisher !== undefined ? (
+                      <UserVideoComponent id="publisher" streamManager={publisher}>
+                        publisher
+                      </UserVideoComponent>
+                    ) : (
+                      <>nonpublisher</>
+                    )}
+                  </Sub>
+                </Main>
+              </>
+              :
+              <>
+                <Main>
+                  {publisher !== undefined ? (
+                    <UserVideoComponent id="publisher" streamManager={publisher}>
+                      publisher
+                    </UserVideoComponent>
+                  ) : (
+                    <>nonpublisher</>
+                  )}
+                  <Sub>
+                    {subscribers.map((sub, i) => (
+                      <UserVideoComponent key={i} streamManager={sub}>
+                        subscribers
+                      </UserVideoComponent>
+                    ))}
+                    {subscribers.length == 0 ? <>nonsubscribe</> : <></>}
+                  </Sub>
+                </Main>
+              </>
+          }
+          {/* <>
+            {publisher !== undefined ? (
+              <UserVideoComponent id="publisher" streamManager={publisher}>
+                publisher
+              </UserVideoComponent>
+            ) : (
+              <>nonpublisher</>
+            )}
+          </>
+          <>
+            {subscribers.map((sub, i) => (
+              <UserVideoComponent key={i} streamManager={sub}>
+                subscribers
+              </UserVideoComponent>
+            ))}
+            {subscribers.length == 0 ? <>nonsubscribe</> : <></>}
+          </> */}
           <button onClick={leaveSession}></button>
-        </div>
+        </Session>
       ) : (
         <button onClick={joinSession}></button>
       )}

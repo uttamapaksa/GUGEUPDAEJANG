@@ -87,3 +87,71 @@ export const CloseDiv = styled.div`
   z-index: 10000;
   cursor: pointer;
   `;
+
+
+export const ModalContainer = styled.div`
+  /* pointer-events: none; */
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  height: 70%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  background-color: ${theme.color.grayLight};
+  border-radius: 10px;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
+  z-index: 11000;
+`;
+
+
+export const FilesSection = styled.div`
+  /* border: 1px solid red; */
+  display: flex;
+  justify-content: center;
+  flex-wrap : wrap;
+  width: 100%;
+  height: 35vh;
+  margin: 0 auto;
+`
+export const Video = styled.video`
+  border: 1px solid ${theme.color.fontGrey5};
+  width: 47%;
+  height: 80%;
+  margin: 2% 0.5% 1% 0.5%;
+`
+
+export const Image = styled.img`
+  border: 1px solid ${theme.color.fontGrey5};
+  width: 47%;
+  height: 80%;
+  margin: 2% 0.5% 1% 0.5%;
+`
+
+export const Audio = styled.audio`
+  width: 96%;
+  height: 10%;
+  margin: 0 auto;
+
+  &::-webkit-media-controls-panel {
+    color: black;
+}
+`
+
+export const NoFile = styled.div`
+  width: 47%;
+  height: 80%;
+  margin: 2% 0.5% 1% 0.5%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: ${theme.color.grayDarkest};
+  font-size: 2.5vh;
+  font-weight: 700;
+  background-color: ${theme.color.grayMedium};
+  border: 1px solid ${theme.color.fontGrey5};
+`

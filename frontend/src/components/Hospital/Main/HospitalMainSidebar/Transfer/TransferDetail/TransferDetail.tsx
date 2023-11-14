@@ -1,4 +1,4 @@
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import { ItemParaType, ItemRequestAt } from "../TransferListItem/TransferListItem.style";
 import {
   CloseDiv,
@@ -9,23 +9,66 @@ import {
   TransferDetailContent,
   DetailItemBetween,
   ItemLeftTime,
+  FilesSection,
+  Video,
+  NoFile,
+  Image,
+  Audio,
 } from "./TransferDetail.style";
 import A from "/src/components/Commons/Atoms";
 import theme from "/src/styles";
-import { hospitalParmedicTransferList, hospitalSelectedTransferItem } from "/src/recoils/HospitalAtoms";
+import {
+  hospitalParmedicTransferList,
+  hospitalSelectedTransferItem,
+} from "/src/recoils/HospitalAtoms";
 import { HospitalTransferItem } from "/src/types/map";
 import { expectedTime, timeToString, turmToString } from "/src/constants/function";
 import { AGEGROUP, GENDER } from "/src/constants/variable";
+import { useEffect, useState } from "react";
+import VideoModal from "./VideoModal";
+import { FileTypes } from "../../Request/ParamedicDetail/ParamedicDetail";
 
 const TransferDetail = (props: any) => {
   const [transferList, setTransferList] = useRecoilState(hospitalParmedicTransferList);
   const [selectedParaItem, setSelectedParaItem] = useRecoilState(hospitalSelectedTransferItem);
 
+  const [videoOpen, setVideoOpen] = useState(false);
+
+  const [objFiles, setObjFiles] = useState<FileTypes>({ video: null, image: null, voice: null });
+
+  const checkFiles = (fileList: string[]) => {
+    const filesObject: FileTypes = { video: null, image: null, voice: null };
+
+    fileList.map((file) => {
+      if (!file) return;
+      const parts = file.split('.');
+      const extension = parts.length > 1 ? parts.pop()?.toLowerCase() : '';
+      if (!extension) return;
+      if (extension === 'mp4') {
+        filesObject.video = file as string | null;
+      } else if (extension === 'jpg' || extension === 'png') {
+        filesObject.image = file as string | null;
+      } else if (extension === 'webm') {
+        filesObject.voice = file as string | null;
+      }
+    });
+    setObjFiles(filesObject)
+  };
+
+  useEffect(() => {
+    if (props.files) { checkFiles(props.data.files) }
+  }, [props.files]);
+
+  const closeModal = () => {
+    setVideoOpen(false);
+  }
 
   const clickButton = () => {
     if (transferList != undefined) {
-      console.log("clickButton", transferList)
-      let nextTransferList = transferList.filter((item: HospitalTransferItem) => item.id != props.id);
+      console.log("clickButton", transferList);
+      let nextTransferList = transferList.filter(
+        (item: HospitalTransferItem) => item.id != props.id
+      );
       setTransferList(nextTransferList);
       props.onclick();
     }
@@ -76,17 +119,68 @@ const TransferDetail = (props: any) => {
 
           {/* <video style={{ border: "1px solid gray" }}></video> */}
 
-          <div style={{ width: "90%", margin: "0 auto" }}>
+          {/* <div style={{ width: "90%", margin: "0 auto" }}>
             {props.data.files.map((item: string, index: number) => (
               <img key={index} src={item}></img>
             ))}
-          </div>
+          </div> */}
+          <FilesSection>
+            {objFiles.video ? (
+              <Video controls>
+                <source src={objFiles.video} type="video/mp4" /></Video>
+            ) : (<NoFile>영상이<br></br>없습니다.</NoFile>)}
+
+            {objFiles.image ? (
+              <Image src={objFiles.image}></Image>
+            ) : (<NoFile>사진이<br></br>없습니다.</NoFile>)}
+
+            {objFiles.voice ? (
+              <Audio src={objFiles.voice} controls></Audio>
+            ) : (<Audio controls></Audio>)}
+          </FilesSection>
+
+
+          {/* {props.videoOn ? (
+            <A.BtnMediaRecord
+              $width="80%"
+              $height="30px"
+              onClick={() => setVideoOpen(true)}
+            ></A.BtnMediaRecord>
+          ) : (
+            <></>
+          )} */}
+          {/* <A.BtnMediaRecord
+            $width="80%"
+            $height="30px"
+
+            onClick={() => setVideoOpen(true)}
+          >zz</A.BtnMediaRecord> */}
+
+          <A.BtnMediaRecord
+            $width="90%"
+            $height="40PX"
+            $color={theme.color.pinkLight}
+            $border={`0.3vh solid ${theme.color.pinkLight}`}
+            $borderRadius="1.8vh"
+            $boxShadow="0 0 1vh 0.4vh rgba(0, 0, 0, 0.10)"
+            $fontSize="2.2vh"
+            $justifyContent="center"
+            $margin="0 auto"
+            onClick={() => setVideoOpen(true)}
+          >
+            <A.ImgRecordCameraPink $width="3.2vh" $margin="10px"/>
+            화상 통화 보기
+            {/* <A.ImgArrowPinkRight $width="1vh" /> */}
+          </A.BtnMediaRecord>
+
 
           <ItemAddr>{props.data.description}</ItemAddr>
           <ItemAddr>{props.data.address}</ItemAddr>
           <DetailItemBetween>
             {/* <ItemElapseMin>{props.leftDist} km</ItemElapseMin> */}
-            <ItemLeftTime>도착 예정 시간 : {expectedTime(props.data.createdAt, props.data.duration)}</ItemLeftTime>
+            <ItemLeftTime>
+              도착 예정 시간 : {expectedTime(props.data.createdAt, props.data.duration)}
+            </ItemLeftTime>
           </DetailItemBetween>
 
           {props.state == "transfer" ? (
@@ -166,6 +260,11 @@ const TransferDetail = (props: any) => {
         </DetailItemContainer>
       </TransferDetailContent>
       <CloseDiv onClick={props.onclick}>&lt;</CloseDiv>
+      {videoOpen && selectedParaItem !== undefined && selectedParaItem.transferId!==undefined? (
+        <VideoModal transferId={selectedParaItem.transferId} closeModal={closeModal}></VideoModal>
+      ) : (
+        <></>
+      )}
     </TransferDetailContainer>
   );
 };
