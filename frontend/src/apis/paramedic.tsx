@@ -110,6 +110,16 @@ export const fixCalling = async (callingId: number) => {
   }
 };
 
+// 이송 취소
+export const cancleTransfer = async (transferId: number) => {
+  try {
+    const res = await privateApi.delete(`/transfer/${transferId}`);
+    console.log('cancleTransfer then', res);
+    return true;
+  } catch (err) {
+    console.log('cancleTransfer catch', err);
+  }
+};
 // 이송 완료
 export const finishTransfer = async (transferId: number) => {
   try {

@@ -80,8 +80,8 @@ export interface HospitalTransferItem {
 
 // 실시간 위치 (웹소켓으로 받는 객체)
 export interface HospitalTransferParaItem {
-  id: number;
-  state: string; // transfer, complete, cancel, wait
+  id?: number;
+  state?: string; // transfer, complete, cancel, wait
   transferId?: number;
   curLat?: number;
   curLon?: number;

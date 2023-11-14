@@ -5,6 +5,8 @@ import {
   fixedCallingState,
   isTransferringState,
   currentParamedicPageIndexState,
+  isCanceledState,
+  isCompletedState,
 } from '/src/recoils/ParamedicAtoms';
 
 function useResetParamedicRecoil() {
@@ -12,6 +14,8 @@ function useResetParamedicRecoil() {
   const resetOccurrence = useResetRecoilState(occurrenceState);
   const resetFixedCalling = useResetRecoilState(fixedCallingState);
   const resetIsTransferring = useResetRecoilState(isTransferringState);
+  const resetIsCanceledState = useResetRecoilState(isCanceledState);
+  const resetIsCompletedState = useResetRecoilState(isCompletedState);
   const resetCurrentPageIndex = useResetRecoilState(currentParamedicPageIndexState);
 
   return () => {
@@ -19,6 +23,8 @@ function useResetParamedicRecoil() {
     resetOccurrence();
     resetFixedCalling();
     resetIsTransferring();
+    resetIsCanceledState();
+    resetIsCompletedState();
     resetCurrentPageIndex();
   };
 }

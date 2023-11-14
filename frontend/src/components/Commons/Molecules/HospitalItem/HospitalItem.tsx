@@ -1,4 +1,4 @@
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { HospitalListType } from '/src/types/paramedic';
 import { fixedCallingState, isTransferringState } from '/src/recoils/ParamedicAtoms';
 import * as S from './HospitalItem.style';
@@ -6,6 +6,7 @@ import A from '/src/components/Commons/Atoms';
 import theme from '/src/styles';
 import { cancelCalling, fixCalling } from '/src/apis/paramedic';
 import { HospitalItemProps } from '/src/types/hospital';
+import { occurrenceState } from '/src/recoils/ParamedicAtoms';
 
 const BTNBGCOLOR: { [key: string]: string } = {
   PENDING: theme.color.white,
@@ -31,13 +32,14 @@ const BTNCONTENT: { [key: string]: string } = {
 function HospitalItem({ IsGuest, hospital, guestHospital, setHospitals }: HospitalItemProps) {
   const setFixedCalling = useSetRecoilState(fixedCallingState);
   const setIsTransferring = useSetRecoilState(isTransferringState);
+  const occurrence = useRecoilValue(occurrenceState);
 
   const clickItem = (callingId: number, status: string, hospitalId: number, latitude: number, longitude: number) => {
     switch (status) {
       case 'APPROVED':
         fixCalling(callingId).then((fixedData) => {
           if (fixedData) {
-            setFixedCalling({callingId, ...fixedData, hospitalId, latitude, longitude, vedioOn: false });
+            setFixedCalling({...fixedData, callingId, hospitalId, latitude, longitude, videoOn: false });
             setIsTransferring(true);
           }
         });
@@ -94,7 +96,7 @@ function HospitalItem({ IsGuest, hospital, guestHospital, setHospitals }: Hospit
             {hospital?.callingTime.slice(11, 13)}시 {hospital?.callingTime.slice(14, 16)}분에 요청
           </S.CallTime>
           <A.BtnToggle
-            onClick={() => clickItem(hospital?.callingId, hospital?.status)}
+            onClick={() => clickItem(hospital?.callingId, hospital?.status, hospital?.memberId, occurrence.latitude, occurrence.longitude )}
             $width="90%"
             $height="8vh"
             $fontSize="2.2vh"

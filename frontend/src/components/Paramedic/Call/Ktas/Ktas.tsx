@@ -30,7 +30,7 @@ function Ktas() {
             $IsClick={selected === ktas}
             onClick={() => selectKtas(ktas)}
           >
-            {`KTAS${ktas}`}
+            {ktas}
           </A.BtnKtas>
         ))}
       </S.BtnKtas>

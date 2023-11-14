@@ -9,6 +9,7 @@ import {
   isCompletedState,
   fixedCallingState,
 } from '/src/recoils/ParamedicAtoms';
+import useResetParamedicRecoil from '../components/Paramedic/RecoilReset/RecoilReset';
 import { currentPosition } from '../recoils/HospitalAtoms';
 import { HospitalTransferParaItem } from '../types/map';
 import { Client } from '@stomp/stompjs';
@@ -18,6 +19,7 @@ const CALLING_SERVER_URL = 'https://k9b204a.p.ssafy.io:64419/calling-websocket';
 const TRANSFER_SERVER_URL = 'https://k9b204a.p.ssafy.io:64413/transfer-websocket';
 
 function ParamedicSocket() {
+  const resetParemdicRecoil = useResetParamedicRecoil();
   const paramedicId = useRecoilValue(memberInfoState).memberId;
   const hospitalId = (useRecoilValue(fixedCallingState) || { hospitalId: 0 }).hospitalId;
 
@@ -116,6 +118,7 @@ function ParamedicSocket() {
 
   const transferSendMessage = (data: HospitalTransferParaItem) => {
     if (transferSocket.current) {
+      // console.log(data);
       transferSocket.current.publish({
         destination: `/app/location/${hospitalId}`,
         body: JSON.stringify(data),
@@ -126,22 +129,22 @@ function ParamedicSocket() {
   let data: HospitalTransferParaItem;
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   useEffect(() => {
-    if (!isTransferring) {
+    if (!isTransferring || !fixedCalling) {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
       }
       return;
     }
     data = {
-      id: fixedCalling.callingId,
-      transferId: fixedCalling.transferId,
+      id: fixedCalling.callingId && fixedCalling.callingId,
+      transferId: fixedCalling.transferId && fixedCalling.transferId,
       state: 'transfer',
       curLat: position.lat || undefined,
       curLon: position.lon || undefined,
       curAddr: address,
       videoOn: fixedCalling.videoOn,
     };
-    intervalRef.current = setInterval(() => transferSendMessage(data), 3000);
+    intervalRef.current = setInterval(() => transferSendMessage(data), 5000);
     return () => {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
@@ -150,7 +153,7 @@ function ParamedicSocket() {
   }, [isTransferring]);
 
   useEffect(() => {
-    if (!isCanceled) return;
+    if (!isCanceled || !fixedCalling) return;
     data = {
       id: fixedCalling.callingId,
       transferId: fixedCalling.transferId,
@@ -162,10 +165,11 @@ function ParamedicSocket() {
     };
     transferSendMessage(data);
     setIsCanceled(false);
+    resetParemdicRecoil();
   }, [isCanceled]);
 
   useEffect(() => {
-    if (!isCompleted) return;
+    if (!isCompleted || !fixedCalling) return;
     data = {
       id: fixedCalling.callingId,
       transferId: fixedCalling.transferId,
@@ -177,6 +181,7 @@ function ParamedicSocket() {
     };
     transferSendMessage(data);
     setIsCompleted(false);
+    resetParemdicRecoil();
   }, [isCompleted]);
 
   useEffect(() => {

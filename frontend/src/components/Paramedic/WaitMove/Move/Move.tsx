@@ -1,10 +1,12 @@
-import { finishTransfer } from '/src/apis/paramedic';
-import { useRecoilValue } from 'recoil';
-import { occurrenceState, fixedCallingState } from '/src/recoils/ParamedicAtoms';
-import useResetParamedicRecoil from '../../RecoilReset/RecoilReset';
+import { useEffect, useState } from 'react';
+import { finishTransfer, cancleTransfer } from '/src/apis/paramedic';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { occurrenceState, fixedCallingState, isCanceledState, isCompletedState } from '/src/recoils/ParamedicAtoms';
+// import useResetParamedicRecoil from '../../RecoilReset/RecoilReset';
 import * as S from './Move.style';
 import A from '/src/components/Commons/Atoms';
 import theme from '/src/styles';
+import VideoModal from '/src/components/Hospital/Main/HospitalMainSidebar/Transfer/TransferDetail/VideoModal';
 
 interface GroupMapping {
   [key: string]: string;
@@ -24,13 +26,29 @@ const genderMapping: GroupMapping = {
 
 function Move() {
   const occurrence = useRecoilValue(occurrenceState);
-  const fixedCalling = useRecoilValue(fixedCallingState);
-  const resetParemdicRecoil = useResetParamedicRecoil();
+  const [fixedCalling, setFixedCalling] = useRecoilState(fixedCallingState);
+  // const resetParemdicRecoil = useResetParamedicRecoil();
+  const setIsCanceledState = useSetRecoilState(isCanceledState);
+  const setIsCompletedState = useSetRecoilState(isCompletedState);
 
+  const [videoOpen, setVideoOpen] = useState(false);
+  const closeModal = () => {
+    setVideoOpen(false);
+  };
   const completeTransfer = () => {
     finishTransfer(fixedCalling.transferId).then((success) => {
       if (success) {
-        resetParemdicRecoil();
+        setIsCompletedState(true);
+        // resetParemdicRecoil();
+      }
+    });
+  };
+
+  const endTransfer = () => {
+    cancleTransfer(fixedCalling.transferId).then((success) => {
+      if (success) {
+        setIsCanceledState(true);
+        // resetParemdicRecoil();
       }
     });
   };
@@ -85,6 +103,7 @@ function Move() {
           $color={theme.color.grayDarkest}
           $border={`0.25vh solid ${theme.color.grayDarkest}`}
           $borderRadius="2vh"
+          onClick={() => {setVideoOpen(true)}}
         >
           <A.ImgRecordVideoBlack $width="4vh" />
           영상 통화
@@ -106,7 +125,7 @@ function Move() {
 
       <S.CancelOrConfirm>
         <A.BtnSubmit
-          onClick={completeTransfer}
+          onClick={endTransfer}
           $borderRadius="1vh"
           $width="47%"
           $height="6vh"
@@ -129,6 +148,9 @@ function Move() {
           이송 완료
         </A.BtnSubmit>
       </S.CancelOrConfirm>
+      {videoOpen && fixedCalling && fixedCalling.transferId && (
+        <VideoModal transferId={fixedCalling.transferId} closeModal={closeModal}></VideoModal>
+      )}
     </>
   );
 }

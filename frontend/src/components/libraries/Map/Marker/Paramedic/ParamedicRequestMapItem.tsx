@@ -1,8 +1,10 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { deleteMarker } from '/src/constants/function';
 import { Tmapv3 } from '../../Map';
 
 function ParamedicRequestMapItem(props: any) {
+  // const [circle, setCircle] = useState<any>();
+
   const updateHospitalMarkers = () => {
     if (props.map !== undefined && props.hosList !== undefined) {
       for (var i = 0; i < props.hosList.length; i++) {
@@ -41,9 +43,19 @@ function ParamedicRequestMapItem(props: any) {
   };
 
   useEffect(() => {
+    let circle: any = null;
+
     const intervalId = setInterval(() => {
       if (props.map !== undefined) {
         deleteMarker(2);
+        // if(circle!==undefined){
+        //   console.log(circle)
+        //   circle.setMap(null);
+        // }
+        if (circle) {
+          // console.log(circle);
+          circle.setMap(null);
+        }
         const size = new Tmapv3.Size(35, 35);
         //시작점
         const curPos = new Tmapv3.Marker({
@@ -63,20 +75,21 @@ function ParamedicRequestMapItem(props: any) {
           icon: '/src/assets/share/map-marker.png',
           // label: title //Marker의 라벨.
         });
-        const circle = new Tmapv3.Circle({
+        circle = new Tmapv3.Circle({
           center: new Tmapv3.LatLng(props.occurData.pos.lat, props.occurData.pos.lon),
           radius: props.occurData.radius,
           strokeWeight: 1,
           // fillColor: '#f2f4cb',
-          fillColor: 'rgba(242, 244, 203, 0.2)',
+          fillColor: 'rgba(242, 244, 203, 0.5)',
           map: props.map,
         });
+        // setCircle(nextCircle);
         updateHospitalMarkers();
       }
     }, 3000);
 
     return () => clearInterval(intervalId);
-  }, [props.map]);
+  }, []);
 
   return <></>;
 }
