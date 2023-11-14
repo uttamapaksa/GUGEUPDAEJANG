@@ -34,21 +34,6 @@ export interface GuestMapProps {
 // "ageGroup": "INFANT",   // INFANT, CHILD, ADOLESCENT, YOUTH, MIDDLE, SENIOR
 // "gender": "MALE",    // MALE, FEMALE
 
-// //구급대원 데이터
-// export interface ParamedicItem {
-//   id: number;
-//   addr: string;
-//   pos: Position;
-//   ktas: string;
-//   elapseMin: number;
-//   leftTime: number;
-//   dist: number;
-//   paraType: string;
-//   paraTag: string[];
-//   paraInfo: string;
-//   requestAt?: string;
-// }
-
 //구급대원 요청(서버)
 export interface ParaRequestItem {
   id: number;

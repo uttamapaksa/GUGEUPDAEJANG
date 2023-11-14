@@ -52,12 +52,6 @@ export const ItemParaInfo = styled.div`
   overflow: hidden;
 `;
 
-// export const ItemParaInfoText = styled.p`
-//   overflow: hidden;
-//   white-space: nowrap;
-//   text-overflow: ellipsis;
-// `;
-
 export const ItemParaTagGroup = styled.div`
   width: 96%;
   height:  fit-content;

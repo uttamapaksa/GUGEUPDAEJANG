@@ -1,25 +1,19 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { OpenVidu } from "openvidu-browser";
-import styled from "styled-components";
 import { postMeetConnect } from "/src/apis/openvidu";
 import UserVideoComponent from "./UserVideoComponent";
 import { Container, Main, Session, Sub } from "./UserVideoComponent.style";
 
 
 const OpenViduComponent = (props: any) => {
-  // const OPENVIDU_SERVER_URL = `https://${window.location.hostname}:4443`;
-  // const OPENVIDU_SERVER_SECRET = 'MY_SECRET';
 
-  const [OV, setOV] = useState<OpenVidu>();
-  const [mySessionId, setMySessionId] = useState("SessionA");
-  const [myUserName, setMyUserName] = useState(`OpenVidu_User_${Math.floor(Math.random() * 100)}`);
+  const [, setOV] = useState<OpenVidu>();
+  const [, setMySessionId] = useState("SessionA");
+  const [, setMyUserName] = useState(`OpenVidu_User_${Math.floor(Math.random() * 100)}`);
   const [session, setSession] = useState<any>(undefined);
 
   const [publisher, setPublisher] = useState<any>(undefined);
   const [subscribers, setSubscribers] = useState<any[]>([]);
-
-  const [connectionId, setConnectionId] = useState("");
 
   const joinSession = async () => {
     const newOV = new OpenVidu();
@@ -179,23 +173,6 @@ const OpenViduComponent = (props: any) => {
                 </Main>
               </>
           }
-          {/* <>
-            {publisher !== undefined ? (
-              <UserVideoComponent id="publisher" streamManager={publisher}>
-                publisher
-              </UserVideoComponent>
-            ) : (
-              <>nonpublisher</>
-            )}
-          </>
-          <>
-            {subscribers.map((sub, i) => (
-              <UserVideoComponent key={i} streamManager={sub}>
-                subscribers
-              </UserVideoComponent>
-            ))}
-            {subscribers.length == 0 ? <>nonsubscribe</> : <></>}
-          </> */}
           <button onClick={leaveSession}></button>
         </Session>
       ) : (

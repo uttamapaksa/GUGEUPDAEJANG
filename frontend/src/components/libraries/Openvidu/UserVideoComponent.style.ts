@@ -1,9 +1,6 @@
 import { styled } from "styled-components";
 import theme from "/src/styles";
 
-// export const OvVidoDiv = styled.div`
-//   background-color: red;
-// `;
 export const Container = styled.div`
   width: 100%;
   height: 100%;

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import HopsitalHeader from "/src/components/Hospital/HospitalHeader/HopsitalHeader";
 import HopsitalSidebar from "/src/components/Hospital/HospitalSidebar/HopsitalSidebar";
-import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { hospitalComponentType, hospitalParmedicRequestList, hospitalParmedicTransferList } from "../../recoils/HospitalAtoms";
 import HospitalMain from "/src/components/Hospital/Main/HospitalMain";
 import { ComponentContainer, Container } from "./Main.style";
@@ -10,9 +10,7 @@ import HospitalHistory from "/src/components/Hospital/History/HospitalHistory";
 import { getMyHospital } from "/src/apis/hospital";
 import { hospitalInfoState, memberInfoState } from "/src/recoils/AuthAtoms";
 import { HosJoinProps } from "/src/types/auth";
-import ParaMapTest from "/src/components/Hospital/Test/ParaMapTest";
 import HospitalReport from "/src/components/Hospital/Report/HospitalReport";
-import OpenViduComponent from "/src/components/libraries/Openvidu/OpenViduComponent";
 
 
 function Main() {
@@ -63,10 +61,6 @@ function Main() {
       <HopsitalSidebar />
       <ComponentContainer>
         {componentType[0] ? (
-          // <>
-          //   <OpenViduComponent transferId={11111} type={"hospital"}></OpenViduComponent>
-          //   <OpenViduComponent transferId={11111} type={"paramedic"}></OpenViduComponent>
-          // </>
           <HospitalMain />
         ) : (
           <></>
@@ -77,7 +71,6 @@ function Main() {
           <></>
         )}
         {componentType[2] ? (
-          // <ParaMapTest/>
           <HospitalReport/>
         ) : (
           <></>

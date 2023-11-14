@@ -226,14 +226,3 @@ const ParamedicDetail = (props: any) => {
 };
 
 export default ParamedicDetail;
-
-// id: number,
-// addr: string,
-// pos: Position,
-// ktas: string,
-// elapseMin: number,
-// leftTime: number,
-// paraType: string,
-// paraTag: string[],
-// paraInfo: string,
-// requestAt?: string,
