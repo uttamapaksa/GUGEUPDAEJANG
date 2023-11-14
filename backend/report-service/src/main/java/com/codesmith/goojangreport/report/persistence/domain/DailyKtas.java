@@ -7,14 +7,11 @@ import lombok.Setter;
 
 import java.util.List;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-public class DailyKtas {
-    Long ktas1;
-    Long ktas2;
-    Long ktas3;
-    Long ktas4;
-    Long ktas5;
+
+public interface DailyKtas {
+    Long getKtas1();
+    Long getKtas2();
+    Long getKtas3();
+    Long getKtas4();
+    Long getKtas5();
 }
