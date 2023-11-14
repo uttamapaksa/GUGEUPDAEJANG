@@ -35,7 +35,6 @@ const Chart = styled.div`
 
 const StatusChart = ({statusValue}:{statusValue?: StatusType}) => {
   const chartRef = useRef(null);
-  // const requestData = [44, 55, 13, 43, 22, 30]
   const requestData = statusValue?.dailyStatusList
 
   useEffect(() => {

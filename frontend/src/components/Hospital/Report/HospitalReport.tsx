@@ -46,14 +46,13 @@ function HospitalReport () {
   const axiosReportStatus = async (): Promise<void> => {
     try {
       const res = await getReportStatus()
-      console.log("Status",res)
       setStatusValue(res)
     } catch(err){
       console.log(err)
     }
   }
   
-
+  
   const axiosReportTime = async (): Promise<void> => {
     try {
       const res = await getReportTime()
@@ -96,7 +95,7 @@ function HospitalReport () {
           
           <S.Content3>
             <A.DivReport $width='49.2%'>
-              <CharacterChart/>
+              {ageValue && <CharacterChart ageValue={ageValue} />}
             </A.DivReport>
             <A.DivReport $width='23.8%'>
               {statusValue && <StatusChart statusValue={statusValue} />}

@@ -9,9 +9,11 @@ export interface HeaderType {
 export interface TimeType{
   callingPerTimeList: number[];
 }
+
 export interface StatusType{
   dailyStatusList: number[]
 }
+
 export interface AgeType{
   totalCountList:number[];
   maleCountList:number[];
