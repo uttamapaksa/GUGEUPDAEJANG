@@ -2,6 +2,7 @@ package com.codesmith.goojangreport.report.persistence;
 
 import com.codesmith.goojangreport.report.persistence.domain.ReportHeader;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -84,15 +85,17 @@ public class ReportSupportRepositoryImpl implements ReportSupportRepository {
 
     public JPQLQuery<Double> getAvgResponseTime(Long memberId) {
         return JPAExpressions
-                .select(report.id.avg())
+                .select(Expressions.numberTemplate(Long.class, "TIMESTAMPDIFF(SECOND, {1}, {0})",
+                        report.responseTime, report.callingTime).avg())
                 .from(report)
-                .where(report.id.eq(1L));
+                .where(report.callingTime.isNotNull().and(report.responseTime.isNotNull()));
     }
 
     public JPQLQuery<Double> getAvgTransferTime(Long memberId) {
         return JPAExpressions
-                .select(report.id.avg())
+                .select(Expressions.numberTemplate(Long.class, "TIMESTAMPDIFF(SECOND, {1}, {0})",
+                        report.arriveTime, report.responseTime).avg())
                 .from(report)
-                .where(report.id.eq(1L));
+                .where(report.callingTime.isNotNull().and(report.arriveTime.isNotNull()));
     }
 }
