@@ -1,15 +1,17 @@
-package com.codesmith.goojangreport.report.dto.reponse;
+package com.codesmith.goojangreport.report.persistence.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class DailyKtasResponse {
+public class DailyKtas {
     List<Long> ktas1;
     List<Long> ktas2;
     List<Long> ktas3;

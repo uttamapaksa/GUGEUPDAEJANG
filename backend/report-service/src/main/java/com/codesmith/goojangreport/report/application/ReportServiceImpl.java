@@ -3,8 +3,10 @@ package com.codesmith.goojangreport.report.application;
 import com.codesmith.goojangreport.report.dto.message.CallingCreateMessage;
 import com.codesmith.goojangreport.report.dto.message.CallingStatusMessage;
 import com.codesmith.goojangreport.report.dto.message.TransferMessage;
+import com.codesmith.goojangreport.report.dto.reponse.DailyKtasResponse;
 import com.codesmith.goojangreport.report.dto.reponse.ReportHeaderResponse;
 import com.codesmith.goojangreport.report.persistence.ReportRepository;
+import com.codesmith.goojangreport.report.persistence.domain.DailyKtas;
 import com.codesmith.goojangreport.report.persistence.domain.Report;
 import com.codesmith.goojangreport.report.persistence.domain.ReportHeader;
 import lombok.AllArgsConstructor;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -54,6 +57,17 @@ public class ReportServiceImpl implements ReportService {
         return convertToReportHeaderResponse(reportHeader);
     }
 
+    @Override
+    public DailyKtasResponse getDailyKtas(Long memberId) {
+        DailyKtas dailyKtas = new DailyKtas();
+        dailyKtas.setKtas1(reportRepository.getKtasCount(memberId, "KTAS1"));
+        dailyKtas.setKtas2(reportRepository.getKtasCount(memberId, "KTAS2"));
+        dailyKtas.setKtas3(reportRepository.getKtasCount(memberId, "KTAS3"));
+        dailyKtas.setKtas4(reportRepository.getKtasCount(memberId, "KTAS4"));
+        dailyKtas.setKtas5(reportRepository.getKtasCount(memberId, "KTAS5"));
+        return convertToDailyKtasResponse(dailyKtas);
+    }
+
     private Report convertToReport(CallingCreateMessage message) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
 
@@ -83,5 +97,14 @@ public class ReportServiceImpl implements ReportService {
         Double avgResponseTime = reportHeader.getAvgResponseTime();
         Double avgTransferTime = reportHeader.getAvgTransferTime();
         return new ReportHeaderResponse(today, todayApproved, todayRejected, avgResponseTime, avgTransferTime);
+    }
+
+    private DailyKtasResponse convertToDailyKtasResponse(DailyKtas dailyKtas) {
+        List<Long> ktas1 = dailyKtas.getKtas1();
+        List<Long> ktas2 = dailyKtas.getKtas2();
+        List<Long> ktas3 = dailyKtas.getKtas3();
+        List<Long> ktas4 = dailyKtas.getKtas4();
+        List<Long> ktas5 = dailyKtas.getKtas5();
+        return new DailyKtasResponse(ktas1, ktas2, ktas3, ktas4, ktas5);
     }
 }
