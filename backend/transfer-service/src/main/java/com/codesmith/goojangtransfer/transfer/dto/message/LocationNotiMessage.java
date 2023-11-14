@@ -13,6 +13,6 @@ public class LocationNotiMessage {
     private Double curLon;
     private Double curLat;
     private String curAddr;
-    private Integer leftTime;
-    private Double leftDist;
+    private boolean videoOn;
+    private Long transferId;
 }
