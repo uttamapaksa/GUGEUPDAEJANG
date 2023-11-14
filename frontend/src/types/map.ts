@@ -1,4 +1,3 @@
-
 export interface Position {
   lat: number;
   lon: number;
@@ -72,7 +71,7 @@ export interface ParaRequestItem {
 //병원 응답 http post
 export interface HospitalResponsePostProps {
   callingId: number;
-  status: string; //APPROVED:수락, REJECTED:거절, 
+  status: string; //APPROVED:수락, REJECTED:거절,
   reason: string;
 }
 //구급대원 상태
@@ -85,6 +84,7 @@ export interface ParamedicStatusProps {
 export interface HospitalTransferItem {
   id: number;
   state: string; // transfer, complete, cancel, wait
+  transferId?: number;
   curLat?: number;
   curLon?: number;
   curAddr?: string;
@@ -96,6 +96,7 @@ export interface HospitalTransferItem {
 export interface HospitalTransferParaItem {
   id: number;
   state: string; // transfer, complete, cancel, wait
+  transferId?: number;
   curLat?: number;
   curLon?: number;
   curAddr: string;
@@ -105,6 +106,6 @@ export interface HospitalTransferParaItem {
 // 일반사용자 선택된 병원
 export interface GuestSelectedItem {
   hospitalId: number;
-  latitude : number;
-  longitude : number;
+  latitude: number;
+  longitude: number;
 }

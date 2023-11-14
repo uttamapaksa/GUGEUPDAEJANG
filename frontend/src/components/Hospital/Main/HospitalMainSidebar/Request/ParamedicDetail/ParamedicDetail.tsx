@@ -29,7 +29,7 @@ import { timeToString, turmToString } from "/src/constants/function";
 import { AGEGROUP, GENDER } from "/src/constants/variable";
 import { putHospitalResponse } from "/src/apis/hospital";
 
-interface FileTypes {
+export interface FileTypes {
   video: string | null;
   image: string | null;
   voice: string | null;

@@ -166,6 +166,7 @@ function HospitalSocket() {
           const curItme: HospitalTransferItem = {
             id: transferList[i].id,
             state: item.state,
+            transferId: item.transferId,
             curLat: item.curLat,
             curLon: item.curLon,
             curAddr: item.curAddr,
