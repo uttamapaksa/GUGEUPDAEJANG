@@ -8,7 +8,7 @@ function ParaHistoryCard() {
   
   return (
     <S.SearchList>
-      {paramedicHistories.map((history) => (
+      {paramedicHistories && paramedicHistories.map((history) => (
       <S.Item>
         {history.completed && <S.Status>이송 취소</S.Status>}
         <S.ItemRow>
