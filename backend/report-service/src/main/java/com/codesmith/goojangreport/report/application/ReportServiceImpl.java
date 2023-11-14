@@ -3,8 +3,10 @@ package com.codesmith.goojangreport.report.application;
 import com.codesmith.goojangreport.report.dto.message.CallingCreateMessage;
 import com.codesmith.goojangreport.report.dto.message.CallingStatusMessage;
 import com.codesmith.goojangreport.report.dto.message.TransferMessage;
+import com.codesmith.goojangreport.report.dto.reponse.DailyKtasResponse;
 import com.codesmith.goojangreport.report.dto.reponse.ReportHeaderResponse;
 import com.codesmith.goojangreport.report.persistence.ReportRepository;
+import com.codesmith.goojangreport.report.persistence.domain.DailyKtas;
 import com.codesmith.goojangreport.report.persistence.domain.Report;
 import com.codesmith.goojangreport.report.persistence.domain.ReportHeader;
 import lombok.AllArgsConstructor;
@@ -13,6 +15,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -54,6 +58,12 @@ public class ReportServiceImpl implements ReportService {
         return convertToReportHeaderResponse(reportHeader);
     }
 
+    @Override
+    public DailyKtasResponse getDailyKtas(Long memberId) {
+        List<DailyKtas> dailyKtas = reportRepository.getDailyKtas(memberId);
+        return convertToDailyKtasResponse(dailyKtas);
+    }
+
     private Report convertToReport(CallingCreateMessage message) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
 
@@ -83,5 +93,31 @@ public class ReportServiceImpl implements ReportService {
         Double avgResponseTime = reportHeader.getAvgResponseTime();
         Double avgTransferTime = reportHeader.getAvgTransferTime();
         return new ReportHeaderResponse(today, todayApproved, todayRejected, avgResponseTime, avgTransferTime);
+    }
+
+    private DailyKtasResponse convertToDailyKtasResponse(List<DailyKtas> dailyKtas) {
+        DailyKtasResponse dailyKtasResponse = new DailyKtasResponse();
+
+        dailyKtasResponse.setKtas1(dailyKtas.stream()
+            .map(DailyKtas::getKtas1)
+            .collect(Collectors.toList()));
+
+        dailyKtasResponse.setKtas2(dailyKtas.stream()
+            .map(DailyKtas::getKtas2)
+            .collect(Collectors.toList()));
+
+        dailyKtasResponse.setKtas3(dailyKtas.stream()
+            .map(DailyKtas::getKtas3)
+            .collect(Collectors.toList()));
+
+        dailyKtasResponse.setKtas4(dailyKtas.stream()
+            .map(DailyKtas::getKtas4)
+            .collect(Collectors.toList()));
+
+        dailyKtasResponse.setKtas5(dailyKtas.stream()
+            .map(DailyKtas::getKtas5)
+            .collect(Collectors.toList()));
+
+        return dailyKtasResponse;
     }
 }

@@ -49,12 +49,7 @@ public class ReportController {
 
     @GetMapping("/ktas")
     public ResponseEntity<DailyKtasResponse> getDailyKtas(@AuthMember MemberInfo memberInfo) {
-        List<Long> ktas1 = new ArrayList<>(Arrays.asList(280L, 290L, 330L, 360L, 320L, 330L, 290L));
-        List<Long> ktas2 = new ArrayList<>(Arrays.asList(160L, 180L, 190L, 150L, 250L, 200L, 170L));
-        List<Long> ktas3 = new ArrayList<>(Arrays.asList(120L, 110L, 140L, 210L, 170L, 130L, 120L));
-        List<Long> ktas4 = new ArrayList<>(Arrays.asList(140L, 210L, 170L, 120L, 220L, 130L, 120L));
-        List<Long> ktas5 = new ArrayList<>(Arrays.asList(120L, 110L, 140L, 210L, 140L, 210L, 170L));
-        return ResponseEntity.ok(new DailyKtasResponse(ktas1, ktas2, ktas3, ktas4, ktas5));
+        return ResponseEntity.ok(reportService.getDailyKtas(memberInfo.getId()));
     }
 
     @GetMapping("/response")

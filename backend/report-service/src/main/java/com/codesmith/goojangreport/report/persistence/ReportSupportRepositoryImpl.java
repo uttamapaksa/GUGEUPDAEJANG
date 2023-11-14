@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static com.codesmith.goojangreport.report.persistence.domain.QReport.report;
+import static com.querydsl.jpa.JPAExpressions.select;
 
 @Repository
 public class ReportSupportRepositoryImpl implements ReportSupportRepository {
