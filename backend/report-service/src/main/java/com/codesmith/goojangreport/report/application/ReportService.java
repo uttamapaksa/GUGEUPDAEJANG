@@ -14,4 +14,5 @@ public interface ReportService {
     MonthlyApprovedResponse getMonthlyApproved(Long memberId, Long year);
     DailyStatusResponse getDailyStatus(Long memberId);
     CallingPerTimeResponse getTimeGroup(Long memberId);
+    AgeGroupResponse getAgeGroup(Long memberId);
 }

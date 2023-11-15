@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @RequiredArgsConstructor
 @Service
@@ -83,6 +84,30 @@ public class ReportServiceImpl implements ReportService {
         }
         return new CallingPerTimeResponse(countList);
     }
+
+    @Override
+    public AgeGroupResponse getAgeGroup(Long memberId) {
+        // TODO : memberId 지우기
+        memberId = 1379L;
+        List<AgeGroup> ageGroup = reportRepository.getAgeGroup(memberId);
+
+        List<Long> maleCountList = ageGroup.stream()
+                .filter(o -> "MALE".equalsIgnoreCase(o.getGender()))
+                .map(o -> o.getCount())
+                .collect(Collectors.toList());
+
+        List<Long> femaleCountList = ageGroup.stream()
+                .filter(o -> "FEMALE".equalsIgnoreCase(o.getGender()))
+                .map(o -> o.getCount())
+                .collect(Collectors.toList());
+
+        List<Long> combinedCountList = IntStream.range(0, maleCountList.size())
+                .mapToObj(i -> maleCountList.get(i) + femaleCountList.get(i))
+                .collect(Collectors.toList());
+
+        return new AgeGroupResponse(combinedCountList, maleCountList, femaleCountList);
+    }
+
 
     private Report convertToReport(CallingCreateMessage message) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");

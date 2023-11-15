@@ -34,13 +34,7 @@ public class ReportController {
 
     @GetMapping("/age")
     public ResponseEntity<AgeGroupResponse> getAgeGroupReport(@AuthMember MemberInfo memberInfo) {
-        Long[] arr1 = {280L, 290L, 330L, 360L, 320L, 330L, 290L, 330L};
-        Long[] arr2 = {160L, 180L, 190L, 150L, 250L, 200L, 170L, 220L};
-        Long[] arr3 = {120L, 110L, 140L, 210L, 170L, 130L, 120L, 110L};
-        ArrayList<Long> list1 = new ArrayList<>(Arrays.asList(arr1));
-        ArrayList<Long> list2 = new ArrayList<>(Arrays.asList(arr2));
-        ArrayList<Long> list3 = new ArrayList<>(Arrays.asList(arr3));
-        return ResponseEntity.ok(new AgeGroupResponse(list1, list2, list3));
+        return ResponseEntity.ok(reportService.getAgeGroup(memberInfo.getId()));
     }
 
     @GetMapping("/ktas")
