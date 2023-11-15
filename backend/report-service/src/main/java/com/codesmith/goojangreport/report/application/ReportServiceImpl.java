@@ -89,23 +89,7 @@ public class ReportServiceImpl implements ReportService {
     public AgeGroupResponse getAgeGroup(Long memberId) {
         // TODO : memberId 지우기
         memberId = 1379L;
-        List<AgeGroup> ageGroup = reportRepository.getAgeGroup(memberId);
-
-        List<Long> maleCountList = ageGroup.stream()
-                .filter(o -> "MALE".equalsIgnoreCase(o.getGender()))
-                .map(o -> o.getCount())
-                .collect(Collectors.toList());
-
-        List<Long> femaleCountList = ageGroup.stream()
-                .filter(o -> "FEMALE".equalsIgnoreCase(o.getGender()))
-                .map(o -> o.getCount())
-                .collect(Collectors.toList());
-
-        List<Long> combinedCountList = IntStream.range(0, maleCountList.size())
-                .mapToObj(i -> maleCountList.get(i) + femaleCountList.get(i))
-                .collect(Collectors.toList());
-
-        return new AgeGroupResponse(combinedCountList, maleCountList, femaleCountList);
+        return convertToAgeGroupResponse(reportRepository.getAgeGroup(memberId));
     }
 
 
@@ -178,5 +162,23 @@ public class ReportServiceImpl implements ReportService {
             .collect(Collectors.toList()));
 
         return monthlyApprovedResponse;
+    }
+
+    private AgeGroupResponse convertToAgeGroupResponse(List<AgeGroup> ageGroup) {
+        List<Long> maleCountList = ageGroup.stream()
+                .filter(o -> "MALE".equalsIgnoreCase(o.getGender()))
+                .map(o -> o.getCount())
+                .collect(Collectors.toList());
+
+        List<Long> femaleCountList = ageGroup.stream()
+                .filter(o -> "FEMALE".equalsIgnoreCase(o.getGender()))
+                .map(o -> o.getCount())
+                .collect(Collectors.toList());
+
+        List<Long> combinedCountList = IntStream.range(0, maleCountList.size())
+                .mapToObj(i -> maleCountList.get(i) + femaleCountList.get(i))
+                .collect(Collectors.toList());
+
+        return new AgeGroupResponse(combinedCountList, maleCountList, femaleCountList);
     }
 }
