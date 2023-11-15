@@ -62,6 +62,7 @@ export const OptionTimeTilde = styled.div`
 export const OptionTimeBtn = styled.button`
   /* border: 1px solid green; */
   border: none;
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;

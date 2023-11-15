@@ -19,6 +19,7 @@ import * as S from './Category.style';
 import A from '/src/components/Commons/Atoms';
 import theme from '/src/styles';
 import { OccurrenceType } from '/src/types/paramedic';
+import Spinner from '/src/components/libraries/Spinner/Spinner';
 
 function Category() {
   const setCurrentPageIndex = useSetRecoilState(currentParamedicPageIndexState);
@@ -35,6 +36,7 @@ function Category() {
   const recordContent = useRecoilValue(recordContentFile);
   const [callingStep, setCallingStep] = useRecoilState(callingStepState);
   const setHospitals = useSetRecoilState(HospitalListState);
+  const [showSpinner, setShowSpinner] = useState(false);
 
   const getOptions = () => {
     getTags().then((tagsData) => {
@@ -82,6 +84,8 @@ function Category() {
   };
 
   const goToWaitMove = () => {
+    if (showSpinner) return;
+    setShowSpinner(true);
     let data: OccurrenceType = {
       ktas: occurence.ktas,
       ageGroup: occurence.ageGroup,
@@ -106,12 +110,16 @@ function Category() {
         };
         console.log(data)
         getHospitals(data).then((hospitalsData) => {
+          setShowSpinner(false);
           setCallingStep((prev)=>({occurrenceId: occurrenceIdData.occurrenceId, step: prev.step + 1}))
           if (hospitalsData) {
+            
             setHospitals(hospitalsData);
             setCurrentPageIndex(2);
           }
         });
+      } else {
+        setShowSpinner(false);
       }
     });
   };
@@ -180,6 +188,7 @@ function Category() {
         </A.BtnSubmit>
         <A.BtnSubmit
           onClick={goToWaitMove}
+          $position='relative'
           $margin="10vh 0 0 0 "
           $borderRadius="1vh"
           $width="100%"
@@ -187,7 +196,7 @@ function Category() {
           $backgroundColor={theme.color.fontPink1}
           $fontSize="2.5vh"
         >
-          이송 요청
+          {showSpinner ? <Spinner position='absolute' width='12vh' height='8vh' top='-1.25vh' color='white' /> : '이송 요청'}
         </A.BtnSubmit>
       </S.Col9>
     </S.Category>
