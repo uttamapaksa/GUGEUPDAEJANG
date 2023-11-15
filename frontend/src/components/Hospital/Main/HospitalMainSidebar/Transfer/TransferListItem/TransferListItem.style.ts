@@ -34,6 +34,11 @@ export const ItemRequestAt = styled.div`
   color: ${theme.color.fontGrey4};
   padding: 4% 0 0 4%;
 `;
+export const VideoOn = styled.div`
+  font-size: ${theme.font.Small3_14};
+  color: ${theme.color.pinkDrak};
+  padding: 4% 0 0 4%;
+`;
 export const ItemParaType = styled.div`
   font-size: ${theme.font.Small3_14};
   color: ${theme.color.black};

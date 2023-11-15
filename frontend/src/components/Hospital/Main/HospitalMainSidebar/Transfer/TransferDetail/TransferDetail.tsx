@@ -56,7 +56,7 @@ const TransferDetail = (props: any) => {
   };
 
   useEffect(() => {
-    if (selectedParaItem !== undefined && selectedParaItem.data.files) {
+    if (selectedParaItem !== undefined && selectedParaItem.data && selectedParaItem.data.files) {
       checkFiles(selectedParaItem.data.files);
     }
     console.log(selectedParaItem);
@@ -67,7 +67,7 @@ const TransferDetail = (props: any) => {
   };
 
   const clickButton = () => {
-    if (transferList != undefined && selectedParaItem != undefined) {
+    if (transferList !== undefined && selectedParaItem !== undefined && selectedParaItem.data) {
       console.log("clickButton", transferList);
       let nextTransferList = transferList.filter(
         (item: HospitalTransferItem) => item.id != selectedParaItem.id
@@ -79,7 +79,7 @@ const TransferDetail = (props: any) => {
       setSelectedParaItem(undefined);
     }
   };
-  return selectedParaItem && (
+  return selectedParaItem && selectedParaItem.data && (
     <TransferDetailContainer>
       <TransferDetailContent>
         <DetailItemContainer>
@@ -87,7 +87,7 @@ const TransferDetail = (props: any) => {
             $position="absolute"
             $right="0%"
             $top="0%"
-            $ktas={selectedParaItem.data.ktas.toLowerCase()}
+            $ktas={selectedParaItem.data.ktas.toLowerCase() as "ktas1" | "ktas2" | "ktas3" | "ktas4" | "ktas5" | undefined}
             $width="50px"
             $height="25px"
             $borderRadius="0px 0px 0px 10px"
@@ -146,6 +146,7 @@ const TransferDetail = (props: any) => {
             )}
           </FilesSection>
 
+          {selectedParaItem.videoOn && 
           <A.BtnMediaRecord
             $width="90%"
             $height="40PX"
@@ -160,7 +161,8 @@ const TransferDetail = (props: any) => {
           >
             <A.ImgRecordCameraPink $width="3.2vh" $margin="10px" />
             화상 통화 보기
-          </A.BtnMediaRecord>
+          </A.BtnMediaRecord>}
+
 
           <ItemAddr>{selectedParaItem.data.description}</ItemAddr>
           <ItemAddr>{selectedParaItem.data.address}</ItemAddr>
