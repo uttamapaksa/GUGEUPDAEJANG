@@ -150,6 +150,11 @@ function Call() {
             time={formatTime(seconds)} /> ) : (<></>)}
         
         
+        <div>
+          비디오 파일명<br></br>
+          {recordVideo?.contentType}<br></br>
+          {recordVideo?.filePath}<br></br>
+        </div>
         {/* 임시 태그 삭제할 예정 */}
         {recordVoice?.filePath && (
           <audio
