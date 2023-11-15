@@ -36,7 +36,7 @@ interface TextProps {
   $alignItems?: string;
 }
 
-const StyledText = styled.p<TextProps>`
+const StyledText = styled.div<TextProps>`
   height: ${(props) => props.$height || "100%"};
   width: ${(props) => props.$width || "100%"};
   margin: ${(props) => props.$margin};
