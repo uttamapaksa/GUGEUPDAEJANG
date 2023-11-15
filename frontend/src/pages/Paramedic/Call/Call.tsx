@@ -152,9 +152,8 @@ function Call() {
 
   // 동영상파일 업로드
   const axiosVideoUpload = async (file:File[]):Promise<void> => {
-    setAdd(file[0].name)
-
     try {
+      setAdd(file[0].name)
       const response = await postCameraUpload(file)
       setRecordVideo(response)
       axiosVideoSTT(file)
