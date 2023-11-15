@@ -34,6 +34,7 @@ function Move() {
 
   const [videoOpen, setVideoOpen] = useState(false);
   const closeModal = () => {
+    setFixedCalling((prev: fixedCallingType) => ({ ...prev, videoOn: false }));
     setVideoOpen(false);
   };
   const completeTransfer = () => {
@@ -105,8 +106,8 @@ function Move() {
           $border={`0.25vh solid ${theme.color.grayDarkest}`}
           $borderRadius="2vh"
           onClick={() => {
-            setVideoOpen(true);
             setFixedCalling((prev: fixedCallingType) => ({ ...prev, videoOn: true }));
+            setVideoOpen(true);
           }}
         >
           <A.ImgRecordVideoBlack $width="4vh" />
