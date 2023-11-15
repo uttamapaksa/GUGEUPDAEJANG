@@ -155,6 +155,11 @@ function Call() {
           {recordVideo?.contentType}<br></br>
           {recordVideo?.filePath}<br></br>
         </div>
+        <div>
+          사진 파일명<br></br>
+          {recordImage?.contentType}<br></br>
+          {recordImage?.filePath}<br></br>
+        </div>
         {/* 임시 태그 삭제할 예정 */}
         {recordVoice?.filePath && (
           <audio
