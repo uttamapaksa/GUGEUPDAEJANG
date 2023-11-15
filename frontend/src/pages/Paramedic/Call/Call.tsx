@@ -204,7 +204,7 @@ function Call() {
           type="file"
           id="videoInput"
           accept="video/*"
-          capture="camera"
+          capture="camcorder"
           onChange={handleCapture}>
         </input>
 
