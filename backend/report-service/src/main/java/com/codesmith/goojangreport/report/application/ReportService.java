@@ -3,9 +3,7 @@ package com.codesmith.goojangreport.report.application;
 import com.codesmith.goojangreport.report.dto.message.CallingCreateMessage;
 import com.codesmith.goojangreport.report.dto.message.CallingStatusMessage;
 import com.codesmith.goojangreport.report.dto.message.TransferMessage;
-import com.codesmith.goojangreport.report.dto.response.DailyKtasResponse;
-import com.codesmith.goojangreport.report.dto.response.MonthlyApprovedResponse;
-import com.codesmith.goojangreport.report.dto.response.ReportHeaderResponse;
+import com.codesmith.goojangreport.report.dto.response.*;
 
 public interface ReportService {
     void createReport(CallingCreateMessage callingCreateMessage);
@@ -14,4 +12,6 @@ public interface ReportService {
     ReportHeaderResponse getHeaderValues(Long memberId);
     DailyKtasResponse getDailyKtas(Long memberId);
     MonthlyApprovedResponse getMonthlyApproved(Long memberId, Long year);
+    DailyStatusResponse getDailyStatus(Long memberId);
+    CallingPerTimeResponse getTimeGroup(Long memberId);
 }

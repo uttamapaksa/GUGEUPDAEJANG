@@ -1,6 +1,8 @@
 package com.codesmith.goojangreport.report.persistence;
 
+import com.codesmith.goojangreport.report.persistence.domain.DailyStatus;
 import com.codesmith.goojangreport.report.persistence.domain.ReportHeader;
+import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPAExpressions;
@@ -12,9 +14,11 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static com.codesmith.goojangreport.report.persistence.domain.QReport.report;
-import static com.querydsl.jpa.JPAExpressions.select;
 
 @Repository
 public class ReportSupportRepositoryImpl implements ReportSupportRepository {
@@ -38,6 +42,49 @@ public class ReportSupportRepositoryImpl implements ReportSupportRepository {
                         getAvgTransferTime(memberId)))
                 .from(report)
                 .fetchFirst();
+    }
+
+    @Override
+    public DailyStatus getDailyStatus(Long memberId) {
+        // TODO : 현재 데이터가 적어서 날짜랑 멤버 아이디 조건을 조작해놓음 추후에 주석 지우기
+//        LocalDate today = LocalDateTime.now().toLocalDate();
+        LocalDate today = LocalDate.of(2023, 11, 13);
+
+        List<Tuple> tupleList = queryFactory
+                .select(
+                        report.callingStatus, report.report.id.count())
+                .from(report)
+                .where(
+//                        report.hospitalMemberId.eq(memberId),
+                        report.callingTime.between(today.atStartOfDay(), today.plusDays(1).atStartOfDay())
+                )
+                .groupBy(report.callingStatus)
+                .fetch();
+        return new DailyStatus(tupleList);
+    }
+
+    // TODO : where 절에 있는 주석 해제
+    @Override
+    public Map<Integer, Long> getTimeGroup(Long memberId) {
+        Map<Integer, Long> timeGroup = new HashMap<>();
+        for (int i = 0; i < 24; i+=2) {
+            timeGroup.put(i, 0L);
+        }
+        List<Tuple> tupleList = queryFactory
+                .select(
+                        report.callingTime.hour().subtract(report.callingTime.hour().mod(2)),
+                        report.id.count()
+                )
+                .from(report)
+//                .where(report.hospitalMemberId.eq(memberId))
+                .groupBy(report.callingTime.hour().subtract(report.callingTime.hour().mod(2)))
+                .fetch();
+        tupleList.forEach(o -> {
+            Integer time = o.get(0, Integer.class);
+            Long count = o.get(1, Long.class);
+            timeGroup.put(time, count);
+        });
+        return timeGroup;
     }
 
     public JPQLQuery<Long> getToday(Long memberId) {

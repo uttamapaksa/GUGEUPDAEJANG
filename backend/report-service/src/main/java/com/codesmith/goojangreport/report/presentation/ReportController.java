@@ -24,16 +24,12 @@ public class ReportController {
 
     @GetMapping("/time")
     public ResponseEntity<CallingPerTimeResponse> getTimeGroupReport(@AuthMember MemberInfo memberInfo) {
-        Long[] arr = {440L, 505L, 414L, 671L, 227L, 413L, 201L, 352L, 352L, 752L, 320L, 257L};
-        List<Long> list = new ArrayList<>(Arrays.asList(arr));
-        return ResponseEntity.ok(new CallingPerTimeResponse(list));
+        return ResponseEntity.ok(reportService.getTimeGroup(memberInfo.getId()));
     }
 
     @GetMapping("/status")
     public ResponseEntity<DailyStatusResponse> getDailyStatusReport(@AuthMember MemberInfo memberInfo) {
-        Long[] arr = {44L, 55L, 13L, 43L, 22L, 30L};
-        List<Long> list = new ArrayList<>(Arrays.asList(arr));
-        return ResponseEntity.ok(new DailyStatusResponse(list));
+        return ResponseEntity.ok(reportService.getDailyStatus(memberInfo.getId()));
     }
 
     @GetMapping("/age")
@@ -53,7 +49,7 @@ public class ReportController {
     }
 
     @GetMapping("/response")
-    public ResponseEntity<MonthlyApprovedResponse> getMontlyApproved(@AuthMember MemberInfo memberInfo, @RequestParam Long year) {
+    public ResponseEntity<MonthlyApprovedResponse> getMonthlyApproved(@AuthMember MemberInfo memberInfo, @RequestParam Long year) {
         return ResponseEntity.ok(reportService.getMonthlyApproved(memberInfo.getId(), year));
     }
 }
