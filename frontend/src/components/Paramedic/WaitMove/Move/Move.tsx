@@ -154,7 +154,13 @@ function Move() {
         </A.BtnSubmit>
       </S.CancelOrConfirm>
       {videoOpen && fixedCalling && fixedCalling.transferId && (
-        <VideoModal transferId={fixedCalling.transferId} closeModal={closeModal}></VideoModal>
+        <VideoModal
+          position={"fixed"}
+          top={"0%"}
+          right={"0%"}
+          width={"100%"}
+          height={"100%"}
+          transferId={fixedCalling.transferId} closeModal={closeModal}></VideoModal>
       )}
     </>
   );

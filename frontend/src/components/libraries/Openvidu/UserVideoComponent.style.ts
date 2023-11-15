@@ -28,9 +28,9 @@ export const Main = styled.div`
 `;
 export const Sub = styled.div`
   position: absolute;
-  bottom: 0;
-  right: 0;
-  transform: translate(-50%, -50%);
+  bottom: 5%;
+  right: 5%;
+  transform: translate(-50%, 0);
   height: 20%;
   width: 20%;
   display: flex;
@@ -45,16 +45,15 @@ export const VedioOuterDiv = styled.div`
   /* aspect-ratio: 3 / 2; */
   width: 100%;
   height: 100%;
-  border-radius: 10px;
-  border: 1px solid #333;
+  /* border: 1px solid #333; */
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: ${theme.color.grayDark};
-  &:hover {
+  /* &:hover {
     background-color: transparent;
     opacity: 0.5;
-  }
+  } */
 `;
 
 export const Video = styled.video`

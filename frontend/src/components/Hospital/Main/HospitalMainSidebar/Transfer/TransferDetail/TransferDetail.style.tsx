@@ -88,33 +88,6 @@ export const CloseDiv = styled.div`
   cursor: pointer;
   `;
 
-export const ModalWrapper = styled.div`
-  background: rgba(0, 0, 0, 0.5);
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 11000;
-`;
-
-export const ModalContent = styled.div`
-  /* pointer-events: none; */
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  height: 70%;
-  aspect-ratio: 2/3;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  background-color: ${theme.color.grayLight};
-  border-radius: 10px;
-  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
-`;
-
 export const FilesSection = styled.div`
   /* border: 1px solid red; */
   display: flex;
@@ -162,3 +135,21 @@ export const NoFile = styled.div`
   background-color: ${theme.color.grayMedium};
   border: 1px solid ${theme.color.fontGrey5};
 `
+
+export const ModalContent = styled.div<{$position:string, $top:string, $right:string, $width:string, $height:string}>`
+  /* pointer-events: none; */
+  position: ${(props) => (props.$position)};
+  top: ${(props) => (props.$top)};
+  right: ${(props) => (props.$right)};
+  height: ${(props) => (props.$height)};
+  width: ${(props) => (props.$width)};
+  /* transform: translate(-50%, -50%); */
+  /* aspect-ratio: 2/3; */
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  background-color: ${theme.color.grayDark};
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
+  z-index: 12000;
+`;
