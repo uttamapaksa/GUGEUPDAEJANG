@@ -46,74 +46,78 @@ const ParamedicListItem = (props: any) => {
     }
   };
 
-  const checkFull = async (res: boolean) => {
+  const getAxiosReturn = async (res: boolean) => {
+    console.log(res);
+    let response;
     if (!res) {
-      let inputReason = prompt("사유를 입력하세요", "");
-      if (inputReason != null) {
-        const postProps: HospitalResponsePostProps = {
-          callingId: props.id,
-          status: "REJECTED",
-          reason: inputReason,
-        };
-        return await putHospitalResponse(postProps);
-      } else {
-        const postProps: HospitalResponsePostProps = {
-          callingId: props.id,
-          status: "REJECTED",
-          reason: "사유 없음",
-        };
-        return await putHospitalResponse(postProps);
-      }
+      response = await Swal.fire({
+        title: "거절 사유 입력",
+        text: "거절 사유를 입력해주세요.",
+        input: "text",
+        inputPlaceholder: "거절 사유를 입력해주세요.",
+      }).then(async (inputReason) => {
+        console.log(inputReason);
+        if (inputReason.value != null) {
+          const postProps: HospitalResponsePostProps = {
+            callingId: props.id,
+            status: "REJECTED",
+            reason: inputReason.value,
+          };
+          return await putHospitalResponse(postProps);
+        } else {
+          const postProps: HospitalResponsePostProps = {
+            callingId: props.id,
+            status: "REJECTED",
+            reason: "사유 없음",
+          };
+          return await putHospitalResponse(postProps);
+        }
+      });
     } else {
       const postProps: HospitalResponsePostProps = {
         callingId: props.id,
         status: "APPROVED",
         reason: "",
       };
-      return await putHospitalResponse(postProps);
+      response = await putHospitalResponse(postProps);
     }
+    return response;
   };
 
   const clickButton = async (res: boolean) => {
-    const response = await checkFull(res);
-    if (response === undefined) {
-      // alert("HospitalResponse 실패");
-      Swal.fire(
-        "병원 응답 실패",
-        "HospitalResponse is undefined",
-        "error"
-      );
-      return;
-    } else if (response.data.isFull) {
-      console.log(response);
-      // alert("HospitalResponse isFull");
-      Swal.fire(
-        "병원 잔여 병상 없음",
-        "HospitalResponse isFull",
-        "error"
-      );
-      setRequestList([]);
-      return;
-    } else if (requestList !== undefined) {
-      if (res) {
-        const newTransferItem: HospitalTransferItem = {
-          id: props.id,
-          state: "wait",
-          data: props,
-        };
-        if (transferList !== undefined) {
-          setTransferList([...transferList, newTransferItem]);
-        } else {
-          setTransferList([newTransferItem]);
+    const response: any = await getAxiosReturn(res);
+    if (res) {
+      if (response === undefined) {
+        // alert("HospitalResponse 실패");
+        Swal.fire("병원 응답 실패", "HospitalResponse is undefined", "error");
+        return;
+      } else if (response.data.isFull) {
+        console.log(response);
+        // alert("HospitalResponse isFull");
+        Swal.fire("병원 잔여 병상 없음", "HospitalResponse isFull", "error");
+        setRequestList([]);
+        return;
+      } else if (requestList !== undefined) {
+        if (res) {
+          const newTransferItem: HospitalTransferItem = {
+            id: props.id,
+            state: "wait",
+            data: props,
+          };
+          if (transferList !== undefined) {
+            setTransferList([...transferList, newTransferItem]);
+          } else {
+            setTransferList([newTransferItem]);
+          }
         }
       }
-
+    }
+    if (requestList !== undefined) {
       let nextRequestList = requestList.filter((item: ParaRequestItem) => item.id != props.id);
       setRequestList(nextRequestList);
-
-      if (selectedParaItem !== undefined && selectedParaItem.id == props.id) {
-        setSelectedParaItem(undefined);
-      }
+    }
+    if (selectedParaItem !== undefined && selectedParaItem.id == props.id) {
+      setSelectedParaItem(undefined);
     }
   };
 
