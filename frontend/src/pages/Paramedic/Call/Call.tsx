@@ -198,13 +198,13 @@ function Call() {
           type="file"
           id="fileInput"
           accept=".jpg,.png"
-          capture="environment">
+          capture="camera">
         </input>
         <input
           type="file"
           id="videoInput"
           accept="video/*"
-          capture="environment"
+          capture="camera"
           onChange={handleCapture}>
         </input>
 
