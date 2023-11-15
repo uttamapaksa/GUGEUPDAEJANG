@@ -2,27 +2,32 @@ import styled from 'styled-components';
 import theme from '/src/styles';
 
 export const Option = styled.div`
+  /* border: 1px solid red; */
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  border: 1px solid red;
   height: 7vh;
+  width: 94%;
 `;
 
 export const OptionTitle = styled.div`
-  border: 1px solid red;
+  /* border: 1px solid red; */
   width: 100%;
-  height: 2vh;
+  height: 3.6vh;
+  font-size: 2.1vh;
   font-weight: 800;
 `;
 
 export const OptionTimeBox = styled.div`
   display: flex;
   align-items: center;
-  border: 1px solid green;
   height: 4vh;
   width: 38%;
+  border: 1px solid #B3B3B3;
+  border-radius: 5px;
+  background-color: ${theme.color.white};
+  font-size: 1.5vh;
 `;
 
 export const CalenderIcon = styled.div`

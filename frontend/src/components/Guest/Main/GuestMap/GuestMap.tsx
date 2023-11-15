@@ -19,6 +19,7 @@ function GuestMap ({ mapProps, setMapProps }: GuestMapProps) {
     const hosList: HospitalItem[] = guestHospitals.map((hospital) => ({
       id: hospital.id,
       pos: { lat: hospital.latitude, lon: hospital.longitude },
+      name: hospital.name,
     }));
 
     const nextMapProps: MapProps = {

@@ -20,7 +20,9 @@ function WaitMove() {
         <S.ContentBox>
           <Toggle />
           <Times />
-          {!isTransferring ? <Wait /> : <Move />}
+          <S.WaitMoveScroll>
+            {!isTransferring ? <Wait /> : <Move />}
+          </S.WaitMoveScroll>
         </S.ContentBox>
       </S.Wrapper>
     </S.Container>

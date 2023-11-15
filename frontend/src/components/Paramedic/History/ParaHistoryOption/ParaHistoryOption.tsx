@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { paramedicHistoriesState, startTimeState, endTimeState } from '/src/recoils/ParamedicAtoms';
+import { paramedicHistoriesState, startTimeState, endTimeState, centerHistoriesState } from '/src/recoils/ParamedicAtoms';
 import { getParamedicHistories } from '/src/apis/paramedic';
 import * as S from './ParaHistoryOption.style';
 import ParamedicCalender from '../../../libraries/Calender/ParamedicCalender';
@@ -31,11 +31,17 @@ function ParaHistoryOption({ showCenter }: { showCenter: boolean }) {
 
   // paramedic histories
   const setParamedicHistories = useSetRecoilState(paramedicHistoriesState);
+  const setCenterHistoriesState = useSetRecoilState(centerHistoriesState);
+
   const readHistories = () => {
     console.log(startTime.toISOString().slice(0, 22))
     getParamedicHistories(startTime.toISOString().slice(0, 22), endTime.toISOString().slice(0, 22), showCenter).then((historyData) => {
       if (historyData) {
-        setParamedicHistories(historyData);
+        if(showCenter) {
+          setParamedicHistories(historyData);
+        } else {
+          setCenterHistoriesState(historyData)
+        } 
       }
     });
   };
@@ -53,9 +59,9 @@ function ParaHistoryOption({ showCenter }: { showCenter: boolean }) {
         </S.CalenderModalOverlay>
       )}
 
-      <S.OptionTitle>조회기간</S.OptionTitle>
-      <S.OptionTimeBox>
-        <S.CalenderIcon onClick={() => setShowCalender((prev) => !prev)}>
+      <S.OptionTitle>조회 기간</S.OptionTitle>
+      <S.OptionTimeBox onClick={() => setShowCalender((prev) => !prev)}>
+        <S.CalenderIcon>
           <A.ImgCalenderIcon $height="2.5vh"></A.ImgCalenderIcon>
         </S.CalenderIcon>
         {formattedDate(startTime)}
@@ -63,8 +69,8 @@ function ParaHistoryOption({ showCenter }: { showCenter: boolean }) {
 
       <S.OptionTimeTilde>~</S.OptionTimeTilde>
 
-      <S.OptionTimeBox>
-        <S.CalenderIcon onClick={() => setShowCalender((prev) => !prev)}>
+      <S.OptionTimeBox onClick={() => setShowCalender((prev) => !prev)}>
+        <S.CalenderIcon>
           <A.ImgCalenderIcon $height="2.5vh"></A.ImgCalenderIcon>
         </S.CalenderIcon>
         {formattedDate(endTime)}
