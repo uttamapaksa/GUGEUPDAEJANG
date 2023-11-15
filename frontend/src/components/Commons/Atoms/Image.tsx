@@ -46,6 +46,7 @@ import exit_black from "/src/assets/share/exit-black.png"
 import exit_gray from "/src/assets/share/exit-gray.png"
 import search_gray from "/src/assets/share/search-gray.png"
 import check_password from "/src/assets/share/check-password.png"
+import phone_call_end from "/src/assets/share/phone-call-end.png"
 
 interface ImageProps {
   $height?: string;
@@ -135,3 +136,4 @@ export const ImgExitBlack = styled(StyledImage).attrs({src: exit_black})``;
 export const ImgExitGray = styled(StyledImage).attrs({src: exit_gray})``;
 export const ImgSearchGray = styled(StyledImage).attrs({src: search_gray})``;
 export const ImgCheckPassword = styled(StyledImage).attrs({src: check_password})``;
+export const ImgPhoneCallEnd = styled(StyledImage).attrs({src: phone_call_end})``;

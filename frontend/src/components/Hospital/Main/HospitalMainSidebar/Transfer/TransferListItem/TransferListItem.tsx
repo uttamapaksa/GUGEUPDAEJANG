@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { TransferListItemContainer, TransferListItemContent, ItemRequestAt, ItemParaType, ItemParaTagGroup, VideoOn } from "./TransferListItem.style";
+import { TransferListItemContainer, TransferListItemContent, ItemRequestAt, ItemParaType, ItemParaTagGroup, VideoOn, ItemBottomDiv } from "./TransferListItem.style";
 import A from "/src/components/Commons/Atoms";
 import theme from "/src/styles";
 import { hospitalParmedicTransferList, hospitalSelectedTransferItem } from "/src/recoils/HospitalAtoms";
@@ -31,7 +31,7 @@ const TransferListItem = (props: any) => {
     }
   };
 
-  const clickButton = (e:React.MouseEvent<HTMLDivElement>) => {
+  const clickButton = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
     if (transferList != undefined) {
       console.log("clickButton", transferList)
@@ -83,73 +83,38 @@ const TransferListItem = (props: any) => {
           화상통화 연결 됨
         </VideoOn> */}
         {props.videoOn &&
-        <VideoOn>
-          화상통화 연결 됨
-        </VideoOn>}
+          <VideoOn>
+            화상통화 연결 됨
+          </VideoOn>}
 
         {props.state == "transfer" ?
-          <A.DivTag
-            $width="100%"
-            $height="15%"
-            $position="absolute"
-            $left="0%"
-            $bottom="0%"
+          <ItemBottomDiv
             $color={theme.color.white}
-            $borderRadius="0px"
-            $fontSize={theme.font.Small1_16}
             $backgroundColor={theme.color.blue}
-            $boxShadow=""
           >
             {/* {props.leftTime}분 이내 도착 예정 */}
             도착 예정 시간 : {expectedTime(props.data.createdAt, props.data.duration)}
-          </A.DivTag> : <></>}
+          </ItemBottomDiv> : <></>}
         {props.state == "wait" ?
-          <A.DivTag
-            $width="100%"
-            $height="15%"
-            $position="absolute"
-            $left="0%"
-            $bottom="0%"
+          <ItemBottomDiv
             $color={theme.color.black}
-            $borderRadius="0px"
-            $fontSize={theme.font.Small1_16}
-            $backgroundColor={theme.color.ktas3_Active}
-            $boxShadow="0"
-          >
+            $backgroundColor={theme.color.ktas3_Active}>
             대기중
-          </A.DivTag> : <></>}
+          </ItemBottomDiv> : <></>}
         {props.state == "complete" ?
-          <A.DivTag
-            $width="100%"
-            $height="15%"
-            $position="absolute"
-            $left="0%"
-            $bottom="0%"
+          <ItemBottomDiv
             $color={theme.color.white}
-            $borderRadius="0px"
-            $fontSize={theme.font.Small1_16}
             $backgroundColor={theme.color.ktas4_Active}
-            $boxShadow="0"
-            onClick={(e:any)=>clickButton}
-          >
+            onClick={clickButton}>
             완료됨
-          </A.DivTag> : <></>}
+          </ItemBottomDiv> : <></>}
         {props.state == "cancel" ?
-          <A.DivTag
-            $width="100%"
-            $height="15%"
-            $position="absolute"
-            $left="0%"
-            $bottom="0%"
+          <ItemBottomDiv
             $color={theme.color.white}
-            $borderRadius="0px"
-            $fontSize={theme.font.Small1_16}
             $backgroundColor={theme.color.ktas2_Active}
-            $boxShadow="0"
-            onClick={clickButton}
-          >
+            onClick={clickButton}>
             취소됨
-          </A.DivTag> : <></>}
+          </ItemBottomDiv> : <></>}
       </TransferListItemContent>
     </TransferListItemContainer>
   );

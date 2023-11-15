@@ -7,11 +7,11 @@ import { useEffect } from "react";
 import { ParaRequestItem } from "/src/types/map";
 
 const ParamedicList = () => {
-    const [paraItem, setParaItem] = useRecoilState(hospitalSelectedRequestItem);
+    const [selectedRequestItem, setsSelectedRequestItem] = useRecoilState(hospitalSelectedRequestItem);
     const requestList = useRecoilValue(hospitalParmedicRequestList);
 
     const selectParaDetail = (item: ParaRequestItem | undefined) => {
-        setParaItem(item);
+        setsSelectedRequestItem(item);
     }
 
     useEffect(() => {
@@ -26,14 +26,14 @@ const ParamedicList = () => {
                         {requestList.map((item, index) => (
                             <ParamedicListItem {...item} key={index}
                                 onclick={() => selectParaDetail(item)}
-                                isSelected={(paraItem !== undefined && paraItem.id == item.id)}
+                                isSelected={(selectedRequestItem !== undefined && selectedRequestItem.id == item.id)}
                             />
                         ))}
                     </> :
                     <></>
                 }
             </ParamedicListContainer>
-            {paraItem !== undefined ? <ParamedicDetail {...paraItem} onclick={() => selectParaDetail(undefined)}></ParamedicDetail>
+            {selectedRequestItem !== undefined ? <ParamedicDetail onclick={() => selectParaDetail(undefined)}></ParamedicDetail>
                 :
                 <></>}
         </>
