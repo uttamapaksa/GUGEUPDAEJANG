@@ -10,12 +10,14 @@ import TimeChart from '../../libraries/Chart/TimeChart'
 import { 
   getReportAge, 
   getReportHeader, 
+  getReportResponse, 
   getReportStatus, 
   getReportTime } from '/src/apis/report'
 
 import { 
   AgeType, 
   HeaderType, 
+  ResponseType, 
   StatusType, 
   TimeType } from '/src/types/report'
 
@@ -24,6 +26,9 @@ function HospitalReport () {
   const [timeValue, setTimeValue] = useState<TimeType>()
   const [statusValue, setStatusValue] = useState<StatusType>()
   const [ageValue, setAgeValue] = useState<AgeType>()
+  const [response, setResponse] = useState<ResponseType>()
+  const [selectedYear, setSelectedYear] = useState<string>("2023");
+
   
   const axiosReportHeader = async (): Promise<void> => {
     try {
@@ -61,6 +66,18 @@ function HospitalReport () {
       console.log(err)
     }
   }
+
+  const axiosResponse = async (): Promise<void> => {
+    const info : {year : string} = {
+      year: selectedYear
+    }
+    try {
+      const res = await getReportResponse(info)
+      setResponse(res)
+    } catch(err){
+      console.log(err)
+    }
+  }
   
   useEffect(()=>{
     axiosReportHeader()
@@ -68,6 +85,11 @@ function HospitalReport () {
     axiosReportStatus()
     axiosReportAge()
   },[])
+
+  useEffect(()=>{
+    axiosResponse()
+  },[selectedYear])
+  
   return (
     <S.Container>
       <S.Wrapper>
@@ -86,7 +108,11 @@ function HospitalReport () {
           </S.Content1>
           <S.Content2>
             <A.DivReport $width='49.2%'>
-              <AgreeChart/>
+              {response && 
+                <AgreeChart
+                  selectedYear={selectedYear}
+                  setSelectedYear={setSelectedYear} 
+                  response={response}/>}
             </A.DivReport>
             <A.DivReport $width='49.2%'>
               <KtasChart/>

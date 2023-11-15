@@ -19,3 +19,14 @@ export interface AgeType{
   maleCountList:number[];
   femaleCountList:number[];
 }
+
+export interface ResponseType{
+  total:number[];
+  approved:number[];
+}
+
+export interface AgreeChartProps {
+  selectedYear: string;
+  setSelectedYear: React.Dispatch<React.SetStateAction<string>>;
+  response: ResponseType;
+}

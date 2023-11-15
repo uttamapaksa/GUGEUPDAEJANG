@@ -1,8 +1,6 @@
 export interface AgreeRequestData {
-  [year: string]: {
-    totalRequests: number[];
-    acceptedRequests: number[];
-  }
+  approved: number[];
+  total: number[];
 }
 
 export interface  CharacterRequestData {
