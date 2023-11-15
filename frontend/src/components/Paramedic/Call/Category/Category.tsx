@@ -33,7 +33,7 @@ function Category() {
   const recordVideo = useRecoilValue(recordVideoFile);
   const recordVoice = useRecoilValue(recordVoiceFile);
   const recordContent = useRecoilValue(recordContentFile);
-  const [step, setStep] = useRecoilState(callingStepState);
+  const [callingStep, setCallingStep] = useRecoilState(callingStepState);
   const setHospitals = useSetRecoilState(HospitalListState);
 
   const getOptions = () => {
@@ -97,12 +97,12 @@ function Category() {
       if (occurrenceIdData) {
         let data = {
           occurrenceId: occurrenceIdData.occurrenceId,
-          distance: 5 * (step + 1) + 0.1, // 무조건 실수
-          step: step + 1,
+          distance: 5 * (callingStep.step + 1) + 0.1, // 무조건 실수
+          step: callingStep.step + 1,
         };
         console.log(data)
         getHospitals(data).then((hospitalsData) => {
-          setStep(step + 1);
+          setCallingStep((prev)=>({occurrenceId: occurrenceIdData.occurrenceId, step: prev.step + 1}))
           if (hospitalsData) {
             setHospitals(hospitalsData);
             setCurrentPageIndex(2);

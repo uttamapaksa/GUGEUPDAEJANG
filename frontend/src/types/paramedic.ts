@@ -29,6 +29,11 @@ export interface OccurrenceType {
   files: (FileType | undefined)[];
 }
 
+export interface CallingStepType {
+  occurrenceId: number;
+  step: number;
+}
+
 export interface HospitalListType {
   callingId?: number ;
   callingTime?: string ;

@@ -4,6 +4,7 @@ import {
   TagType,
   FileType,
   OccurrenceType,
+  CallingStepType,
   HospitalListType,
   fixedCallingType,
   ParamedicHistoryType,
@@ -62,9 +63,12 @@ export const occurrenceState = atom<OccurrenceType>({
 });
 
 // 병원 리스트 요청 범위 단계
-export const callingStepState = atom<number>({
+export const callingStepState = atom<CallingStepType>({
   key: 'callingStepState',
-  default: 0,
+  default: {
+    occurrenceId: 0,
+    step: 0,
+  },
   // effects_UNSTABLE: [persistAtom],
 });
 
