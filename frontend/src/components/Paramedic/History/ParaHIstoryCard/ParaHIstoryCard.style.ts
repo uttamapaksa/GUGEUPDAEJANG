@@ -9,13 +9,13 @@ export const SearchList = styled.div`
 `;
 
 export const Item = styled.div`
-  border: 2px solid #D9D9D9;
+  border: 0.2vh solid #D9D9D9;
   position: relative;
   margin-bottom: 1.5vh;
   padding: 2.2% 1.7% 1% 1.7%;
   width: 45%;
   background-color: ${theme.color.white};
-  border-radius: 15px;
+  border-radius: 1.1vh;
 `;
 
 export const ItemRow = styled.div`
@@ -31,6 +31,7 @@ export const ItemCategory = styled.div`
   justify-content: space-between;
   text-align: center;
   color: ${theme.color.fontGrey1};
+  font-size: 1.6vh;
   width: 24%;
   height: 2.3vh;
   `;
@@ -41,6 +42,7 @@ export const ItemContent = styled.div`
   justify-content: space-between;
   overflow-wrap: break-word;
   color: ${theme.color.black};
+  font-size: 1.6vh;
   font-weight: 400;
   width: 70%;
   height: 2.3vh;
@@ -51,6 +53,7 @@ export const ItemContent2 = styled.div`
   display: flex;
   justify-content: space-between;
   color: ${theme.color.black};
+  font-size: 1.6vh;
   font-weight: 400;
   width: 70%;
   /* min-height: 4vh; */

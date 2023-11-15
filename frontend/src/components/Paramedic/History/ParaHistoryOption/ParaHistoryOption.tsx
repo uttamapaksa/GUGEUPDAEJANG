@@ -59,7 +59,7 @@ function ParaHistoryOption({ showCenter }: { showCenter: boolean }) {
         </S.CalenderModalOverlay>
       )}
 
-      <S.OptionTitle>조회기간</S.OptionTitle>
+      <S.OptionTitle>조회 기간</S.OptionTitle>
       <S.OptionTimeBox onClick={() => setShowCalender((prev) => !prev)}>
         <S.CalenderIcon>
           <A.ImgCalenderIcon $height="2.5vh"></A.ImgCalenderIcon>

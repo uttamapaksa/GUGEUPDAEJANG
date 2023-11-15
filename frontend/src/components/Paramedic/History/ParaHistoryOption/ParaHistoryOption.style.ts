@@ -27,6 +27,7 @@ export const OptionTimeBox = styled.div`
   border: 1px solid #B3B3B3;
   border-radius: 5px;
   background-color: ${theme.color.white};
+  font-size: 1.5vh;
 `;
 
 export const CalenderIcon = styled.div`

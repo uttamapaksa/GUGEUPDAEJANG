@@ -1,8 +1,9 @@
-import { useRecoilValue } from 'recoil';
-import { centerHistoriesState, paramedicHistoriesState } from '/src/recoils/ParamedicAtoms';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { centerHistoriesState, historyDetailState, paramedicHistoriesState } from '/src/recoils/ParamedicAtoms';
 import * as S from './ParaHIstoryCard.style';
 import { useEffect, useState } from 'react';
 import { ParamedicHistoryType } from '/src/types/paramedic';
+import ParaHistoryDetail from '../ParaHistoryDetail/ParaHistoryDetail';
 
 interface GroupMapping {
   [key: string]: string;
@@ -26,6 +27,14 @@ function ParaHistoryCard({ showCenter }: { showCenter: boolean }) {
   const paramedicHistories = useRecoilValue(paramedicHistoriesState);
   const centerHistories = useRecoilValue(centerHistoriesState);
   const [histories, setHistories] = useState<ParamedicHistoryType[]>()
+  const [historyDetail, setHistoryDetail] = useRecoilState(historyDetailState)
+  
+  const DetailOpen = (history:ParamedicHistoryType) => {
+    setHistoryDetail(history)
+  }
+  const DetailClose = () => {
+    setHistoryDetail(null)
+  }
 
   useEffect(() => {
     if (showCenter) {setHistories(paramedicHistories)}
@@ -34,75 +43,78 @@ function ParaHistoryCard({ showCenter }: { showCenter: boolean }) {
   
   return (
     <S.SearchList>
+      {historyDetail && <ParaHistoryDetail DetailClose = {DetailClose}/>}
       {histories && histories.map((history,index) => (
-      <S.Item key={index}>
-        <S.ItemRow>
-          {history.completed || <S.Status>이송 취소</S.Status>}
-          <S.ItemCategory>
-            <span>날</span>
-            <span>찌</span>
-          </S.ItemCategory>
-          <S.ItemContent>
-            {history.date}
-          </S.ItemContent>
-        </S.ItemRow>
-        <S.ItemRow>
-          <S.ItemCategory>
-            <span>이</span>
-            <span>송</span>
-            <span>시</span>
-            <span>간</span>
-          </S.ItemCategory>
-          <S.ItemContent>
-            {history.transferStartTime}-
-            {history.transferEndTime}
-          </S.ItemContent>
-        </S.ItemRow>
-        <S.ItemRow>
-          <S.ItemCategory>
-            <span>이</span>
-            <span>송</span>
-            <span>병</span>
-            <span>원</span>
-          </S.ItemCategory>
-          <S.ItemContent2>
-            {history.hospitalName}
-          </S.ItemContent2>
-        </S.ItemRow>
-        <S.ItemRow>
-          <S.ItemCategory>
-            <span>사</span>
-            <span>고</span>
-            <span>주</span>
-            <span>소</span>
-          </S.ItemCategory>
-          <S.ItemContent2>
-            {history.accidentAddress}
-          </S.ItemContent2>
-        </S.ItemRow>
-        <S.ItemRow>
-          <S.ItemCategory>
-            <span>인</span>
-            <span>적</span>
-            <span>사</span>
-            <span>항</span>
-          </S.ItemCategory>
-          <S.ItemContent>
-            {ageGroupMapping[history.ageGroup]} ({genderMapping[history.gender]})
-          </S.ItemContent>
-        </S.ItemRow>
-        <S.ItemRow>
-          <S.ItemCategory>
-            <span>응</span>
-            <span>급</span>
-            <span>분</span>
-            <span>류</span>
-          </S.ItemCategory>
-          <S.ItemContent>
-            {history.ktas}
-          </S.ItemContent>
-        </S.ItemRow>
-      </S.Item>
+        <S.Item 
+          key={index} 
+          onClick={() => DetailOpen(history)}>
+          <S.ItemRow>
+            {history.completed || <S.Status>이송 취소</S.Status>}
+            <S.ItemCategory>
+              <span>날</span>
+              <span>찌</span>
+            </S.ItemCategory>
+            <S.ItemContent>
+              {history.date}
+            </S.ItemContent>
+          </S.ItemRow>
+          <S.ItemRow>
+            <S.ItemCategory>
+              <span>이</span>
+              <span>송</span>
+              <span>시</span>
+              <span>간</span>
+            </S.ItemCategory>
+            <S.ItemContent>
+              {history.transferStartTime}-
+              {history.transferEndTime}
+            </S.ItemContent>
+          </S.ItemRow>
+          <S.ItemRow>
+            <S.ItemCategory>
+              <span>이</span>
+              <span>송</span>
+              <span>병</span>
+              <span>원</span>
+            </S.ItemCategory>
+            <S.ItemContent2>
+              {history.hospitalName}
+            </S.ItemContent2>
+          </S.ItemRow>
+          <S.ItemRow>
+            <S.ItemCategory>
+              <span>사</span>
+              <span>고</span>
+              <span>주</span>
+              <span>소</span>
+            </S.ItemCategory>
+            <S.ItemContent2>
+              {history.accidentAddress}
+            </S.ItemContent2>
+          </S.ItemRow>
+          <S.ItemRow>
+            <S.ItemCategory>
+              <span>인</span>
+              <span>적</span>
+              <span>사</span>
+              <span>항</span>
+            </S.ItemCategory>
+            <S.ItemContent>
+              {ageGroupMapping[history.ageGroup]} ({genderMapping[history.gender]})
+            </S.ItemContent>
+          </S.ItemRow>
+          <S.ItemRow>
+            <S.ItemCategory>
+              <span>응</span>
+              <span>급</span>
+              <span>분</span>
+              <span>류</span>
+            </S.ItemCategory>
+            <S.ItemContent>
+              {history.ktas}
+            </S.ItemContent>
+          </S.ItemRow>
+        </S.Item>
       ))}
     </S.SearchList>
   );
