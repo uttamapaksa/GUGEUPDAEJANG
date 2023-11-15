@@ -176,6 +176,9 @@ function HospitalSocket() {
           };
           console.log(curItme);
           nextList.push(curItme);
+          if(selectedTransferItem !== undefined && selectedTransferItem.id === curItme.id){
+            setSelectedTransferItem(curItme);
+          }
         } else {
           nextList.push(transferList[i]);
         }
@@ -194,9 +197,6 @@ function HospitalSocket() {
   useEffect(() => {
     if(changedTransferItem!==undefined){
       changeTransferList(changedTransferItem);
-      if(selectedTransferItem !== undefined && selectedTransferItem.id === changedTransferItem.id){
-        setSelectedTransferItem(changedTransferItem);
-      }
       setChangedTransferItem(undefined);
     }
   }, [changedTransferItem]);
