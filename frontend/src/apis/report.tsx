@@ -9,26 +9,6 @@ export const getReportHeader = async () => {
       console.log('getReportHeader 실패', error);
     }
   }
-  
-export const getReportTime = async () => {
-  try{
-    const res = await privateApi.get("/report/time");
-    return res.data
-  }
-    catch (error) {
-      console.log('getReportTime 실패', error);
-    }
-  }
-
-export const getReportStatus = async () => {
-  try{
-    const res = await privateApi.get("/report/status");
-    return res.data
-  }
-    catch (error) {
-      console.log('getReportStatus 실패', error);
-    }
-  }
 
 export const getReportAge = async () => {
   try{
@@ -40,13 +20,25 @@ export const getReportAge = async () => {
     }
   }
 
-export const getReportKtas = async () => {
+
+export const getReportStatus = async () => {
   try{
-    const res = await privateApi.get("/report/ktas");
+    const res = await privateApi.get("/report/status");
     return res.data
   }
     catch (error) {
-      console.log('getReportKtas 실패', error);
+      console.log('getReportStatus 실패', error);
+    }
+  }
+
+
+export const getReportTime = async () => {
+  try{
+    const res = await privateApi.get("/report/time");
+    return res.data
+  }
+    catch (error) {
+      console.log('getReportTime 실패', error);
     }
   }
 
@@ -59,3 +51,14 @@ export const getReportResponse = async (info: {year : string}) => {
       console.log('getReportResponse 실패', error);
     }
   }
+
+export const getReportKtas = async () => {
+  try{
+    const res = await privateApi.get("/report/ktas");
+    return res.data
+  }
+    catch (error) {
+      console.log('getReportKtas 실패', error);
+    }
+  }
+  

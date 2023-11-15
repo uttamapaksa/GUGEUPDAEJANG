@@ -10,6 +10,7 @@ import TimeChart from '../../libraries/Chart/TimeChart'
 import { 
   getReportAge, 
   getReportHeader, 
+  getReportKtas, 
   getReportResponse, 
   getReportStatus, 
   getReportTime } from '/src/apis/report'
@@ -17,16 +18,18 @@ import {
 import { 
   AgeType, 
   HeaderType, 
+  KtasType, 
   ResponseType, 
   StatusType, 
   TimeType } from '/src/types/report'
 
 function HospitalReport () {
   const [headerValue, setHeaderValue] = useState<HeaderType>()
-  const [timeValue, setTimeValue] = useState<TimeType>()
-  const [statusValue, setStatusValue] = useState<StatusType>()
   const [ageValue, setAgeValue] = useState<AgeType>()
-  const [response, setResponse] = useState<ResponseType>()
+  const [statusValue, setStatusValue] = useState<StatusType>()
+  const [timeValue, setTimeValue] = useState<TimeType>()
+  const [responseValue, setResponseValue] = useState<ResponseType>()
+  const [ktasValue, setKtasValue] = useState<KtasType>()
   const [selectedYear, setSelectedYear] = useState<string>("2023");
 
   
@@ -66,14 +69,24 @@ function HospitalReport () {
       console.log(err)
     }
   }
-
+  
   const axiosResponse = async (): Promise<void> => {
     const info : {year : string} = {
       year: selectedYear
     }
     try {
       const res = await getReportResponse(info)
-      setResponse(res)
+      setResponseValue(res)
+    } catch(err){
+      console.log(err)
+    }
+  }
+
+  const axiosReportKtas = async (): Promise<void> => {
+    try {
+      const res = await getReportKtas()
+      console.log(res)
+      setKtasValue(res)
     } catch(err){
       console.log(err)
     }
@@ -84,12 +97,13 @@ function HospitalReport () {
     axiosReportTime()
     axiosReportStatus()
     axiosReportAge()
+    axiosReportKtas()
   },[])
 
   useEffect(()=>{
     axiosResponse()
   },[selectedYear])
-  
+
   return (
     <S.Container>
       <S.Wrapper>
@@ -108,14 +122,14 @@ function HospitalReport () {
           </S.Content1>
           <S.Content2>
             <A.DivReport $width='49.2%'>
-              {response && 
+              {responseValue && 
                 <AgreeChart
                   selectedYear={selectedYear}
                   setSelectedYear={setSelectedYear} 
-                  response={response}/>}
+                  responseValue={responseValue}/>}
             </A.DivReport>
             <A.DivReport $width='49.2%'>
-              <KtasChart/>
+              {ktasValue && <KtasChart ktasValue={ktasValue}/>}
             </A.DivReport>
           </S.Content2>
           

@@ -46,10 +46,10 @@ const Chart = styled.div`
   width: 100%;
 `;
 
-const AgreeChart:React.FC<AgreeChartProps> = ({ selectedYear, setSelectedYear, response }) => {
+const AgreeChart:React.FC<AgreeChartProps> = ({ selectedYear, setSelectedYear, responseValue}) => {
   const chartRef = useRef(null);
 
-  const requestData: AgreeRequestData = response
+  const requestData: AgreeRequestData = responseValue
 
   useEffect(() => {
     const acceptanceRates = requestData.approved.map((approved, index) => {
@@ -176,7 +176,7 @@ const AgreeChart:React.FC<AgreeChartProps> = ({ selectedYear, setSelectedYear, r
     return () => {
       chart.destroy();
     };
-  }, [selectedYear, response]);
+  }, [selectedYear, responseValue]);
 
   const handleYearChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedYear(event.target.value);

@@ -1,6 +1,7 @@
 import ApexCharts from 'apexcharts';
 import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
+import { KtasType } from '/src/types/report';
 
 const Container = styled.div`
   /* border: 1px solid red; */
@@ -32,17 +33,31 @@ const Chart = styled.div`
   width: 100%;
 `;
 
-const KtasChart = () => {
+const KtasChart = ({ktasValue}:{ktasValue?: KtasType}) => {
   const chartRef = useRef(null);
   const currentDate = new Date();
 
   const requestData = {
-    'KTAS1' : [42, 55, 41, 67, 22, 43, 44], 
-    'KTAS2' : [60, 55, 41, 67, 22, 43, 44], 
-    'KTAS3' : [44, 55, 41, 67, 22, 43, 44], 
-    'KTAS4' : [44, 55, 41, 67, 22, 43, 44], 
-    'KTAS5' : [44, 55, 41, 67, 22, 43, 44], 
+    'KTAS1' : ktasValue?.ktas1, 
+    'KTAS2' : ktasValue?.ktas2, 
+    'KTAS3' : ktasValue?.ktas3, 
+    'KTAS4' : ktasValue?.ktas4, 
+    'KTAS5' : ktasValue?.ktas5, 
   };
+
+  const calculateMaxData = () => {
+    const sums = [];
+    for (let i = 0; i < (requestData['KTAS1']?.length || 0); i++) {
+      let sum = 0;
+      for (const key in requestData) {
+        sum += requestData[key][i] || 0;
+      }
+      sums.push(sum);
+    }
+    return Math.ceil(Math.max(...sums)/100) * 100;
+  };
+
+  const MaxData = calculateMaxData();
 
   const dates = [];
 
@@ -99,8 +114,8 @@ const KtasChart = () => {
       // y축
       yaxis: {
         min: 0,
-        max: 400,
-        tickAmount: 4,
+        max: MaxData,
+        tickAmount: 5,
       },
 
       plotOptions: {
