@@ -38,7 +38,7 @@ function ParamedicMap() {
           type: 'paraRequest',
           pos: { lat: updatedPosition.lat, lon: updatedPosition.lon },
           hosList: hosList ? hosList : undefined,
-          occurData: {pos: {lat: occurrence.latitude, lon: occurrence.longitude}, radius: 5000 * callingStep}
+          occurData: {pos: {lat: occurrence.latitude, lon: occurrence.longitude}, radius: 5000 * callingStep.step}
         };
         console.log('paraRequest', newProps);
         setparamedicMapProps(newProps);
