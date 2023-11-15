@@ -18,7 +18,7 @@ const HospitalMap = () => {
 
   useEffect(() => {
     console.log("ㄴnewProps: MapPropsㄱ")
-    if(hospitalInfo.latitude != 0 && hospitalInfo.longitude != 0){
+    if(hospitalInfo!==undefined && hospitalInfo.latitude !== undefined && hospitalInfo.longitude !== undefined && hospitalInfo.latitude !== 0){
       if(isRequest){
         const newProps: MapProps = {
           type: "request",

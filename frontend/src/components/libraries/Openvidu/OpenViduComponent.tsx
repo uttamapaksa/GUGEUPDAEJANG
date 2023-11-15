@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { OpenVidu } from "openvidu-browser";
-import { postMeetConnect } from "/src/apis/openvidu";
+import { deleteMeetConnect, postMeetConnect } from "/src/apis/openvidu";
 import UserVideoComponent from "./UserVideoComponent";
 import { Container, Main, Session, Sub } from "./UserVideoComponent.style";
 
@@ -8,8 +8,8 @@ import { Container, Main, Session, Sub } from "./UserVideoComponent.style";
 const OpenViduComponent = (props: any) => {
 
   const [, setOV] = useState<OpenVidu>();
-  const [, setMySessionId] = useState("SessionA");
-  const [, setMyUserName] = useState(`OpenVidu_User_${Math.floor(Math.random() * 100)}`);
+  // const [, setMySessionId] = useState("SessionA");
+  // const [, setMyUserName] = useState(`OpenVidu_User_${Math.floor(Math.random() * 100)}`);
   const [session, setSession] = useState<any>(undefined);
 
   const [publisher, setPublisher] = useState<any>(undefined);
@@ -80,7 +80,7 @@ const OpenViduComponent = (props: any) => {
     }
   };
 
-  const leaveSession = () => {
+  const leaveSession = async () => {
     // --- 7) Leave the session by calling 'disconnect' method over the Session object ---
     if (session) {
       session.disconnect();
@@ -88,14 +88,16 @@ const OpenViduComponent = (props: any) => {
     setOV(undefined);
     setSession(undefined);
     setSubscribers([]);
-    setMySessionId("SessionA");
-    setMyUserName("Participant" + Math.floor(Math.random() * 100));
+    // setMySessionId("SessionA");
+    // setMyUserName("Participant" + Math.floor(Math.random() * 100));
     setPublisher(undefined);
     props.setModalOff();
+    await deleteMeetConnect(props.transferId);
   };
 
   const deleteSubscriber = (streamManager: any) => {
     setSubscribers((prevSubscribers) => prevSubscribers.filter((sub) => sub !== streamManager));
+    alert("연결종료")
   };
 
   const getToken = async () => {

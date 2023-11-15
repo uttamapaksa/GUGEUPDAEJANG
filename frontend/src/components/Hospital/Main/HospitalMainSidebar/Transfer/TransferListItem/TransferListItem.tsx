@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { TransferListItemContainer, TransferListItemContent, ItemRequestAt, ItemParaType, ItemParaTagGroup } from "./TransferListItem.style";
+import { TransferListItemContainer, TransferListItemContent, ItemRequestAt, ItemParaType, ItemParaTagGroup, VideoOn } from "./TransferListItem.style";
 import A from "/src/components/Commons/Atoms";
 import theme from "/src/styles";
 import { hospitalParmedicTransferList, hospitalSelectedTransferItem } from "/src/recoils/HospitalAtoms";
@@ -17,7 +17,7 @@ const TransferListItem = (props: any) => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    console.log(props.data, transferList)
+    console.log(props, transferList)
     if (props.isSelected) setScrollMoved(true);
     else setScrollMoved(false);
   }, [props.data])
@@ -31,10 +31,11 @@ const TransferListItem = (props: any) => {
     }
   };
 
-  const clickButton = () => {
-    if(transferList!=undefined){
+  const clickButton = (e:React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+    if (transferList != undefined) {
       console.log("clickButton", transferList)
-      let nextTransferList = transferList.filter((item:HospitalTransferItem) => item.id!=props.id);
+      let nextTransferList = transferList.filter((item: HospitalTransferItem) => item.id != props.id);
       setTransferList(nextTransferList);
     }
     if (selectedParaItem !== undefined && selectedParaItem.id == props.id) {
@@ -58,11 +59,11 @@ const TransferListItem = (props: any) => {
         </A.DivKtasInfo>
         <ItemRequestAt>{timeToString(props.data.createdAt)}</ItemRequestAt>
         <DetailItemBetween>
-            <ItemParaType>
-              {AGEGROUP[props.data.ageGroup]} ({GENDER[props.data.gender]})
-            </ItemParaType>
-            <ItemElapseMin>요청 이후 {turmToString(props.data.createdAt)}분 경과</ItemElapseMin>
-          </DetailItemBetween>
+          <ItemParaType>
+            {AGEGROUP[props.data.ageGroup]} ({GENDER[props.data.gender]})
+          </ItemParaType>
+          <ItemElapseMin>요청 이후 {turmToString(props.data.createdAt)}분 경과</ItemElapseMin>
+        </DetailItemBetween>
         <ItemParaTagGroup>
           {props.data.tags.map((item: string, index: number) => (
             <A.DivTag
@@ -77,6 +78,15 @@ const TransferListItem = (props: any) => {
             >{item}</A.DivTag>
           ))}
         </ItemParaTagGroup>
+
+        {/* <VideoOn>
+          화상통화 연결 됨
+        </VideoOn> */}
+        {props.videoOn &&
+        <VideoOn>
+          화상통화 연결 됨
+        </VideoOn>}
+
         {props.state == "transfer" ?
           <A.DivTag
             $width="100%"
@@ -91,7 +101,7 @@ const TransferListItem = (props: any) => {
             $boxShadow=""
           >
             {/* {props.leftTime}분 이내 도착 예정 */}
-             도착 예정 시간 : {expectedTime(props.data.createdAt, props.data.duration)}
+            도착 예정 시간 : {expectedTime(props.data.createdAt, props.data.duration)}
           </A.DivTag> : <></>}
         {props.state == "wait" ?
           <A.DivTag
@@ -120,7 +130,7 @@ const TransferListItem = (props: any) => {
             $fontSize={theme.font.Small1_16}
             $backgroundColor={theme.color.ktas4_Active}
             $boxShadow="0"
-            onClick={clickButton}
+            onClick={(e:any)=>clickButton}
           >
             완료됨
           </A.DivTag> : <></>}

@@ -88,7 +88,17 @@ export const CloseDiv = styled.div`
   cursor: pointer;
   `;
 
-export const ModalContainer = styled.div`
+export const ModalWrapper = styled.div`
+  background: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 11000;
+`;
+
+export const ModalContent = styled.div`
   /* pointer-events: none; */
   position: fixed;
   left: 50%;
@@ -103,7 +113,6 @@ export const ModalContainer = styled.div`
   background-color: ${theme.color.grayLight};
   border-radius: 10px;
   box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
-  z-index: 11000;
 `;
 
 export const FilesSection = styled.div`
