@@ -20,7 +20,7 @@ import {
   recordVideoFile, 
   recordVoiceFile } from '/src/recoils/ParamedicAtoms';
 import CameraModal from '../../../components/Paramedic/Call/CameraModal/CameraModal';
-import { postSTT, postVoiceUpload } from '/src/apis/paramedic';
+import { postCameraUpload, postSTT, postVoiceUpload } from '/src/apis/paramedic';
 
 function Call() {
   const [recording, setRecording] = useState<boolean>(false);
@@ -30,9 +30,11 @@ function Call() {
   const setRecordContent = useSetRecoilState(recordContentFile);
   const setRecordVoice = useSetRecoilState(recordVoiceFile);
 
+  const setRecordVideo = useSetRecoilState(recordVideoFile);
   const recordVideo = useRecoilValue(recordVideoFile);
   const recordImage = useRecoilValue(recordImageFile);
   const recordVoice = useRecoilValue(recordVoiceFile);
+
 
   // 녹음 라이브러리
   const {
@@ -132,6 +134,42 @@ function Call() {
     return clearTimer;
   }, [recording, cameraing]);
 
+
+  // 태스트
+  // 사진 or 동영상 촬영
+  const handleCapture = (event: React.ChangeEvent<HTMLInputElement>) => {
+    CameraClose?.()
+    const file = event.target.files? Array.from(event.target.files):[]
+    const type = file[0].type.split('/')[0]
+    if (type === "video") { axiosVideoUpload(file) }
+  };
+
+  // 동영상파일 업로드
+  const axiosVideoUpload = async (file:File[]):Promise<void> => {
+    console.log("여기요",file)
+    try {
+      const response = await postCameraUpload(file)
+      setRecordVideo(response)
+      axiosVideoSTT(file)
+    }
+    catch(error) {
+      console.log(error)
+    }
+  } 
+  // 동영상 파일 STT
+  const axiosVideoSTT = async (file:File[]): Promise<void> => {
+    try {
+      const data = new FormData();
+      data.append('file', file[0]);
+      setRecordContent("음성을 텍스트로 반환하고 있습니다...")
+      const response = await postSTT(data)
+      setRecordContent(response.text)
+    }
+    catch(error) {
+      console.log(error)
+    }
+  }
+
   return (
     <S.Container>
       <M.ParamedicHeader title={'환자 등록'}/>
@@ -159,7 +197,8 @@ function Call() {
           type="file"
           id="videoInput"
           accept="video/*"
-          capture="environment">
+          capture="environment"
+          onChange={handleCapture}>
         </input>
 
         <div>
