@@ -161,10 +161,15 @@ function Call() {
             }}
           ></audio>
         )}
-        <img src={recordImage?.filePath}/>
+        <img 
+          src={recordImage?.filePath}
+          style={{
+            width: '100px',
+            height: '100px',
+          }}/>
         {
           recordVideo?.filePath ? (
-            <video width="400" height="240" autoPlay controls>
+            <video width="100" height="100" autoPlay controls>
               <source src={recordVideo.filePath} type="video/mp4" />
             </video>
           ) : null
