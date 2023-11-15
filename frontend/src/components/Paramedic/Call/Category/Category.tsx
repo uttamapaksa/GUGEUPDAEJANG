@@ -53,11 +53,14 @@ function Category() {
     }
     const data = { tagName: newOption };
     addTag(data).then((newTagData: any) => {
+      console.log("newTagData",newTagData)
       if (newTagData) {
         setOptions((prev) => [...prev, newTagData.tag]);
         setNewOption('');
+        selectOption(newTagData.tag)
       }
     });
+    
   };
 
   const deleteOption = (tagId: number) => {
@@ -70,6 +73,7 @@ function Category() {
   };
 
   const selectOption = (option: TagType) => {
+    console.log("option",option)
     if (selected.some((tag) => tag.id === option.id)) {
       setOccurence((prev) => ({ ...prev, tags: selected.filter((tag) => tag.id !== option.id) }));
     } else {

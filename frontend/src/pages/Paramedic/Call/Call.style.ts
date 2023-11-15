@@ -2,23 +2,25 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   /* border: 3px solid black; */
+  position: relative;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 `;
 
 export const ContentBox = styled.div`
   /* border: 3px solid orange; */
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   align-items: center;
   width: 100%;
-  height: 100%;
+  overflow-y: scroll;
+  margin: 7vh 0 0 0;
 `;
 
 export const Blank = styled.div`
   /* border: 3px solid green; */
-  display: flex;
   width: 100%;
   height: 5vh;
 `;

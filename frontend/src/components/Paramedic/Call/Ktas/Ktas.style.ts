@@ -12,7 +12,7 @@ export const BtnKtas = styled.div`
   /* border: 3px solid purple; */
   display: flex;
   width: 90%;
-  height: 50%;
+  height: 7vh;
   border-radius: 1vh;
   box-shadow: 0 0vh 0.6vh 0.4vh rgba(0, 0, 0, 0.1);
   overflow: hidden;

@@ -8,11 +8,12 @@ function Geolocation() {
   const geolocation = useGeolocation({
     enableHighAccuracy: true,
     timeout: 3000,
-    maximumAge: 2000,
+    maximumAge: 1000,
   });
 
   const setCurrentPos = () => {
     if (geolocation !== undefined) {
+      console.log("내 위치",geolocation)
       setCurPos({ lat: geolocation.latitude, lon: geolocation.longitude });
     }
   };
