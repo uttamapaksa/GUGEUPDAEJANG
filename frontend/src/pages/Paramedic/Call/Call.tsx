@@ -37,6 +37,7 @@ function Call() {
   const recordVoice = useRecoilValue(recordVoiceFile);
 
   const [before, setBefore] = useState<string>();
+  const [add, setAdd] = useState<string>();
 
 
   // 녹음 라이브러리
@@ -151,6 +152,8 @@ function Call() {
 
   // 동영상파일 업로드
   const axiosVideoUpload = async (file:File[]):Promise<void> => {
+    setAdd(file[0].name)
+
     try {
       const response = await postCameraUpload(file)
       setRecordVideo(response)
@@ -206,6 +209,7 @@ function Call() {
         </input>
 
         <div>handleCapture에 가긴 해???{before}</div>
+        <div>axiosVideoUpload에 가긴 해???{add}</div>
 
         <div>
           비디오 파일명<br></br>
