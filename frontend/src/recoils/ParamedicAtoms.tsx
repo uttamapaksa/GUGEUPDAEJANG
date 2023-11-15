@@ -131,14 +131,18 @@ export const centerHistoriesState = atom<ParamedicHistoryType[]>({
   default: undefined,
 });
 
+const today = new Date();
+const thirtyDaysAgo = new Date(today);
+thirtyDaysAgo.setDate(today.getDate() - 30);
+
 // 구급대원 이송 기록 시작 시간
 export const startTimeState = atom<any>({
   key: 'startTimeState',
-  default: null,
+  default: thirtyDaysAgo,
 });
 
 // 구급대원 이송 기록 종료 시간
 export const endTimeState = atom<any>({
   key: 'endTimeState',
-  default: null,
+  default: today,
 });

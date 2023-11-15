@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { paramedicHistoriesState, startTimeState, endTimeState, centerHistoriesState } from '/src/recoils/ParamedicAtoms';
 import { getParamedicHistories } from '/src/apis/paramedic';
 import * as S from './ParaHistoryOption.style';
@@ -7,23 +7,15 @@ import ParamedicCalender from '../../../libraries/Calender/ParamedicCalender';
 import A from '/src/components/Commons/Atoms';
 
 function ParaHistoryOption({ showCenter }: { showCenter: boolean }) {
-  const [startTime, setStartTime] = useRecoilState(startTimeState);
-  const [endTime, setEndTime] = useRecoilState(endTimeState);
+  const startTime = useRecoilValue(startTimeState);
+  const endTime = useRecoilValue(endTimeState);
+  const [stop, setStop] = useState<number>(0)
   
   useEffect(() => {
-    const today = new Date();
-    const thirtyDaysAgo = new Date(today);
-    thirtyDaysAgo.setDate(today.getDate() - 30);
-    
-    // Date Object
-    setStartTime(thirtyDaysAgo) 
-    setEndTime(today)
-  }, [])
+    if (stop <= 1) {readHistories()}
+    setStop(stop + 1)
+  }, [showCenter])
 
-  // useEffect(() => {
-  //   readHistories()
-  // },[startTime])
-  
   // IOSString
   const formattedDate = (selcetedDate: string) => {
     const dateObj = new Date(selcetedDate);
