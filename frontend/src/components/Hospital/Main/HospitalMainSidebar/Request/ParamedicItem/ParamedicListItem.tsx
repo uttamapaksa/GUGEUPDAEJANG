@@ -20,6 +20,7 @@ import { AGEGROUP, GENDER } from "/src/constants/variable";
 import { timeToString, turmToString } from "/src/constants/function";
 import { putHospitalResponse } from "/src/apis/hospital";
 import { DetailItemBetween, ItemElapseMin } from "../ParamedicDetail/ParamedicDetail.style";
+import Swal from "sweetalert2";
 
 const ParamedicListItem = (props: any) => {
   // const setCurResponse = useSetRecoilState(hospitalResponse); //http post로 수정 예정
@@ -40,7 +41,6 @@ const ParamedicListItem = (props: any) => {
     if (scrollMoved) moveScroll();
   }, [scrollMoved]);
   const moveScroll = () => {
-    console.log(scrollRef);
     if (scrollRef.current != null) {
       scrollRef.current.scrollIntoView({ behavior: "smooth" });
     }
@@ -77,10 +77,21 @@ const ParamedicListItem = (props: any) => {
   const clickButton = async (res: boolean) => {
     const response = await checkFull(res);
     if (response === undefined) {
-      alert("HospitalResponse 실패");
+      // alert("HospitalResponse 실패");
+      Swal.fire(
+        "병원 응답 실패",
+        "HospitalResponse is undefined",
+        "error"
+      );
       return;
     } else if (response.data.isFull) {
-      alert("HospitalResponse isFull");
+      console.log(response);
+      // alert("HospitalResponse isFull");
+      Swal.fire(
+        "병원 잔여 병상 없음",
+        "HospitalResponse isFull",
+        "error"
+      );
       setRequestList([]);
       return;
     } else if (requestList !== undefined) {
