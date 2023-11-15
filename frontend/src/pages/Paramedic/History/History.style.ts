@@ -22,7 +22,7 @@ export const Arrow = styled.div`
 
 export const HistoryCategory = styled.div`
   /* border: 1px solid green; */
-  padding: 0 4vh 0 2vh;
+  padding: 0 3vh;
   display: flex;
   align-items: center;
   width: calc(100% - 6vh);
@@ -36,7 +36,7 @@ export const TxtHeaderTitle = styled.div<{ showcenter: number }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 2.5vh;
+  font-size: 2.1vh;
   font-weight: 500;
   width: 18%;
   height: 100%;
@@ -50,7 +50,7 @@ export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1.5vh 0 0 0 ;
+  padding: 1.7vh 0 0 0 ;
   width: auto;
   height: auto;
   background-color: #F5F5F5;
@@ -59,7 +59,7 @@ export const Wrapper = styled.div`
 export const ContentBox = styled.div`
   /* border: 1px solid green; */
   margin: 3% auto;
-  width: 94%;
+  width: 88%;
   height: 75vh;
   overflow-y: scroll;
 `;

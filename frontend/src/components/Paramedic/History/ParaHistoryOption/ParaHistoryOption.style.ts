@@ -8,7 +8,7 @@ export const Option = styled.div`
   justify-content: space-between;
   align-items: center;
   height: 7vh;
-  width: 94%;
+  width: 88%;
 `;
 
 export const OptionTitle = styled.div`

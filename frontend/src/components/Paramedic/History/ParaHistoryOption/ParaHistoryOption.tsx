@@ -19,6 +19,10 @@ function ParaHistoryOption({ showCenter }: { showCenter: boolean }) {
     setStartTime(thirtyDaysAgo) 
     setEndTime(today)
   }, [])
+
+  // useEffect(() => {
+  //   readHistories()
+  // },[startTime])
   
   // IOSString
   const formattedDate = (selcetedDate: string) => {
