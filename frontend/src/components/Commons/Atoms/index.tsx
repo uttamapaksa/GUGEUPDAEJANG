@@ -1,14 +1,16 @@
-import { 
-  BtnSubmit, 
-  BtnParaState, 
+import {
+  BtnSubmit,
+  BtnParaState,
   BtnKtas,
-  BtnToggle, 
-  BtnMediaRecord } from './Button';
+  BtnToggle,
+  BtnMediaRecord
+} from './Button';
 
 import {
   DivKtasInfo,
   DivTag,
-  DivReport} from './Div'
+  DivReport
+} from './Div'
 
 import {
   ImgLogoHospital,
@@ -51,14 +53,18 @@ import {
   ImgExitBlack,
   ImgExitGray,
   ImgSearchGray,
-  ImgCheckPassword,} from './Image'
+  ImgCheckPassword,
+  ImgPhoneCallEnd,
+} from './Image'
 
 import {
-  IptUserInfo,}from './Input'
+  IptUserInfo,
+} from './Input'
 
-import{
+import {
   TxtParamedicTitle,
-  TxtHeaderTitle,}from './Text'
+  TxtHeaderTitle,
+} from './Text'
 
 const A = {
   BtnSubmit,
@@ -70,7 +76,7 @@ const A = {
   DivKtasInfo,
   DivTag,
   DivReport,
-  
+
   ImgLogoHospital,
   ImgMapMarkerHospital,
   ImgMapMarkerAmbulance,
@@ -112,6 +118,7 @@ const A = {
   ImgExitGray,
   ImgSearchGray,
   ImgCheckPassword,
+  ImgPhoneCallEnd,
 
   IptUserInfo,
 

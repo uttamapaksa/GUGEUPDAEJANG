@@ -61,30 +61,30 @@ const ParamedicDetail = (props: any) => {
   };
 
   useEffect(() => {
-    if (props.files) { checkFiles(props.files) }
-  }, [props.files]);
+    if (selectedParaItem !== undefined && selectedParaItem.files) { checkFiles(selectedParaItem.files) }
+  }, [selectedParaItem]);
 
   const checkFull = async (res: boolean) => {
-    if (!res) {
+    if (!res && selectedParaItem) {
       let inputReason = prompt("사유를 입력하세요", "");
       if (inputReason != null) {
         const postProps: HospitalResponsePostProps = {
-          callingId: props.id,
+          callingId: selectedParaItem.id,
           status: "REJECTED",
           reason: inputReason,
         };
         return await putHospitalResponse(postProps);
       } else {
         const postProps: HospitalResponsePostProps = {
-          callingId: props.id,
+          callingId: selectedParaItem.id,
           status: "REJECTED",
           reason: "사유 없음",
         };
         return await putHospitalResponse(postProps);
       }
-    } else {
+    } else if(selectedParaItem) {
       const postProps: HospitalResponsePostProps = {
-        callingId: props.id,
+        callingId: selectedParaItem.id,
         status: "APPROVED",
         reason: "",
       };
@@ -102,12 +102,12 @@ const ParamedicDetail = (props: any) => {
       alert("HospitalResponse isFull");
       setRequestList([]);
       return;
-    } else if (requestList !== undefined) {
+    } else if (requestList !== undefined && selectedParaItem) {
       if (res) {
         const newTransferItem: HospitalTransferItem = {
-          id: props.id,
+          id: selectedParaItem.id,
           state: "wait",
-          data: props,
+          data: selectedParaItem,
         };
         if (transferList !== undefined) {
           setTransferList([...transferList, newTransferItem]);
@@ -116,16 +116,16 @@ const ParamedicDetail = (props: any) => {
         }
       }
 
-      let nextRequestList = requestList.filter((item: ParaRequestItem) => item.id != props.id);
+      let nextRequestList = requestList.filter((item: ParaRequestItem) => item.id != selectedParaItem.id);
       setRequestList(nextRequestList);
 
-      if (selectedParaItem !== undefined && selectedParaItem.id == props.id) {
+      if (selectedParaItem !== undefined && selectedParaItem.id == selectedParaItem.id) {
         setSelectedParaItem(undefined);
       }
     }
   };
 
-  return (
+  return selectedParaItem && (
     <ParamedicDetailContainer>
       <ParamedicDetailContent>
         <DetailItemContainer>
@@ -133,24 +133,24 @@ const ParamedicDetail = (props: any) => {
             $position="absolute"
             $right="0%"
             $top="0%"
-            $ktas={props.ktas.toLowerCase()}
+            $ktas={selectedParaItem.ktas.toLowerCase() as "ktas1" | "ktas2" | "ktas3" | "ktas4" | "ktas5" | undefined}
             $width="50px"
             $height="25px"
             $borderRadius="0px 0px 0px 10px"
             $fontSize={theme.font.Small5_12}
           >
-            {props.ktas}
+            {selectedParaItem.ktas}
           </A.DivKtasInfo>
-          <ItemRequestAt>{timeToString(props.createdAt)}</ItemRequestAt>
+          <ItemRequestAt>{timeToString(selectedParaItem.createdAt)}</ItemRequestAt>
           <DetailItemBetween>
             <ItemParaType>
-              {AGEGROUP[props.ageGroup]} ({GENDER[props.gender]})
+              {AGEGROUP[selectedParaItem.ageGroup]} ({GENDER[selectedParaItem.gender]})
             </ItemParaType>
-            <ItemElapseMin>요청 대기 {turmToString(props.createdAt)}분 경과</ItemElapseMin>
+            <ItemElapseMin>요청 대기 {turmToString(selectedParaItem.createdAt)}분 경과</ItemElapseMin>
           </DetailItemBetween>
 
           <div style={{ width: "90%", margin: "0 auto" }}>
-            {props.tags.map((item: string, index: number) => (
+            {selectedParaItem.tags.map((item: string, index: number) => (
               <A.DivTag
                 key={index}
                 $margin="2px 5px 10px 2px"
@@ -181,11 +181,11 @@ const ParamedicDetail = (props: any) => {
               ) : ( <Audio controls></Audio> )}
           </FilesSection>
 
-          <ItemAddr>{props.description}</ItemAddr>
-          <ItemAddr>{props.address}</ItemAddr>
+          <ItemAddr>{selectedParaItem.description}</ItemAddr>
+          <ItemAddr>{selectedParaItem.address}</ItemAddr>
           <DetailItemBetween>
-            <ItemElapseMin>{props.distance} km</ItemElapseMin>
-            <ItemLeftTime>{props.duration}분 이내 도착 가능</ItemLeftTime>
+            <ItemElapseMin>{selectedParaItem.distance} km</ItemElapseMin>
+            <ItemLeftTime>{selectedParaItem.duration}분 이내 도착 가능</ItemLeftTime>
           </DetailItemBetween>
 
           <A.BtnToggle

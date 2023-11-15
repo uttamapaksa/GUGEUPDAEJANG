@@ -146,22 +146,22 @@ const TransferDetail = (props: any) => {
             )}
           </FilesSection>
 
-          {selectedParaItem.videoOn && 
-          <A.BtnMediaRecord
-            $width="90%"
-            $height="40PX"
-            $color={theme.color.pinkLight}
-            $border={`0.3vh solid ${theme.color.pinkLight}`}
-            $borderRadius="1.8vh"
-            $boxShadow="0 0 1vh 0.4vh rgba(0, 0, 0, 0.10)"
-            $fontSize="2.2vh"
-            $justifyContent="center"
-            $margin="0 auto"
-            onClick={() => setVideoOpen(true)}
-          >
-            <A.ImgRecordCameraPink $width="3.2vh" $margin="10px" />
-            화상 통화 보기
-          </A.BtnMediaRecord>}
+          {selectedParaItem.videoOn &&
+            <A.BtnMediaRecord
+              $width="90%"
+              $height="40PX"
+              $color={theme.color.pinkLight}
+              $border={`0.3vh solid ${theme.color.pinkLight}`}
+              $borderRadius="1.8vh"
+              $boxShadow="0 0 1vh 0.4vh rgba(0, 0, 0, 0.10)"
+              $fontSize="2.2vh"
+              $justifyContent="center"
+              $margin="0 auto"
+              onClick={() => setVideoOpen(true)}
+            >
+              <A.ImgRecordCameraPink $width="3.2vh" $margin="10px" />
+              화상 통화 보기
+            </A.BtnMediaRecord>}
 
 
           <ItemAddr>{selectedParaItem.data.description}</ItemAddr>
@@ -250,7 +250,14 @@ const TransferDetail = (props: any) => {
       </TransferDetailContent>
       <CloseDiv onClick={props.onclick}>&lt;</CloseDiv>
       {videoOpen && selectedParaItem !== undefined && selectedParaItem.transferId !== undefined ? (
-        <VideoModal transferId={selectedParaItem.transferId} closeModal={closeModal}></VideoModal>
+        <VideoModal
+          position={"absolute"}
+          top={"0"}
+          right={"-50vw"}
+          width={"50vw"}
+          height={"100%"}
+          transferId={selectedParaItem.transferId}
+          closeModal={closeModal}></VideoModal>
       ) : (
         <></>
       )}

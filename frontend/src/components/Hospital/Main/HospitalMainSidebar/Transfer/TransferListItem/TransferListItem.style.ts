@@ -13,7 +13,7 @@ export const TransferListItemContainer = styled.div`
   align-items: center;
 `;
 
-export const TransferListItemContent = styled.div<{$isSelected:boolean}>`
+export const TransferListItemContent = styled.div<{ $isSelected: boolean }>`
   width: 90%;
   height: 94%;
   margin: 3% 5%;
@@ -59,7 +59,7 @@ export const ItemParaInfo = styled.div`
 
 export const ItemParaTagGroup = styled.div`
   width: 96%;
-  height:  fit-content;
+  height: fit-content;
   padding: 4px 2%;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -69,3 +69,18 @@ export const ItemParaTagGroup = styled.div`
   overflow: hidden;
 `;
 
+export const ItemBottomDiv = styled.div<{ $color: string; $backgroundColor: string }>`
+  width: 100%;
+  height: 15%;
+  position: absolute;
+  left: 0%;
+  bottom: 0%;
+  color:${(props) => (props.$color)};
+  border-radius: 0px;
+  font-size: ${theme.font.Small1_16};
+  background-color:${(props) => (props.$backgroundColor)};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0;
+`;

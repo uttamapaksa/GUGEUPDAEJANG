@@ -3,11 +3,12 @@ import { OpenVidu } from "openvidu-browser";
 import { deleteMeetConnect, postMeetConnect } from "/src/apis/openvidu";
 import UserVideoComponent from "./UserVideoComponent";
 import { Container, Main, Session, Sub } from "./UserVideoComponent.style";
+import Swal from "sweetalert2";
 
 
 const OpenViduComponent = (props: any) => {
 
-  const [, setOV] = useState<OpenVidu>();
+  const [ov, setOV] = useState<OpenVidu>();
   // const [, setMySessionId] = useState("SessionA");
   // const [, setMyUserName] = useState(`OpenVidu_User_${Math.floor(Math.random() * 100)}`);
   const [session, setSession] = useState<any>(undefined);
@@ -37,7 +38,7 @@ const OpenViduComponent = (props: any) => {
 
     mySession.on("streamDestroyed", (event) => {
       event.preventDefault();
-      deleteSubscriber(event.stream.streamManager);
+      leaveSession();
     });
 
     mySession.on("exception", (exception) => {
@@ -91,14 +92,29 @@ const OpenViduComponent = (props: any) => {
     // setMySessionId("SessionA");
     // setMyUserName("Participant" + Math.floor(Math.random() * 100));
     setPublisher(undefined);
-    props.setModalOff();
+    Swal.fire(
+      "연결종료.",
+      "",
+      "success"
+      // '확인',
+    );
+    // props.setModalOff();
     await deleteMeetConnect(props.transferId);
   };
 
-  const deleteSubscriber = (streamManager: any) => {
-    setSubscribers((prevSubscribers) => prevSubscribers.filter((sub) => sub !== streamManager));
-    alert("연결종료")
-  };
+  // const deleteSubscriber = (streamManager: any) => {
+  //   setSubscribers((prevSubscribers) => prevSubscribers.filter((sub) => sub !== streamManager));
+    
+  //   // alert("연결종료");
+  //   Swal.fire(
+  //     "연결종료.",
+  //     "",
+  //     "success"
+  //     // '확인',
+  //   );
+
+  //   props.setModalOff();
+  // };
 
   const getToken = async () => {
     const response = await postMeetConnect(props.transferId);
@@ -125,9 +141,19 @@ const OpenViduComponent = (props: any) => {
 
   useEffect(() => {
     if (props.videoOff) {
-      leaveSession();
+      // leaveSession();
+      props.setModalOff();
     }
   }, [props]);
+  // useEffect(() => {
+  //   console.log(ov)
+  // }, [ov]);
+  useEffect(() => {
+    if (ov && !publisher && subscribers.length == 0) {
+      // leaveSession();
+      props.setModalOff();
+    }
+  }, [publisher, subscribers]);
 
   return (
     <Container>
@@ -138,18 +164,14 @@ const OpenViduComponent = (props: any) => {
               <>
                 <Main>
                   {subscribers.map((sub, i) => (
-                    <UserVideoComponent key={i} streamManager={sub}>
-                      subscribers
-                    </UserVideoComponent>
+                    <UserVideoComponent key={i} streamManager={sub}></UserVideoComponent>
                   ))}
-                  {subscribers.length == 0 ? <>nonsubscribe</> : <></>}
+                  {subscribers.length == 0 ? <>응답대기중</> : <></>}
                   <Sub>
                     {publisher !== undefined ? (
-                      <UserVideoComponent id="publisher" streamManager={publisher}>
-                        publisher
-                      </UserVideoComponent>
+                      <UserVideoComponent id="publisher" streamManager={publisher}></UserVideoComponent>
                     ) : (
-                      <>nonpublisher</>
+                      <></>
                     )}
                   </Sub>
                 </Main>
@@ -158,19 +180,15 @@ const OpenViduComponent = (props: any) => {
               <>
                 <Main>
                   {publisher !== undefined ? (
-                    <UserVideoComponent id="publisher" streamManager={publisher}>
-                      publisher
-                    </UserVideoComponent>
+                    <UserVideoComponent id="publisher" streamManager={publisher}></UserVideoComponent>
                   ) : (
-                    <>nonpublisher</>
+                    <></>
                   )}
                   <Sub>
                     {subscribers.map((sub, i) => (
-                      <UserVideoComponent key={i} streamManager={sub}>
-                        subscribers
-                      </UserVideoComponent>
+                      <UserVideoComponent key={i} streamManager={sub}></UserVideoComponent>
                     ))}
-                    {subscribers.length == 0 ? <>nonsubscribe</> : <></>}
+                    {subscribers.length == 0 ? <>응답대기중</> : <></>}
                   </Sub>
                 </Main>
               </>
