@@ -5,10 +5,7 @@ import com.codesmith.goojangreport.report.dto.message.CallingStatusMessage;
 import com.codesmith.goojangreport.report.dto.message.TransferMessage;
 import com.codesmith.goojangreport.report.dto.response.*;
 import com.codesmith.goojangreport.report.persistence.ReportRepository;
-import com.codesmith.goojangreport.report.persistence.domain.DailyKtas;
-import com.codesmith.goojangreport.report.persistence.domain.MonthlyApproved;
-import com.codesmith.goojangreport.report.persistence.domain.Report;
-import com.codesmith.goojangreport.report.persistence.domain.ReportHeader;
+import com.codesmith.goojangreport.report.persistence.domain.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -73,7 +70,8 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public DailyStatusResponse getDailyStatus(Long memberId) {
-        return reportRepository.getDailyStatus(memberId);
+        DailyStatus dailyStatus = reportRepository.getDailyStatus(memberId);
+        return new DailyStatusResponse(dailyStatus);
     }
 
     @Override

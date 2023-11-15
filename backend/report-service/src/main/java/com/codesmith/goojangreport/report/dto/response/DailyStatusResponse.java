@@ -1,11 +1,12 @@
 package com.codesmith.goojangreport.report.dto.response;
 
-import com.querydsl.core.Tuple;
+import com.codesmith.goojangreport.report.persistence.domain.DailyStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -13,38 +14,16 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DailyStatusResponse {
-    private Long approvedCount;
-    private Long canceledCount;
-    private Long fixedCount;
-    private Long pendingCount;
-    private Long rejectedCount;
-    private Long terminatedCount;
+    private List<Long> dailyStatusList;
 
-    public DailyStatusResponse(List<Tuple> tupleList) {
-        tupleList.forEach(o -> {
-            String status = o.get(0, String.class);
-            Long count = o.get(1, Long.class);
-
-            switch (status) {
-                case "APPROVED":
-                    this.setApprovedCount(count);
-                    break;
-                case "CANCELED":
-                    this.setCanceledCount(count);
-                    break;
-                case "FIXED":
-                    this.setFixedCount(count);
-                    break;
-                case "PENDING":
-                    this.setPendingCount(count);
-                    break;
-                case "REJECTED":
-                    this.setRejectedCount(count);
-                    break;
-                case "TERMINATED":
-                    this.setTerminatedCount(count);
-                    break;
-            }
-        });
+    public DailyStatusResponse(DailyStatus dailyStatus) {
+        List<Long> statusList = new ArrayList<>();
+        statusList.add(dailyStatus.getApprovedCount() == null ? 0 : dailyStatus.getApprovedCount());
+        statusList.add(dailyStatus.getRejectedCount() == null ? 0 : dailyStatus.getRejectedCount());
+        statusList.add(dailyStatus.getPendingCount() == null ? 0 : dailyStatus.getPendingCount());
+        statusList.add(dailyStatus.getTerminatedCount() == null ? 0 : dailyStatus.getTerminatedCount());
+        statusList.add(dailyStatus.getFixedCount() == null ? 0 : dailyStatus.getFixedCount());
+        statusList.add(dailyStatus.getCanceledCount() == null ? 0 : dailyStatus.getCanceledCount());
+        this.dailyStatusList = statusList;
     }
 }

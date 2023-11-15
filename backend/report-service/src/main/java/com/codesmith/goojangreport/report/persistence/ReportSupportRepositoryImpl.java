@@ -1,6 +1,6 @@
 package com.codesmith.goojangreport.report.persistence;
 
-import com.codesmith.goojangreport.report.dto.response.DailyStatusResponse;
+import com.codesmith.goojangreport.report.persistence.domain.DailyStatus;
 import com.codesmith.goojangreport.report.persistence.domain.ReportHeader;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Map;
 
 import static com.codesmith.goojangreport.report.persistence.domain.QReport.report;
-import static com.querydsl.jpa.JPAExpressions.select;
 
 @Repository
 public class ReportSupportRepositoryImpl implements ReportSupportRepository {
@@ -46,7 +45,7 @@ public class ReportSupportRepositoryImpl implements ReportSupportRepository {
     }
 
     @Override
-    public DailyStatusResponse getDailyStatus(Long memberId) {
+    public DailyStatus getDailyStatus(Long memberId) {
         // TODO : 현재 데이터가 적어서 날짜랑 멤버 아이디 조건을 조작해놓음 추후에 주석 지우기
 //        LocalDate today = LocalDateTime.now().toLocalDate();
         LocalDate today = LocalDate.of(2023, 11, 13);
@@ -61,7 +60,7 @@ public class ReportSupportRepositoryImpl implements ReportSupportRepository {
                 )
                 .groupBy(report.callingStatus)
                 .fetch();
-        return new DailyStatusResponse(tupleList);
+        return new DailyStatus(tupleList);
     }
 
     // TODO : where 절에 있는 주석 해제
