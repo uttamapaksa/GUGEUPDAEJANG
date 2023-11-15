@@ -17,6 +17,7 @@ public class DailyStatusResponse {
     private Long canceledCount;
     private Long fixedCount;
     private Long pendingCount;
+    private Long rejectedCount;
     private Long terminatedCount;
 
     public DailyStatusResponse(List<Tuple> tupleList) {
@@ -36,6 +37,9 @@ public class DailyStatusResponse {
                     break;
                 case "PENDING":
                     this.setPendingCount(count);
+                    break;
+                case "REJECTED":
+                    this.setRejectedCount(count);
                     break;
                 case "TERMINATED":
                     this.setTerminatedCount(count);
