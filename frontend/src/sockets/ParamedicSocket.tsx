@@ -150,7 +150,7 @@ function ParamedicSocket() {
         clearInterval(intervalRef.current);
       }
     };
-  }, [isTransferring]);
+  }, [isTransferring, fixedCalling]);
 
   useEffect(() => {
     if (!isCanceled || !fixedCalling) return;
