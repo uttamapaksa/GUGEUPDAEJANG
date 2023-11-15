@@ -81,7 +81,7 @@ const AgreeChart:React.FC<AgreeChartProps> = ({ selectedYear, setSelectedYear, r
       
       // 차트
       chart: {
-        height: "86%",
+        height: "84%",
         dropShadow: {
           enabled: true,
           color: '#000',
@@ -132,7 +132,7 @@ const AgreeChart:React.FC<AgreeChartProps> = ({ selectedYear, setSelectedYear, r
         floating: true,
         position: 'top',
         horizontalAlign: 'right',
-        offsetY: -12,
+        offsetY: -8,
         fontSize: '12%',
         fontWeight : 800,
         markers: {
