@@ -1,18 +1,18 @@
 import { useEffect } from 'react';
-import { useSetRecoilState, useRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { currentPosition } from '/src/recoils/HospitalAtoms';
 import useGeolocation from 'react-hook-geolocation';
 
 function Geolocation() {
-  const [curPos, setCurPos] = useRecoilState(currentPosition);
-  const geolocation = useGeolocation({ 
-    enableHighAccuracy: true, 
-    timeout: 1000,
-    maximumAge: 1000,
+  const setCurPos = useSetRecoilState(currentPosition);
+  const geolocation = useGeolocation({
+    enableHighAccuracy: true,
+    timeout: 3000,
+    maximumAge: 2000,
   });
 
   const setCurrentPos = () => {
-    if (geolocation.latitude !== null) {
+    if (geolocation !== undefined) {
       setCurPos({ lat: geolocation.latitude, lon: geolocation.longitude });
     }
   };
@@ -21,12 +21,6 @@ function Geolocation() {
     setCurrentPos();
   }, [geolocation]);
 
-  return (
-    <>
-      <p>latitude : {curPos.lat}</p>
-      <p>longitude : {curPos.lon}</p>
-      <p>geolocation : {geolocation.latitude} {geolocation.longitude}</p>
-    </>
-  );
+  return <></>;
 }
 export default Geolocation;

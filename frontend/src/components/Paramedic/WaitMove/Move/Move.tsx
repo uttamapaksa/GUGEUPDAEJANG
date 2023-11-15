@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { fixedCallingType } from '/src/types/paramedic';
 import { finishTransfer, cancleTransfer } from '/src/apis/paramedic';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { occurrenceState, fixedCallingState, isCanceledState, isCompletedState } from '/src/recoils/ParamedicAtoms';
@@ -103,7 +104,10 @@ function Move() {
           $color={theme.color.grayDarkest}
           $border={`0.25vh solid ${theme.color.grayDarkest}`}
           $borderRadius="2vh"
-          onClick={() => {setVideoOpen(true)}}
+          onClick={() => {
+            setVideoOpen(true);
+            setFixedCalling((prev: fixedCallingType) => ({ ...prev, videoOn: true }));
+          }}
         >
           <A.ImgRecordVideoBlack $width="4vh" />
           영상 통화

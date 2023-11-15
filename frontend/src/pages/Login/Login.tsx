@@ -14,23 +14,21 @@ function Login() {
   const [isOpen, setIsOpen] = useState(true);
   const curPos = useRecoilValue(currentPosition);
 
-  useEffect(()=>{
-    // GPS 권한 접근
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(() => {}, () => {})} 
-
-    if (curPos.lat !== null) { setIsOpen(false) }
-  },[curPos])
+  useEffect(() => {
+    if (curPos.lat !== null) {
+      setIsOpen(false);
+    }
+  }, [curPos]);
 
   return (
     <S.Container>
-      <Geolocation/>
-      {isOpen && <LoginFailModal content={"내 위치를 받아오는 중입니다..."} setIsOpen={setIsOpen} />}
+      <Geolocation />
+      {isOpen && <LoginFailModal content={'내 위치를 받아오는 중입니다...'} setIsOpen={setIsOpen} />}
       <S.Wrapper>
         <S.ContentBox>
-          <M.Logo/>
-          <GoToGuest/>
-          <LoginInput/>          
+          <M.Logo />
+          <GoToGuest />
+          <LoginInput />
         </S.ContentBox>
       </S.Wrapper>
     </S.Container>
