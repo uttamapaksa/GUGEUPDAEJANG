@@ -21,6 +21,7 @@ import {
   recordVoiceFile } from '/src/recoils/ParamedicAtoms';
 import CameraModal from '../../../components/Paramedic/Call/CameraModal/CameraModal';
 import { postCameraUpload, postSTT, postVoiceUpload } from '/src/apis/paramedic';
+import { FileType } from '/src/types/paramedic';
 
 function Call() {
   const [recording, setRecording] = useState<boolean>(false);
@@ -34,6 +35,8 @@ function Call() {
   const recordVideo = useRecoilValue(recordVideoFile);
   const recordImage = useRecoilValue(recordImageFile);
   const recordVoice = useRecoilValue(recordVoiceFile);
+
+  const [before, setBefore] = useState<string>();
 
 
   // 녹음 라이브러리
@@ -146,8 +149,8 @@ function Call() {
 
   // 동영상파일 업로드
   const axiosVideoUpload = async (file:File[]):Promise<void> => {
-    console.log("여기요",file)
     try {
+      setBefore(file[0].name)
       const response = await postCameraUpload(file)
       setRecordVideo(response)
       axiosVideoSTT(file)
@@ -200,6 +203,8 @@ function Call() {
           capture="environment"
           onChange={handleCapture}>
         </input>
+
+        <div>axiosVideoUpload에 가긴 해???{before}</div>
 
         <div>
           비디오 파일명<br></br>
