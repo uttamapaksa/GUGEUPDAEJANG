@@ -24,7 +24,6 @@ function Times() {
   };
 
   useEffect(() => {
-    setSeconds(0);
     const timer = setInterval(() => {
       setSeconds((prev) =>{
         const newSeconds = prev + 1;
