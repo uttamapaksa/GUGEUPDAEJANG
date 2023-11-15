@@ -48,22 +48,28 @@ const ParamedicListItem = (props: any) => {
 
   const checkFull = async (res: boolean) => {
     if (!res) {
-      let inputReason = prompt("사유를 입력하세요", "");
-      if (inputReason != null) {
-        const postProps: HospitalResponsePostProps = {
-          callingId: props.id,
-          status: "REJECTED",
-          reason: inputReason,
-        };
-        return await putHospitalResponse(postProps);
-      } else {
-        const postProps: HospitalResponsePostProps = {
-          callingId: props.id,
-          status: "REJECTED",
-          reason: "사유 없음",
-        };
-        return await putHospitalResponse(postProps);
-      }
+      Swal.fire({
+        title: "거절 사유 입력",
+        text: "거절 사유를 입력해주세요.",
+        input: "text",
+        inputPlaceholder: "거절 사유를 입력해주세요.",
+      }).then(async (inputReason) => {
+        if (inputReason.value != null) {
+          const postProps: HospitalResponsePostProps = {
+            callingId: props.id,
+            status: "REJECTED",
+            reason: inputReason.value,
+          };
+          return await putHospitalResponse(postProps);
+        } else {
+          const postProps: HospitalResponsePostProps = {
+            callingId: props.id,
+            status: "REJECTED",
+            reason: "사유 없음",
+          };
+          return await putHospitalResponse(postProps);
+        }
+      });
     } else {
       const postProps: HospitalResponsePostProps = {
         callingId: props.id,
@@ -78,20 +84,12 @@ const ParamedicListItem = (props: any) => {
     const response = await checkFull(res);
     if (response === undefined) {
       // alert("HospitalResponse 실패");
-      Swal.fire(
-        "병원 응답 실패",
-        "HospitalResponse is undefined",
-        "error"
-      );
+      Swal.fire("병원 응답 실패", "HospitalResponse is undefined", "error");
       return;
     } else if (response.data.isFull) {
       console.log(response);
       // alert("HospitalResponse isFull");
-      Swal.fire(
-        "병원 잔여 병상 없음",
-        "HospitalResponse isFull",
-        "error"
-      );
+      Swal.fire("병원 잔여 병상 없음", "HospitalResponse isFull", "error");
       setRequestList([]);
       return;
     } else if (requestList !== undefined) {
