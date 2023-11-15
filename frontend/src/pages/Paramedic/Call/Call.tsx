@@ -149,7 +149,19 @@ function Call() {
             RecordStop={RecordStop} 
             time={formatTime(seconds)} /> ) : (<></>)}
         
-        
+        <input
+          type="file"
+          id="fileInput"
+          accept=".jpg,.png"
+          capture="environment">
+        </input>
+        <input
+          type="file"
+          id="videoInput"
+          accept="video/*"
+          capture="environment">
+        </input>
+
         <div>
           비디오 파일명<br></br>
           {recordVideo?.contentType}<br></br>

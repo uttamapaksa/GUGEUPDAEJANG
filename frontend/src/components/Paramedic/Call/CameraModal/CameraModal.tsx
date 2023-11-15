@@ -92,7 +92,7 @@ function CameraModal({CameraClose} : CallProps) {
         <S.IptCamera
           type="file"
           id="fileInput"
-          accept="image/*"
+          accept=".jpg,.png"
           capture="environment"
           onChange={handleCapture}/>
         <S.BtnCamera 
