@@ -50,6 +50,8 @@ const AgreeChart:React.FC<AgreeChartProps> = ({ selectedYear, setSelectedYear, r
   const chartRef = useRef(null);
 
   const requestData: AgreeRequestData = responseValue
+  
+  const MaxData = requestData.total? Math.ceil(Math.max(...requestData.total)/100) * 100 : 0;
 
   useEffect(() => {
     const acceptanceRates = requestData.approved.map((approved, index) => {
@@ -113,8 +115,8 @@ const AgreeChart:React.FC<AgreeChartProps> = ({ selectedYear, setSelectedYear, r
           },
         },
         min: 0,
-        max: 400,
-        tickAmount: 4,
+        max: MaxData,
+        tickAmount: 5,
       },
 
       // 데이터 레이블  
