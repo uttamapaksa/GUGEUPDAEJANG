@@ -1,7 +1,8 @@
 import ApexCharts from 'apexcharts';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { AgreeRequestData } from '/src/types/chart';
+import { AgreeChartProps } from '/src/types/report';
 
 // 스타일 컴포넌트 정의
 const Container = styled.div`
@@ -45,29 +46,17 @@ const Chart = styled.div`
   width: 100%;
 `;
 
-const AgreeChart = () => {
+const AgreeChart:React.FC<AgreeChartProps> = ({ selectedYear, setSelectedYear, responseValue}) => {
   const chartRef = useRef(null);
-  const [selectedYear, setSelectedYear] = useState<string>('2023');
 
-  const requestData: AgreeRequestData = {
-    '2017': {
-      totalRequests:[280, 290, 330, 360, 320, 320, 330, 290, 330, 360, 320, 320],
-      acceptedRequests:[120, 110, 140, 108, 107, 130, 130, 120, 110, 140, 180, 170]
-    },
-    '2023': {
-      totalRequests: [280, 290, 330, 360, 320, 320, 330, 290, 330, 360, 320, 320],
-      acceptedRequests: [280, 290, 330, 360, 320, 320, 330, 290, 330, 360, 320, 320]
-    },
-    '2020': {
-      totalRequests:[120, 110, 140, 108, 107, 130, 130, 120, 110, 140, 180, 170],
-      acceptedRequests:[280, 290, 330, 360, 320, 320, 330, 290, 330, 360, 320, 320]
-    },
-  };
+  const requestData: AgreeRequestData = responseValue
+  
+  const MaxData = requestData.total? Math.ceil(Math.max(...requestData.total)/100) * 100 : 0;
 
   useEffect(() => {
-    const acceptanceRates = requestData[selectedYear].acceptedRequests.map((accepted, index) => {
-      const total = requestData[selectedYear].totalRequests[index];
-      return total > 0 ? ((accepted / total) * 100).toFixed(2) : null;
+    const acceptanceRates = requestData.approved.map((approved, index) => {
+      const total = requestData.total[index];
+      return total > 0 ? ((approved / total) * 100).toFixed(2) : null;
     });
 
     const options = {
@@ -75,12 +64,12 @@ const AgreeChart = () => {
       series: [
         {
           name:  `전체 요청수`,
-          data:  requestData[selectedYear].totalRequests,
+          data:  requestData.total,
           type: 'line',
         },
         {
           name: `승낙 요청수`,
-          data:  requestData[selectedYear].acceptedRequests,
+          data:  requestData.approved,
           type: 'line',
         },
         {
@@ -92,7 +81,7 @@ const AgreeChart = () => {
       
       // 차트
       chart: {
-        height: "86%",
+        height: "84%",
         dropShadow: {
           enabled: true,
           color: '#000',
@@ -126,8 +115,8 @@ const AgreeChart = () => {
           },
         },
         min: 0,
-        max: 400,
-        tickAmount: 4,
+        max: MaxData,
+        tickAmount: 5,
       },
 
       // 데이터 레이블  
@@ -143,7 +132,7 @@ const AgreeChart = () => {
         floating: true,
         position: 'top',
         horizontalAlign: 'right',
-        offsetY: -12,
+        offsetY: -8,
         fontSize: '12%',
         fontWeight : 800,
         markers: {
@@ -189,7 +178,7 @@ const AgreeChart = () => {
     return () => {
       chart.destroy();
     };
-  }, [selectedYear]);
+  }, [selectedYear, responseValue]);
 
   const handleYearChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedYear(event.target.value);
@@ -199,7 +188,9 @@ const AgreeChart = () => {
     <Container>
       <ChartHeader>
         <Title>월별 요청 승낙 현황</Title>
-        <SelectYear  onChange={handleYearChange} value={selectedYear}>
+        <SelectYear onChange={handleYearChange} value={selectedYear}>
+          <option value="2017">2015년</option>
+          <option value="2017">2016년</option>
           <option value="2017">2017년</option>
           <option value="2018">2018년</option>
           <option value="2019">2019년</option>

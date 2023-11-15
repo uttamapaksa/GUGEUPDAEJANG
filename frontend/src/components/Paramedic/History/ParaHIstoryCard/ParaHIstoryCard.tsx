@@ -51,8 +51,7 @@ function ParaHistoryCard({ showCenter }: { showCenter: boolean }) {
           <S.ItemRow>
             {history.completed || <S.Status>이송 취소</S.Status>}
             <S.ItemCategory>
-              <span>날</span>
-              <span>찌</span>
+              날짜
             </S.ItemCategory>
             <S.ItemContent>
               {history.date}
@@ -60,10 +59,7 @@ function ParaHistoryCard({ showCenter }: { showCenter: boolean }) {
           </S.ItemRow>
           <S.ItemRow>
             <S.ItemCategory>
-              <span>이</span>
-              <span>송</span>
-              <span>시</span>
-              <span>간</span>
+              이송 시간
             </S.ItemCategory>
             <S.ItemContent>
               {history.transferStartTime}-
@@ -72,10 +68,7 @@ function ParaHistoryCard({ showCenter }: { showCenter: boolean }) {
           </S.ItemRow>
           <S.ItemRow>
             <S.ItemCategory>
-              <span>이</span>
-              <span>송</span>
-              <span>병</span>
-              <span>원</span>
+              이송 병원
             </S.ItemCategory>
             <S.ItemContent2>
               {history.hospitalName}
@@ -83,10 +76,7 @@ function ParaHistoryCard({ showCenter }: { showCenter: boolean }) {
           </S.ItemRow>
           <S.ItemRow>
             <S.ItemCategory>
-              <span>사</span>
-              <span>고</span>
-              <span>주</span>
-              <span>소</span>
+              사고 주소
             </S.ItemCategory>
             <S.ItemContent2>
               {history.accidentAddress}
@@ -94,10 +84,7 @@ function ParaHistoryCard({ showCenter }: { showCenter: boolean }) {
           </S.ItemRow>
           <S.ItemRow>
             <S.ItemCategory>
-              <span>인</span>
-              <span>적</span>
-              <span>사</span>
-              <span>항</span>
+              인적 사항
             </S.ItemCategory>
             <S.ItemContent>
               {ageGroupMapping[history.ageGroup]} ({genderMapping[history.gender]})
@@ -105,10 +92,7 @@ function ParaHistoryCard({ showCenter }: { showCenter: boolean }) {
           </S.ItemRow>
           <S.ItemRow>
             <S.ItemCategory>
-              <span>응</span>
-              <span>급</span>
-              <span>분</span>
-              <span>류</span>
+              응급 분류
             </S.ItemCategory>
             <S.ItemContent>
               {history.ktas}
