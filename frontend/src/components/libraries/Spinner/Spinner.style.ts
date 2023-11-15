@@ -5,6 +5,7 @@ interface SpinnerProps {
   width?: string;
   top? : string;
   color?: string;
+  position?: string;
 }
 
 const rotate = keyframes`
@@ -14,7 +15,7 @@ const rotate = keyframes`
 
 export const SpinnerWrapper = styled.div<SpinnerProps>`
   /* border: 1px solid red; */
-  position: fixed;
+  position: ${props => props.position || "fixed"};
   top : ${props => props.top};
   width: ${props => props.width || "100px"};
   height: ${props => props.height || "100px"};

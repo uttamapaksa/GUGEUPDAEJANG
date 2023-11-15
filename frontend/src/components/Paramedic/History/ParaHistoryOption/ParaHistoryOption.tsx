@@ -1,15 +1,18 @@
 import { useState, useEffect } from 'react';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { paramedicHistoriesState, startTimeState, endTimeState, centerHistoriesState } from '/src/recoils/ParamedicAtoms';
 import { getParamedicHistories } from '/src/apis/paramedic';
 import * as S from './ParaHistoryOption.style';
 import ParamedicCalender from '../../../libraries/Calender/ParamedicCalender';
 import A from '/src/components/Commons/Atoms';
+import Spinner from '/src/components/libraries/Spinner/Spinner';
+
 
 function ParaHistoryOption({ showCenter }: { showCenter: boolean }) {
   const startTime = useRecoilValue(startTimeState);
   const endTime = useRecoilValue(endTimeState);
   const [stop, setStop] = useState<number>(0)
+  const [showSpinner, setShowSpinner] = useState(false);
   
   useEffect(() => {
     if (stop <= 1) {readHistories()}
@@ -30,8 +33,10 @@ function ParaHistoryOption({ showCenter }: { showCenter: boolean }) {
   const setCenterHistoriesState = useSetRecoilState(centerHistoriesState);
 
   const readHistories = () => {
-    console.log(startTime.toISOString().slice(0, 22))
+    if (showSpinner) return;
+    setShowSpinner(true)
     getParamedicHistories(startTime.toISOString().slice(0, 22), endTime.toISOString().slice(0, 22), showCenter).then((historyData) => {
+      setShowSpinner(false)
       if (historyData) {
         if(showCenter) {
           setParamedicHistories(historyData);
@@ -72,7 +77,9 @@ function ParaHistoryOption({ showCenter }: { showCenter: boolean }) {
         {formattedDate(endTime)}
       </S.OptionTimeBox>
 
-      <S.OptionTimeBtn onClick={readHistories}>조회</S.OptionTimeBtn>
+      <S.OptionTimeBtn onClick={readHistories}>
+        { showSpinner ? <Spinner position='absolute' width='10vh' height='5vh' top='-0.6vh' color='white'></Spinner> : '조회'}
+      </S.OptionTimeBtn>
     </S.Option>
   );
 }
