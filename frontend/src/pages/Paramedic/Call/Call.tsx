@@ -142,7 +142,9 @@ function Call() {
   // 사진 or 동영상 촬영
   const handleCapture = (event: React.ChangeEvent<HTMLInputElement>) => {
     CameraClose?.()
+
     const file = event.target.files? Array.from(event.target.files):[]
+    setBefore(file[0].name)
     const type = file[0].type.split('/')[0]
     if (type === "video") { axiosVideoUpload(file) }
   };
@@ -150,7 +152,6 @@ function Call() {
   // 동영상파일 업로드
   const axiosVideoUpload = async (file:File[]):Promise<void> => {
     try {
-      setBefore(file[0].name)
       const response = await postCameraUpload(file)
       setRecordVideo(response)
       axiosVideoSTT(file)
@@ -204,7 +205,7 @@ function Call() {
           onChange={handleCapture}>
         </input>
 
-        <div>axiosVideoUpload에 가긴 해???{before}</div>
+        <div>handleCapture에 가긴 해???{before}</div>
 
         <div>
           비디오 파일명<br></br>
