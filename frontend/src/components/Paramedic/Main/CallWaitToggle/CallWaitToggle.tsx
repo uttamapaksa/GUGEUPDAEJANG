@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { currentParamedicPageIndexState, isTransferringState, fixedCallingState } from '/src/recoils/ParamedicAtoms';
 import * as S from './CallWaitToggle.style';
@@ -24,6 +24,7 @@ function CallWaitToggle() {
   const setCurrentPageIndex = useSetRecoilState(currentParamedicPageIndexState);
   const istransferring = useRecoilValue(isTransferringState);
   const fixedCalling = useRecoilValue(fixedCallingState);
+  const [shadow, setShadow] = useState<boolean>(true)
 
   const [selected, setSelected] = useState(0);
   const isSelected = (num: number) => {
@@ -32,6 +33,7 @@ function CallWaitToggle() {
   };
   const goToCall = () => {
     if (istransferring) return;
+    setShadow(false)
     setSelected(1);
     setTimeout(() => {
       setCurrentPageIndex(1);
@@ -41,10 +43,13 @@ function CallWaitToggle() {
     if (!istransferring) return;
     setCurrentPageIndex(2);
   };
+  useEffect(()=>{
+    if(istransferring) {setShadow(false)}
+  },[istransferring])
 
   return (
     <S.Container>
-      <A.BtnParaState onClick={goToCall} $IsClick={isSelected(1)}>
+      <A.BtnParaState $shadow={shadow} onClick={goToCall} $IsClick={isSelected(1)}>
         <S.TxtParaState1 istransferring={istransferring ? 1 : 0} selected={selected}>
           환자 이송
         </S.TxtParaState1>

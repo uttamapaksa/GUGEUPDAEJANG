@@ -62,14 +62,14 @@ export const FilesSection = styled.div`
   margin: 0 auto;
 `
 export const Video = styled.video`
-  border: 1px solid ${theme.color.fontGrey5};
+  /* border: 1px solid ${theme.color.fontGrey5}; */
   width: 47%;
   height: 24vh;
   margin: 2% 0.5% 1% 0.5%;
 `
 
 export const Image = styled.img`
-  border: 1px solid ${theme.color.fontGrey5};
+  /* border: 1px solid ${theme.color.fontGrey5}; */
   width: 47%;
   height: 24vh;
   margin: 2% 0.5% 1% 0.5%;
