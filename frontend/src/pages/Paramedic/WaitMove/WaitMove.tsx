@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { isTransferringState } from '/src/recoils/ParamedicAtoms';
 import * as S from './WaitMove.style';

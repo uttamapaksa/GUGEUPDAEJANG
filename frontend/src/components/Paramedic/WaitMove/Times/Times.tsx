@@ -4,17 +4,19 @@ import * as S from './Times.style';
 import { useEffect, useState } from 'react';
 import { callingStepState } from '/src/recoils/ParamedicAtoms';
 import { getHospitals } from '/src/apis/paramedic';
+import useResetParamedicRecoil from '../../RecoilReset/RecoilReset';
+
 
 function Times() {
-  // "2023-11-02T08:38:44.295165047"
   const callingTime = (useRecoilValue(HospitalListState)[0] || { callingTime: undefined }).callingTime;
   const date = new Date();
   const dayOfWeek = ['일', '월', '화', '수', '목', '금', '토'][date.getDay()];
   const [minutes, setMinutes] = useState<number>(0);
   const [seconds, setSeconds] = useState<number>(0);
-  // const [timer, setTimer] = useState<NodeJS.Timeout | null>(null);
   const [callingStep, setCallingStep] = useRecoilState(callingStepState);
   const setHospitals = useSetRecoilState(HospitalListState);
+  const resetParemdicRecoil = useResetParamedicRecoil();
+
 
   const formatTime = (sec: number): string => {
     const newMinutes = Math.floor(sec / 60);
@@ -44,6 +46,10 @@ function Times() {
 
   useEffect(() => {
     if (minutes > 1) {
+      if (callingStep.step > 2) {
+        resetParemdicRecoil()
+        return;
+      }
       let data = {
         occurrenceId: callingStep.occurrenceId,
         distance: 5 * (callingStep.step + 1) + 0.1, // 무조건 실수

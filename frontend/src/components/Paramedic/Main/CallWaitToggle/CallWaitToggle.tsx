@@ -27,8 +27,8 @@ function CallWaitToggle() {
 
   const [selected, setSelected] = useState(0);
   const isSelected = (num: number) => {
-    if (selected === num) return true;
-    return false;
+    if (selected === num) return 2;
+    return 0;
   };
   const goToCall = () => {
     if (istransferring) return;
@@ -54,7 +54,7 @@ function CallWaitToggle() {
         <S.ImgDiv>{istransferring ? <A.ImgAmbulance $width="4vh" /> : <A.ImgAmbulanceActive $width="4vh" />}</S.ImgDiv>
       </A.BtnParaState>
 
-      <A.BtnParaState onClick={goTMove} $IsClick={istransferring}>
+      <A.BtnParaState onClick={goTMove} $IsClick={istransferring ? 1 : 0}>
         {istransferring ? (
           <>
             <S.TxtParaState5 istransferring={istransferring ? 1 : 0}>{fixedCalling.name}</S.TxtParaState5>
