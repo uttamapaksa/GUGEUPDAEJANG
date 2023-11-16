@@ -42,8 +42,7 @@ public interface ReportRepository extends JpaRepository<Report, Long>, ReportSup
                     "FROM information_schema.columns " +
                     "LIMIT 12" +
                     ") date_series " +
-//                    "LEFT JOIN report r ON date_series.month = DATE_FORMAT(r.calling_time, '%Y-%m') AND r.hospital_member_id = :memberId " +
-                    "LEFT JOIN report r ON date_series.month = DATE_FORMAT(r.calling_time, '%Y-%m') " +
+                    "LEFT JOIN report r ON date_series.month = DATE_FORMAT(r.calling_time, '%Y-%m') AND r.hospital_member_id = :memberId " +
                     "GROUP BY date_series.month")
     List<MonthlyApproved> getMonthlyApproved(@Param("memberId")Long memberId, @Param("year")Long year);
 
