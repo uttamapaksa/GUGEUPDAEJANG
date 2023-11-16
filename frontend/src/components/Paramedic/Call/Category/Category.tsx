@@ -23,7 +23,7 @@ import Spinner from '/src/components/libraries/Spinner/Spinner';
 
 function Category() {
   const setCurrentPageIndex = useSetRecoilState(currentParamedicPageIndexState);
-  const currPosition = useRecoilValue(currentPosition);
+  const [currPosition, setCurrPosition] = useRecoilState(currentPosition);
   const currAddress = useRecoilValue(currentAddressState)
   const [occurence, setOccurence] = useRecoilState(occurrenceState);
   const selected = occurence.tags;
@@ -86,15 +86,33 @@ function Category() {
   const goToWaitMove = () => {
     if (showSpinner) return;
     setShowSpinner(true);
+
+    if (!occurence.ktas) {
+      alert('KTAS를 선택해주세요')
+      setShowSpinner(false);
+      return
+    } 
+    if (!occurence.ageGroup) {
+      alert('인적 정보를 선택해주세요')
+      setShowSpinner(false);
+      return
+    } 
+    if (!occurence.gender) {
+      alert('인적 정보를 선택해주세요')
+      setShowSpinner(false);
+      return
+    } 
+    if (!currPosition.lat) {
+      setCurrPosition({lat: 36.3528192, lon: 127.3069568})
+    } 
+
     let data: OccurrenceType = {
       ktas: occurence.ktas,
       ageGroup: occurence.ageGroup,
       gender: occurence.gender,
       symptom: recordContent,
-      // latitude: 36.4469365928189,
-      // longitude: 127.43940812262,
-      latitude: currPosition.lat as number,
-      longitude: currPosition.lon as number,
+      latitude: currPosition.lat as number || 36.3528192,
+      longitude: currPosition.lon as number || 127.3069568,
       address: currAddress,
       tags: selected,
       files: [recordImage, recordVoice, recordVideo].filter(Boolean),
