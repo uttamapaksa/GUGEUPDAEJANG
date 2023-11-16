@@ -59,10 +59,47 @@ function Move() {
     <>
       <S.HospitalList>
         <S.TotalInformation>
+          <S.ItemCallTimeBig>{35}분 후 도착 예정</S.ItemCallTimeBig>
           <S.ItemTitle>
             {fixedCalling.name}
-            <S.ItemCallTimeBig>35분 후 도착 예정</S.ItemCallTimeBig>
           </S.ItemTitle>
+
+          <S.Calling>
+            <A.BtnMediaRecord
+              $height="4vh"
+              $width="22vw"
+              $fontSize="2vh"
+              $padding="0 3vw"
+              $margin="1vw"
+              $color={theme.color.grayDarkest}
+              $justifyContent="space-between"
+              $border={`0.1vh solid ${theme.color.grayDarkest}`}
+              $borderRadius="2vh"
+              $boxShadow='0'
+              onClick={() => {
+                setFixedCalling((prev: fixedCallingType) => ({ ...prev, videoOn: true }));
+                setVideoOpen(true);
+              }}
+            >
+              <A.ImgRecordVideoBlack $width="3vh" />
+              영상 통화
+            </A.BtnMediaRecord>
+            <A.BtnMediaRecord
+              $height="4vh"
+              $width="22vw"
+              $fontSize="2vh"
+              $padding="0 3.3vw"
+              $margin="1vw"
+              $color={theme.color.grayDarkest}
+              $justifyContent="space-between"
+              $border={`0.1vh solid ${theme.color.grayDarkest}`}
+              $borderRadius="2vh"
+              $boxShadow='0'
+            >
+              <A.ImgRecordVoiceBlack $width="1.8vh" />
+              음성 통화
+            </A.BtnMediaRecord>
+          </S.Calling>
 
           <S.Move1>인적 사항</S.Move1>
           <A.DivTag
@@ -97,45 +134,13 @@ function Move() {
         </S.TotalInformation>
       </S.HospitalList>
 
-      <S.Calling>
-        <A.BtnMediaRecord
-          $width="47%"
-          $height="7vh"
-          $fontSize="2.3vh"
-          $color={theme.color.grayDarkest}
-          $border={`0.25vh solid ${theme.color.grayDarkest}`}
-          $borderRadius="2vh"
-          onClick={() => {
-            setFixedCalling((prev: fixedCallingType) => ({ ...prev, videoOn: true }));
-            setVideoOpen(true);
-          }}
-        >
-          <A.ImgRecordVideoBlack $width="4vh" />
-          영상 통화
-          <A.ImgArrowBlackRight $width="1.2vh" />
-        </A.BtnMediaRecord>
-        <A.BtnMediaRecord
-          $width="47%"
-          $height="7vh"
-          $fontSize="2.3vh"
-          $color={theme.color.grayDarkest}
-          $border={`0.25vh solid ${theme.color.grayDarkest}`}
-          $borderRadius="2vh"
-        >
-          <A.ImgRecordVoiceBlack $width="2.4vh" />
-          음성 통화
-          <A.ImgArrowBlackRight $width="1.2vh" />
-        </A.BtnMediaRecord>
-      </S.Calling>
-
       <S.CancelOrConfirm>
         <A.BtnSubmit
           onClick={endTransfer}
-          $borderRadius="1vh"
-          $width="47%"
+          $width="50%"
           $height="6vh"
-          $border={`0.2vh solid ${theme.color.fontPink1}`}
           $color={theme.color.fontPink1}
+          $boxShadow="0 0.2px 0.1px 0px inset"
           $fontSize="2.5vh"
         >
           이송 취소
@@ -143,11 +148,10 @@ function Move() {
 
         <A.BtnSubmit
           onClick={completeTransfer}
-          $borderRadius="1vh"
-          $width="47%"
+          $width="50%"
           $height="6vh"
-          $border={`0.2vh solid ${theme.color.fontPink1}`}
           $backgroundColor={theme.color.fontPink1}
+          $boxShadow="0 0.2px 0.1px 0px inset"
           $fontSize="2.5vh"
         >
           이송 완료
