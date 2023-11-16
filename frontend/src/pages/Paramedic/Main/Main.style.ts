@@ -33,6 +33,7 @@ export const Logout = styled.div`
   font-size: 2vh;
   font-weight: 700;
   color: #939393;
+  cursor: pointer;
 `
 
 export const Blank = styled.div`

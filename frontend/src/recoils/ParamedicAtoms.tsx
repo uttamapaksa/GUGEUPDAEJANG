@@ -67,7 +67,7 @@ export const callingStepState = atom<CallingStepType>({
   key: 'callingStepState',
   default: {
     occurrenceId: 0,
-    step: 0,
+    step: 1,
   },
   // effects_UNSTABLE: [persistAtom],
 });

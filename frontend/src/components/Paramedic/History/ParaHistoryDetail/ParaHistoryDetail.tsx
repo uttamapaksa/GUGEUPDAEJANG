@@ -5,10 +5,6 @@ import { useRecoilValue } from 'recoil';
 import { historyDetailState } from '/src/recoils/ParamedicAtoms';
 import A from '/src/components/Commons/Atoms';
 
-interface ParaHistoryCardProps {
-  DetailClose?: () => void
-}
-
 interface GroupMapping {
   [key: string]: string;
 }
@@ -26,7 +22,7 @@ const genderMapping: GroupMapping = {
   FEMALE: '여',
 };
 
-function ParaHistoryDetail ({DetailClose} : ParaHistoryCardProps) {
+function ParaHistoryDetail () {
   const [objFiles, setObjFiles] = useState<FileTypes>({ video: null, image: null, voice: null });
   const historyDetail = useRecoilValue(historyDetailState)
 
@@ -53,14 +49,10 @@ function ParaHistoryDetail ({DetailClose} : ParaHistoryCardProps) {
     if (historyDetail?.files) { checkFiles(historyDetail.files) }
   }, [historyDetail]);
 
-  const DetailCloseProtect = (event: React.MouseEvent<HTMLDivElement>) => {
-    event.stopPropagation(); // 이 부분이 중요합니다.
-  };
-
   return (
-    <S.Overlay onClick={DetailClose}>
-      <S.Container onClick={DetailCloseProtect}>
-        <S.Close onClick={DetailClose}> <A.ImgExitBlack $width='2.8vh'/> </S.Close>
+      <S.Container>
+        <S.MainTItle>환자 이송 상세</S.MainTItle>
+        <S.Wrapper>
         <S.Title>이송 정보</S.Title>
         <S.ContentBox>
           <S.Row>
@@ -178,24 +170,23 @@ function ParaHistoryDetail ({DetailClose} : ParaHistoryCardProps) {
               {historyDetail?.description}
             </S.Content>
             
-          <S.FilesSection>
-            {objFiles.video ? (
-              <S.Video controls>
-                <source src={objFiles.video} type="video/mp4" /></S.Video>
-            ) : (<S.NoFile>영상이<br></br>없습니다.</S.NoFile>)}
+            <S.FilesSection>
+              {objFiles.video ? (
+                <S.Video controls>
+                  <source src={objFiles.video} type="video/mp4" /></S.Video>
+              ) : (<></>)}
 
-            {objFiles.image ? (
-              <S.Image src={objFiles.image}></S.Image>
-            ) : (<S.NoFile>사진이<br></br>없습니다.</S.NoFile>)}
+              {objFiles.image ? (
+                <S.Image src={objFiles.image}></S.Image>
+                ) : (<></>)}
 
-            {objFiles.voice ? (
-              <S.Audio src={objFiles.voice} controls></S.Audio>
-            ) : (<S.Audio controls></S.Audio>)}
-          </S.FilesSection>
-
-        </S.ContentBox>
+              {objFiles.voice ? (
+                <S.Audio src={objFiles.voice} controls></S.Audio>
+                ) : (<></>)}
+            </S.FilesSection>
+          </S.ContentBox>
+        </S.Wrapper>
       </S.Container>
-    </S.Overlay>
   )
 }
 

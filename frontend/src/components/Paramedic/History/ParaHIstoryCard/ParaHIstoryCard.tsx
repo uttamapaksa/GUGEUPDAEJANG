@@ -1,4 +1,4 @@
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { centerHistoriesState, historyDetailState, paramedicHistoriesState } from '/src/recoils/ParamedicAtoms';
 import * as S from './ParaHIstoryCard.style';
 import { useEffect, useState } from 'react';
@@ -27,23 +27,19 @@ function ParaHistoryCard({ showCenter }: { showCenter: boolean }) {
   const paramedicHistories = useRecoilValue(paramedicHistoriesState);
   const centerHistories = useRecoilValue(centerHistoriesState);
   const [histories, setHistories] = useState<ParamedicHistoryType[]>()
-  const [historyDetail, setHistoryDetail] = useRecoilState(historyDetailState)
+  const setHistoryDetail = useSetRecoilState(historyDetailState)
   
   const DetailOpen = (history:ParamedicHistoryType) => {
     setHistoryDetail(history)
-  }
-  const DetailClose = () => {
-    setHistoryDetail(null)
   }
 
   useEffect(() => {
     if (showCenter) {setHistories(paramedicHistories)}
     else {setHistories(centerHistories)}
   },[paramedicHistories,centerHistories,showCenter])
-  
+
   return (
     <S.SearchList>
-      {historyDetail && <ParaHistoryDetail DetailClose = {DetailClose}/>}
       <S.ItemNo>
         {histories?.length === 0 && <div>이송 기록이 없습니다.</div>}
       </S.ItemNo>

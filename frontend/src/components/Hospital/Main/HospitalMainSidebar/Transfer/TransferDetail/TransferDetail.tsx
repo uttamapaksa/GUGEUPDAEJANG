@@ -120,7 +120,6 @@ const TransferDetail = (props: any) => {
             ))}
           </div>
 
-          <ItemAddr>{selectedParaItem.data.description}</ItemAddr>
 
           <FilesSection>
             {objFiles.video ? (
@@ -130,12 +129,13 @@ const TransferDetail = (props: any) => {
 
             {objFiles.image ? (
               <Image src={objFiles.image}></Image>
-            ) : (<></>)}
+              ) : (<></>)}
 
             {objFiles.voice ? (
               <Audio src={objFiles.voice} controls></Audio>
-            ) : (<></>)}
+              ) : (<></>)}
           </FilesSection>
+          <ItemAddr>{selectedParaItem.data.description}</ItemAddr>
 
           {selectedParaItem.videoOn &&
             <A.BtnMediaRecord
