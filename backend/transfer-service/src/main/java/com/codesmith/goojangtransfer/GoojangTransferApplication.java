@@ -1,5 +1,6 @@
 package com.codesmith.goojangtransfer;
 
+import jakarta.annotation.PostConstruct;
 import com.codesmith.goojangtransfer.member.application.MemberService;
 import com.codesmith.goojangtransfer.member.application.MemberServiceImpl;
 import com.codesmith.goojangtransfer.member.persistence.MemberRepository;
