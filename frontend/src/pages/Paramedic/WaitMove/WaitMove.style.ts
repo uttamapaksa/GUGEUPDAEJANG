@@ -17,6 +17,7 @@ export const Wrapper = styled.div`
 
 export const ContentBox = styled.div`
   /* border: 3px solid orange; */
+  position: relative;
   margin-top: -1.5vh;
   display: flex;
   flex-direction: column;
@@ -26,10 +27,12 @@ export const ContentBox = styled.div`
   z-index: 100;
   background-color: white;
   box-shadow: 0 0 1vh 0.4vh rgba(0, 0, 0, 0.1);
+  overflow: hidden;
 `;
 
 export const WaitMoveScroll = styled.div`
   /* border: 3px solid orange; */
+  margin-top: 5vh;
   display: flex;
   flex-direction: column;
   align-items: center;
