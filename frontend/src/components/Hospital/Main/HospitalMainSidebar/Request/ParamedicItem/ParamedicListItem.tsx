@@ -59,14 +59,14 @@ const ParamedicListItem = (props: any) => {
         console.log(inputReason);
         if (inputReason.value != null) {
           const postProps: HospitalResponsePostProps = {
-            callingId: props.id,
+            callingId: props.items.id,
             status: "REJECTED",
             reason: inputReason.value,
           };
           return await putHospitalResponse(postProps);
         } else {
           const postProps: HospitalResponsePostProps = {
-            callingId: props.id,
+            callingId: props.items.id,
             status: "REJECTED",
             reason: "사유 없음",
           };
@@ -75,7 +75,7 @@ const ParamedicListItem = (props: any) => {
       });
     } else {
       const postProps: HospitalResponsePostProps = {
-        callingId: props.id,
+        callingId: props.items.id,
         status: "APPROVED",
         reason: "",
       };
@@ -100,9 +100,9 @@ const ParamedicListItem = (props: any) => {
       } else if (requestList !== undefined) {
         if (res) {
           const newTransferItem: HospitalTransferItem = {
-            id: props.id,
+            id: props.items.id,
             state: "wait",
-            data: props,
+            data: props.items,
           };
           if (transferList !== undefined) {
             setTransferList([...transferList, newTransferItem]);
@@ -113,10 +113,10 @@ const ParamedicListItem = (props: any) => {
       }
     }
     if (requestList !== undefined) {
-      let nextRequestList = requestList.filter((item: ParaRequestItem) => item.id != props.id);
+      let nextRequestList = requestList.filter((item: ParaRequestItem) => item.id != props.items.id);
       setRequestList(nextRequestList);
     }
-    if (selectedParaItem !== undefined && selectedParaItem.id == props.id) {
+    if (selectedParaItem !== undefined && selectedParaItem.id == props.items.id) {
       setSelectedParaItem(undefined);
     }
   };
@@ -128,24 +128,24 @@ const ParamedicListItem = (props: any) => {
           $position="absolute"
           $right="0%"
           $top="0%"
-          $ktas={props.ktas.toLowerCase()}
+          $ktas={props.items.ktas.toLowerCase()}
           $width="50px"
           $height="25px"
           $borderRadius="0px 0px 0px 10px"
           $fontSize={theme.font.Small5_12}
         >
-          {props.ktas}
+          {props.items.ktas}
         </A.DivKtasInfo>
-        <ItemRequestAt>{timeToString(props.createdAt)}</ItemRequestAt>
+        <ItemRequestAt>{timeToString(props.items.createdAt)}</ItemRequestAt>
         <DetailItemBetween>
           <ItemParaType>
-            {AGEGROUP[props.ageGroup]} ({GENDER[props.gender]})
+            {AGEGROUP[props.items.ageGroup]} ({GENDER[props.items.gender]})
           </ItemParaType>
-          <ItemElapseMin>요청 대기 {turmToString(props.createdAt)}분 경과</ItemElapseMin>
+          <ItemElapseMin>요청 대기 {turmToString(props.items.createdAt)}분 경과</ItemElapseMin>
         </DetailItemBetween>
-        <ItemParaInfo>{props.description}</ItemParaInfo>
+        <ItemParaInfo>{props.items.description}</ItemParaInfo>
         <ItemParaTagGroup>
-          {props.tags.map((item: string, index: number) => (
+          {props.items.tags.map((item: string, index: number) => (
             <A.DivTag
               key={index}
               $margin="2px 5px 50px 2px"

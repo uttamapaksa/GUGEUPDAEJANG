@@ -5,7 +5,6 @@ import UserVideoComponent from "./UserVideoComponent";
 import { Container, Main, Session, Sub } from "./UserVideoComponent.style";
 import Swal from "sweetalert2";
 
-
 const OpenViduComponent = (props: any) => {
 
   const [ov, setOV] = useState<OpenVidu>();
@@ -29,7 +28,6 @@ const OpenViduComponent = (props: any) => {
       // event.stream.streamId = currentUser.email;
       const subscriber = mySession.subscribe(event.stream, "");
 
-      console.log(subscriber);
       // if (props.type === "hospital"){
       //   setSubscribers((subscribers) => [...subscribers, subscriber]);
       // }
@@ -39,11 +37,20 @@ const OpenViduComponent = (props: any) => {
     mySession.on("streamDestroyed", (event) => {
       event.preventDefault();
       leaveSession();
+      console.log("streamDestroyed")
     });
 
     mySession.on("exception", (exception) => {
       console.warn(exception);
     });
+
+    mySession.on("signal:userOut", (event:any) => {
+      console.log(event);
+      if(event.msg==="out"){
+        leaveSession();
+      }
+    });
+  
     // --- 4) Connect to the session with a valid user token ---
     try {
       const token = await getToken();
@@ -53,8 +60,6 @@ const OpenViduComponent = (props: any) => {
       await mySession.connect(token, { clientData: props.transferId });
 
       const devices = await newOV.getDevices();
-      console.log("devices");
-      console.log(devices);
       const videoDevices = devices.filter((device) => device.kind === "videoinput");
 
       // if (props.type === "paramedic") {
@@ -71,20 +76,29 @@ const OpenViduComponent = (props: any) => {
       // newPublisher.id = props.transferId;
       await mySession.publish(newPublisher);
       setPublisher(newPublisher);
-      console.log(newPublisher);
-      // console.log(publisher);
-      console.log(subscribers);
       // }
     } catch (error: any) {
       console.log("There was an error connecting to the session:", error.code, error.message);
       leaveSession();
     }
   };
+  
+  const sendSignalUserOut = async () => {
+    const signalOptions = {
+      msg: "out",
+      type: "userOut",
+    };
+    console.log("signalOptions", signalOptions)
+    if(session) session.signal(signalOptions);
+  };
 
   const leaveSession = async () => {
     // --- 7) Leave the session by calling 'disconnect' method over the Session object ---
+    await sendSignalUserOut();
+    
     if (session) {
       session.disconnect();
+      await deleteMeetConnect(props.transferId);
     }
     setOV(undefined);
     setSession(undefined);
@@ -92,29 +106,15 @@ const OpenViduComponent = (props: any) => {
     // setMySessionId("SessionA");
     // setMyUserName("Participant" + Math.floor(Math.random() * 100));
     setPublisher(undefined);
+    
+    props.setModalOff();
     Swal.fire(
       "연결종료.",
       "",
       "success"
       // '확인',
     );
-    // props.setModalOff();
-    await deleteMeetConnect(props.transferId);
   };
-
-  // const deleteSubscriber = (streamManager: any) => {
-  //   setSubscribers((prevSubscribers) => prevSubscribers.filter((sub) => sub !== streamManager));
-    
-  //   // alert("연결종료");
-  //   Swal.fire(
-  //     "연결종료.",
-  //     "",
-  //     "success"
-  //     // '확인',
-  //   );
-
-  //   props.setModalOff();
-  // };
 
   const getToken = async () => {
     const response = await postMeetConnect(props.transferId);
@@ -141,19 +141,10 @@ const OpenViduComponent = (props: any) => {
 
   useEffect(() => {
     if (props.videoOff) {
-      // leaveSession();
-      props.setModalOff();
+      leaveSession();
+      // props.setModalOff();
     }
   }, [props]);
-  // useEffect(() => {
-  //   console.log(ov)
-  // }, [ov]);
-  useEffect(() => {
-    if (ov && !publisher && subscribers.length == 0) {
-      // leaveSession();
-      props.setModalOff();
-    }
-  }, [publisher, subscribers]);
 
   return (
     <Container>

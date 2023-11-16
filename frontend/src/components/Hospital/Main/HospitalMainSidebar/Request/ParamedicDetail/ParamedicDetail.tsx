@@ -28,6 +28,7 @@ import { HospitalResponsePostProps, HospitalTransferItem, ParaRequestItem } from
 import { timeToString, turmToString } from "/src/constants/function";
 import { AGEGROUP, GENDER } from "/src/constants/variable";
 import { putHospitalResponse } from "/src/apis/hospital";
+import Swal from 'sweetalert2';
 
 export interface FileTypes {
   video: string | null;
@@ -41,9 +42,9 @@ const ParamedicDetail = (props: any) => {
   const [selectedParaItem, setSelectedParaItem] = useRecoilState(hospitalSelectedRequestItem);
   const [objFiles, setObjFiles] = useState<FileTypes>({ video: null, image: null, voice: null });
 
-  const checkFiles = (fileList:string[]) => {
+  const checkFiles = (fileList: string[]) => {
     const filesObject: FileTypes = { video: null, image: null, voice: null };
-    
+
     fileList.map((file) => {
       if (!file) return;
       const parts = file.split('.');
@@ -64,64 +65,79 @@ const ParamedicDetail = (props: any) => {
     if (selectedParaItem !== undefined && selectedParaItem.files) { checkFiles(selectedParaItem.files) }
   }, [selectedParaItem]);
 
-  const checkFull = async (res: boolean) => {
-    if (!res && selectedParaItem) {
-      let inputReason = prompt("사유를 입력하세요", "");
-      if (inputReason != null) {
-        const postProps: HospitalResponsePostProps = {
-          callingId: selectedParaItem.id,
-          status: "REJECTED",
-          reason: inputReason,
-        };
-        return await putHospitalResponse(postProps);
-      } else {
-        const postProps: HospitalResponsePostProps = {
-          callingId: selectedParaItem.id,
-          status: "REJECTED",
-          reason: "사유 없음",
-        };
-        return await putHospitalResponse(postProps);
-      }
-    } else if(selectedParaItem) {
+  const getAxiosReturn = async (res: boolean) => {
+    if(selectedParaItem === undefined) return undefined
+    console.log(res);
+    let response;
+    if (!res ) {
+      response = await Swal.fire({
+        title: "거절 사유 입력",
+        text: "거절 사유를 입력해주세요.",
+        input: "text",
+        inputPlaceholder: "거절 사유를 입력해주세요.",
+      }).then(async (inputReason) => {
+        console.log(inputReason);
+        if (inputReason.value != null) {
+          const postProps: HospitalResponsePostProps = {
+            callingId: selectedParaItem.id,
+            status: "REJECTED",
+            reason: inputReason.value,
+          };
+          return await putHospitalResponse(postProps);
+        } else {
+          const postProps: HospitalResponsePostProps = {
+            callingId: selectedParaItem.id,
+            status: "REJECTED",
+            reason: "사유 없음",
+          };
+          return await putHospitalResponse(postProps);
+        }
+      });
+    } else {
       const postProps: HospitalResponsePostProps = {
         callingId: selectedParaItem.id,
         status: "APPROVED",
         reason: "",
       };
-      return await putHospitalResponse(postProps);
+      response = await putHospitalResponse(postProps);
     }
+    return response;
   };
 
   const clickButton = async (res: boolean) => {
-    const response = await checkFull(res);
-    console.log("clickButton response", response);
-    if (response === undefined) {
-      alert("HospitalResponse 실패");
-      return;
-    } else if (response.data.isFull) {
-      alert("HospitalResponse isFull");
-      setRequestList([]);
-      return;
-    } else if (requestList !== undefined && selectedParaItem) {
-      if (res) {
-        const newTransferItem: HospitalTransferItem = {
-          id: selectedParaItem.id,
-          state: "wait",
-          data: selectedParaItem,
-        };
-        if (transferList !== undefined) {
-          setTransferList([...transferList, newTransferItem]);
-        } else {
-          setTransferList([newTransferItem]);
+    const response: any = await getAxiosReturn(res);
+    if (res) {
+      if (response === undefined) {
+        // alert("HospitalResponse 실패");
+        Swal.fire("병원 응답 실패", "HospitalResponse is undefined", "error");
+        return;
+      } else if (response.data.isFull) {
+        console.log(response);
+        // alert("HospitalResponse isFull");
+        Swal.fire("병원 잔여 병상 없음", "HospitalResponse isFull", "error");
+        setRequestList([]);
+        return;
+      } else if (requestList !== undefined && selectedParaItem !== undefined) {
+        if (res) {
+          const newTransferItem: HospitalTransferItem = {
+            id: selectedParaItem.id,
+            state: "wait",
+            data: selectedParaItem,
+          };
+          if (transferList !== undefined) {
+            setTransferList([...transferList, newTransferItem]);
+          } else {
+            setTransferList([newTransferItem]);
+          }
         }
       }
-
+    }
+    if (requestList !== undefined && selectedParaItem !== undefined) {
       let nextRequestList = requestList.filter((item: ParaRequestItem) => item.id != selectedParaItem.id);
       setRequestList(nextRequestList);
-
-      if (selectedParaItem !== undefined && selectedParaItem.id == selectedParaItem.id) {
-        setSelectedParaItem(undefined);
-      }
+    }
+    if (selectedParaItem !== undefined) {
+      setSelectedParaItem(undefined);
     }
   };
 
@@ -166,22 +182,22 @@ const ParamedicDetail = (props: any) => {
             ))}
           </div>
 
+          <ItemAddr>{selectedParaItem.description}</ItemAddr>
           <FilesSection>
             {objFiles.video ? (
               <Video controls>
-                <source src={objFiles.video} type="video/mp4" /></Video> 
-              ) : ( <NoFile>영상이<br></br>없습니다.</NoFile> )}
-            
+                <source src={objFiles.video} type="video/mp4" /></Video>
+            ) : (<></>)}
+
             {objFiles.image ? (
-              <Image src={objFiles.image}></Image> 
-              ) : ( <NoFile>사진이<br></br>없습니다.</NoFile> )}
-            
+              <Image src={objFiles.image}></Image>
+            ) : (<></>)}
+
             {objFiles.voice ? (
-              <Audio src={objFiles.voice} controls></Audio> 
-              ) : ( <Audio controls></Audio> )}
+              <Audio src={objFiles.voice} controls></Audio>
+            ) : (<></>)}
           </FilesSection>
 
-          <ItemAddr>{selectedParaItem.description}</ItemAddr>
           <ItemAddr>{selectedParaItem.address}</ItemAddr>
           <DetailItemBetween>
             <ItemElapseMin>{selectedParaItem.distance} km</ItemElapseMin>
