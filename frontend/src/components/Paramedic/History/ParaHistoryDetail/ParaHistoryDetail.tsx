@@ -178,20 +178,20 @@ function ParaHistoryDetail ({DetailClose} : ParaHistoryCardProps) {
               {historyDetail?.description}
             </S.Content>
             
-          <S.FilesSection>
-            {objFiles.video ? (
-              <S.Video controls>
-                <source src={objFiles.video} type="video/mp4" /></S.Video>
-            ) : (<S.NoFile>영상이<br></br>없습니다.</S.NoFile>)}
+            <S.FilesSection>
+              {objFiles.video ? (
+                <S.Video controls>
+                  <source src={objFiles.video} type="video/mp4" /></S.Video>
+              ) : (<></>)}
 
-            {objFiles.image ? (
-              <S.Image src={objFiles.image}></S.Image>
-            ) : (<S.NoFile>사진이<br></br>없습니다.</S.NoFile>)}
+              {objFiles.image ? (
+                <S.Image src={objFiles.image}></S.Image>
+                ) : (<></>)}
 
-            {objFiles.voice ? (
-              <S.Audio src={objFiles.voice} controls></S.Audio>
-            ) : (<S.Audio controls></S.Audio>)}
-          </S.FilesSection>
+              {objFiles.voice ? (
+                <S.Audio src={objFiles.voice} controls></S.Audio>
+                ) : (<></>)}
+            </S.FilesSection>
 
         </S.ContentBox>
       </S.Container>
