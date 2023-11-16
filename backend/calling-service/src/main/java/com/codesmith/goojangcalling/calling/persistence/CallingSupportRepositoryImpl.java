@@ -113,8 +113,7 @@ public class CallingSupportRepositoryImpl implements CallingSupportRepository {
 
     private BooleanBuilder getBuildFilterPredicate(Long memberId, FilterValue[] filterValues) {
         BooleanBuilder predicate = new BooleanBuilder();
-        // TODO: 나중에 아래 주석 제거해서 사용자별로 다른 결과 보여주기
-//        predicate.and(calling.memberId.eq(memberId));
+        predicate.and(calling.memberId.eq(memberId));
 
         for (FilterValue filterValue : filterValues) {
             if (filterValue.getValue() == null || filterValue.getValue().equals("")) continue;
