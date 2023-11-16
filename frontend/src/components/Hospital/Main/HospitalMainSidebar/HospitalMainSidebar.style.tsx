@@ -31,6 +31,7 @@ export const TypeButton = styled.div<{ $checked: boolean }>`
   border-style: solid;
   box-sizing: border-box;
   border-width: ${props => props.$checked ? "0 0 3px" : "0 0 1px"};
+  cursor: pointer;
 `;
 
 export const HospitalMainSidebarContents = styled.div`

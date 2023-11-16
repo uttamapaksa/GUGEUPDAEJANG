@@ -3,6 +3,8 @@ import { Item, MenuBox } from "./HopsitalHeader.style";
 import { deleteLogout } from "/src/apis/auth";
 import { useNavigate } from "react-router-dom";
 import PATH from "/src/constants/path";
+import { useSetRecoilState } from "recoil";
+import { prevMapType } from "/src/recoils/HospitalAtoms";
 
 interface Headertype {
   setMenuIsShown: Dispatch<SetStateAction<boolean>>;
