@@ -6,10 +6,10 @@ server:
     key-store: keystore.p12
     key-store-password: 9979
 
+multipart:
+  max-file-size: 100MB
+  max-request-size: 100MB
 spring:
-  multipart:
-    max-file-size: 100MB
-    max-request-size: 100MB
   application:
     name: calling-service
   datasource:
