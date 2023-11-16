@@ -118,9 +118,8 @@ function Category() {
             setCurrentPageIndex(2);
           }
         });
-      } else {
-        setShowSpinner(false);
       }
+      setShowSpinner(false);
     });
   };
 
