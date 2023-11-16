@@ -209,7 +209,6 @@ public class CallingServiceImpl implements CallingService{
     private void updateStatusAnsSend(Calling selectedCalling) {
         CallingStatusMessage callingStatusMessage = new CallingStatusMessage(selectedCalling);
         simpMessagingTemplate.convertAndSend("/topic/status/" + selectedCalling.getMemberId(), callingStatusMessage);
-        System.out.println("callingStatusMessage.getCallingId() = " + callingStatusMessage.getCallingId());
         callingProducer.sendUpdateMessage(callingStatusMessage);
     }
 
@@ -236,6 +235,10 @@ public class CallingServiceImpl implements CallingService{
             if (o.getStatus().equals(Status.PENDING) && o.getId() != selectedCalling.getId()) {
                 o.terminateCalling();
                 updateStatusAnsSend(o);
+            } else if (o.getStatus().equals(Status.APPROVED) && o.getId() != selectedCalling.getId()) {
+                CallingStatusMessage callingStatusMessage = new CallingStatusMessage(o);
+                callingStatusMessage.setStatus(Status.TERMINATED);
+                simpMessagingTemplate.convertAndSend("/topic/status/" + selectedCalling.getMemberId(), callingStatusMessage);
             }
         });
     }
