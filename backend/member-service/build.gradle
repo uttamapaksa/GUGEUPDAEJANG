@@ -1,0 +1,95 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.1.5'
+	id 'io.spring.dependency-management' version '1.1.3'
+	id "org.asciidoctor.jvm.convert" version "3.3.2"
+}
+
+group = 'com.codesmith'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '17'
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+ext {
+	set('springCloudVersion', "2022.0.4")
+	snippetsDir = file('build/generated-snippets')
+}
+
+dependencies {
+	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.14.2'
+	implementation 'org.springframework.kafka:spring-kafka'
+
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+	implementation 'org.mindrot:jbcrypt:0.4'
+
+	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+
+	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+	testImplementation 'junit:junit:4.13.1'
+	annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"
+	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+
+	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+
+	implementation group: 'org.fluentd', name: 'fluent-logger', version: '0.3.4'
+	implementation group: 'com.sndyuk', name: 'logback-more-appenders', version: '1.5.6'
+
+	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+asciidoctor {
+	dependsOn test
+	attributes 'snippets': snippetsDir
+	inputs.dir snippetsDir
+}
+
+asciidoctor.doFirst {
+	println("---------------- delete present asciidoctor.")
+	delete file('src/main/resources/static/docs')
+}
+
+bootJar {
+	dependsOn asciidoctor
+	copy {
+		from "${asciidoctor.outputDir}"
+		into 'src/main/resources/static/docs'
+	}
+}
+
+test {
+	outputs.dir snippetsDir
+	useJUnitPlatform()
+}

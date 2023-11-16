@@ -1,0 +1,74 @@
+server:
+  port: 64417
+  ssl:
+    enabled: true
+    key-store-type: pkcs12
+    key-store: keystore.p12
+    key-store-password: 9979
+spring:
+  application:
+    name: member-service
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: ${MEMBER_MARIA_URL}
+    username: ${MEMBER_MARIA_USER}
+    password: ${MEMBER_MARIA_PASSWORD}
+  jpa:
+#    show-sql: true
+    hibernate:
+      ddl-auto: update
+      properties:
+        hibernate:
+          default_batch_fetch_size: 500
+  cache:
+    type: redis
+  redis:
+    ssl: true
+    host: ${MEMBER_REDIS_HOST}
+    port: ${MEMBER_REDIS_PORT}
+    password: ${MEMBER_REDIS_PASSWORD}
+    database: 0
+    time-to-live: 604800000
+  kafka:
+    bootstrap-servers: ${KAFKA_SERVER}
+    consumer:
+      group-id: member-consumer
+      auto-offset-reset: latest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: https://k9b204.p.ssafy.io:8761/eureka
+  instance:
+    hostname: k9b204.p.ssafy.io
+    secure-port: 64417
+    secure-port-enabled: true
+    non-secure-port-enabled: false
+    secure-virtual-host-name: k9b204.p.ssafy.io
+    home-page-url-path: https://k9b204.p.ssafy.io:64417/
+    status-page-url-path: https://k9b204.p.ssafy.io:64417/
+    health-check-url: https://k9b204.p.ssafy.io:64417/
+jwt:
+  expiration:
+    access: 86400000
+    refresh: 604800000
+  key: ${SECRETE_KEY}
+publicData:
+  api:
+    url: ${PUBLIC_DATA_API_URL}
+    key: ${PUBLIC_DATA_API_KEY}
+passport:
+  key: ${SECRETE_KEY}
+  algorithm: HmacSHA256
+tmap:
+  api:
+    url: ${TMAP_API_URL}
+    key: ${TMAP_API_KEY}
