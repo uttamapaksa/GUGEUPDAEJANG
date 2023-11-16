@@ -26,7 +26,8 @@ public interface ReportRepository extends JpaRepository<Report, Long>, ReportSup
                     "FROM information_schema.columns " +
                     "LIMIT 7" +
                     ") date_series " +
-                    "LEFT JOIN report r ON date_series.day = DATE(r.occurrence_time) AND r.hospital_member_id = :memberId " +
+//                    "LEFT JOIN report r ON date_series.day = DATE(r.occurrence_time) AND r.hospital_member_id = :memberId " +
+                    "LEFT JOIN report r ON date_series.day = DATE(r.occurrence_time) " +
                     "GROUP BY date_series.day")
     List<DailyKtas> getDailyKtas(@Param("memberId")Long memberId);
 
@@ -41,7 +42,8 @@ public interface ReportRepository extends JpaRepository<Report, Long>, ReportSup
                     "FROM information_schema.columns " +
                     "LIMIT 12" +
                     ") date_series " +
-                    "LEFT JOIN report r ON date_series.month = DATE_FORMAT(r.calling_time, '%Y-%m') AND r.hospital_member_id = :memberId " +
+//                    "LEFT JOIN report r ON date_series.month = DATE_FORMAT(r.calling_time, '%Y-%m') AND r.hospital_member_id = :memberId " +
+                    "LEFT JOIN report r ON date_series.month = DATE_FORMAT(r.calling_time, '%Y-%m') " +
                     "GROUP BY date_series.month")
     List<MonthlyApproved> getMonthlyApproved(@Param("memberId")Long memberId, @Param("year")Long year);
 
@@ -50,11 +52,14 @@ public interface ReportRepository extends JpaRepository<Report, Long>, ReportSup
             "g.gender as gender, " +
             "COUNT(r.id) as count " +
             "FROM " +
-            "(SELECT DISTINCT age_group FROM report WHERE hospital_member_id = :memberId) ag " +
+//            "(SELECT DISTINCT age_group FROM report WHERE hospital_member_id = :memberId) ag " +
+            "(SELECT DISTINCT age_group FROM report) ag " +
             "CROSS JOIN " +
-            "(SELECT DISTINCT gender FROM report WHERE hospital_member_id = :memberId) g " +
+//            "(SELECT DISTINCT gender FROM report WHERE hospital_member_id = :memberId) g " +
+            "(SELECT DISTINCT gender FROM report) g " +
             "LEFT JOIN " +
-            "report r ON ag.age_group = r.age_group AND g.gender = r.gender AND r.hospital_member_id = :memberId " +
+//            "report r ON ag.age_group = r.age_group AND g.gender = r.gender AND r.hospital_member_id = :memberId " +
+            "report r ON ag.age_group = r.age_group AND g.gender = r.gender " +
             "GROUP BY ag.age_group, g.gender " +
             "ORDER BY " +
             "CASE ag.age_group " +

@@ -47,8 +47,8 @@ public class ReportSupportRepositoryImpl implements ReportSupportRepository {
     @Override
     public DailyStatus getDailyStatus(Long memberId) {
         // TODO : 현재 데이터가 적어서 날짜랑 멤버 아이디 조건을 조작해놓음 추후에 주석 지우기
-//        LocalDate today = LocalDateTime.now().toLocalDate();
-        LocalDate today = LocalDate.of(2023, 11, 13);
+        LocalDate today = LocalDateTime.now().toLocalDate();
+//        LocalDate today = LocalDate.of(2023, 11, 13);
 
         List<Tuple> tupleList = queryFactory
                 .select(
@@ -112,6 +112,7 @@ public class ReportSupportRepositoryImpl implements ReportSupportRepository {
                 .where(
                         report.occurrenceTime.between(startOfToday, endOfToday)
                                 .and(report.callingStatus.eq("APPROVED"))
+                                .or(report.callingStatus.eq(("FIXED")))
 //                                .and(report.hospitalMemberId.eq(memberId))
                 );
     }
