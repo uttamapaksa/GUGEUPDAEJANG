@@ -8,6 +8,7 @@ function ParamedicTransferMarker(props: any) {
 
     const updateMarker = () => {
         if (props.map !== undefined && props.paraTransferList !== undefined) {
+            console.log("TransferMarker", props.paraTransferList)
             for (var i = 0; i < props.paraTransferList.length; i++) {
                 let lonlat;
                 if (props.paraTransferList[i].curLat !== undefined) {
@@ -43,16 +44,13 @@ function ParamedicTransferMarker(props: any) {
     }, [props]);
     useEffect(() => {
         if (paraTransferItem !== undefined) {
-            let lonlat;
             if (paraTransferItem.curLat !== undefined) {
-                lonlat = new Tmapv3.LatLng(paraTransferItem.curLat, paraTransferItem.curLon);
+                props.map.setCenter(new Tmapv3.LatLng(paraTransferItem.curLat, paraTransferItem.curLon));
             }
             else {
-                lonlat = new Tmapv3.LatLng(paraTransferItem.data.latitude, paraTransferItem.data.longitude);
+                props.map.setCenter(new Tmapv3.LatLng(paraTransferItem.data.latitude, paraTransferItem.data.longitude));
             }
-            props.map.setCenter(lonlat);
         }
-
     }, [paraTransferItem]);
 
     return (
