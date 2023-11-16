@@ -111,8 +111,8 @@ function Category() {
         console.log(data)
         getHospitals(data).then((hospitalsData) => {
           setShowSpinner(false);
-          setCallingStep((prev)=>({occurrenceId: occurrenceIdData.occurrenceId, step: prev.step + 1}))
           if (hospitalsData) {
+            setCallingStep((prev)=>({occurrenceId: occurrenceIdData.occurrenceId, step: prev.step + 1}))
             setHospitals(hospitalsData);
             setCurrentPageIndex(2);
           }

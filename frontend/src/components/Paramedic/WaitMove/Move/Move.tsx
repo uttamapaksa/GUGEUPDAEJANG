@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { fixedCallingType } from '/src/types/paramedic';
 import { finishTransfer, cancleTransfer } from '/src/apis/paramedic';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
@@ -54,6 +54,16 @@ function Move() {
       }
     });
   };
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setFixedCalling((prev) => ({ ...prev, duration: prev.duration - 1 }));
+    }, 60000);
+
+    return () => {
+      if (timer) clearInterval(timer);
+    };
+  }, []);
 
   return (
     <>
@@ -159,12 +169,14 @@ function Move() {
       </S.CancelOrConfirm>
       {videoOpen && fixedCalling && fixedCalling.transferId && (
         <VideoModal
-          position={"fixed"}
-          top={"0%"}
-          right={"0%"}
-          width={"100%"}
-          height={"100%"}
-          transferId={fixedCalling.transferId} closeModal={closeModal}></VideoModal>
+          position={'fixed'}
+          top={'0%'}
+          right={'0%'}
+          width={'100%'}
+          height={'100%'}
+          transferId={fixedCalling.transferId}
+          closeModal={closeModal}
+        ></VideoModal>
       )}
     </>
   );
