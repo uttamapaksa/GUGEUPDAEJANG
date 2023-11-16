@@ -11,12 +11,9 @@ export const Wrapper = styled.div`
   /* border: 3px solid red; */
   display: flex;
   align-items: center;
-  width: 60vh;
-  padding-left: 3vh;
-  padding-right: 3vh;
+  width: 50vh;
   height: 60vh;
-  padding-top: 20vh;
-  padding-bottom: 20vh;
+  padding: 17vh 3vh 20vh 3vh;
 `;
 
 export const ContentBox = styled.div`
@@ -28,6 +25,17 @@ export const ContentBox = styled.div`
   height: 100%;
 `;
 
+export const Logout = styled.div`
+  /* border: 3px solid orange; */
+  position: absolute;
+  top: 3vh;
+  right: 3vh;
+  font-size: 2vh;
+  font-weight: 700;
+  color: #939393;
+`
+
 export const Blank = styled.div`
+  /* border: 3px solid orange; */
   height: 15%;
 `;

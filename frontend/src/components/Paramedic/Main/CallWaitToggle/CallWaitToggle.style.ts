@@ -10,8 +10,8 @@ export const Container = styled.div`
 
 export const TxtParaState1 = styled.div<{ istransferring: number; selected: number }>`
   padding: 0.2vh 0;
-  font-size: 3.2vh;
-  font-weight: 800;
+  font-size: 2.9vh;
+  font-weight: 700;
   ${({ istransferring, selected }) =>
     istransferring
       ? css`
@@ -27,9 +27,11 @@ export const TxtParaState1 = styled.div<{ istransferring: number; selected: numb
 `;
 
 export const TxtParaState5 = styled.div<{ istransferring: number }>`
+  /* border: solid 1px red; */
+  text-align: start;
   padding: 0.2vh 0;
-  font-size: 3.2vh;
-  font-weight: 800;
+  font-size: 2.9vh;
+  font-weight: 700;
   ${({ istransferring }) =>
     istransferring
       ? css`
@@ -41,6 +43,7 @@ export const TxtParaState5 = styled.div<{ istransferring: number }>`
 `;
 
 export const TxtParaState2 = styled.div`
+  /* border: solid 1px red; */
   padding: 0.2vh 0;
   font-size: 2vh;
   color: ${theme.color.grayDark};
@@ -55,6 +58,7 @@ export const Row1 = styled.div`
 `;
 
 export const TxtParaState3 = styled.div`
+  /* border: solid 1px red; */
   padding: 0.2vh 0;
   font-size: 2vh;
   font-weight: 600;
@@ -62,6 +66,7 @@ export const TxtParaState3 = styled.div`
 `;
 
 export const TxtParaState4 = styled.div`
+  /* border: solid 1px red; */
   padding: 0.2vh 0;
   margin: auto 0 0 1vh;
   font-size: 1.5vh;

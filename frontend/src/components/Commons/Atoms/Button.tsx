@@ -37,6 +37,7 @@ interface ButtonProps {
   $alignItems?: string;
 
   $IsClick?: boolean;
+  $shadow?: boolean;
 }
 
 const StyledButton = styled.button<ButtonProps>`
@@ -85,10 +86,12 @@ export const BtnParaState = styled(StyledButton)`
   flex-direction: column;
   justify-content: start;
   align-items: start;
-  width: 47.5%;
-  padding: 4vh;
+  width: 48.2%;
+  padding: 3.2vh;
   border-radius: 2vh;
-  box-shadow: 0 0 1vh 0.4vh rgba(0, 0, 0, 0.1);
+  border: 3px solid #F4F4F4;
+
+  box-shadow: ${(props) => (props.$shadow ? '0 0 1vh 0.4vh rgba(0, 0, 0, 0.1);': '')}
 
   ${(props) =>
     props.$IsClick &&

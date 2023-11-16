@@ -11,6 +11,7 @@ export const ParamedicDetailContainer = styled.div`
   top: 0%;
   left: 100%;
 `;
+
 export const ParamedicDetailContent = styled.div`
   position: absolute;
   width: 100%;
@@ -61,42 +62,35 @@ export const FilesSection = styled.div`
   margin: 0 auto;
 `
 export const Video = styled.video`
-  border: 1px solid ${theme.color.fontGrey5};
+  /* border: 1px solid ${theme.color.fontGrey5}; */
   width: 47%;
-  height: 80%;
+  height: 24vh;
   margin: 2% 0.5% 1% 0.5%;
 `
 
 export const Image = styled.img`
-  border: 1px solid ${theme.color.fontGrey5};
+  /* border: 1px solid ${theme.color.fontGrey5}; */
   width: 47%;
-  height: 80%;
+  height: 24vh;
   margin: 2% 0.5% 1% 0.5%;
 `
 
 export const Audio = styled.audio`
   width: 96%;
-  height: 10%;
-  margin: 0 auto;
+  height: 3.6vh;
+  margin: 3% auto 2% auto;
+  border-radius: 6px;
+  box-shadow: 0px 0px 10px 4px rgba(0, 0, 0, 0.10);
+
+  &::-webkit-media-controls {
+    background-color: white;
+    border-radius: 6px;
+  };
 
   &::-webkit-media-controls-panel {
+    background-color: white; 
     color: black;
 }
-`
-
-export const NoFile = styled.div`
-  width: 47%;
-  height: 80%;
-  margin: 2% 0.5% 1% 0.5%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  color: ${theme.color.grayDarkest};
-  font-size: 2.5vh;
-  font-weight: 700;
-  background-color: ${theme.color.grayMedium};
-  border: 1px solid ${theme.color.fontGrey5};
 `
 
 export const ItemElapseMin = styled.div`
@@ -110,7 +104,7 @@ export const ItemAddr = styled.div`
   height: fit-content;
   padding: 0 4%;
   font-size: ${theme.font.Small3_14};
-  margin-top: 20px;
+  margin-top: 4%;
 `;
 
 export const ItemLeftTime = styled.div`

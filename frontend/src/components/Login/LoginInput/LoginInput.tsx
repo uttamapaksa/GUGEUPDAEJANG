@@ -8,7 +8,7 @@ import PATH from '/src/constants/path';
 import LoginFailModal from '../../Commons/Molecules/LoginFailModal/LoginFailModal';
 import Spinner from '../../libraries/Spinner/Spinner';
 
-import { deleteLogout, postLogin } from '/src/apis/auth';
+import { postLogin } from '/src/apis/auth';
 import { LoginProps } from '/src/types/auth';
 
 import { useResetRecoilState, useSetRecoilState } from 'recoil';
@@ -92,19 +92,6 @@ function LoginInput() {
     setShowSpinner(false);
   };
 
-  const axiosLogout = async (): Promise<void> => {
-    try {
-      const response = await deleteLogout();
-      if (response === 200) {
-        localStorage.removeItem('access_token');
-        localStorage.removeItem('refresh_token');
-        console.log('로그아웃 완료');
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   return (
     <S.Container onKeyDown={handleEnterPress}>
       {isOpen && <LoginFailModal content={modalContent} setIsOpen={setIsOpen} />}
@@ -148,21 +135,6 @@ function LoginInput() {
         <S.TxtLoginToggle>/</S.TxtLoginToggle>
         <S.TxtLoginToggle>비밀번호 찾기</S.TxtLoginToggle>
       </S.Row2>
-
-      {/* 삭제할 예정 */}
-      <S.Row1>
-        <A.BtnSubmit
-          $margin="0 0 0 auto"
-          $width="30%"
-          $height="100%"
-          $fontSize="2vh"
-          $borderRadius="1vh"
-          $backgroundColor={theme.color.fontPink1}
-          onClick={() => axiosLogout()}
-        >
-          임시 로그아웃
-        </A.BtnSubmit>
-      </S.Row1>
     </S.Container>
   );
 }

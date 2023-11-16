@@ -36,6 +36,6 @@ export const WaitMoveScroll = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 39vh;
+  height: 45vh;
   overflow-y: scroll;
 `

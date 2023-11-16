@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { currentParamedicPageIndexState, isTransferringState, fixedCallingState } from '/src/recoils/ParamedicAtoms';
 import * as S from './CallWaitToggle.style';
@@ -24,6 +24,7 @@ function CallWaitToggle() {
   const setCurrentPageIndex = useSetRecoilState(currentParamedicPageIndexState);
   const istransferring = useRecoilValue(isTransferringState);
   const fixedCalling = useRecoilValue(fixedCallingState);
+  const [shadow, setShadow] = useState<boolean>(true)
 
   const [selected, setSelected] = useState(0);
   const isSelected = (num: number) => {
@@ -32,6 +33,7 @@ function CallWaitToggle() {
   };
   const goToCall = () => {
     if (istransferring) return;
+    setShadow(false)
     setSelected(1);
     setTimeout(() => {
       setCurrentPageIndex(1);
@@ -41,17 +43,22 @@ function CallWaitToggle() {
     if (!istransferring) return;
     setCurrentPageIndex(2);
   };
+  useEffect(()=>{
+    if(istransferring) {setShadow(false)}
+  },[istransferring])
 
   return (
     <S.Container>
-      <A.BtnParaState onClick={goToCall} $IsClick={isSelected(1)}>
+      <A.BtnParaState $shadow={shadow} onClick={goToCall} $IsClick={isSelected(1)}>
         <S.TxtParaState1 istransferring={istransferring ? 1 : 0} selected={selected}>
           환자 이송
         </S.TxtParaState1>
         <S.TxtParaState1 istransferring={istransferring ? 1 : 0} selected={selected}>
           요청하기
         </S.TxtParaState1>
-        <S.ImgDiv>{istransferring ? <A.ImgAmbulance $width="4vh" /> : <A.ImgAmbulanceActive $width="4vh" />}</S.ImgDiv>
+        <S.ImgDiv>
+          {istransferring ? <A.ImgRequestBell $width="3vh" /> : <A.ImgRequestBellActive $width="3vh" /> }
+        </S.ImgDiv>
       </A.BtnParaState>
 
       <A.BtnParaState onClick={goTMove} $IsClick={istransferring}>
@@ -74,7 +81,7 @@ function CallWaitToggle() {
         )}
 
         <S.ImgDiv>
-          {istransferring ? <A.ImgRequestBellActive $width="3.5vh" /> : <A.ImgRequestBell $width="3.5vh" />}
+          {istransferring ? <A.ImgAmbulanceActive $width="3.8vh" />: <A.ImgAmbulance $width="3.8vh" />}
         </S.ImgDiv>
       </A.BtnParaState>
     </S.Container>

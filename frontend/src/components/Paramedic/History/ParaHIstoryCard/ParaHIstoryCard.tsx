@@ -44,6 +44,9 @@ function ParaHistoryCard({ showCenter }: { showCenter: boolean }) {
   return (
     <S.SearchList>
       {historyDetail && <ParaHistoryDetail DetailClose = {DetailClose}/>}
+      <S.ItemNo>
+        {histories?.length === 0 && <div>이송 기록이 없습니다.</div>}
+      </S.ItemNo>
       {histories && histories.map((history,index) => (
         <S.Item 
           key={index} 

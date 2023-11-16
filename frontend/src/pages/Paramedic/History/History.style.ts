@@ -3,7 +3,6 @@ import styled from 'styled-components';
 export const ParamedicHeader = styled.div`
   /* border: 1px solid green; */
   display: flex;
-  justify-content: space-between;
   align-items: center;
   width: 100%;
   height: 9vh;
@@ -26,13 +25,14 @@ export const HistoryCategory = styled.div`
   display: flex;
   align-items: center;
   width: calc(100% - 6vh);
-  height: 7vh;
+  height: 5vh;
   z-index: 100;
   box-shadow: 0 0.3vh 0.3vh 0.1vh rgba(0, 0, 0, 0.1);
 `;
 
 export const TxtHeaderTitle = styled.div<{ showcenter: number }>`
   /* border: 1px solid green; */
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -42,7 +42,18 @@ export const TxtHeaderTitle = styled.div<{ showcenter: number }>`
   height: 100%;
   margin: 0 1.2vh 0 0;
   color: ${({ showcenter }) => (showcenter ? '#000000' : '#969696')};
-  border-bottom: ${({ showcenter }) => (showcenter ? '0.5vh solid black' : '0.5vh solid transparent')};
+
+  &::after {
+    content: '';
+    display: ${({ showcenter }) => (showcenter ? 'block' : 'none')};
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: 60%; 
+    height: 0.3vh;
+    background-color: black;
+  }
 `;
 
 export const Wrapper = styled.div`
