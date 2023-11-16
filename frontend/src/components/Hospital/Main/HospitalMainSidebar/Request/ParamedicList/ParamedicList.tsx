@@ -24,7 +24,7 @@ const ParamedicList = () => {
                 {requestList !== undefined ?
                     <>
                         {requestList.map((item, index) => (
-                            <ParamedicListItem {...item} key={index}
+                            <ParamedicListItem items={item} key={index}
                                 onclick={() => selectParaDetail(item)}
                                 isSelected={(selectedRequestItem !== undefined && selectedRequestItem.id == item.id)}
                             />
