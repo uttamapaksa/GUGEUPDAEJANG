@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/mainlogo.png" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="width=device-width, initial-scale=1.0" />
+    <meta property="og:title" content="구급대장" /> 
+    <meta property="og:description" content="실시간 구급 이송 지원 시스템" /> 
+    <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/pocket-sch.appspot.com/o/goojang.png?alt=media&token=3bab2386-cc69-4861-a922-3bef5f8acdc1" /> 
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://k9b204a.p.ssafy.io">
+    <meta property="og:site_name" content="구급대장">
+    <meta property="og:locale" content="ko_KR">
+    
+    <title>구급대장</title>
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <script src="https://apis.openapi.sk.com/tmap/vectorjs?version=1&appKey=uNvEu7LL2zaBhcZN7iv768YXUbahYl9YatwxUQ0d"></script>
+    <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=252f3b894bd1c819e8237900971dcebf&libraries=services"></script>
+    <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="module" src="/src/main.tsx"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker
+          .register('/sw.js')
+          .then((registration) => {
+            registration.addEventListener('updatefound', () => {
+              const installingWorker = registration.installing;
+              console.log('A new service worker is being installed:', installingWorker);
+            });
+          })
+          .catch((error) => {
+            console.error(`Service worker registration failed: ${error}`);
+          });
+      } else {
+        console.error('Service workers are not supported.');
+      }
+    </script>
+  </body>
+</html>

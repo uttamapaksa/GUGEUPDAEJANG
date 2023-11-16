@@ -1,0 +1,59 @@
+server:
+  port: 64413
+  ssl:
+    enabled: true
+    key-store-type: pkcs12
+    key-store: keystore.p12
+    key-store-password: 9979
+spring:
+  application:
+    name: transfer-service
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: ${TRANSFER_MARIA_URL}
+    username: ${TRANSFER_MARIA_USER}
+    password: ${TRANSFER_MARIA_PASSWORD}
+  jpa:
+#    show-sql: true
+    hibernate:
+      ddl-auto: update
+      properties:
+        hibernate:
+          default_batch_fetch_size: 500
+  redis:
+    host: ${CALLING_REDIS_HOST}
+    port: ${CALLING_REDIS_PORT}
+    password: ${CALLING_REDIS_PASSWORD}
+    database: 3
+  kafka:
+    bootstrap-servers: ${KAFKA_SERVER}
+    consumer:
+      group-id: transfer-consumer
+      auto-offset-reset: latest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: https://k9b204.p.ssafy.io:8761/eureka
+  instance:
+    hostname: k9b204a.p.ssafy.io
+    secure-port: 64413
+    secure-port-enabled: true
+    non-secure-port-enabled: false
+    secure-virtual-host-name: k9b204a.p.ssafy.io
+    home-page-url-path: https://k9b204a.p.ssafy.io:64413/
+    status-page-url-path: https://k9b204a.p.ssafy.io:64413/
+    health-check-url: https://k9b204a.p.ssafy.io:64413/
+passport:
+  key: ${SECRETE_KEY}
+  algorithm: HmacSHA256
+
+openvidu:
+  url: ${OPENVIDU_URL}
+  password: ${OPENVIDU_SECRET}
