@@ -11,12 +11,9 @@ export const Wrapper = styled.div`
   /* border: 3px solid red; */
   display: flex;
   align-items: center;
-  width: 60vh;
-  padding-left: 3vh;
-  padding-right: 3vh;
-  height: 65vh;
-  padding-top: 15vh;
-  padding-bottom: 20vh;
+  width: 50vh;
+  height: 60vh;
+  padding: 17vh 3vh 20vh 3vh;
 `;
 
 export const ContentBox = styled.div`
@@ -39,5 +36,6 @@ export const Logout = styled.div`
 `
 
 export const Blank = styled.div`
+  /* border: 3px solid orange; */
   height: 15%;
 `;

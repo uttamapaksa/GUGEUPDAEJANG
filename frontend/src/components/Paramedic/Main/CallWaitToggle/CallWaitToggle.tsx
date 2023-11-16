@@ -51,7 +51,9 @@ function CallWaitToggle() {
         <S.TxtParaState1 istransferring={istransferring ? 1 : 0} selected={selected}>
           요청하기
         </S.TxtParaState1>
-        <S.ImgDiv>{istransferring ? <A.ImgAmbulance $width="4vh" /> : <A.ImgAmbulanceActive $width="4vh" />}</S.ImgDiv>
+        <S.ImgDiv>
+          {istransferring ? <A.ImgRequestBell $width="3vh" /> : <A.ImgRequestBellActive $width="3vh" /> }
+        </S.ImgDiv>
       </A.BtnParaState>
 
       <A.BtnParaState onClick={goTMove} $IsClick={istransferring}>
@@ -74,7 +76,7 @@ function CallWaitToggle() {
         )}
 
         <S.ImgDiv>
-          {istransferring ? <A.ImgRequestBellActive $width="3.5vh" /> : <A.ImgRequestBell $width="3.5vh" />}
+          {istransferring ? <A.ImgAmbulanceActive $width="3.8vh" />: <A.ImgAmbulance $width="3.8vh" />}
         </S.ImgDiv>
       </A.BtnParaState>
     </S.Container>
