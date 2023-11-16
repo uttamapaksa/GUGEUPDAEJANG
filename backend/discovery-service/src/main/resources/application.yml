@@ -1,0 +1,17 @@
+server:
+  port: 8761
+  ssl:
+    enabled: true
+    key-store-type: pkcs12
+    key-store: keystore.p12
+    key-store-password: 9979
+spring:
+  application:
+    name: discovery-service
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: https://k9b204.p.ssafy.io:8761/eureka
+  renewalPercentThreshold: 0.85
