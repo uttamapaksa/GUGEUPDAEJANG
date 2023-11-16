@@ -5,6 +5,20 @@ import { HospitalResponsePostProps } from "../types/map";
 export const getMyHospital = async () => {
   try {
     const response = await privateApi.get("/member/my-hospital");
+    console.log(response);
+    
+    return response
+  }
+  catch (error) {
+    console.log('getMyHospital 실패', error);
+  }
+}
+// 병원 정보 가져오기
+export const getHospitalImg = async (memberId:number) => {
+  try {
+    const response = await privateApi.get("/member/"+memberId);
+    console.log(response);
+    
     return response
   }
   catch (error) {
