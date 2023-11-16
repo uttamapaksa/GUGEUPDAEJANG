@@ -15,6 +15,7 @@ function Login() {
   const curPos = useRecoilValue(currentPosition);
 
   useEffect(() => {
+    localStorage.removeItem("recoil-persist");
     if (curPos.lat !== null) {
       setIsOpen(false);
     }

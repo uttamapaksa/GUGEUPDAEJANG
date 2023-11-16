@@ -7,6 +7,10 @@ import {
   currentParamedicPageIndexState,
   isCanceledState,
   isCompletedState,
+  recordImageFile,
+  recordVideoFile,
+  recordVoiceFile,
+  recordContentFile,
 } from '/src/recoils/ParamedicAtoms';
 
 function useResetParamedicRecoil() {
@@ -15,6 +19,10 @@ function useResetParamedicRecoil() {
   const resetFixedCalling = useResetRecoilState(fixedCallingState);
   const resetIsTransferring = useResetRecoilState(isTransferringState);
   const resetIsCanceledState = useResetRecoilState(isCanceledState);
+  const resetRecordImageFile = useResetRecoilState(recordImageFile);
+  const resetRecordVideoFile = useResetRecoilState(recordVideoFile);
+  const resetRecordVoiceFile = useResetRecoilState(recordVoiceFile);
+  const resetRecordContentFile = useResetRecoilState(recordContentFile);
   const resetIsCompletedState = useResetRecoilState(isCompletedState);
   const resetCurrentPageIndex = useResetRecoilState(currentParamedicPageIndexState);
 
@@ -26,6 +34,10 @@ function useResetParamedicRecoil() {
     resetIsCanceledState();
     resetIsCompletedState();
     resetCurrentPageIndex();
+    resetRecordImageFile();
+    resetRecordVideoFile();
+    resetRecordVoiceFile();
+    resetRecordContentFile();
   };
 }
 
