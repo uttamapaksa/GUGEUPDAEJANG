@@ -238,7 +238,7 @@ public class CallingServiceImpl implements CallingService{
             } else if (o.getStatus().equals(Status.APPROVED) && o.getId() != selectedCalling.getId()) {
                 CallingStatusMessage callingStatusMessage = new CallingStatusMessage(o);
                 callingStatusMessage.setStatus(Status.TERMINATED);
-                simpMessagingTemplate.convertAndSend("/topic/status/" + selectedCalling.getMemberId(), callingStatusMessage);
+                simpMessagingTemplate.convertAndSend("/topic/status/" + o.getMemberId(), callingStatusMessage);
             }
         });
     }
