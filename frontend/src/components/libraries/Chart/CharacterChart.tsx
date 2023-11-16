@@ -42,7 +42,7 @@ const CharacterChart = ({ageValue}:{ageValue?: AgeType}) => {
     'female' : ageValue?.femaleCountList,
   }
 
-  const MaxData = requestData.age?  Math.ceil(Math.max(...requestData.age)/100) * 100 + 100 : 0;
+  const MaxData = requestData.age?  Math.ceil(Math.max(...requestData.age)/10) * 10 + 10 : 0;
 
   useEffect(() => {
     const options = {
@@ -77,9 +77,8 @@ const CharacterChart = ({ageValue}:{ageValue?: AgeType}) => {
       // x축
       xaxis: {
         categories: [
-          '10대 이하', '10대', '20대', 
-          '30대', '40대', '50대', 
-          '60대', '70대', '70대 이상'
+          '영유아', '아동', '청소년', 
+          '청년', '중장년', '노인'
         ],
       },
 
@@ -133,7 +132,7 @@ const CharacterChart = ({ageValue}:{ageValue?: AgeType}) => {
       tooltip: {
         y: {
           formatter: function (val) {
-            return "$ " + val + " thousands"
+            return + val + "건"
           }
         }
       }

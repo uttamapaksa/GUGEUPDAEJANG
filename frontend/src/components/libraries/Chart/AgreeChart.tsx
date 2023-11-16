@@ -51,7 +51,7 @@ const AgreeChart:React.FC<AgreeChartProps> = ({ selectedYear, setSelectedYear, r
 
   const requestData: AgreeRequestData = responseValue
   
-  const MaxData = requestData.total? Math.ceil(Math.max(...requestData.total)/100) * 100 : 0;
+  const MaxData = requestData.total? Math.ceil(Math.max(...requestData.total)/10) * 10 + 10 : 0;
 
   useEffect(() => {
     const acceptanceRates = requestData.approved.map((approved, index) => {

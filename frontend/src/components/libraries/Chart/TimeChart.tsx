@@ -35,8 +35,9 @@ const Chart = styled.div`
 const TimeChart = ({timeValue}:{timeValue?: TimeType}) => {
   const chartRef = useRef(null);
   const requestData = timeValue?.callingPerTimeList
+  console.log(timeValue)
 
-  const MaxData = requestData?  Math.ceil(Math.max(...requestData)/100) * 100 + 100 : 0;
+  const MaxData = requestData?  Math.ceil(Math.max(...requestData)/10) * 10 + 10 : 0;
   
   useEffect(() => {
     const options = {
