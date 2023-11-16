@@ -14,9 +14,9 @@ const HopsitalHeader = () => {
       <A.ImgLogo $height="60%" $position="absolute" $top="50%" $left="1%" $transform="translate(0, -50%)" />
 
       <HeaderHospitalLogo onClick={()=>{setMenuIsShown(true)}}>
-        {hospitalInfo.imageUrl && hospitalInfo.imageUrl !== null ? 
-        <img src={hospitalInfo.imageUrl} style={{height:"100%"}}></img> :
-        <><A.ImgLogoHospital $height="100%" /> {setHospitalInfo.name}</>
+        {hospitalInfo.imageUrl && hospitalInfo.imageUrl !== "" ? 
+        <><img src={hospitalInfo.imageUrl} style={{height:"100%"}}></img>{hospitalInfo.name}</> :
+        <><A.ImgLogoHospital $height="100%" /> {hospitalInfo.name}</>
         }
         
       </HeaderHospitalLogo>

@@ -75,6 +75,7 @@ function LoginInput() {
     };
     try {
       const response = await postLogin(info);
+      console.log(response)
       setMemberInfo(response);
       if (response.role === 'PARAMEDIC') {
         goParamedic();

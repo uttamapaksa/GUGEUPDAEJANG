@@ -33,7 +33,7 @@ const MenuListBar = ({ setMenuIsShown }: Headertype) => {
         onClick={() => {
           axiosLogout();
           goLogin();
-          window.localStorage.removeItem("recoil-persist");
+          localStorage.removeItem("recoil-persist");
         }}
       >
         로그아웃
