@@ -11,7 +11,7 @@ export const Container = styled.div`
 export const TxtParaState1 = styled.div<{ istransferring: number; selected: number }>`
   padding: 0.2vh 0;
   font-size: 2.9vh;
-  font-weight: 800;
+  font-weight: 700;
   ${({ istransferring, selected }) =>
     istransferring
       ? css`
@@ -29,7 +29,7 @@ export const TxtParaState1 = styled.div<{ istransferring: number; selected: numb
 export const TxtParaState5 = styled.div<{ istransferring: number }>`
   padding: 0.2vh 0;
   font-size: 2.9vh;
-  font-weight: 800;
+  font-weight: 700;
   ${({ istransferring }) =>
     istransferring
       ? css`

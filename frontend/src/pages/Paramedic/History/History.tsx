@@ -9,7 +9,7 @@ import ParaHistoryOption from '/src/components/Paramedic/History/ParaHistoryOpti
 function History() {
   const setCurrentPageIndex = useSetRecoilState(currentParamedicPageIndexState);
   const goToPrev = () => setCurrentPageIndex(0);
-  const [showCenter, setShowCenter] = useState(true);
+  const [showCenter, setShowCenter] = useState(false);
 
   return (
     <>
@@ -17,16 +17,15 @@ function History() {
         <S.Arrow>
           <A.ImgArrowLeft $width="1.5vh" onClick={goToPrev} />
         </S.Arrow>
-        <A.TxtHeaderTitle>이송 기록</A.TxtHeaderTitle>
-        <S.Arrow />
+        <A.TxtHeaderTitle $width="18%">이송기록</A.TxtHeaderTitle>
       </S.ParamedicHeader>
 
       <S.HistoryCategory>
-        <S.TxtHeaderTitle showcenter={showCenter ? 1 : 0} onClick={() => setShowCenter(true)}>
-          구급대원
-        </S.TxtHeaderTitle>
         <S.TxtHeaderTitle showcenter={showCenter ? 0 : 1} onClick={() => setShowCenter(false)}>
           안전센터
+        </S.TxtHeaderTitle>
+        <S.TxtHeaderTitle showcenter={showCenter ? 1 : 0} onClick={() => setShowCenter(true)}>
+          구급대원
         </S.TxtHeaderTitle>
       </S.HistoryCategory>
 

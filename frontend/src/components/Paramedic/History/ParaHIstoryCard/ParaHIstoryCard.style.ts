@@ -8,6 +8,16 @@ export const SearchList = styled.div`
   justify-content: space-between;
 `;
 
+export const ItemNo = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  font-size: 2vh;
+  padding: 1vh 0 0 0;
+`
+
 export const Item = styled.div`
   border: 0.2vh solid #D9D9D9;
   position: relative;

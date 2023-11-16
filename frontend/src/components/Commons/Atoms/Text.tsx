@@ -81,6 +81,6 @@ export const TxtHeaderTitle  = styled(StyledText)`
   color : ${theme.color.fontGrey4};
   font-size: 2.5vh;
   font-weight: 400;
-  width: 50%;
   height: 80%;
+  width: ${(props) => props.$width || "50%"};
 `
