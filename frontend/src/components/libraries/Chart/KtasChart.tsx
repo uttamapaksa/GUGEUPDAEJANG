@@ -54,7 +54,7 @@ const KtasChart = ({ktasValue}:{ktasValue?: KtasType}) => {
       }
       sums.push(sum);
     }
-    return Math.ceil(Math.max(...sums)/100) * 100;
+    return Math.ceil(Math.max(...sums)/10) * 10 + 10;
   };
 
   const MaxData = calculateMaxData();
