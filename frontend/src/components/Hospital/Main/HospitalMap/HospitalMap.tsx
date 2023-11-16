@@ -3,7 +3,7 @@ import { MapContainer } from "./HospitalMap.styls";
 import Map from "/src/components/libraries/Map/Map";
 import { MapProps } from "/src/types/map";
 import { useRecoilValue } from "recoil";
-import { hospitalParmedicRequestList, hospitalSidebarType, hospitalParmedicTransferList } from "/src/recoils/HospitalAtoms";
+import { hospitalParmedicRequestList, hospitalSidebarType, hospitalParmedicTransferList, prevMapType } from "/src/recoils/HospitalAtoms";
 import { hospitalInfoState } from "/src/recoils/AuthAtoms";
 
 const HospitalMap = () => {
@@ -11,6 +11,7 @@ const HospitalMap = () => {
   const hospitalInfo = useRecoilValue(hospitalInfoState);
   const requestList = useRecoilValue(hospitalParmedicRequestList);
   const transferList = useRecoilValue(hospitalParmedicTransferList);
+  const prevType = useRecoilValue(prevMapType);
 
   const isRequest = useRecoilValue(hospitalSidebarType);
 
@@ -40,7 +41,7 @@ const HospitalMap = () => {
       
     }
     
-  }, [requestList, transferList, hospitalInfo, isRequest]);
+  }, [requestList, transferList, hospitalInfo, isRequest, prevType]);
 
   return (
     <MapContainer>

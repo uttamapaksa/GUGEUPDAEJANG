@@ -11,6 +11,13 @@ export const hospitalComponentType = atom({
   effects_UNSTABLE: [persistAtom],
 });
 
+//병원 지도, 기록, 통계 구분
+export const prevMapType = atom({
+  key: "prevMapType",
+  default: "empty",
+  effects_UNSTABLE: [persistAtom],
+});
+
 //병원 요청, 이송 구분
 export const hospitalSidebarType = atom({
   key: "hospitalSidebarType",

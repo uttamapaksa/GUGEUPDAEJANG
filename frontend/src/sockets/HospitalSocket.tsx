@@ -14,6 +14,7 @@ import {
   ParaRequestItem,
   ParamedicStatusProps,
 } from "../types/map";
+import Swal from "sweetalert2";
 
 const CALLING_SERVER_URL = "https://k9b204a.p.ssafy.io:64419/calling-websocket";
 const TRANSFER_SERVER_URL = "https://k9b204a.p.ssafy.io:64413/transfer-websocket";
@@ -26,7 +27,7 @@ function HospitalSocket() {
   const [selectedTransferItem, setSelectedTransferItem] = useRecoilState(hospitalSelectedTransferItem);
   const [requestList, setRequestList] = useRecoilState(hospitalParmedicRequestList);
   const [transferList, setTransferList] = useRecoilState(hospitalParmedicTransferList);
-  
+
   const [changedTransferItem, setChangedTransferItem] = useState<any>(undefined);
   const [changedRequestItem, setChangedRequestItem] = useState<any>(undefined);
 
@@ -144,7 +145,7 @@ function HospitalSocket() {
     }
   };
 
-  const changeRequestList = (item:any) =>{
+  const changeRequestList = (item: any) => {
     if (requestList !== undefined) {
       let nextRequestList = requestList.filter(
         (tmp: ParaRequestItem) => tmp.id != item.callingId
@@ -163,7 +164,7 @@ function HospitalSocket() {
     setChangedTransferItem(item);
   };
 
-  const changeTransferList = (item:any) => {
+  const changeTransferList = (item: any) => {
     if (transferList !== undefined) {
       let nextList = [];
       for (let i = 0; i < transferList.length; i++) {
@@ -180,9 +181,15 @@ function HospitalSocket() {
           };
           console.log(curItme);
           nextList.push(curItme);
-          if(selectedTransferItem !== undefined && selectedTransferItem.id === curItme.id){
+          if (selectedTransferItem !== undefined && selectedTransferItem.id === curItme.id) {
             setSelectedTransferItem(curItme);
           }
+          if (transferList[i].videoOn !== item.videoOn && item.videoOn) {
+            Swal.fire(
+              "화상통화 연결 요청"
+            );
+          }
+
         } else {
           nextList.push(transferList[i]);
         }
@@ -190,7 +197,7 @@ function HospitalSocket() {
       setTransferList(nextList);
       console.log(nextList);
     }
-    else{
+    else {
       console.log("transferReceiveMessage: undefined");
     }
   }
@@ -199,21 +206,21 @@ function HospitalSocket() {
     console.log("transferList in socket", transferList);
   }, [transferList]);
   useEffect(() => {
-    if(changedTransferItem!==undefined){
+    if (changedTransferItem !== undefined) {
       changeTransferList(changedTransferItem);
       setChangedTransferItem(undefined);
     }
   }, [changedTransferItem]);
 
   useEffect(() => {
-    if(changedTransferItem!==undefined){
+    if (changedTransferItem !== undefined) {
       changeTransferList(changedTransferItem);
       setChangedTransferItem(undefined);
     }
   }, [changedTransferItem]);
 
   useEffect(() => {
-    if(changedRequestItem!==undefined){
+    if (changedRequestItem !== undefined) {
       changeRequestList(changedRequestItem);
       setChangedRequestItem(undefined);
     }

@@ -109,7 +109,7 @@ const OpenViduComponent = (props: any) => {
     
     props.setModalOff();
     Swal.fire(
-      "연결종료.",
+      "연결종료",
       "",
       "success"
       // '확인',

@@ -5,10 +5,11 @@ import { MapProps } from "/src/types/map";
 import ParamedicRequestMarker from "./Marker/Hospital/ParamedicRequsetMarker";
 import ParamedicTransferMarker from "./Marker/Hospital/ParamedicTransferMarker";
 import ParamedicTransferInfo from "./InfoWindow/ParamedicTransferInfo";
-import MyHospitalMarker from "./Marker/Hospital/MyHospitalMarker";
 import ParamedicRequestMapItem from "./Marker/Paramedic/ParamedicRequestMapItem";
 import GuestMapItem from "./Marker/Guest/GuestMapItem";
 import ParamedicTransferMapItem from "./Marker/Paramedic/ParamedicTransferMapItem";
+import { useRecoilState } from "recoil";
+import { prevMapType } from "/src/recoils/HospitalAtoms";
 
 declare global {
     interface Window {
@@ -40,11 +41,17 @@ export const destroyMap = () => {
 
 //props.type 의 구분에 따라 지도 반응형 크기 및 하위 컴포넌트 적용
 function Map(props: MapProps) {
+    const [prevType, setPrevType] = useRecoilState(prevMapType);
     const [map, setMap] = useState<any>();
-    const [prevType, setPrevType] = useState<string>("");
 
     useEffect(() => {
+        setPrevType("empty");
+    }, []);
+    useEffect(() => {
+        console.log("prevType", prevType, props.type, props, map );
+        
         if (props.pos !== undefined && props.type != prevType) {
+            console.log("test");
             if (map !== undefined) destroyMap();
             console.log("지도 prevType", prevType, props);
             console.log("mapchange")
@@ -68,9 +75,10 @@ function Map(props: MapProps) {
 
     useEffect(() => {
         console.log('props', props);
-        if (props.pos !== undefined && map !== undefined && props.type != prevType) {
+        if (props.pos !== undefined && map !== undefined && props.type !== prevType) {
+            setPrevType(props.type);
             map.setCenter(new Tmapv3.LatLng(props.pos.lat, props.pos.lon));
-            console.log("MapPos", props);
+            console.log("MapPos", prevType, props);
         }
     }, [props]);
     
@@ -93,14 +101,12 @@ function Map(props: MapProps) {
                         <></>}
                     {props.type === "request" ?
                         <>
-                            <MyHospitalMarker {...props} map={map} />
                             <ParamedicRequestMarker {...props} map={map} />
                             <ParamedicInfo {...props} map={map} />
                         </> :
                         <></>}
                     {props.type === "transfer" ?
                         <>
-                            <MyHospitalMarker {...props} map={map} />
                             <ParamedicTransferMarker {...props} map={map} />
                             <ParamedicTransferInfo {...props} map={map} />
                         </> :
