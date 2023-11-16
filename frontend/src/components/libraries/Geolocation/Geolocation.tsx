@@ -13,7 +13,7 @@ function Geolocation() {
 
   const setCurrentPos = () => {
     if (geolocation !== undefined) {
-      console.log("내 위치",geolocation)
+      // console.log("내 위치",geolocation)
       setCurPos({ lat: geolocation.latitude, lon: geolocation.longitude });
     }
   };

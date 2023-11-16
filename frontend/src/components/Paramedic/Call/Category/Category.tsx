@@ -113,13 +113,13 @@ function Category() {
           setShowSpinner(false);
           setCallingStep((prev)=>({occurrenceId: occurrenceIdData.occurrenceId, step: prev.step + 1}))
           if (hospitalsData) {
-            
             setHospitals(hospitalsData);
             setCurrentPageIndex(2);
           }
         });
+      } else {
+        setShowSpinner(false);
       }
-      setShowSpinner(false);
     });
   };
 
