@@ -36,7 +36,7 @@ interface ButtonProps {
   $alignContent?: string;
   $alignItems?: string;
 
-  $IsClick?: number;
+  $IsClick?: boolean;
 }
 
 const StyledButton = styled.button<ButtonProps>`
@@ -125,20 +125,11 @@ export const BtnToggle = styled(StyledButton)`
   border-radius: ${(props) => props.$borderRadius || '20px'};
   border: ${(props) => `3px solid ${props.$border}`};
   flex-direction: column;
-  background-color: ${(props) => {
-    switch (props.isClick) {
-      case 2:
-        return theme.color.grayDarkest;
-      case 1:
-        return theme.color.grayDark;
-      default:
-        return theme.color.white;
-    }
-  }};
   ${(props) =>
     props.$IsClick &&
     css`
       color: ${theme.color.white};
+      background-color: ${theme.color.grayDarkest}
       box-shadow: 0px 0px 10px 4px rgba(0, 0, 0, 0.2);
     `}
   transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
