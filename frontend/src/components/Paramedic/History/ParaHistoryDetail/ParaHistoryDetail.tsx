@@ -5,10 +5,6 @@ import { useRecoilValue } from 'recoil';
 import { historyDetailState } from '/src/recoils/ParamedicAtoms';
 import A from '/src/components/Commons/Atoms';
 
-interface ParaHistoryCardProps {
-  DetailClose?: () => void
-}
-
 interface GroupMapping {
   [key: string]: string;
 }
@@ -26,7 +22,7 @@ const genderMapping: GroupMapping = {
   FEMALE: '여',
 };
 
-function ParaHistoryDetail ({DetailClose} : ParaHistoryCardProps) {
+function ParaHistoryDetail () {
   const [objFiles, setObjFiles] = useState<FileTypes>({ video: null, image: null, voice: null });
   const historyDetail = useRecoilValue(historyDetailState)
 
@@ -53,14 +49,10 @@ function ParaHistoryDetail ({DetailClose} : ParaHistoryCardProps) {
     if (historyDetail?.files) { checkFiles(historyDetail.files) }
   }, [historyDetail]);
 
-  const DetailCloseProtect = (event: React.MouseEvent<HTMLDivElement>) => {
-    event.stopPropagation(); // 이 부분이 중요합니다.
-  };
-
   return (
-    <S.Overlay onClick={DetailClose}>
-      <S.Container onClick={DetailCloseProtect}>
-        <S.Close onClick={DetailClose}> <A.ImgExitBlack $width='2.8vh'/> </S.Close>
+      <S.Container>
+        <S.MainTItle>환자 이송 상세</S.MainTItle>
+        <S.Wrapper>
         <S.Title>이송 정보</S.Title>
         <S.ContentBox>
           <S.Row>
@@ -192,10 +184,9 @@ function ParaHistoryDetail ({DetailClose} : ParaHistoryCardProps) {
                 <S.Audio src={objFiles.voice} controls></S.Audio>
                 ) : (<></>)}
             </S.FilesSection>
-
-        </S.ContentBox>
+          </S.ContentBox>
+        </S.Wrapper>
       </S.Container>
-    </S.Overlay>
   )
 }
 

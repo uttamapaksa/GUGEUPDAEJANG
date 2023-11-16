@@ -32,10 +32,10 @@ export const ContentBox = styled.div`
 
 export const WaitMoveScroll = styled.div`
   /* border: 3px solid orange; */
-  margin-top: 5vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 45vh;
   overflow-y: scroll;
+  height: 47vh;
+  padding-bottom: 3vh;
 `
