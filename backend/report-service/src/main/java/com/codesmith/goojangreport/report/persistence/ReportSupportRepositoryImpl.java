@@ -112,7 +112,8 @@ public class ReportSupportRepositoryImpl implements ReportSupportRepository {
                 .where(
                         report.occurrenceTime.between(startOfToday, endOfToday)
                                 .and(report.callingStatus.eq("APPROVED"))
-                                .or(report.callingStatus.eq(("FIXED")))
+                                .or(report.callingStatus.eq(("FIXED"))
+                                        .and(report.occurrenceTime.between(startOfToday, endOfToday)))
 //                                .and(report.hospitalMemberId.eq(memberId))
                 );
     }
