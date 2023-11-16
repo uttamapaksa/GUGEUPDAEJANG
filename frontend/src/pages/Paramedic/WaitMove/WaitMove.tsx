@@ -8,7 +8,6 @@ import Times from '/src/components/Paramedic/WaitMove/Times/Times';
 // import Toggle from '/src/components/Paramedic/WaitMove/Toggle/Toggle';
 import ParamedicMap from '/src/components/Paramedic/WaitMove/Map/ParamedicMap';
 import A from '/src/components/Commons/Atoms';
-import theme from '/src/styles';
 
 function WaitMove() {
   const isTransferring = useRecoilValue(isTransferringState);
@@ -34,16 +33,16 @@ function WaitMove() {
                 $right="0%"
                 $top="0%"
                 $ktas={occurState.ktas.toLowerCase() as "ktas1" | "ktas2" | "ktas3" | "ktas4" | "ktas5" | undefined}
-                $width="50px"
-                $height="25px"
+                $width="9.5vh"
+                $height="4.5vh"
                 $borderRadius="0px 0px 0px 10px"
-                $fontSize={theme.font.Small5_12}
+                $fontSize='1.5vh'
               >
                 {occurState.ktas}
               </A.DivKtasInfo>
-              <S.WaitMoveScroll>
+              <S.MoveScroll>
                 <Move />
-              </S.WaitMoveScroll>
+              </S.MoveScroll>
             </>
 
           }

@@ -16,13 +16,15 @@ export const Wrapper = styled.div`
 `;
 
 export const ContentBox = styled.div`
-  /* border: 3px solid orange; */
+  /* border: 3px solid orange;  */
   position: relative;
   margin-top: -1.5vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
+  width: calc(100% - 2vh);
+  /* height: 57vh; */
+  padding: 1vh;
   border-radius: 2vh 2vh 0 0;
   z-index: 100;
   background-color: white;
@@ -32,10 +34,20 @@ export const ContentBox = styled.div`
 
 export const WaitMoveScroll = styled.div`
   /* border: 3px solid orange; */
+  /* margin-top: 5vh; */
   display: flex;
   flex-direction: column;
   align-items: center;
+  height:49vh;
   overflow-y: scroll;
-  height: 47vh;
-  padding-bottom: 3vh;
+`
+
+export const MoveScroll = styled.div`
+  /* border: 3px solid orange; */
+  /* margin-top: 5vh; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height:57.5vh;
+  overflow-y: scroll;
 `

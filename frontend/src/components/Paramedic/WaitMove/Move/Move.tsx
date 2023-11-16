@@ -77,9 +77,9 @@ function Move() {
           <S.Calling>
             <A.BtnMediaRecord
               $height="4vh"
-              $width="22vw"
+              $width="16vh"
               $fontSize="2vh"
-              $padding="0 3vw"
+              $padding="0 2vh"
               $margin="1vw"
               $color={theme.color.grayDarkest}
               $justifyContent="space-between"
@@ -96,9 +96,9 @@ function Move() {
             </A.BtnMediaRecord>
             <A.BtnMediaRecord
               $height="4vh"
-              $width="22vw"
+              $width="16vh"
               $fontSize="2vh"
-              $padding="0 3.3vw"
+              $padding="0 2.4vh"
               $margin="1vw"
               $color={theme.color.grayDarkest}
               $justifyContent="space-between"
@@ -150,9 +150,10 @@ function Move() {
           $width="50%"
           $height="6vh"
           $color={theme.color.fontPink1}
-          $boxShadow="0 0.2px 0.1px 0px inset"
+          // $boxShadow="0 0.2px 0.1px 0px inset"
+          $boxShadow="0 0 0.5vh 0.2vh rgba(0, 0, 0, 0.1)"
           $fontSize="2.5vh"
-        >
+          >
           이송 취소
         </A.BtnSubmit>
 
@@ -161,7 +162,7 @@ function Move() {
           $width="50%"
           $height="6vh"
           $backgroundColor={theme.color.fontPink1}
-          $boxShadow="0 0.2px 0.1px 0px inset"
+          $boxShadow="0 0 0.5vh 0.2vh rgba(0, 0, 0, 0.1)"
           $fontSize="2.5vh"
         >
           이송 완료
