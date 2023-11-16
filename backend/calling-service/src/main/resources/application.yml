@@ -1,0 +1,80 @@
+server:
+  port: 64419
+  ssl:
+    enabled: true
+    key-store-type: pkcs12
+    key-store: keystore.p12
+    key-store-password: 9979
+
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+  application:
+    name: calling-service
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: ${CALLING_MARIA_URL}
+    username: ${CALLING_MARIA_USER}
+    password: ${CALLING_MARIA_PASSWORD}
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      properties:
+        hibernate:
+          default_batch_fetch_size: 500
+  redis:
+    host: ${CALLING_REDIS_HOST}
+    port: ${CALLING_REDIS_PORT}
+    password: ${CALLING_REDIS_PASSWORD}
+    database: 9
+  kafka:
+    bootstrap-servers: ${KAFKA_SERVER}
+    consumer:
+      group-id: calling-consumer
+      auto-offset-reset: latest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+cloud:
+  aws:
+    s3:
+      bucket: ${AWS_S3_BUCKET}
+    credentials:
+      access-key: ${AWS_ACCESS_KEY}
+      secret-key: ${AWS_SECRET_KEY}
+    region:
+      static: ap-northeast-2
+      auto: false
+    stack:
+      auto: false
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: https://k9b204.p.ssafy.io:8761/eureka
+  instance:
+    hostname: k9b204a.p.ssafy.io
+    secure-port: 64419
+    secure-port-enabled: true
+    non-secure-port-enabled: false
+    secure-virtual-host-name: k9b204a.p.ssafy.io
+    home-page-url-path: https://k9b204a.p.ssafy.io:64419/
+    status-page-url-path: https://k9b204a.p.ssafy.io:64419/
+    health-check-url: https://k9b204a.p.ssafy.io:64419/
+passport:
+  key: ${SECRETE_KEY}
+  algorithm: HmacSHA256
+webclient:
+  url:
+    member: https://k9b204.p.ssafy.io:64417/member
+naver:
+  cloud:
+    id: ${NAVER_CLOUD_ID}
+    secret: ${NAVER_CLOUD_SECRET}
