@@ -30,6 +30,8 @@ function CameraModal({CameraClose} : CallProps) {
 
   // 사진파일 업로드 
   const axiosImageUpload = async (file:File[]):Promise<void> => {
+    console.log("여기는 이미지",file)
+
     try {
       const response = await postCameraUpload(file)
       setRecordImage(response)
@@ -41,7 +43,7 @@ function CameraModal({CameraClose} : CallProps) {
 
   // 동영상파일 업로드
   const axiosVideoUpload = async (file:File[]):Promise<void> => {
-    console.log("여기요",file)
+    console.log("여기는 동영상",file)
     try {
       const response = await postCameraUpload(file)
       setRecordVideo(response)

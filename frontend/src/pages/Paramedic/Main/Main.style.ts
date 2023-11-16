@@ -14,8 +14,8 @@ export const Wrapper = styled.div`
   width: 60vh;
   padding-left: 3vh;
   padding-right: 3vh;
-  height: 60vh;
-  padding-top: 20vh;
+  height: 65vh;
+  padding-top: 15vh;
   padding-bottom: 20vh;
 `;
 
@@ -27,6 +27,16 @@ export const ContentBox = styled.div`
   width: 100%;
   height: 100%;
 `;
+
+export const Logout = styled.div`
+  /* border: 3px solid orange; */
+  position: absolute;
+  top: 3vh;
+  right: 3vh;
+  font-size: 2vh;
+  font-weight: 700;
+  color: #939393;
+`
 
 export const Blank = styled.div`
   height: 15%;
