@@ -92,7 +92,7 @@ function ParamedicTransferMapItem(props: any) {
           // icon: "/src/assets/hospital/map-marker-hospital.png",
           // label: title //Marker의 라벨.
         });
-        // 사고위치
+        // 도착점
         const hosPos = new Tmapv3.Marker({
           position: new Tmapv3.LatLng(props.endPos.lat, props.endPos.lon),
           map: props.map,

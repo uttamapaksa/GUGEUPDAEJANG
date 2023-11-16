@@ -120,30 +120,21 @@ const TransferDetail = (props: any) => {
             ))}
           </div>
 
+          <ItemAddr>{selectedParaItem.data.description}</ItemAddr>
+
           <FilesSection>
             {objFiles.video ? (
               <Video controls>
-                <source src={objFiles.video} type="video/mp4" />
-              </Video>
-            ) : (
-              <NoFile>
-                영상이<br></br>없습니다.
-              </NoFile>
-            )}
+                <source src={objFiles.video} type="video/mp4" /></Video>
+            ) : (<></>)}
 
             {objFiles.image ? (
               <Image src={objFiles.image}></Image>
-            ) : (
-              <NoFile>
-                사진이<br></br>없습니다.
-              </NoFile>
-            )}
+            ) : (<></>)}
 
             {objFiles.voice ? (
               <Audio src={objFiles.voice} controls></Audio>
-            ) : (
-              <Audio controls></Audio>
-            )}
+            ) : (<></>)}
           </FilesSection>
 
           {selectedParaItem.videoOn &&
@@ -163,8 +154,6 @@ const TransferDetail = (props: any) => {
               화상 통화 보기
             </A.BtnMediaRecord>}
 
-
-          <ItemAddr>{selectedParaItem.data.description}</ItemAddr>
           <ItemAddr>{selectedParaItem.data.address}</ItemAddr>
           <DetailItemBetween>
             <ItemLeftTime>

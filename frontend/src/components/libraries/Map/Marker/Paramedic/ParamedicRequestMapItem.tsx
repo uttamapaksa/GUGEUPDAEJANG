@@ -52,10 +52,6 @@ function ParamedicRequestMapItem(props: any) {
         //   console.log(circle)
         //   circle.setMap(null);
         // }
-        if (circle) {
-          // console.log(circle);
-          circle.setMap(null);
-        }
         const size = new Tmapv3.Size(35, 35);
         //시작점
         const curPos = new Tmapv3.Marker({
@@ -75,6 +71,10 @@ function ParamedicRequestMapItem(props: any) {
           icon: '/src/assets/share/map-marker.png',
           // label: title //Marker의 라벨.
         });
+        if (circle) {
+          // console.log(circle);
+          circle.setMap(null);
+        }
         circle = new Tmapv3.Circle({
           center: new Tmapv3.LatLng(props.occurData.pos.lat, props.occurData.pos.lon),
           radius: props.occurData.radius,
@@ -88,7 +88,13 @@ function ParamedicRequestMapItem(props: any) {
       }
     }, 3000);
 
-    return () => clearInterval(intervalId);
+    return () => {
+      clearInterval(intervalId);
+      if (circle) {
+        // console.log(circle);
+        circle.setMap(null);
+      }
+    };
   }, []);
 
   return <></>;
