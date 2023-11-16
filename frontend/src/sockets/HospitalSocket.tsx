@@ -28,6 +28,7 @@ function HospitalSocket() {
   const [transferList, setTransferList] = useRecoilState(hospitalParmedicTransferList);
   
   const [changedTransferItem, setChangedTransferItem] = useState<any>(undefined);
+  const [changedRequestItem, setChangedRequestItem] = useState<any>(undefined);
 
   const callingSocket = useRef<Client | null>(null);
   const transferSocket = useRef<Client | null>(null);
@@ -138,16 +139,19 @@ function HospitalSocket() {
     const item: ParamedicStatusProps = JSON.parse(message);
     console.log("-------------statusReceiveMessage----------");
     console.log(item);
-    console.log(requestList);
     if (item.status === "TERMINATED" || item.status === "CANCELED") {
-      if (requestList !== undefined) {
-        let nextRequestList = requestList.filter(
-          (tmp: ParaRequestItem) => tmp.id != item.callingId
-        );
-        setRequestList(nextRequestList);
-      }
+      setChangedRequestItem(item);
     }
   };
+
+  const changeRequestList = (item:any) =>{
+    if (requestList !== undefined) {
+      let nextRequestList = requestList.filter(
+        (tmp: ParaRequestItem) => tmp.id != item.callingId
+      );
+      setRequestList(nextRequestList);
+    }
+  }
 
   // 이송소켓 수신
   // 구급대원으로부터 현재 위치 수신
@@ -200,6 +204,20 @@ function HospitalSocket() {
       setChangedTransferItem(undefined);
     }
   }, [changedTransferItem]);
+
+  useEffect(() => {
+    if(changedTransferItem!==undefined){
+      changeTransferList(changedTransferItem);
+      setChangedTransferItem(undefined);
+    }
+  }, [changedTransferItem]);
+
+  useEffect(() => {
+    if(changedRequestItem!==undefined){
+      changeRequestList(changedRequestItem);
+      setChangedRequestItem(undefined);
+    }
+  }, [changedRequestItem]);
 
   useEffect(() => {
     connectSocket();

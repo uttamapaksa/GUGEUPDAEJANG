@@ -8,6 +8,7 @@ function ParamedicRequestMarker(props: any) {
 
     const updateMarker = () => {
         if (props.map !== undefined && props.paraRequestList !== undefined) {
+            console.log("RequestMarker", props.paraRequestList)
             for (var i = 0; i < props.paraRequestList.length; i++) {
                 var lonlat = new Tmapv3.LatLng(props.paraRequestList[i].latitude, props.paraRequestList[i].longitude);
                 // var title = props.paraRequestList[i].name;
@@ -32,7 +33,6 @@ function ParamedicRequestMarker(props: any) {
 
     useEffect(() => {
         if (props.map !== undefined && props.paraRequestList !== undefined) {
-            console.log("~~~~~~~~~~~~updateMarker", props)
             updateMarker();
         }
     }, [props]);
