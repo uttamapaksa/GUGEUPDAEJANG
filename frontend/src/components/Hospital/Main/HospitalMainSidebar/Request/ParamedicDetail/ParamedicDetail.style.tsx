@@ -57,7 +57,7 @@ export const FilesSection = styled.div`
   justify-content: center;
   flex-wrap : wrap;
   width: 100%;
-  height: 35vh;
+  height: max-content;
   margin: 0 auto;
 `
 export const Video = styled.video`

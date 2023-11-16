@@ -6,7 +6,7 @@ export const HospitalList = styled.div`
   display: flex;
   flex-direction: column;
   width: 95%;
-  padding-bottom: 2vh;
+  padding-bottom: 10vh;
 `;
 
 export const TotalInformation = styled.div`
@@ -38,6 +38,7 @@ export const ItemCallTimeBig = styled.div`
   /* border: 3px solid purple; */
   margin-left: 1vh;
   display: flex;
+  width: 100%;
   align-items: center;
   color: #393d50;
   font-size: 2.5vh;
@@ -93,17 +94,19 @@ export const Move2 = styled.div`
 
 export const Calling = styled.div`
   /* border: 3px solid green; */
-  margin: 3vh auto;
+  margin: 1vh auto;
   display: flex;
-  justify-content: space-between;
+  width: 100%;
   align-items: center;
-  width: 85%;
-  height: 8vh;
+  height: 5vh;
 `;
 
 export const CancelOrConfirm = styled.div`
-  margin: 5vh 0 1vh 0;
+  /* margin: 5vh 0 1vh 0; */
+  position: absolute;
+  bottom: 0;
+  left: 0;
   display: flex;
-  justify-content: space-between ;
-  width: 85%;
+  /* justify-content: space-between ; */
+  width:100%;
 `;
