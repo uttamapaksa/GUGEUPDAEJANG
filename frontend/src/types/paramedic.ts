@@ -67,6 +67,7 @@ export interface fixedCallingType {
   latitude: number;
   longitude: number;
   videoOn: boolean;
+  duration: number;
 }
 
 export interface ParamedicHistoryType {

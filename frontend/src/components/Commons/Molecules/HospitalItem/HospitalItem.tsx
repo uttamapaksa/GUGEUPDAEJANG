@@ -37,7 +37,7 @@ function HospitalItem({ IsGuest, hospital, guestHospital, setHospitals }: Hospit
   const occurrence = useRecoilValue(occurrenceState);
   const [showSpinner, setShowSpinner] = useState(false);
 
-  const clickItem = (callingId: number, status: string, hospitalId: number, latitude: number, longitude: number) => {
+  const clickItem = (callingId: number, status: string, hospitalId: number, latitude: number, longitude: number, duration: number) => {
     if (showSpinner) return;
     setShowSpinner(true);
     switch (status) {
@@ -45,7 +45,7 @@ function HospitalItem({ IsGuest, hospital, guestHospital, setHospitals }: Hospit
         fixCalling(callingId).then((fixedData) => {
           setShowSpinner(false);
           if (fixedData) {
-            setFixedCalling({ ...fixedData, callingId, hospitalId, latitude, longitude, videoOn: false });
+            setFixedCalling({ ...fixedData, callingId, hospitalId, latitude, longitude, videoOn: false, duration });
             setIsTransferring(true);
           }
         });
@@ -113,6 +113,7 @@ function HospitalItem({ IsGuest, hospital, guestHospital, setHospitals }: Hospit
                 hospital?.memberId,
                 occurrence.latitude,
                 occurrence.longitude,
+                hospital?.duration,
               )
             }
             $position="relative"

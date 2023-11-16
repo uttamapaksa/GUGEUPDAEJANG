@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { fixedCallingType } from '/src/types/paramedic';
 import { finishTransfer, cancleTransfer } from '/src/apis/paramedic';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
@@ -55,13 +55,23 @@ function Move() {
     });
   };
 
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setFixedCalling((prev) => ({ ...prev, duration: prev.duration - 1 }));
+    }, 60000);
+
+    return () => {
+      if (timer) clearInterval(timer);
+    };
+  }, []);
+
   return (
     <>
       <S.HospitalList>
         <S.TotalInformation>
           <S.ItemTitle>
             {fixedCalling.name}
-            <S.ItemCallTimeBig>35분 후 도착 예정</S.ItemCallTimeBig>
+            <S.ItemCallTimeBig>{fixedCalling.duration}</S.ItemCallTimeBig>
           </S.ItemTitle>
 
           <S.Move1>인적 사항</S.Move1>
@@ -155,12 +165,14 @@ function Move() {
       </S.CancelOrConfirm>
       {videoOpen && fixedCalling && fixedCalling.transferId && (
         <VideoModal
-          position={"fixed"}
-          top={"0%"}
-          right={"0%"}
-          width={"100%"}
-          height={"100%"}
-          transferId={fixedCalling.transferId} closeModal={closeModal}></VideoModal>
+          position={'fixed'}
+          top={'0%'}
+          right={'0%'}
+          width={'100%'}
+          height={'100%'}
+          transferId={fixedCalling.transferId}
+          closeModal={closeModal}
+        ></VideoModal>
       )}
     </>
   );
