@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { deleteMarker } from '/src/constants/function';
 import { Tmapv3 } from '../../Map';
 
 function ParamedicRequestMapItem(props: any) {
-  // const [circle, setCircle] = useState<any>();
+  const circle = useRef<any>(null);
 
   const updateHospitalMarkers = () => {
     if (props.map !== undefined && props.hosList !== undefined) {
@@ -43,15 +43,9 @@ function ParamedicRequestMapItem(props: any) {
   };
 
   useEffect(() => {
-    let circle: any = null;
-
-    const intervalId = setInterval(() => {
+      const intervalId = setInterval(() => {
       if (props.map !== undefined) {
         deleteMarker(2);
-        // if(circle!==undefined){
-        //   console.log(circle)
-        //   circle.setMap(null);
-        // }
         const size = new Tmapv3.Size(35, 35);
         //시작점
         const curPos = new Tmapv3.Marker({
@@ -71,11 +65,11 @@ function ParamedicRequestMapItem(props: any) {
           icon: '/src/assets/share/map-marker.png',
           // label: title //Marker의 라벨.
         });
-        if (circle) {
+        if (circle.current) {
           // console.log(circle);
-          circle.setMap(null);
+          circle.current.setMap(null);
         }
-        circle = new Tmapv3.Circle({
+        circle.current = new Tmapv3.Circle({
           center: new Tmapv3.LatLng(props.occurData.pos.lat, props.occurData.pos.lon),
           radius: props.occurData.radius,
           strokeWeight: 1,
@@ -90,9 +84,9 @@ function ParamedicRequestMapItem(props: any) {
 
     return () => {
       clearInterval(intervalId);
-      if (circle) {
+      if (circle.current) {
         // console.log(circle);
-        circle.setMap(null);
+        circle.current.setMap(null);
       }
     };
   }, []);
