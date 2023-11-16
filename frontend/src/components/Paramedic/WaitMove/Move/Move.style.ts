@@ -10,13 +10,14 @@ export const HospitalList = styled.div`
 `;
 
 export const TotalInformation = styled.div`
-  margin-top: 1vh;
+  margin-top: 5vh;
   display: flex;
   flex-wrap: wrap;
   /* border: 3px solid green; */
   width: 100%;
   padding-bottom: 2vh;
 `;
+
 export const ItemTitle = styled.div`
   /* border: 3px solid purple; */
   padding: 1vh 0;
@@ -108,5 +109,5 @@ export const CancelOrConfirm = styled.div`
   left: 0;
   display: flex;
   /* justify-content: space-between ; */
-  width:100%;
+  width: 100%;
 `;

@@ -113,7 +113,7 @@ export const CallTime = styled.div`
   align-items: center;
   color: #393d50;
   height: 2.5vh;
-  font-size: 2vh;
+  font-size: 1.8vh;
 `;
 
 export const CallTimeBig = styled.div`

@@ -21,7 +21,7 @@ export const ListTitle = styled.div`
 
 export const EndCalling = styled.div`
   border: 3px solid green;
-  margin-top: 1vh;
+  margin-top: 1.5vh;
   display: flex;
   justify-content: center;
   align-items: center;
