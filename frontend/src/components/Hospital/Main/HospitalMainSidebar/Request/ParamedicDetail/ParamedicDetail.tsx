@@ -14,7 +14,6 @@ import {
   FilesSection,
   Video,
   Image,
-  NoFile,
   Audio,
 } from "./ParamedicDetail.style";
 import A from "/src/components/Commons/Atoms";
@@ -182,7 +181,6 @@ const ParamedicDetail = (props: any) => {
             ))}
           </div>
 
-          <ItemAddr>{selectedParaItem.description}</ItemAddr>
           <FilesSection>
             {objFiles.video ? (
               <Video controls>
@@ -197,6 +195,7 @@ const ParamedicDetail = (props: any) => {
               <Audio src={objFiles.voice} controls></Audio>
             ) : (<></>)}
           </FilesSection>
+          <ItemAddr>{selectedParaItem.description}</ItemAddr>
 
           <ItemAddr>{selectedParaItem.address}</ItemAddr>
           <DetailItemBetween>
