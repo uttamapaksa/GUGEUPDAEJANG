@@ -30,6 +30,7 @@ function HospitalSocket() {
 
   const [changedTransferItem, setChangedTransferItem] = useState<any>(undefined);
   const [changedRequestItem, setChangedRequestItem] = useState<any>(undefined);
+  const [changedStatusItem, setChangedStatusItem] = useState<any>(undefined);
 
   const callingSocket = useRef<Client | null>(null);
   const transferSocket = useRef<Client | null>(null);
@@ -114,7 +115,10 @@ function HospitalSocket() {
     const item: ParaRequestItem = JSON.parse(message);
     console.log("-------------callingReceiveMessage----------");
     console.log(item);
-    console.log(requestList);
+    setChangedRequestItem(item);
+  };
+
+  const changeRequestList = (item: any) => {
     let nextList = [];
     if (requestList !== undefined) {
       let flag = true;
@@ -132,7 +136,7 @@ function HospitalSocket() {
     }
     console.log(nextList);
     setRequestList(nextList);
-  };
+  }
 
   // 구급대원 요청 상태 수신
   const statusReceiveMessage = (message: any) => {
@@ -141,11 +145,11 @@ function HospitalSocket() {
     console.log("-------------statusReceiveMessage----------");
     console.log(item);
     if (item.status === "TERMINATED" || item.status === "CANCELED") {
-      setChangedRequestItem(item);
+      setChangedStatusItem(item);
     }
   };
 
-  const changeRequestList = (item: any) => {
+  const terminateRequestList = (item: any) => {
     if (requestList !== undefined) {
       let nextRequestList = requestList.filter(
         (tmp: ParaRequestItem) => tmp.id != item.callingId
@@ -218,6 +222,13 @@ function HospitalSocket() {
       setChangedTransferItem(undefined);
     }
   }, [changedTransferItem]);
+
+  useEffect(() => {
+    if (changedStatusItem !== undefined) {
+      terminateRequestList(changedStatusItem);
+      setChangedStatusItem(undefined);
+    }
+  }, [changedStatusItem]);
 
   useEffect(() => {
     if (changedRequestItem !== undefined) {
