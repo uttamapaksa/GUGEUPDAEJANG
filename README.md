@@ -11,9 +11,9 @@
 
 
 ## Overview
-구급 현장에서 빠르게 환자 상태를 작성하고 최적의 병원들에게 일괄 이송 요청하는 서비스입니다. 구급대원 태블릿 앱, 병원 콘솔 웹, 일반 사용자 모바일 앱에서 실시간 서비스를 사용할 수 있습니다.  
+구급 현장에서 빠르게 환자 상태를 작성하고 최적의 병원들에게 일괄 이송 요청을 보내는 구급 활동 지원 서비스입니다. 구급대원 태블릿 앱, 병원 콘솔 웹, 일반 사용자 모바일 앱에서 실시간 서비스를 사용할 수 있습니다.  
 <div align="middle">
-<img src="img\logo.png" width="50%"/>
+<img src="/img/logo.png" width="50%"/>
 </div>
 
 ## 팀원 소개
@@ -39,71 +39,73 @@
 ## 주요 기능
 ### 🚑 구급대원 페이지 (태블릿)
 #### 로그인
-<img src="img\para_login.gif" width="45%">
+<img src="/img/para_login.gif" width="45%">
 
 - 구급대원 개인 이메일을 통해 로그인
 
 #### 환자 상태 작성
-<img src="img\para_input2.gif" width="45%"/>  
+<img src="/img/para_input2.gif" width="45%"/>  
 
 - 중증도 분류와 인적정보 선택 후 환자 상태 상세 작성  
 - 음성 인식(STT)을 통해 환자 상태 간편 작성 가능
 - 사진 촬영, 파일 첨부 가능 
 
 #### 환자 이송 요청 및 확정
-<img src="img\para_calling2.gif" width="45%"/>
+<img src="/img/para_calling2.gif" width="45%"/>
 
-- 현위치 기반 응급실 가용 병상이 있는 병원에 일괄 이송 요청
+- 현 위치 기반 응급실 가용 병상이 있는 병원에 일괄 이송 요청
 - 병원의 응답에 따라 이송을 확정
 
 #### 병원과 영상 통화
-<img src="img\para_openvidu.gif" width="45%"/>
+<img src="/img/para_openvidu.gif" width="45%"/>
 
 - 이송 중에 병원과 영상 통화를 통해 환자 상태 실시간 공유 가능
 
 #### 이송 기록
-<img src="img\para_history.gif" width="45%"/>
+<img src="/img/para_history.gif" width="45%"/>
 
 - 기간 설정을 통해 과거 이송 기록 조회
 - 소속된 안전센터 전체의 이송 기록, 본인이 담당한 이송 기록 별로 조회 가능
 
 ### 🏥 병원 페이지 (웹)
 #### 로그인
-<img src="img\로그인.gif" width="75%"/>
+<img src="/img/로그인.gif" width="75%"/>
 
 - 병원 이메일을 통해 로그인
 
 #### 이송 요청 중인 목록 및 지도
-<img src="img\요청목록승인거절.gif" width="75%"/>
+<img src="/img/요청목록승인거절.gif" width="75%"/>
 
 - 실시간으로 병원에 이송을 요청하고 있는 요청 목록 및 상세 조회
 - 지도를 통해 사고 발생지(구급차 현위치)와 사건 정보 확인 가능
 
 #### 이송 중인 환자 정보 목록 및 실시간 구급차 위치
-<img src="img\이송완료.gif" width="75%"/>
+<img src="/img/이송완료.gif" width="75%"/>
 
 - 이송 확정 후 병원으로 이송 중인 정보 조회
 - 지도를 통해 이동중인 구급차의 실시간 위치 확인 가능
 - 구급대원이 이송을 완료했을 떄 실시간으로 메시지 수신
 
 #### 구급차와 영상 통화
-<img src="img\오픈비두.gif" width="75%"/>
+<img src="/img/오픈비두.gif" width="75%"/>
 
 - 이송 중에 구급차와 영상 통화를 통해 환자 상태 실시간 공유 가능
 
 #### 요청 기록
-<img src="img\요청기록.gif" width="75%"/>
+<img src="/img/요청기록.gif" width="75%"/>
 
 - 다양한 필터링 옵션들을 통해 괴거 요청 기록 조회 가능
 
 #### 병원 리포트
-<img src="img\hospital_report.gif" width="75%"/>
+<img src="/img/hospital_report.gif" width="75%"/>
 
 - 누적 데이터를 바탕으로 일별, 월별, 시간별 등의 다양한 통계 데이터 제공
 
 ### 🚑 게스트 페이지 (모바일)
 #### 실시간 응급실 가용 병상 조회
-- 회원가입없이 현위치 기반 응급실 가용 병상이 있는 병원 목록 조회 가능
+<img src="/img/guestpage.gif" width="25%"/>
+
+- 로그인 없이 현 위치 기반 응급실 가용 병상이 있는 병원 목록 조회 가능
 
 
 ## 개발 환경
@@ -115,8 +117,13 @@
 <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=white">
 <img src="https://img.shields.io/badge/axios-5A29E4?style=for-the-badge&logo=axios&logoColor=white">
 <img src="https://img.shields.io/badge/styledcomponents-DB7093?style=for-the-badge&logo=styledcomponents&logoColor=white">
+<img src="https://img.shields.io/badge/pwa-5A0FC8?style=for-the-badge&logo=pwa&logoColor=white">
 <img src="https://img.shields.io/badge/vite-646CFF?style=for-the-badge&logo=vite&logoColor=white">
 <img src="https://img.shields.io/badge/recoil-000000?style=for-the-badge&logo=recoil&logoColor=white">
+<img src="https://img.shields.io/badge/apex chart-FF6384?style=for-the-badge&logo=chart.js&logoColor=white">
+<img src="https://img.shields.io/badge/kakaomap-FFCD00?style=for-the-badge&logo=kakao&logoColor=white">
+<img src="https://img.shields.io/badge/stomp-010101?style=for-the-badge&logo=socket.io&logoColor=white">
+<img src="https://img.shields.io/badge/webrtc-333333?style=for-the-badge&logo=webrtc&logoColor=white">
 
 **Language |** Typescript 5.0.2
 
@@ -154,6 +161,7 @@
 <img src="https://img.shields.io/badge/kibana-005571?style=for-the-badge&logo=kibana&logoColor=white">
 <img src="https://img.shields.io/badge/netflix oss-E50914?style=for-the-badge&logo=netflix&logoColor=white">
 <img src="https://img.shields.io/badge/JUnit5-25A162?style=for-the-badge&logo=JUnit5&logoColor=white">
+<img src="https://img.shields.io/badge/naver cloud-03C75A?style=for-the-badge&logo=naver&logoColor=white">
 
 **Language |** Java 17
 
@@ -173,42 +181,47 @@
 
 <div align="middle">
 
-<img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white">
+<img src="https://img.shields.io/badge/ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white">
 <img src="https://img.shields.io/badge/AWS EC2-FF9900?style=for-the-badge&logo=amazonec2&logoColor=white">
+<img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white">
+<img src="https://img.shields.io/badge/jira-0052CC?style=for-the-badge&logo=jira&logoColor=white">
+<img src="https://img.shields.io/badge/notion-000000?style=for-the-badge&logo=notion&logoColor=white">
+<img src="https://img.shields.io/badge/figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white">
 <img src="https://img.shields.io/badge/jenkins-111111?style=for-the-badge&logo=jenkins&logoColor=white">
 <img src="https://img.shields.io/badge/docker-2496ED?style=for-the-badge&logo=docker&logoColor=white">
-<img src="https://img.shields.io/badge/docker_compose-e0319d?style=for-the-badge&logo=docker&logoColor=white">  
+<img src="https://img.shields.io/badge/docker_compose-e0319d?style=for-the-badge&logo=docker&logoColor=white">
 <img src="https://img.shields.io/badge/apache groovy-4298B8?style=for-the-badge&logo=apachegroovy&logoColor=white">
 
-**Server |** Git, SSH, Jenkins, Docker, Docker compose
+**Server |** Ubuntu, Git, SSH, Jenkins, Docker, Docker compose, Apache groovy
 
 </div>
 
+</br>
 </br>
 
 
 ## 시스템 아키텍처
 <div align="middle">
-<img src="img\architecture.png" width="75%">
+<img src="/img/architecture.png" width="75%">
 </div>
 
 </br>
 
 ## 기획 및 설계 산출물
 ### 요구사항 명세서
-<img src="img\요구1.png" width="55%">
-<img src="img\요구2.png" width="55%">
+<img src="/img/요구1.png" width="55%">
+<img src="/img/요구2.png" width="55%">
 
 ### API 명세서
-<img src="img\api1.png" width="55%">
-<img src="img\api2.png" width="55%">
-<img src="img\api3.png" width="55%">
+<img src="/img/api1.png" width="55%">
+<img src="/img/api2.png" width="55%">
+<img src="/img/api3.png" width="55%">
 
 ### 에러코드 정의
-<img src="img\errorcode.png" width="55%">
+<img src="/img/errorcode.png" width="55%">
 
 </br>
 
 ## Conventions
-<img src="img\gitconvention.png" width="55%">
-<img src="img\jiraconvention.png" width="55%">
+<img src="/img/gitconvention.png" width="55%">
+<img src="/img/jiraconvention.png" width="55%">
