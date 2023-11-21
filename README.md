@@ -144,7 +144,8 @@
 
 <div align="middle">
 
-<img src="https://img.shields.io/badge/java-3a75b0?style=for-the-badge&logo=java&logoColor=black"> <img src="https://img.shields.io/badge/spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white">
+<img src="https://img.shields.io/badge/java-3a75b0?style=for-the-badge&logo=java&logoColor=black"> 
+<img src="https://img.shields.io/badge/spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white">
 <img src="https://img.shields.io/badge/spring boot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white">
 <img src="https://img.shields.io/badge/spring mvc-6DB33F?style=for-the-badge&logo=spring&logoColor=white">
 <img src="https://img.shields.io/badge/spring cloud-6DB33F?style=for-the-badge&logo=spring&logoColor=white">
@@ -192,7 +193,7 @@
 <img src="https://img.shields.io/badge/docker_compose-e0319d?style=for-the-badge&logo=docker&logoColor=white">
 <img src="https://img.shields.io/badge/apache groovy-4298B8?style=for-the-badge&logo=apachegroovy&logoColor=white">
 
-**Server |** Ubuntu, Git, SSH, Jenkins, Docker, Docker compose, Apache groovy
+**Infra |** Ubuntu, Git, SSH, Jenkins, Docker, Docker compose, Apache groovy
 
 </div>
 
